@@ -1,10 +1,11 @@
+import MainRoutingComponent from "./router/MainRoutingComponent.tsx"
+
 function App() {
 
   return (
     <>
-      <p className="read-the-docs">
-        Click on the Vite and React logos tos learn more
-      </p>
+      <MainRoutingComponent ></MainRoutingComponent>
+      <div>App</div>
     </>
   )
 }
