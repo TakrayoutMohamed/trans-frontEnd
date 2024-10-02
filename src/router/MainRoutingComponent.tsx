@@ -1,11 +1,11 @@
 import {
-	createBrowserRouter,
-	createRoutesFromElements,
-	Route,
-	RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
 } from "react-router-dom";
 
-// layouts 
+// layouts
 import RootLayout from "./layouts/RootLayout";
 
 // pages
@@ -16,32 +16,24 @@ import AboutUs from "../pages/public/AboutUs";
 import Team from "../pages/public/Team";
 import Contact from "../pages/public/Contact";
 
+const routingTree = (
+  <>
+    <Route path="/" element={<RootLayout />}>{/**landing page routing */}
+      <Route index element={<Home />} />{/** home page*/}
+      <Route path="about-us" element={<AboutUs />} /> {/** about us*/}
+      <Route path="team" element={<Team />} />{/** team*/}
+      <Route path="contact" element={<Contact />} />{/** contact*/}
+    </Route>
 
-
-const routingTree = (<>
-	<Route path='/' element={<RootLayout/>}>
-		<Route index element={<Home/>} />{/** home page*/}
-		<Route path="sign-up" element={<SignUp/>}/>{/** sign up*/}
-		<Route path="sign-in" element={<SignIn/>}/>{/** sign in*/}
-		<Route path="about-us" element={<AboutUs/>}/>{/** about us*/}
-		<Route path="team" element={<Team/>}/>{/** sign in*/}
-		<Route path="contact" element={<Contact/>}/>{/** sign in*/}
-
-	</Route>
-</>);
-
-
-
-const router = createBrowserRouter(
-	createRoutesFromElements(
-		routingTree
-	)
+    <Route path="sign-up" element={<SignUp />} /> {/** sign up*/}
+    <Route path="sign-in" element={<SignIn />} />{/** sign in*/}
+  </>
 );
 
+const router = createBrowserRouter(createRoutesFromElements(routingTree));
+
 const MainRoutingComponent = () => {
-  return (
-	<RouterProvider router={router}></RouterProvider>
-  )
-}
+  return <RouterProvider router={router}></RouterProvider>;
+};
 
 export default MainRoutingComponent;
