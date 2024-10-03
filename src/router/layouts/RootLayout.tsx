@@ -3,8 +3,8 @@ import { Outlet } from "react-router-dom";
 const RootLayout = () => {
   return (
     <>
-      <div className="bg-info">RootLayout</div>
-      <Outlet/>
+      <div className="bg-danger">RootLayout</div>
+      <Outlet />
     </>
   );
 };
