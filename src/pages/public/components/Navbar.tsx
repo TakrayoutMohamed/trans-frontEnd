@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import {navbarBrand} from "./../../../../public/index.ts";
 
 const Navbar = () => {
   return (
@@ -7,7 +8,7 @@ const Navbar = () => {
         <div className="container-fluid">
           <img
             className="navbar-brand img-fluid nav-link"
-            src="assets/images/navbar-brand.svg"
+            src={navbarBrand}
             width="8%"
             height="auto"
             alt="brand image pq"

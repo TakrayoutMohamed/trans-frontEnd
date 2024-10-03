@@ -1,0 +1,1 @@
+export const navbarBrand = './assets/images/navbar-brand.svg';
