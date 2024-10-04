@@ -5,7 +5,7 @@ function App() {
   return (
     <>
       <MainRoutingComponent ></MainRoutingComponent>
-      <div>App</div>
+      {/* <div>App</div> */}
     </>
   )
 }
