@@ -1,9 +1,13 @@
 /* #root{
     min-height:555px;
 } */
-.active
+.active > div
 {
-    text-decoration:solid;
-    background-color: blueviolet;
-    border-radius: 200px;
+    background-image: url("@icons/activeLinkIcon.svg");
+    background-position: center;
+    background-size: 50px;
+    border-radius: 100px;
+    padding: 12px;
+    background-repeat: no-repeat;
+
 }
