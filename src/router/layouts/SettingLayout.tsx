@@ -1,6 +1,12 @@
+import { Outlet } from "react-router-dom"
+import { Fragment } from "react/jsx-runtime"
+
 const SettingLayout = () => {
   return (
-    <div>SettingLayout</div>
+    <Fragment>
+      <div>SettingLayout</div>
+      <Outlet />
+    </Fragment>
   )
 }
 

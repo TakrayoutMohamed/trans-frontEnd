@@ -1,6 +1,6 @@
-export const brandIcon = './assets/images/brandIcon.svg';
-export const homeIcon = './assets/images/homeIcon.svg';
-export const profileIcon = './assets/images/profileIcon.svg';
-export const gameIcon = './assets/images/gameIcon.svg';
-export const chatIcon = './assets/images/chatIcon.svg';
-export const settingsIcon = './assets/images/settingsIcon.svg';
+export const brandIcon = './assets/icons//brandIcon.svg';
+export const homeIcon = './assets/icons/homeIcon.svg';
+export const profileIcon = './assets/icons/profileIcon.svg';
+export const gameIcon = './assets/icons/gameIcon.svg';
+export const chatIcon = './assets/icons/chatIcon.svg';
+export const settingsIcon = './assets/icons/settingsIcon.svg';
