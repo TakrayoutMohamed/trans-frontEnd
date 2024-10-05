@@ -18,7 +18,21 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*" : [".", "./*"],
+      "@src/*" : ["./src", "./src/*"],
+      "@assets/*" : ["./public/assets", "./public/assets/*"],
+      "@icons/*" : ["./public/assets/icons", "./public/assets/icons/*"],
+      "@images/*" : ["./public/assets/images", "./public/assets/images/*"],
+      "@videos/*" : ["./public/assets/videos", "./public/assets/videos/*"],
+      "@router/*" : ["./src/router", "./src/router/*"],
+      "@publicPages/*" : ["./src/pages/public", "./src/pages/public/*"],
+      "@privatePages/*" : ["./src/pages/private", "./src/pages/private/*"],
+      "@publicComponents/*" : ["./src/pages/public/components", "./src/pages/public/components/*"],
+      "@privateComponents/*" : ["./src/pages/private/components", "./src/pages/private/components/*"]
+    },
   },
-  "include": ["src", "public"]
+  "include": ["src/**/*", "public/**/*", "./**/*"]
 }
