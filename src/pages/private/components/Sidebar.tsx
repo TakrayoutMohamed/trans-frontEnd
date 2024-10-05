@@ -27,20 +27,23 @@ const Sidebar = () => {
           imgPath={brandIcon}
           imgSize={{ width: "50px", height: "50px" }}
           styles="w-auto mt-4"
-          title="pingpong logo"
+          title="brandLogo"
+          alt="brandIcon"
         />
-        <NavLink to={"/"} className="my-auto">
+        <NavLink to={"/"} className="my-auto ">
           <ImagesIcon
             imgPath={homeIcon}
             imgSize={{ width: "35px", height: "35px" }}
             title="Home"
+            alt="homeIcon"
           />
         </NavLink>
-        <NavLink to={"/profile"} className="my-auto my-auto">
+        <NavLink to={"/profile"} className="my-auto">
           <ImagesIcon
             imgPath={profileIcon}
             imgSize={{ width: "35px", height: "35px" }}
             title="Profile"
+            alt="profileIcon"
           />
         </NavLink>
         <NavLink to={"/game"} className="my-auto">
@@ -48,6 +51,7 @@ const Sidebar = () => {
             imgPath={gameIcon}
             imgSize={{ width: "35px", height: "35px" }}
             title="Game"
+            alt="gameIcon"
           />
         </NavLink>
         <NavLink to={"/chat"} className="my-auto">
@@ -55,13 +59,15 @@ const Sidebar = () => {
             imgPath={chatIcon}
             imgSize={{ width: "35px", height: "35px" }}
             title="Chat"
+            alt="chatIcon"
           />
         </NavLink>
-        <NavLink to={"/setting"} className=" my-auto">
+        <NavLink to={"/setting"} className="my-auto mb-5">
           <ImagesIcon
             imgPath={settingsIcon}
             imgSize={{ width: "35px", height: "35px" }}
             title="Setting"
+            alt="settingIcon"
           />
         </NavLink>
       </div>
