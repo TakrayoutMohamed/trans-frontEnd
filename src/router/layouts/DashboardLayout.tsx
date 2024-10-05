@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { Outlet } from "react-router-dom";
-import Sidebar from "../../pages/private/components/Sidebar";
+import Sidebar from "@privateComponents/Sidebar";
 
 const DashboardLayout = () => {
   return (

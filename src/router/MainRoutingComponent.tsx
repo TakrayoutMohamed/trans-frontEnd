@@ -7,28 +7,28 @@ import {
 } from "react-router-dom";
 
 // layouts
-import RootLayout from "./layouts/RootLayout";
-import HomeLayout from "./layouts/HomeLayout";
-import DashboardLayout from "./layouts/DashboardLayout";
-import ProfileLayout from "./layouts/ProfileLayout";
-import FriendsLayout from "./layouts/FriendsLayout";
-import SettingLayout from "./layouts/SettingLayout";
+import RootLayout from "@router/layouts/RootLayout";
+import HomeLayout from "@router/layouts/HomeLayout";
+import DashboardLayout from "@router/layouts/DashboardLayout";
+import ProfileLayout from "@router/layouts/ProfileLayout";
+import FriendsLayout from "@router/layouts/FriendsLayout";
+import SettingLayout from "@router/layouts/SettingLayout";
 
 // pages
-import Home from "../pages/public/Home";
-import SignUp from "../pages/public/not-signed-in/SignUp";
-import SignIn from "../pages/public/not-signed-in/SignIn";
-import AboutUs from "../pages/public/AboutUs";
-import Team from "../pages/public/Team";
-import Contact from "../pages/public/Contact";
-import Profile from "../pages/private/Profile";
-import Chat from "../pages/private/Chat";
-import Game from "../pages/private/Game";
-import Recent from "../pages/private/Recent";
-import Friends from "../pages/private/Friends";
-import FriendProfile from "../pages/private/FriendProfile";
-import Details from "../pages/private/Details";
-import Password from "../pages/private/Password";
+import Home from "@publicPages/Home";
+import SignUp from "@publicPages/not-signed-in/SignUp";
+import SignIn from "@publicPages/not-signed-in/SignIn";
+import AboutUs from "@publicPages/AboutUs";
+import Team from "@publicPages/Team";
+import Contact from "@publicPages/Contact";
+import Profile from "@privatePages/Profile";
+import Chat from "@privatePages/Chat";
+import Game from "@privatePages/Game";
+import Recent from "@privatePages/Recent";
+import Friends from "@privatePages/Friends";
+import FriendProfile from "@privatePages/FriendProfile";
+import Details from "@privatePages/Details";
+import Password from "@privatePages/Password";
 
 const routingTree: RouteObject[] = createRoutesFromElements(
 	<Route element={<RootLayout />}>

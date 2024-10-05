@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import {brandIcon} from "../../../../media-exporting.ts";
+import {brandIcon} from "@/media-exporting.ts";
 
 const Navbar = () => {
   return (

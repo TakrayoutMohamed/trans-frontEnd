@@ -7,8 +7,6 @@ import {
   profileIcon,
   settingsIcon,
 } from "@/media-exporting";
-
-
 import ImagesIcon from "@privateComponents/ImageIcon";
 
 const styleSidebar = {

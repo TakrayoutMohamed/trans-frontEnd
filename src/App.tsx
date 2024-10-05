@@ -1,4 +1,4 @@
-import MainRoutingComponent from "./router/MainRoutingComponent.tsx"
+import MainRoutingComponent from "@router/MainRoutingComponent.tsx"
 
 function App() {
 

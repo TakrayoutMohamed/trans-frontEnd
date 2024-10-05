@@ -7,7 +7,7 @@ import "bootstrap/dist/js/bootstrap.js";
 import "bootstrap/dist/js/bootstrap.esm.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
-import "./main.css";
+import "@/main.css";
 
 const rootDOM = document.getElementById("root") as Element;
 
