@@ -7,49 +7,20 @@ import {
   profileIcon,
   settingsIcon,
 } from "../../../../media-exporting";
+import ImagesIcon from "./ImageIcon";
 
 const styleSidebar = {
   background: "linear-gradient(#03062E 0%, #5F0A94 45.71%)",
   width: "100px",
-  minWidth: "20px",
+  minWidth: "40px",
   maxWidth: "100px",
-};
-
-interface ImageProps {
-  alt?: string;
-  styles?: string;
-  title?: string;
-  imgPath: string;
-  imgSize: {
-    width: string,
-    height: string,
-  };
-}
-
-const ImagesIcon = ({
-  imgPath,
-  imgSize,
-  alt = "the image of a sidebar icon",
-  styles = "mx-auto w-auto",
-  title="",
-}: ImageProps) => {
-  return (
-    <img
-      src={imgPath}
-      width={imgSize.width}
-      height={imgSize.height}
-      alt={alt}
-      title={title}
-      className={styles}
-    />
-  );
 };
 
 const Sidebar = () => {
   return (
     <>
       <div
-        className=" h-auto d-flex flex-column justify-content-between text-center  border border-2 rounded-end-4 rounded-bottom-0 sticky-top"
+        className=" h-auto d-flex flex-column justify-content-between text-center  border border-2 rounded-end-4 rounded-bottom-0"
         style={styleSidebar}
       >
         <ImagesIcon
