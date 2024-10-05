@@ -13,18 +13,20 @@ const ImagesIcon = ({
   imgPath,
   imgSize,
   alt = "the image of a sidebar icon",
-  styles = "mx-auto w-auto",
-  title = "",
+  styles = "",
+  title = "image icon",
 }: ImageProps) => {
   return (
-    <img
-      src={imgPath}
-      width={imgSize.width}
-      height={imgSize.height}
-      alt={alt}
-      title={title}
-      className={styles}
-    />
+    <div>
+      <img
+        src={imgPath}
+        width={imgSize.width}
+        height={imgSize.height}
+        alt={alt}
+        title={title}
+        className={styles}
+      />
+    </div>
   );
 };
 
