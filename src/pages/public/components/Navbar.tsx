@@ -1,7 +1,14 @@
 import { NavLink } from "react-router-dom";
-import {brandIcon} from "@/media-exporting.ts";
+import { brandIcon } from "@/media-exporting.ts";
+import { useSelector } from "react-redux";
+import { RootState } from "@/src/states/store";
+import Dropdown from "@pages/components/Dropdown";
 
 const Navbar = () => {
+  const isAuthenticated: boolean = useSelector(
+    (state: RootState) => state.authenticator.value
+  );
+
   return (
     <>
       <nav className="navbar navbar-expand-sm">
@@ -46,14 +53,17 @@ const Navbar = () => {
                   CONTACT
                 </NavLink>
               </li>
+                {!isAuthenticated && (
               <li className="nav-item  mx-5 p ">
-                <NavLink
-                  className="bg-success nav-link px-3 rounded-pill "
-                  to="/sign-up"
-                >
-                  SIGN UP
-                </NavLink>
+                  <NavLink
+                    className="bg-success nav-link px-3 rounded-pill "
+                    to="/sign-up"
+                  >
+                    SIGN UP
+                  </NavLink>
               </li>
+                )}
+                {isAuthenticated && <Dropdown />}
             </ul>
           </div>
         </div>
