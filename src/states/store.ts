@@ -1,8 +1,9 @@
 import { Action, ThunkAction, configureStore } from "@reduxjs/toolkit";
+import authenticatorSlice from "@src/states/authentication/authenticatorSlice";
 
 export const store = configureStore({
   reducer: {
-    
+    authenticator: authenticatorSlice
   },
 });
 
