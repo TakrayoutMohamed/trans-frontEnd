@@ -15,8 +15,8 @@ export default defineConfig({
       "@src" : path.resolve(__dirname, "./src"),
       "@router": path.resolve(__dirname, "./src/router"),
       "@states": path.resolve(__dirname, "./src/states"),
-      "@publicPages": path.resolve(__dirname, "./src/pages"),
-      "@pages": path.resolve(__dirname, "./src/pages/public"),
+      "@publicPages": path.resolve(__dirname, "./src/pages/public"),
+      "@pages": path.resolve(__dirname, "./src/pages"),
       "@publicComponents": path.resolve(__dirname, "./src/pages/public/components"),
       "@privatePages": path.resolve(__dirname, "./src/pages/private"),
       "@privateComponents": path.resolve(__dirname, "./src/pages/private/components")
