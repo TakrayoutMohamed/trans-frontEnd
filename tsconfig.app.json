@@ -29,6 +29,7 @@
       "@src/*" : ["./src", "./src/*"],
       "@router/*" : ["./src/router", "./src/router/*"],
       "@states/*" : ["./src/states", "./src/states/*"],
+      "@pages/*" : ["./src/pages", "./src/pages/*"],
       "@publicPages/*" : ["./src/pages/public", "./src/pages/public/*"],
       "@publicComponents/*" : ["./src/pages/public/components", "./src/pages/public/components/*"],
       "@privatePages/*" : ["./src/pages/private", "./src/pages/private/*"],
