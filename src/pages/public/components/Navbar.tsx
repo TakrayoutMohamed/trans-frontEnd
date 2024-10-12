@@ -2,7 +2,31 @@ import { NavLink } from "react-router-dom";
 import { brandIcon } from "@/media-exporting.ts";
 import { useSelector } from "react-redux";
 import { RootState } from "@/src/states/store";
-import Dropdown from "@pages/components/Dropdown";
+import Dropdown, { Links } from "@pages/components/Dropdown";
+
+const dropdownLinks : Links[] = [
+  {
+    to : "game",
+    className: "",
+    linkText: "game"
+  },
+  {
+    to : "profile",
+    className: "",
+    linkText: "profile"
+  },
+  {
+    to : "logout",
+    className: "btn btn-danger",
+    linkText: "logout"
+  },
+]
+
+
+
+const Header: React.FC = () =>  {
+  return <p className="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"> Dropdown </p>;
+}
 
 const Navbar = () => {
   const isAuthenticated: boolean = useSelector(
@@ -63,7 +87,7 @@ const Navbar = () => {
                   </NavLink>
               </li>
                 )}
-                {isAuthenticated && <Dropdown />}
+                {isAuthenticated && <Dropdown className="nav-item" linksDetails={dropdownLinks} Header={Header}/>}
             </ul>
           </div>
         </div>

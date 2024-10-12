@@ -1,45 +1,31 @@
 import { NavLink } from "react-router-dom";
 
-interface Props {
-  linkTo?: string;
-  className?: string;
+export interface Links {
+  to: string;
+  className: string;
+  linkText: string;
 }
 
-const Dropdown = () => {
+type DropdownProps = {
+  className: string;
+  linksDetails: Links[];
+  Header: React.FC;
+};
+
+const Dropdown = ({className, linksDetails, Header }: DropdownProps) => {
   return (
-    <li className="nav-item dropdown">
-      <a
-        className="nav-link dropdown-toggle"
-        href="#"
-        role="button"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-      >
-        Dropdown
-      </a>
+    <div className={`${className} dropdown`}>
+      <Header />
       <ul className="dropdown-menu">
-        <li>
-          <NavLink to="game" className="dropdown-item">
-              game
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="profile" className="dropdown-item">
-              profile
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="chat" className="dropdown-item">
-              chat
-          </NavLink>
-        </li>
-        <li>
-          <a className="dropdown-item" href="#">
-            logOut
-          </a>
-        </li>
+        {linksDetails.map((data, index) => (
+          <li key={index}>
+            <NavLink to={data.to} className={`${data.className} dropdown-item`}>
+              {data.linkText}
+            </NavLink>
+          </li>
+        ))}
       </ul>
-    </li>
+    </div>
   );
 };
 
