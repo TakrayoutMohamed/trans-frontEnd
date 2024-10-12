@@ -1,27 +1,23 @@
-import { NavLink } from "react-router-dom";
-
 export interface Links {
-  to: string;
-  className: string;
-  linkText: string;
+  data:React.ReactNode; 
 }
 
 type DropdownProps = {
   className: string;
   linksDetails: Links[];
-  Header: React.FC;
+  children: React.ReactElement
 };
 
-const Dropdown = ({className, linksDetails, Header }: DropdownProps) => {
+const Dropdown = ({className, linksDetails, children }: DropdownProps) => {
   return (
     <div className={`${className} dropdown`}>
-      <Header />
-      <ul className="dropdown-menu">
-        {linksDetails.map((data, index) => (
-          <li key={index}>
-            <NavLink to={data.to} className={`${data.className} dropdown-item`}>
-              {data.linkText}
-            </NavLink>
+      <span className="" data-bs-toggle="dropdown" aria-expanded="false">
+        {children}
+      </span>
+      <ul className="dropdown-menu mx-auto">
+        {linksDetails.map((content, index) => (
+          <li key={index} className="dropdown-item">
+            {content.data}
           </li>
         ))}
       </ul>

@@ -1,32 +1,33 @@
 import { NavLink } from "react-router-dom";
-import { brandIcon } from "@/media-exporting.ts";
+import { brandIcon, profileIcon } from "@/media-exporting.ts";
 import { useSelector } from "react-redux";
 import { RootState } from "@/src/states/store";
 import Dropdown, { Links } from "@pages/components/Dropdown";
+import ImagesIcon from "@pages/components/ImageIcon";
 
-const dropdownLinks : Links[] = [
+const dropdownLinks: Links[] = [
   {
-    to : "game",
-    className: "",
-    linkText: "game"
+    data: (
+      <NavLink to="game" className="">
+        game
+      </NavLink>
+    ),
   },
   {
-    to : "profile",
-    className: "",
-    linkText: "profile"
+    data: (
+      <NavLink to="profile" className="">
+        profile
+      </NavLink>
+    ),
   },
   {
-    to : "logout",
-    className: "btn btn-danger",
-    linkText: "logout"
+    data: (
+      <NavLink to="logout" className="btn btn-danger">
+        logout
+      </NavLink>
+    ),
   },
-]
-
-
-
-const Header: React.FC = () =>  {
-  return <p className="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"> Dropdown </p>;
-}
+];
 
 const Navbar = () => {
   const isAuthenticated: boolean = useSelector(
@@ -35,63 +36,61 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="navbar navbar-expand-sm">
-        <div className="container-fluid">
+      <div className="container-fluid bg-secondary-subtle d-flex flex-row justify-content-between p-0">
+        <div className="my-auto">
           <img
-            className="navbar-brand img-fluid nav-link"
+            className="img-fluid"
             src={brandIcon}
-            width="8%"
+            width="50%"
             height="auto"
-            alt="brand image pq"
+            alt="brand"
           />
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navBarContent"
-            aria-controls="navBarContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse " id="navBarContent">
-            <ul className="navbar-nav w-100 grid justify-content-center">
-              <li className="nav-item mx-auto">
-                <NavLink className="nav-link" to="/">
-                  Home
-                </NavLink>
-              </li>
-              <li className="nav-item mx-auto">
-                <NavLink className="nav-link" to="/about-us">
-                  ABOUT US
-                </NavLink>
-              </li>
-              <li className="nav-item mx-auto">
-                <NavLink className="nav-link" to="/team">
-                  TEAM
-                </NavLink>
-              </li>
-              <li className="nav-item mx-auto">
-                <NavLink className="nav-link" to="/contact">
-                  CONTACT
-                </NavLink>
-              </li>
-                {!isAuthenticated && (
-              <li className="nav-item  mx-5 p ">
-                  <NavLink
-                    className="bg-success nav-link px-3 rounded-pill "
-                    to="/sign-up"
-                  >
-                    SIGN UP
-                  </NavLink>
-              </li>
-                )}
-                {isAuthenticated && <Dropdown className="nav-item" linksDetails={dropdownLinks} Header={Header}/>}
-            </ul>
+        </div>
+        <div className="me-2 w-100 d-flex justify-content-xs-start justify-content-sm-evenly">
+          <div className="my-auto p-1">
+            <NavLink className="nav-link" to="/">
+              Home
+            </NavLink>
+          </div>
+          <div className="my-auto p-1">
+            <NavLink className="nav-link" to="/about-us">
+              ABOUT US
+            </NavLink>
+          </div>
+          <div className="my-auto p-1">
+            <NavLink className="nav-link" to="/team">
+              TEAM
+            </NavLink>
+          </div>
+          <div className="my-auto p-1">
+            <NavLink className="nav-link" to="/contact">
+              CONTACT
+            </NavLink>
           </div>
         </div>
-      </nav>
+        <div className="my-auto me-5">
+          {!isAuthenticated && (
+            <NavLink className="bg-success  px-3 rounded-pill " to="/sign-up">
+              SIGN UP
+            </NavLink>
+          )}
+          {isAuthenticated && (
+            <Dropdown
+              className="dropstart rounded-pill mx-auto"
+              linksDetails={dropdownLinks}
+            >
+              <ImagesIcon
+                //this one still need to be modified to use the pic of the user
+                imgPath={profileIcon}
+                imgSize={{ width: "50px", height: "50px" }}
+                title="profile image"
+                alt="dropDown"
+                styles="bg-success rounded-5"
+              />
+            </Dropdown>
+          )}
+        </div>
+      </div>
     </>
   );
 };

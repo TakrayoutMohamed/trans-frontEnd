@@ -7,7 +7,7 @@ import {
   profileIcon,
   settingsIcon,
 } from "@/media-exporting";
-import ImagesIcon from "@privateComponents/ImageIcon";
+import ImagesIcon from "@pages/components/ImageIcon";
 
 const styleSidebar = {
   background: "linear-gradient(#03062E 0%, #5F0A94 45.71%)",
