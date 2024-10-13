@@ -7,35 +7,40 @@ import ImagesIcon from "@pages/components/ImageIcon";
 
 const dropdownLinks: Links[] = [
   {
-    data: (
+    className: "py-2 mx-0",
+    link: (
       <NavLink to="game" className="">
         game
       </NavLink>
     ),
   },
   {
-    data: (
+    className: "py-2 mx-0",
+    link: (
       <NavLink to="profile" className="">
         profile
       </NavLink>
     ),
   },
   {
-    data: (
+    className: "py-2 mx-0",
+    link: (
       <NavLink to="chat" className="">
         chat
       </NavLink>
     ),
   },
   {
-    data: (
+    className: "py-2 mx-0",
+    link: (
       <NavLink to="setting" className="">
         setting
       </NavLink>
     ),
   },
   {
-    data: (
+    className: "py-2 mx-0",
+    link: (
       <NavLink to="logout" className="btn btn-danger">
         logout
       </NavLink>
@@ -51,7 +56,7 @@ const Navbar = () => {
   return (
     <>
       <div className="container-fluid bg-secondary-subtle d-flex flex-row justify-content-between pb-0 pt-2 ">
-        <div className="my-auto" style={{height:"100px"}}>
+        <div className="my-auto" style={{ height: "100px" }}>
           <img
             className="img-fluid m-0 p-0"
             src={brandIcon}
@@ -84,15 +89,16 @@ const Navbar = () => {
         </div>
         <div className={"mt-2 ms-auto"}>
           {!isAuthenticated && (
-            <NavLink style={{width:"100px"}} className="bg-success d-inline-flex rounded-pill py-1 px-3 mt-2 me-3" to="/sign-up">
+            <NavLink
+              style={{ width: "100px" }}
+              className="bg-success d-inline-flex rounded-pill py-1 px-3 mt-2 me-3"
+              to="/sign-up"
+            >
               SIGN UP
             </NavLink>
           )}
           {isAuthenticated && (
-            <Dropdown
-              className=" rounded-pill"
-              linksDetails={dropdownLinks}
-            >
+            <Dropdown className=" rounded-pill" linksDetails={dropdownLinks}>
               <ImagesIcon
                 //this one still need to be modified to use the pic of the user
                 imgPath={profileIcon}
