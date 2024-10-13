@@ -5,7 +5,9 @@ const HomeLayout = () => {
   return (
     <>
       <div className="bg-info">HomeLayout</div>
-      <Navbar></Navbar>
+      <header>
+        <Navbar></Navbar>
+      </header>
       <Outlet />
     </>
   );
