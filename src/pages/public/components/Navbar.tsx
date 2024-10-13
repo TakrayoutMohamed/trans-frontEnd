@@ -22,6 +22,20 @@ const dropdownLinks: Links[] = [
   },
   {
     data: (
+      <NavLink to="chat" className="">
+        chat
+      </NavLink>
+    ),
+  },
+  {
+    data: (
+      <NavLink to="setting" className="">
+        setting
+      </NavLink>
+    ),
+  },
+  {
+    data: (
       <NavLink to="logout" className="btn btn-danger">
         logout
       </NavLink>
@@ -36,53 +50,53 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="container-fluid bg-secondary-subtle d-flex flex-row justify-content-between p-0">
-        <div className="my-auto">
+      <div className="container-fluid bg-secondary-subtle d-flex flex-row justify-content-between pb-0 pt-2 ">
+        <div className="my-auto" style={{height:"100px"}}>
           <img
-            className="img-fluid"
+            className="img-fluid m-0 p-0"
             src={brandIcon}
-            width="50%"
+            width="100%"
             height="auto"
             alt="brand"
           />
         </div>
-        <div className="me-2 w-100 d-flex justify-content-xs-start justify-content-sm-evenly">
-          <div className="my-auto p-1">
+        <div className="w-100 d-flex justify-content-xs-start justify-content-sm-evenly">
+          <div className="mt-3 p-1">
             <NavLink className="nav-link" to="/">
               Home
             </NavLink>
           </div>
-          <div className="my-auto p-1">
+          <div className="mt-3 p-1">
             <NavLink className="nav-link" to="/about-us">
               ABOUT US
             </NavLink>
           </div>
-          <div className="my-auto p-1">
+          <div className="mt-3 p-1">
             <NavLink className="nav-link" to="/team">
               TEAM
             </NavLink>
           </div>
-          <div className="my-auto p-1">
+          <div className="mt-3 p-1">
             <NavLink className="nav-link" to="/contact">
               CONTACT
             </NavLink>
           </div>
         </div>
-        <div className="my-auto me-5">
+        <div className={"mt-2 ms-auto"}>
           {!isAuthenticated && (
-            <NavLink className="bg-success  px-3 rounded-pill " to="/sign-up">
+            <NavLink style={{width:"100px"}} className="bg-success d-inline-flex rounded-pill py-1 px-3 mt-2 me-3" to="/sign-up">
               SIGN UP
             </NavLink>
           )}
           {isAuthenticated && (
             <Dropdown
-              className="dropstart rounded-pill mx-auto"
+              className=" rounded-pill"
               linksDetails={dropdownLinks}
             >
               <ImagesIcon
                 //this one still need to be modified to use the pic of the user
                 imgPath={profileIcon}
-                imgSize={{ width: "50px", height: "50px" }}
+                imgSize={{ width: "60px", height: "60px" }}
                 title="profile image"
                 alt="dropDown"
                 styles="bg-success rounded-5"
