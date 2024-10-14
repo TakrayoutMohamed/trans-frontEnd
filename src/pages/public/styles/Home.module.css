@@ -1,10 +1,7 @@
-.active {
-    font-size: large;
+:root{
+    /* --first-component-height:  */
 }
 
-.float-right{
-    float: right;
-}
-.float-left{
-    float: left;
+.home{
+    background-color:red;
 }

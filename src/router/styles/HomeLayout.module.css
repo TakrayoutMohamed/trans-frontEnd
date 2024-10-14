@@ -1,0 +1,8 @@
+.homeLayout {
+    background: linear-gradient(#03062E 0%, #5F0A94 45.71%);
+    color: #FFFF;
+    min-height: 100vh;
+    height: fit-content;
+    background: 
+    radial-gradient(51.33% 51.33% at 76.16% 22.98%, #5F0A94 0%, #03062E 49.1%);
+}
