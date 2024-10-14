@@ -1,11 +1,11 @@
 interface HeaderProps {
-  children:string[];
+  children:string[] | undefined | any;
   className: string;
 }
 
 interface DescriptionProps {
+  children: string[] | undefined | any;
   className: string;
-  children: string[];
 }
 
 export type Props = {
