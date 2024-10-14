@@ -55,7 +55,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="container-fluid bg-secondary-subtle d-flex flex-row justify-content-between pb-0 pt-2 ">
+      <div className="container-fluid d-flex flex-row justify-content-between pb-0 pt-2 ">
         <div className="my-auto" style={{ height: "100px" }}>
           <img
             className="img-fluid m-0 p-0"
