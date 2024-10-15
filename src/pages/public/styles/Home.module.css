@@ -2,6 +2,7 @@
     /* --first-component-height:  */
 }
 
-.home{
-    background-color:red;
+.home {
+    min-height: 90vh;
+    height:fit-content;
 }
