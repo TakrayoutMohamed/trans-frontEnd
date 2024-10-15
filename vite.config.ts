@@ -27,10 +27,12 @@ export default defineConfig({
       "@src" : path.resolve(__dirname, "./src"),
       "@router": path.resolve(__dirname, "./src/router"),
       "@states": path.resolve(__dirname, "./src/states"),
-      "@publicPages": path.resolve(__dirname, "./src/pages/public"),
       "@pages": path.resolve(__dirname, "./src/pages"),
+      "@publicPages": path.resolve(__dirname, "./src/pages/public"),
+      "@publicPagesStyles" : path.resolve(__dirname, "./src/pages/public/styles"),
       "@publicComponents": path.resolve(__dirname, "./src/pages/public/components"),
       "@privatePages": path.resolve(__dirname, "./src/pages/private"),
+      "@privatePagesStyles" : path.resolve(__dirname, "./src/pages/private/styles"),
       "@privateComponents": path.resolve(__dirname, "./src/pages/private/components")
     }
   }

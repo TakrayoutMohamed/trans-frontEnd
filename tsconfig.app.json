@@ -31,8 +31,10 @@
       "@states/*" : ["./src/states", "./src/states/*"],
       "@pages/*" : ["./src/pages", "./src/pages/*"],
       "@publicPages/*" : ["./src/pages/public", "./src/pages/public/*"],
+      "@publicPagesStyles/*" : ["./src/pages/public/styles", "./src/pages/public/styles/*"],
       "@publicComponents/*" : ["./src/pages/public/components", "./src/pages/public/components/*"],
       "@privatePages/*" : ["./src/pages/private", "./src/pages/private/*"],
+      "@privatePagesStyles/*" : ["./src/pages/public/styles", "./src/pages/public/styles/*"],
       "@privateComponents/*" : ["./src/pages/private/components", "./src/pages/private/components/*"]
     },
   },
