@@ -6,6 +6,10 @@ export const gameIcon = '/assets/icons/gameIcon.svg';
 export const chatIcon = '/assets/icons/chatIcon.svg';
 export const settingsIcon = '/assets/icons/settingsIcon.svg';
 export const playVideoIcon = '/assets/icons/playVideoIcon.svg';
+export const InstagramIcon = '/assets/icons/InstagramIcon.svg';
+export const XIcon = '/assets/icons/XIcon.svg';
+export const LinkedInIcon = '/assets/icons/LinkedInIcon.svg';
+
 
 //images
 export const pingPongVector = '/assets/images/pingPongVector.svg';
