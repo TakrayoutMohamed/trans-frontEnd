@@ -8,10 +8,12 @@ import {
   desertPingPongTable,
   videoCaption,
   brandIcon,
+  InstagramIcon,
+  XIcon,
+  LinkedInIcon,
 } from "@/media-exporting";
 import MultipleMedia from "./components/MultipleMedia";
 import { Link } from "react-router-dom";
-import ImagesIcon from "../components/ImageIcon";
 
 const Home = () => {
   return (
@@ -90,18 +92,17 @@ const Home = () => {
       </main>
       <hr className="m-0 mx-5 p-0 "/>
       <footer className="p-2 py-4">
-        <div className="row mx-4">
-          <div className="col-4">
-            <Link to="instagram">IG</Link>
-            <Link to="">X</Link>
-            <Link to="">IN</Link>
+        <div className="d-flex flex-column flex-column-reverse flex-sm-row">
+          <div className="text-nowrap pt-0  mx-auto">
+            <Link to="#"><img className="" src={InstagramIcon} alt="IG" width="40em"/></Link>
+            <Link to="#"><img className="" src={XIcon} alt="X" width="40em" /></Link>
+            <Link to="#"><img className="" src={LinkedInIcon} alt="LN" width="40em" /></Link>
           </div>
-          <div className="col-4 row m-0 ">
-            {/* <ImagesIcon imgPath={brandIcon} imgSize={{width: "20em", height: "20em"}}/> */}
-            <img src={brandIcon} alt="" width="20em" height="20em" className="col-2 m-0 p-0" />
-            <span className="col-6 text-nowrap m-0 p-0">A product of</span>
+          <div className=" text-nowrap mx-auto text-center pt-1">
+            <img src={brandIcon} alt="" width="40em" className="m-0 me-1" />
+            <span className="text-nowrap m-0 p-0">A product of</span>
           </div>
-          <div className="col-4 col-sm-12 col-md-4">© 2024 1337team. All rights reserved</div>
+          <div className="text-nowrap mx-auto pt-2">© 2024 1337team. All rights reserved</div>
         </div>
       </footer>
     </Fragment>
