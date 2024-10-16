@@ -33,6 +33,7 @@ import Password from "@privatePages/Password";
 // routers protection
 import PrivateRoutes from "@router/PrivateRoutes";
 import AuthorizationRoutes from "@router/AuthorizationRoutes";
+import RegistrationLayout from "./layouts/RegistrationLayout";
 
 const routingTree: RouteObject[] = createRoutesFromElements(
   <Route element={<RootLayout />}>
@@ -43,8 +44,10 @@ const routingTree: RouteObject[] = createRoutesFromElements(
       <Route path="contact" element={<Contact />} /> {/* contact*/}
     </Route>
     <Route element={<AuthorizationRoutes />}>
-      <Route path="sign-up" element={<SignUp />} /> {/* sign up*/}
-      <Route path="sign-in" element={<SignIn />} /> {/* sign in*/}
+      <Route element={<RegistrationLayout/>}>
+        <Route path="sign-up" element={<SignUp />} /> {/* sign up*/}
+        <Route path="sign-in" element={<SignIn />} /> {/* sign in*/}
+      </Route>
     </Route>
     <Route element={<PrivateRoutes />}>
       <Route element={<DashboardLayout />}>
