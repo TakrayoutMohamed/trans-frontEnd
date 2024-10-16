@@ -1,10 +1,10 @@
 import MainRoutingComponent from "@router/MainRoutingComponent.tsx"
 import { store } from "./states/store"
-import { setAuthenticated } from "./states/authentication/authenticatorSlice";
+import { setAuthenticated, setUnauthenticated } from "./states/authentication/authenticatorSlice";
 
 function App() {
   const dispatch = store.dispatch;
-  dispatch(setAuthenticated());
+  dispatch(setUnauthenticated());
   return (
     <>
       <MainRoutingComponent ></MainRoutingComponent>
