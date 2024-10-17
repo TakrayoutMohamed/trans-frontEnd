@@ -1,4 +1,23 @@
-.registrationLayout{
+.registrationLayout {
+    background: linear-gradient(#03062E 0%, #5F0A94 156.71%);
     height: fit-content;
     min-height: 100vh;
+}
+
+.registrationLayoutStick {
+    background: linear-gradient(180deg, #C56D34 0%, #EAB091 100%);
+    width: 3em;
+    height: 30em;
+}
+
+.registrationLayoutSignUpIn {
+    background: linear-gradient(180deg, #03062E -50%, #5F0A94 50.71%);
+    /* width: 2em; */
+    height: 18em;
+    border-radius: 50px;
+    color: #FFFFFF;
+}
+.registrationLayoutSignUpIn > p {
+    writing-mode:vertical-rl;
+    text-orientation: upright;
 }
