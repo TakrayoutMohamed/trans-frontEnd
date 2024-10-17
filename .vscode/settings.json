@@ -1,0 +1,4 @@
+{
+    "typescript.suggest.includeCompletionsForImportStatements": true,
+    "typescript.updateImportsOnFileMove.enabled": "always"
+}
