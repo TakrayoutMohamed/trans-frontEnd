@@ -10,6 +10,8 @@ export const InstagramIcon = '/assets/icons/InstagramIcon.svg';
 export const XIcon = '/assets/icons/XIcon.svg';
 export const LinkedInIcon = '/assets/icons/LinkedInIcon.svg';
 export const ballIcon = '/assets/icons/ballIcon.svg';
+export const ToLeftArrowIcon = '/assets/icons/ToLeftArrowIcon.svg';
+export const ToRitghtArrowIcon = '/assets/icons/ToRitghtArrowIcon.svg';
 
 
 //images
