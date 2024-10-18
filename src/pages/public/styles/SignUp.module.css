@@ -1,0 +1,48 @@
+.signUp {
+    background: linear-gradient(180deg, #03062E -50%, #5F0A94 50.71%);
+    height: 18em;
+    border-radius: 50px;
+    color: #FFFFFF;
+}
+
+.signUp > p {
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+}
+
+.signUpStick {
+    background: linear-gradient(180deg, #C56D34 0%, #EAB091 100%);
+    width: 3em;
+    height: 30em;
+}
+
+.signUpAnimation{
+    position : relative;
+    animation-name: signInAnimation;
+    animation-duration: 2.5s;
+    animation-iteration-count: 1;
+}
+
+@keyframes signUpAnimation {
+
+    0%   {opacity: .8 ;color:red; left:0px; top:0px;}
+    25%  {opacity: .3 ;color:yellow ; left:100%; top:0px;}
+}
+
+.signUpRenderAnimation{
+    position : relative;
+    animation-name: signUpRenderAnimation;
+    animation-duration: 2s;
+    animation-iteration-count: 1;
+}
+
+
+@keyframes signUpRenderAnimation {
+
+    0%   {opacity: .3 ;color:red; left:100%; top:20px;}
+    25%  {opacity: 1.0 ;color:yellow ; left: 0%; top:0px;}
+    /* /* 50%  {opacity: .4 ;color:blue; left:17%; top:0px;} */
+    /* 75%  {opacity: .2 ;color:green; left:75%; top:0px;} */
+    /* 100% {opacity: .0 ;color:red; left:100%; top:0px;} */
+    
+}
