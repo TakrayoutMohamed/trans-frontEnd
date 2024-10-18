@@ -8,6 +8,7 @@ const RegistrationLayout = () => {
   const {pathname} = useLocation();
   const navigate = useNavigate();
   const sign = (pathname === "/sign-in" ? "UP" : "IN");
+  const isSignIn : string = pathname === "/sign-in" ? "flex-row-reverse" : "";
   const startAnimation = () : void => {
     const switching = document.querySelector(".signInUp");
     if (pathname === "/sign-in")
@@ -26,7 +27,7 @@ const RegistrationLayout = () => {
     <Fragment>
       <div className={"bg-info d-flex "+ registrationLayout}>
         <div className="bg-success-subtle container row m-auto p-0" style={{height:"40em"}}>
-          <div className="bg-success col-12 col-sm-11 col-md-10 col-lg-9 d-flex  signInUp mx-0" >
+          <div className={`bg-success col-12 col-sm-11 col-md-10 col-lg-9 d-flex signInUp mx-0 ${isSignIn } `} >
             <div className="bg-danger-subtle w-100 ">
               <Outlet />
             </div>
@@ -43,8 +44,8 @@ const RegistrationLayout = () => {
               </div>
             <div className={` bg-primary-subtlee my-auto ${registrationLayoutStick} `} ></div>
           </div>
-          <div className="bg-danger d-none d-sm-block col-sm-1 col-md-2 col-lg-3 p-0 my-auto mx-0" >
-            <img src={ballIcon} alt="the ball icon" width="80em" className="bg-danger-subtle float-end img-fluid m-0" />
+          <div className="bg-danger d-none d-sm-block col-sm-1 col-md-2 col-lg-3 p-0 pt-5 my-auto mx-0" >
+            <img src={ballIcon} alt="the ball icon" width="80em" className="bg-danger-subtle float-end img-fluid m-0 mt-5" />
           </div>
         </div>
       </div>
