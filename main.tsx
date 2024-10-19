@@ -5,6 +5,7 @@ import "bootstrap/dist/js/bootstrap.esm.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import "@/main.css";
+import "./public/fonts/Luckiest_Guy/LuckiestGuy-Regular.ttf";
 import { createRoot } from "react-dom/client";
 import App from "@src/App.tsx";
 import { Provider } from "react-redux";

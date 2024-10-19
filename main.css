@@ -11,3 +11,9 @@
     background-repeat: no-repeat;
 
 }
+@font-face {
+    font-family: "LuckiestGuy";
+    src: local("LuckiestGuyRegular"),
+    url("./public/fonts/Luckiest_Guy/LuckiestGuy-Regular.ttf") format("truetype");
+    font-weight: bold;
+}
