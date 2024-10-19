@@ -1,15 +1,16 @@
-import { signInAnimation, signIn, signInStick, signInRenderAnimation } from "@publicPagesStyles/index.ts";
+import {
+  signInAnimation,
+  signIn,
+  signInStick,
+  signInRenderAnimation,
+} from "@publicPagesStyles/index.ts";
 import { useEffect } from "react";
 import { BiSolidLeftArrow } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignIn = () => {
   const navigate = useNavigate();
-  useEffect(() => {
-    const animation = document.querySelector(".animationSelectorSignIn");
-    animation?.classList.add(signInRenderAnimation);
-    console.log("ok sign in useEffect")
-  },[]);
+  useEffect(() => {}, []);
   const startAnimation = (): void => {
     console.log("signin start animation");
     const animation = document.querySelector(".animationSelectorSignIn");
@@ -21,35 +22,42 @@ const SignIn = () => {
     }, 700);
   };
   return (
-    <div className={`d-flex flex-row-reverse animationSelectorSignIn w-100`}>
-      <div className="bg-danger-subtle w-100 ">
-        signIn content Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-        Laborum vel facere inventore vitae dolore nobis, explicabo impedit
-        consectetur, voluptatum nostrum voluptas ullam sint cupiditate illo
-        temporibus. Nostrum cum pariatur impedit voluptas laborum ad dolores, ab
-        asperiores labore quos voluptatibus veritatis harum ipsum excepturi
-        nobis ullam beatae assumenda similique tenetur. Alias deleniti placeat
-        aliquam libero magni eaque! Mollitia accusamus voluptas accusantium
-        dignissimos quasi sint, adipisci fugit. Ratione dolorum aspernatur eum
-        id perspiciatis porro libero eveniet deserunt, exercitationem ex!
-        Incidunt, nostrum, delectus facilis, architecto excepturi laboriosam
-        voluptate quae et provident sunt veritatis perspiciatis doloribus. Hic
-        saepe deserunt exercitationem enim impedit aut fugiat nostrum reiciendis
-        eos, rerum tempora sapiente ad laborum adipisci veritatis, et repellat
-        quidem repellendus molestias qui dicta totam inventore aliquam?
-        Voluptate quis ipsum laudantium, exercitationem totam ea dolorem, sint
-        velit autem nemo earum soluta suscipit voluptatum quod. Itaque nobis at
-        assumenda. Minima inventore cum laboriosam quia repellendus sunt nostrum
-        eligendi ad fuga quas vitae ullam id distinctio dolorum eaque eius ipsa
-        debitis molestias reprehenderit, recusandae illo quasi est aut? Eos,
-        earum magnam doloremque omnis doloribus velit iste voluptate unde.
-        Voluptatum sequi, eveniet dolorem harum consequuntur aut ullam quaerat
-        reprehenderit ex debitis magnam minima doloremque cum quos? Deserunt
-        esse quidem possimus.
+    <div
+      className={`d-flex flex-row-reverse animationSelectorSignIn w-100 ${signInRenderAnimation}`}
+    >
+      <div className="w-100 ">
+        <div className="d-flex justify-content-center h-100">
+          <form action="#" className="w-75 my-auto">
+            <div className="mb-4">
+              <input
+                type="text"
+                className="form-control rounded-5 p-2"
+                placeholder="Email...."
+                name="email"
+              />
+            </div>
+            <div className="mb-4 ">
+              <input
+                type="password"
+                className="form-control rounded-5 p-2"
+                placeholder="Password...."
+                name="password"
+              />
+            </div>
+            <div className="form-control mb-4 p-2 text-center">
+              <Link to="#42">42</Link>
+              <Link to="#github">GH</Link>
+              <Link to="#google">GG</Link>
+            </div>
+            <div className="form-control text-center">
+              <button type="submit">SIGN IN</button>
+            </div>
+          </form>
+        </div>
       </div>
       <div className={`border d-flex my-auto mx-3 p-1  ${signIn}`}>
         <p
-          className="bg-dangerr text-center h4 m-auto"
+          className="text-center h4 m-auto"
           onClick={() => startAnimation()}
         >
           SIGN
@@ -57,7 +65,7 @@ const SignIn = () => {
           UP
         </p>
       </div>
-      <div className={` bg-primary-subtlee my-auto ${signInStick} `}></div>
+      <div className={`my-auto ${signInStick} `}></div>
     </div>
   );
 };
