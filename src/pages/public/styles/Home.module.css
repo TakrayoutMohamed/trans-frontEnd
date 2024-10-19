@@ -5,4 +5,15 @@
 .home {
     min-height: 90vh;
     height:fit-content;
+    font-size: 0.7rem;
+    div + .h1 {
+        font-family: "LuckiestGuy";
+        font-size: 0.7rem;
+    
+    }
+}
+.home {
+    section h1{
+        font-family: "LuckiestGuy";
+    }
 }

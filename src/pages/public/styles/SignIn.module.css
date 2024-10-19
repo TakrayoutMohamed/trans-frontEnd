@@ -12,18 +12,24 @@
         background: linear-gradient(90deg, #E3A5C7 0%, #694F8E 100%);
         color: #FFFFFF;
         border: 0px;
+        font-family: "LuckiestGuy";
+        font-weight: normal;
+        font-size: 1.3rem;
     }
 }
 
 .signInBare {
     background: linear-gradient(180deg, #03062E -50%, #5F0A94 50.71%);
-    height: 18em;
+    height: 14em;
     border-radius: 50px;
     color: #FFFFFF;
     cursor: pointer;
 }
 
 .signInBare>p {
+    font-family: "LuckiestGuy";
+    font-weight: normal;
+    font-size: 1.2rem;
     writing-mode: vertical-rl;
     text-orientation: upright;
 }

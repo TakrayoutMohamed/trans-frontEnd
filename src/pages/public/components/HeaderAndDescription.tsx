@@ -1,6 +1,7 @@
 interface HeaderProps {
   children:string[] | undefined | any;
   className: string;
+  style:{};
 }
 
 interface DescriptionProps {
@@ -12,6 +13,8 @@ export type Props = {
   header: {
     className:string;
     content:string;
+    style:string;
+
   },
   description: {
     className:string;
@@ -19,8 +22,8 @@ export type Props = {
   };
 };
 
-export const Heading = ( {className , children} : HeaderProps) => {
-  return <div className={className}>{children}</div>;
+export const Heading = ( {className , children, style} : HeaderProps) => {
+  return <h1 className={className} style={style}>{children}</h1>;
 };
 export const Description = ({ className, children }: DescriptionProps) => {
   return <div className={className}>{children}</div>;
@@ -29,7 +32,7 @@ export const Description = ({ className, children }: DescriptionProps) => {
 const HeaderAndDescription = ({ header, description }: Props) => {
   return (
     <>
-      <Heading className={header.className}> {header.content} </Heading>
+      <Heading className={header.className} style={header.style}> {header.content} </Heading>
       <Description className={description.className}> {description.content} </Description>
     </>
   );

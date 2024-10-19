@@ -27,10 +27,10 @@ const Home = () => {
             className="bg-successs position-absolute z-1 d-flex justify-content-end flex-column h-100  ps-4"
             style={{ width: "65%" }}
           >
-            <div className="h1 ">
+            <div style={{fontFamily: "LuckiestGuy", fontSize:"300%"}} className="h1 ">
               BEST <span style={{ color: "#EE0DFF" }}>GAME</span>
             </div>
-            <div className="h1 ">PLAYING TODAY</div>
+            <div style={{fontFamily: "LuckiestGuy", fontSize:"300%"}} className="h1 ">PLAYING TODAY</div>
             <br />
             <div className="mb-2">
               We captivate a multitude of users with our game. Our unwavering
@@ -56,7 +56,7 @@ const Home = () => {
           style={{ marginTop: "10rem",background: "#080228",
         }}
         >
-          <Heading className="h1 text-center pb-3">
+          <Heading style={{fontFamily: "LuckiestGuy", fontSize:"300%"}} className="h1 text-center pb-3">
             BEST <span style={{ color: "#EE0DFF" }}>GAMING</span> EXPERIENCE
           </Heading>
           <Description className="text-center ">
@@ -73,10 +73,10 @@ const Home = () => {
           style={{ marginTop: "10rem",background: "",
         }}
         >
-          <Heading className="h1 text-center ">
+          <Heading style={{fontFamily: "LuckiestGuy", fontSize:"300%"}} className="h1 text-center ">
             OUR GOAL IS TO CREATE <span style={{ color: "#EE0DFF" }}>LIFELIKE</span>
           </Heading>
-          <Heading className="h1 text-center pb-3">
+          <Heading style={{fontFamily: "LuckiestGuy", fontSize:"300%"}} className="h1 text-center pb-3">
             <span style={{ color: "#EE0DFF" }}>VIRTUAL</span> TABLE TENNIS EXPERIENCES
           </Heading>
           <Description className="text-center ">
