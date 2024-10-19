@@ -1,5 +1,18 @@
 .signIn{
-    
+    input, :focus
+    {
+        color: #FFFFFF;
+        background: #FFFFFF7A;
+    };
+    ::placeholder{
+        color:white;
+        
+    }
+    button{
+        background: linear-gradient(90deg, #E3A5C7 0%, #694F8E 100%);
+        color: #FFFFFF;
+        border: 0px;
+    }
 }
 
 .signInBare {
