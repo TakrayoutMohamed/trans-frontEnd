@@ -47,8 +47,8 @@ const SignIn = () => {
               />
             </div>
             <div className="d-flex justify-content-evenly mb-4 p-2">
-              <Link to="#42" className="text-decoration-none rounded-5 p-1 text-center" target="_blank" style={{background: "#8D6B92"}}>
-                <Si42 size={40} color="#000000" className="mb-0 ms-0 me-1 "/>
+              <Link to="#42" className="text-decoration-none rounded-5 p-1 pe-2 pb-1 text-center" target="_blank" style={{background: "#8D6B92"}}>
+                <Si42 size={40} color="#000000"/>
               </Link>
               <Link
                 to="#github"
