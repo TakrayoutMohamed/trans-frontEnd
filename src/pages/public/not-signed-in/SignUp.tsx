@@ -1,6 +1,8 @@
 import { signUpAnimation, signUpRenderAnimation, signUp, signUpStick } from "@publicPagesStyles/";
 import { useEffect } from "react";
 import { BiSolidRightArrow } from "react-icons/bi";
+import { FcGoogle } from "react-icons/fc";
+import { Si42, SiGithub } from "react-icons/si";
 import { Link, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
@@ -47,10 +49,20 @@ const SignUp = () => {
                 autoComplete={"off"}
               />
             </div>
-            <div className="mb-4 p-2 text-center">
-              <Link to="#42" target="_blank"> 42 </Link>
-              <Link to="#github" target="_blank"> GH </Link>
-              <Link to="#google" target="_blank"> GG </Link>
+            <div className="d-flex justify-content-evenly mb-4 p-2">
+              <Link to="#42" className="text-decoration-none rounded-5 p-1 text-center" target="_blank" style={{background: "#8D6B92"}}>
+                <Si42 size={40} color="#000000" className="mb-0 ms-0 me-1 "/>
+              </Link>
+              <Link
+                to="#github"
+                className="text-decoration-none rounded-5 p-1 text-center" target="_blank" style={{background: "#8D6B92"}}>
+                <SiGithub size={40} color="#000000"/>
+              </Link>
+              <Link
+                to="#google"
+                className="text-decoration-none rounded-5 p-1 text-center" target="_blank" style={{background: "#8D6B92"}}>
+                <FcGoogle size={40} color="#000000"/>
+              </Link>
             </div>
             <div className="text-center">
               <button type="submit" className="rounded-5 px-5 py-1 h4 m-0 text-nowrap">SIGN UP</button>
