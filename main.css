@@ -14,6 +14,6 @@
 @font-face {
     font-family: "LuckiestGuy";
     src: local("LuckiestGuyRegular"),
-    url("./public/fonts/Luckiest_Guy/LuckiestGuy-Regular.ttf") format("truetype");
-    font-weight: bold;
+    url("./src/fonts/Luckiest_Guy/LuckiestGuy-Regular.ttf") format("truetype");
+    font-weight: normal;
 }
