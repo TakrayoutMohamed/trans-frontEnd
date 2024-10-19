@@ -1,4 +1,8 @@
-.signUp {
+.signIn{
+    
+}
+
+.signUpBare {
     background: linear-gradient(180deg, #03062E -50%, #5F0A94 50.71%);
     height: 18em;
     border-radius: 50px;
@@ -6,7 +10,7 @@
     cursor: pointer;
 }
 
-.signUp>p {
+.signUpBare>p {
     writing-mode: vertical-rl;
     text-orientation: upright;
 }

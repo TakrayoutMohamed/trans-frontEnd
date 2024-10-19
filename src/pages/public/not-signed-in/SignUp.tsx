@@ -1,4 +1,4 @@
-import { signUpAnimation, signUpRenderAnimation, signUp, signUpStick } from "@publicPagesStyles/";
+import { signUpAnimation, signUpRenderAnimation, signUp, signUpStick, signUpBare } from "@publicPagesStyles/";
 import { useEffect } from "react";
 import { BiSolidRightArrow } from "react-icons/bi";
 import { FcGoogle } from "react-icons/fc";
@@ -18,7 +18,7 @@ const SignUp = () => {
     }, 700);
   };
   return (
-    <div className={`d-flex animationSelectorSignUp w-100 ${signUpRenderAnimation} `}>
+    <div className={`d-flex animationSelectorSignUp w-100 ${signUpRenderAnimation} ${signUp}`}>
       <div className="w-100 ">
         <div className="d-flex justify-content-center h-100">
           <form action="#" className="w-75 my-auto">
@@ -70,7 +70,7 @@ const SignUp = () => {
           </form>
         </div>
       </div>
-      <div className={`border d-flex my-auto mx-3 me-5 p-0  ${signUp}`}>
+      <div className={`border d-flex my-auto mx-3 me-5 p-0  ${signUpBare}`}>
         <p
           className="text-center h4 m-1"
           onClick={() => startAnimationSignUp()}

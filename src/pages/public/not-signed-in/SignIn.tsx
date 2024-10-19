@@ -3,6 +3,7 @@ import {
   signIn,
   signInStick,
   signInRenderAnimation,
+  signInBare,
 } from "@publicPagesStyles/index.ts";
 import { useEffect } from "react";
 import { BiSolidLeftArrow } from "react-icons/bi";
@@ -23,7 +24,7 @@ const SignIn = () => {
   };
   return (
     <div
-      className={`d-flex flex-row-reverse animationSelectorSignIn w-100 ${signInRenderAnimation}`}
+      className={`d-flex flex-row-reverse animationSelectorSignIn w-100 ${signInRenderAnimation} ${signIn}`}
     >
       <div className="w-100 ">
         <div className="d-flex justify-content-center h-100">
@@ -72,7 +73,7 @@ const SignIn = () => {
           </form>
         </div>
       </div>
-      <div className={`border d-flex my-auto mx-3 ms-5 p-0  ${signIn}`}>
+      <div className={`border d-flex my-auto mx-3 ms-5 p-0  ${signInBare}`}>
         <p
           className="text-center h4 m-1"
           onClick={() => startAnimationSignIn()}
