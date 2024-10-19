@@ -5,7 +5,7 @@
     color: #FFFFFF;
 }
 
-.signUp > p {
+.signUp>p {
     writing-mode: vertical-rl;
     text-orientation: upright;
 }
@@ -16,33 +16,48 @@
     height: 30em;
 }
 
-.signUpAnimation{
-    position : relative;
-    animation-name: signInAnimation;
-    animation-duration: 2.5s;
+.signUpAnimation {
+    position: relative;
+    animation: ease-out;
+    animation-name: signUpAnimationFrames;
+    animation-duration: 1.5s;
     animation-iteration-count: 1;
 }
 
-@keyframes signUpAnimation {
+@keyframes signUpAnimationFrames {
+    0% {
+        opacity: 1;
+    }
 
-    0%   {opacity: .8 ;color:red; left:0px; top:0px;}
-    25%  {opacity: .3 ;color:yellow ; left:100%; top:0px;}
+    50% {
+        opacity: 0.3;
+        transform: translateX(100%);
+    }
+
+    100% {
+        opacity: 0.1;
+        transform: translateX(0%);
+    }
 }
 
-.signUpRenderAnimation{
-    position : relative;
-    animation-name: signUpRenderAnimation;
-    animation-duration: 2s;
+.signUpRenderAnimation {
+    position: relative;
+    animation: ease-in;
+    animation-name: signUpRenderAnimationFrames;
+    animation-duration: 0.5s;
     animation-iteration-count: 1;
 }
 
 
-@keyframes signUpRenderAnimation {
+@keyframes signUpRenderAnimationFrames {
 
-    0%   {opacity: .3 ;color:red; left:100%; top:20px;}
-    25%  {opacity: 1.0 ;color:yellow ; left: 0%; top:0px;}
-    /* /* 50%  {opacity: .4 ;color:blue; left:17%; top:0px;} */
-    /* 75%  {opacity: .2 ;color:green; left:75%; top:0px;} */
-    /* 100% {opacity: .0 ;color:red; left:100%; top:0px;} */
-    
+    from {
+        opacity: 0.3;
+        transform: translateX(100%);
+    }
+
+    to {
+        opacity: 1.0;
+        transform: translateX(0%)
+    }
 }

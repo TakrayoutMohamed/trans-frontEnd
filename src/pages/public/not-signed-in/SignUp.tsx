@@ -1,21 +1,26 @@
 import { signUpAnimation, signUpRenderAnimation, signUp, signUpStick } from "@publicPagesStyles/";
+import { useEffect } from "react";
 import { BiSolidRightArrow } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
+  useEffect(() => {
+    const animation = document.querySelector(".animationSelectorSignUp");
+    animation?.classList.add(signUpRenderAnimation);
+    console.log("ok sign in useEffect")
+  },[]);
   const navigate = useNavigate();
-  const startAnimation = (): void => {
-    console.log("signUp start animation");
-    const animation = document.querySelector(".signUpAnimations");
+  const startAnimationSignUp = (): void => {
+    const animation = document.querySelector(".animationSelectorSignUp");
+    animation?.classList.remove(signUpRenderAnimation);
     animation?.classList.add(signUpAnimation);
     console.log(animation?.classList);
     setTimeout(() => {
       navigate("/sign-in");
-      animation?.classList.remove(signUpAnimation);
-    }, 1000);
+    }, 700);
   };
   return (
-    <div className={`d-flex signUpAnimations w-100 ${signUpRenderAnimation}`}>
+    <div className={`d-flex animationSelectorSignUp w-100 ${signUpRenderAnimation} `}>
       <div className="bg-danger-subtle w-100 ">
         signUp content Lorem ipsum dolor, sit amet consectetur adipisicing elit.
         Laborum vel facere inventore vitae dolore nobis, explicabo impedit
@@ -44,11 +49,11 @@ const SignUp = () => {
       <div className={`border d-flex my-auto mx-3 p-1  ${signUp}`}>
         <p
           className="bg-dangerr text-center h4 m-auto"
-          onClick={() => startAnimation()}
+          onClick={() => startAnimationSignUp()}
         >
           SIGN
           <BiSolidRightArrow className="m-0 me-2 my-3" size="1em" />
-          UP
+          IN
         </p>
       </div>
       <div className={` bg-primary-subtlee my-auto ${signUpStick} `}></div>

@@ -1,21 +1,27 @@
 import { signInAnimation, signIn, signInStick, signInRenderAnimation } from "@publicPagesStyles/index.ts";
+import { useEffect } from "react";
 import { BiSolidLeftArrow } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
   const navigate = useNavigate();
+  useEffect(() => {
+    const animation = document.querySelector(".animationSelectorSignIn");
+    animation?.classList.add(signInRenderAnimation);
+    console.log("ok sign in useEffect")
+  },[]);
   const startAnimation = (): void => {
     console.log("signin start animation");
-    const animation = document.querySelector(".animationSelector");
+    const animation = document.querySelector(".animationSelectorSignIn");
+    animation?.classList.remove(signInRenderAnimation);
     animation?.classList.add(signInAnimation);
     console.log(animation?.classList);
     setTimeout(() => {
       navigate("/sign-up");
-      animation?.classList.remove(signInAnimation);
-    }, 1000);
+    }, 700);
   };
   return (
-    <div className={`d-flex flex-row-reverse animationSelector w-100 ${signInRenderAnimation}`}>
+    <div className={`d-flex flex-row-reverse animationSelectorSignIn w-100`}>
       <div className="bg-danger-subtle w-100 ">
         signIn content Lorem ipsum dolor, sit amet consectetur adipisicing elit.
         Laborum vel facere inventore vitae dolore nobis, explicabo impedit

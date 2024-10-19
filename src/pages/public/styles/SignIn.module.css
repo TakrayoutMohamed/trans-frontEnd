@@ -1,12 +1,12 @@
-.signIn{
+.signIn {
     background: linear-gradient(180deg, #03062E -50%, #5F0A94 50.71%);
     height: 18em;
     border-radius: 50px;
     color: #FFFFFF;
 }
 
-.signIn > p {
-    writing-mode:vertical-rl;
+.signIn>p {
+    writing-mode: vertical-rl;
     text-orientation: upright;
 }
 
@@ -16,33 +16,49 @@
     height: 30em;
 }
 
-.signInAnimation{
-    position : relative;
+.signInAnimation {
+    position: relative;
+    animation: ease-out;
     animation-name: signInAnimation;
-    animation-duration: 2.5s;
+    animation-duration: 1.5s;
     animation-iteration-count: 1;
 }
 
 @keyframes signInAnimation {
+    0% {
+        opacity: 0.8;
+        left: 0px;
+        top: 0px;
+    }
 
-    0%   {opacity: .8 ;color:red; left:0px; top:0px;}
-    25%  {opacity: .3 ;color:yellow ; left:100%; top:0px;}
+    50% {
+        opacity: 0.3;
+        transform: translateX(-100%);
+    }
+
+    100% {
+        opacity: 0.1;
+        transform: translateX(-120%);
+    }
 }
 
-.signInRenderAnimation{
-    position : relative;
-    animation-name: signInRenderAnimation;
-    animation-duration: 2s;
+.signInRenderAnimation {
+    position: relative;
+    animation: ease-in;
+    animation-name: signInRenderAnimationFrames;
+    animation-duration: 0.5s;
     animation-iteration-count: 1;
 }
 
 
-@keyframes signInRenderAnimation {
+@keyframes signInRenderAnimationFrames {
+    from {
+        opacity: 0.3;
+        transform: translateX(-100%);
+    }
 
-    0%   {opacity: .3 ;color:red; left:100%; top:0px;}
-    25%  {opacity: 1.0 ;color:yellow ; left: 0%; top:0px;}
-    /* /* 50%  {opacity: .4 ;color:blue; left:17%; top:0px;} */
-    /* 75%  {opacity: .2 ;color:green; left:75%; top:0px;} */
-    /* 100% {opacity: .0 ;color:red; left:100%; top:0px;} */
-    
+    to {
+        opacity: 1.0;
+        transform: translateX(0%)
+    }
 }
