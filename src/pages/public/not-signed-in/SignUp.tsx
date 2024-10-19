@@ -11,7 +11,6 @@ const SignUp = () => {
     const animation = document.querySelector(".animationSelectorSignUp");
     animation?.classList.remove(signUpRenderAnimation);
     animation?.classList.add(signUpAnimation);
-    console.log(animation?.classList);
     setTimeout(() => {
       navigate("/sign-in");
     }, 700);
@@ -27,6 +26,7 @@ const SignUp = () => {
                 className="form-control rounded-5 p-2"
                 placeholder="Name...."
                 name="name"
+                autoComplete={"off"}
               />
             </div>
             <div className="mb-4 ">
@@ -35,6 +35,7 @@ const SignUp = () => {
                 className="form-control rounded-5 p-2"
                 placeholder="Password...."
                 name="password"
+                autoComplete={"off"}
               />
             </div>
             <div className="mb-4">
@@ -43,22 +44,23 @@ const SignUp = () => {
                 className="form-control rounded-5 p-2"
                 placeholder="Email...."
                 name="email"
+                autoComplete={"off"}
               />
             </div>
-            <div className="form-control mb-4 p-2 text-center">
-              <Link to="#42">42</Link>
-              <Link to="#github">GH</Link>
-              <Link to="#google">GG</Link>
+            <div className="mb-4 p-2 text-center">
+              <Link to="#42" target="_blank"> 42 </Link>
+              <Link to="#github" target="_blank"> GH </Link>
+              <Link to="#google" target="_blank"> GG </Link>
             </div>
-            <div className="form-control text-center">
-              <button type="submit">SIGN UP</button>
+            <div className="text-center">
+              <button type="submit" className="rounded-5 px-5 py-1 h4 m-0 text-nowrap">SIGN UP</button>
             </div>
           </form>
         </div>
       </div>
-      <div className={`border d-flex my-auto mx-3 p-1  ${signUp}`}>
+      <div className={`border d-flex my-auto mx-3 me-5 p-0  ${signUp}`}>
         <p
-          className="text-center h4 m-auto"
+          className="text-center h4 m-1"
           onClick={() => startAnimationSignUp()}
         >
           SIGN
@@ -66,7 +68,7 @@ const SignUp = () => {
           IN
         </p>
       </div>
-      <div className={`my-auto ${signUpStick} `}></div>
+      <div className={`my-auto ms-4 ${signUpStick} `}></div>
     </div>
   );
 };

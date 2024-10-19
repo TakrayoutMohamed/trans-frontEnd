@@ -11,12 +11,10 @@ import { Link, useNavigate } from "react-router-dom";
 const SignIn = () => {
   const navigate = useNavigate();
   useEffect(() => {}, []);
-  const startAnimation = (): void => {
-    console.log("signin start animation");
+  const startAnimationSignIn = (): void => {
     const animation = document.querySelector(".animationSelectorSignIn");
     animation?.classList.remove(signInRenderAnimation);
     animation?.classList.add(signInAnimation);
-    console.log(animation?.classList);
     setTimeout(() => {
       navigate("/sign-up");
     }, 700);
@@ -34,6 +32,7 @@ const SignIn = () => {
                 className="form-control rounded-5 p-2"
                 placeholder="Email...."
                 name="email"
+                autoComplete={"off"}
               />
             </div>
             <div className="mb-4 ">
@@ -42,30 +41,31 @@ const SignIn = () => {
                 className="form-control rounded-5 p-2"
                 placeholder="Password...."
                 name="password"
+                autoComplete={"off"}
               />
             </div>
-            <div className="form-control mb-4 p-2 text-center">
-              <Link to="#42">42</Link>
-              <Link to="#github">GH</Link>
-              <Link to="#google">GG</Link>
+            <div className="mb-4 p-2 text-center">
+              <Link to="#42" target="_blank"> 42 </Link>
+              <Link to="#github" target="_blank"> GH </Link>
+              <Link to="#google" target="_blank"> GG </Link>
             </div>
-            <div className="form-control text-center">
-              <button type="submit">SIGN IN</button>
+            <div className="text-center">
+              <button type="submit" className="rounded-5 px-5 py-1 h4 m-0 text-nowrap">SIGN IN</button>
             </div>
           </form>
         </div>
       </div>
-      <div className={`border d-flex my-auto mx-3 p-1  ${signIn}`}>
+      <div className={`border d-flex my-auto mx-3 ms-5 p-0  ${signIn}`}>
         <p
-          className="text-center h4 m-auto"
-          onClick={() => startAnimation()}
+          className="text-center h4 m-1"
+          onClick={() => startAnimationSignIn()}
         >
           SIGN
           <BiSolidLeftArrow className="m-0 me-2 my-3" size="1em" />
           UP
         </p>
       </div>
-      <div className={`my-auto ${signInStick} `}></div>
+      <div className={`my-auto me-4 ${signInStick} `}></div>
     </div>
   );
 };
