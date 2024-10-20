@@ -27,16 +27,16 @@ const Home = () => {
             className="bg-successs position-absolute z-1 d-flex justify-content-end flex-column h-100  ps-4"
             style={{ width: "65%" }}
           >
-            <div style={{fontFamily: "LuckiestGuy", fontSize:"300%"}} className="h1 ">
+            <h1  className="customheader">
               BEST <span style={{ color: "#EE0DFF" }}>GAME</span>
-            </div>
-            <div style={{fontFamily: "LuckiestGuy", fontSize:"300%"}} className="h1 ">PLAYING TODAY</div>
+            </h1>
+            <h1  className="customheader ">PLAYING TODAY</h1>
             <br />
-            <div className="mb-2">
+            <p className="mb-2">
               We captivate a multitude of users with our game. Our unwavering
               mission is to spread the thrill and excitement of ping pong to
               every corner of the world.
-            </div>
+            </p>
           </div>
           <div
             className="bg-success-subtlee position-absolute z-0 top-0 end-0 d-flex flex-row-reverse"
@@ -56,7 +56,7 @@ const Home = () => {
           style={{ marginTop: "10rem",background: "#080228",
         }}
         >
-          <Heading style={{fontFamily: "LuckiestGuy", fontSize:"300%"}} className="h1 text-center pb-3">
+          <Heading  className="customheader text-center pb-3">
             BEST <span style={{ color: "#EE0DFF" }}>GAMING</span> EXPERIENCE
           </Heading>
           <Description className="text-center ">
@@ -73,10 +73,10 @@ const Home = () => {
           style={{ marginTop: "10rem",background: "",
         }}
         >
-          <Heading style={{fontFamily: "LuckiestGuy", fontSize:"300%"}} className="h1 text-center ">
+          <Heading  className="customheader text-center ">
             OUR GOAL IS TO CREATE <span style={{ color: "#EE0DFF" }}>LIFELIKE</span>
           </Heading>
-          <Heading style={{fontFamily: "LuckiestGuy", fontSize:"300%"}} className="h1 text-center pb-3">
+          <Heading  className="customheader text-center pb-3">
             <span style={{ color: "#EE0DFF" }}>VIRTUAL</span> TABLE TENNIS EXPERIENCES
           </Heading>
           <Description className="text-center ">

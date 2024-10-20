@@ -1,19 +1,14 @@
-:root{
-    /* --first-component-height:  */
-}
-
 .home {
     min-height: 90vh;
-    height:fit-content;
-    font-size: 0.7rem;
-    div + .h1 {
-        font-family: "LuckiestGuy";
-        font-size: 0.7rem;
-    
+    height: fit-content;
+    section p {
+        padding: 0%;
+        margin:0%;
+        font-size: min(0.3vw + 0.8em, 30px);
     }
-}
-.home {
-    section h1{
+
+    h1 {
         font-family: "LuckiestGuy";
+        font-size: min(2vw + 1em, 80px);
     }
 }
