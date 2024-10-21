@@ -9,12 +9,13 @@ import {
   signInRenderAnimation,
   signInBare,
 } from "@publicPagesStyles/index.ts";
-import { useEffect } from "react";
+import axios, { AxiosError } from "axios";
+import { useEffect, useState } from "react";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { BiSolidLeftArrow } from "react-icons/bi";
 import { FcGoogle } from "react-icons/fc";
 import { Si42, SiGithub } from "react-icons/si";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 const signInSchema = z.object({
@@ -31,6 +32,7 @@ type SignInSchemaType = z.infer<typeof signInSchema>;
 
 const SignIn = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const {register, handleSubmit, formState: {errors}} = useForm<SignInSchemaType>({resolver: zodResolver(signInSchema)})
   useEffect(() => {}, []);
   const startAnimationSignIn = (): void => {
@@ -41,26 +43,45 @@ const SignIn = () => {
       navigate("/sign-up");
     }, 700);
   };
+  const [errorMsg, setErrorMsg] = useState("");
+  const lastLocation = location.state?.from?.pathname || "/profile";
   const dispatch =  store.dispatch;
 
   const onSubmit:SubmitHandler<SignInSchemaType> = async (data : SignInSchemaType) => {
     try {
-        const result = signInSchema.safeParse(data);
-        if (result.error) {
-            console.log("fieldErrors : " +JSON.stringify(result.error.formErrors.fieldErrors));
-            throw Error("fieldErrors : " +JSON.stringify(result.error.formErrors.fieldErrors));
-        }
-        const res = await axiosPrivate.post(
-          "sign-in",
-          result.data
+        // const result = signInSchema.safeParse(data);
+        // if (result.error) {
+        //     console.log("fieldErrors : " +JSON.stringify(result.error.formErrors.fieldErrors));
+        //     throw Error("fieldErrors : " +JSON.stringify(result.error.formErrors.fieldErrors));
+        // }
+        const res = await axios.post(
+          "https://alvares.free.beeceptor.com/sign-in",
+          JSON.stringify(data),
+          {
+            headers: {'Content-Type' : 'application/json'},
+            // withCredentials: true
+          }
         );
-        if (res.status == 200)
-        {
-          dispatch(setAccessToken(res.data?.accessToken))
-          console.log(res.data);
-        }
+        // if (res.status == 200)
+          // {
+            dispatch(setAccessToken(res.data?.accessToken))
+            console.log(res.data);
+            navigate(lastLocation, {replace:true});
+          // }
     } catch (err) {
-        console.log(err);
+      const error: AxiosError = err as AxiosError;
+      console.log(error);
+      console.log(err);
+      if (!error.response) 
+        {
+        setErrorMsg('No Server Response');
+        }
+        else  if (error.response?.status === 401) {
+          setErrorMsg('Unauthorized');
+      } else {
+          setErrorMsg('Login Failed');
+      }
+      console.log(errorMsg)
     }
   };
   const onError: SubmitErrorHandler<SignInSchemaType> = async (dataerror) => {
@@ -74,20 +95,18 @@ const SignIn = () => {
     >
       <div className="w-100 ">
         <div className="d-flex justify-content-center h-100">
-          {errors?.root && <span className="text-danger">{errors.root?.message}</span>}
           <form className="w-75 my-auto" onSubmit={handleSubmit(onSubmit, onError)} >
             <div className="mb-4">
-              {errors?.email && <span className="text-danger">{errors.email.message}</span>}
               <input
                 type="text"
                 className="form-control rounded-5 p-2"
                 placeholder="Email...."
                 autoComplete={"on"}
                 {...register("email", {required: true})}
-                />
+              />
+              {errors?.email && <span className="text-danger">{errors.email.message}</span>}
             </div>
             <div className="mb-4 ">
-                {errors?.password && <span className="text-danger">{errors.password.message}</span>}
               <input
                 type="password"
                 className="form-control rounded-5 p-2"
@@ -95,6 +114,7 @@ const SignIn = () => {
                 {...register("password", {required: true})}
                 autoComplete={"off"}
               />
+              {errors?.password && <span className="text-danger">{errors.password.message}</span>}
             </div>
             <div className="d-flex justify-content-evenly mb-4 p-2">
               <Link
@@ -130,7 +150,9 @@ const SignIn = () => {
                 SIGN IN
               </button>
             </div>
+          {errorMsg && <span className="text-danger row m-0 ">{errorMsg}</span>}
           </form>
+
         </div>
       </div>
       <div className={`border d-flex my-auto mx-3 ms-5 p-0  ${signInBare}`}>
