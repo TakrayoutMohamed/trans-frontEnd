@@ -2,7 +2,7 @@ import { store } from "@/src/states/store";
 import axios from "../api/axios";
 import { setAccessToken } from "@/src/states/authentication/accessTokenSlice";
 
-const refreshUrl = "/here is the refresh route";
+const refreshUrl = "/refresh";
 
 const useRefreshToken = () => {
   const dispatch = store.dispatch;
