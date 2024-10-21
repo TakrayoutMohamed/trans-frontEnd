@@ -1,4 +1,5 @@
 {
     "typescript.suggest.includeCompletionsForImportStatements": true,
-    "typescript.updateImportsOnFileMove.enabled": "always"
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "typescript.tsdk": "node_modules/typescript/lib"
 }
