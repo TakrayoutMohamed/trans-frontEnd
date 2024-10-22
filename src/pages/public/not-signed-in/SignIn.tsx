@@ -9,7 +9,7 @@ import {
   signInRenderAnimation,
   signInBare,
 } from "@publicPagesStyles/index.ts";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { BiSolidLeftArrow } from "react-icons/bi";
@@ -17,6 +17,9 @@ import { FcGoogle } from "react-icons/fc";
 import { Si42, SiGithub } from "react-icons/si";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { z } from "zod";
+import Cookies from "js-cookie";
+import { setAuthenticated } from "@/src/states/authentication/authenticatorSlice";
+
 
 const signInSchema = z.object({
   email: z
@@ -49,37 +52,33 @@ const SignIn = () => {
 
   const onSubmit:SubmitHandler<SignInSchemaType> = async (data : SignInSchemaType) => {
     try {
-        // const result = signInSchema.safeParse(data);
-        // if (result.error) {
-        //     console.log("fieldErrors : " +JSON.stringify(result.error.formErrors.fieldErrors));
-        //     throw Error("fieldErrors : " +JSON.stringify(result.error.formErrors.fieldErrors));
-        // }
-        const res = await axios.post(
-          "https://alvares.free.beeceptor.com/sign-in",
+        const res = await axiosPrivate.post(
+          "/sign-in",
           JSON.stringify(data),
           {
-            headers: {'Content-Type' : 'application/json'},
-            // withCredentials: true
+            // withCredentials : true,
           }
         );
-        // if (res.status == 200)
-          // {
-            dispatch(setAccessToken(res.data?.accessToken))
-            console.log(res.data);
-            navigate(lastLocation, {replace:true});
-          // }
+        Cookies.set("accessToken" , res.data?.accessToken);
+        dispatch(setAccessToken(res.data?.accessToken))
+        dispatch(setAuthenticated())
+        navigate(lastLocation, {replace:true});
     } catch (err) {
-      const error: AxiosError = err as AxiosError;
-      console.log(error);
-      console.log(err);
-      if (!error.response) 
-        {
-        setErrorMsg('No Server Response');
-        }
-        else  if (error.response?.status === 401) {
-          setErrorMsg('Unauthorized');
-      } else {
-          setErrorMsg('Login Failed');
+      if (err instanceof AxiosError)
+      {
+        const error: AxiosError = err as AxiosError;
+        if (!error.response) 
+          {
+            setErrorMsg('No Server Response');
+          }
+          else  if (error.response?.status === 401) {
+            setErrorMsg('Unauthorized');
+          } else {
+            setErrorMsg('Login Failed');
+          }
+      }
+      else{
+        setErrorMsg(errorMsg);
       }
       console.log(errorMsg)
     }
@@ -150,7 +149,7 @@ const SignIn = () => {
                 SIGN IN
               </button>
             </div>
-          {errorMsg && <span className="text-danger row m-0 ">{errorMsg}</span>}
+          {errorMsg && <span className="text-danger bg-warning-subtle row m-0 ">{errorMsg}</span>}
           </form>
 
         </div>
