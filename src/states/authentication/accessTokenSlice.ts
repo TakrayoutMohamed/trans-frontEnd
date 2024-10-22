@@ -1,17 +1,17 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface AuthenticatorState {
-    accessToken: string,
+    value: string | undefined,
 }
 
-const initialState: AuthenticatorState = {accessToken: ""};
+const initialState: AuthenticatorState = {value: undefined};
 
 const accessTokenSlice = createSlice({
     name: "accessToken",
     initialState,
     reducers: {
-        setAccessToken: (state, action: PayloadAction<string>) => {
-            state.accessToken = action.payload;
+        setAccessToken: (state, action: PayloadAction<string | undefined>) => {
+            state.value = action.payload;
         }
     }
 });
