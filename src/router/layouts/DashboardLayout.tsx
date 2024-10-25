@@ -8,7 +8,7 @@ const DashboardLayout = () => {
     <Fragment>
       <div className={`d-flex gap-0 bg-dangers ${dashboardLayout} `} style={{height: "100%"}}>
         <Sidebar/>
-        <div className="p-0 w-100 h-auto overflow-y-auto overflow-x-hidden">
+        <div className="p-0 w-100 h-auto overflow-y-auto">
           <Outlet />
         </div>
       </div>
