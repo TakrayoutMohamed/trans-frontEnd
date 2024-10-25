@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/src/states/store";
 import Dropdown, { Links } from "@pages/components/Dropdown";
 import ImagesIcon from "@pages/components/ImageIcon";
+import logOut from "@/src/router/modules/logOut";
 
 const dropdownLinks: Links[] = [
   {
@@ -41,9 +42,9 @@ const dropdownLinks: Links[] = [
   {
     className: "py-2 mx-0",
     link: (
-      <NavLink to="logout" className="btn btn-danger">
+      <button type="button" className="btn btn-danger" onClick={logOut}>
         logout
-      </NavLink>
+      </button>
     ),
   },
 ];
