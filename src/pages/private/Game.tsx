@@ -1,5 +1,7 @@
-import { pongPlayer } from "@/media-exporting";
+import { pongPlayer, profileIcon } from "@/media-exporting";
 import BackgroundCircles from "@privateComponents/BackgroundCircles";
+import ImagesIcon from "../components/ImageIcon";
+import { RiMenuSearchLine } from "react-icons/ri";
 
 const Game = () => {
   return (
@@ -39,10 +41,26 @@ const Game = () => {
               </div>
             </div>
             <div
-              className="bg-successs col-12 col-sm-3 ms-auto border rounded-4 "
+              className="bg-successs col-12 col-sm-3 ms-auto border rounded-4 text-center"
               style={{ height: "" }}
             >
-              here is the second container
+              <div className="h6  p-0 m-0">My Profile</div>
+							<div className="d-flex flex-row p-0 m-0">
+								<div className="d-flex flex-row p-0 m-0">
+									<img src={profileIcon} alt="my-profile" width="40" className="rounded-5 bg-success p-0 m-0" />
+									<div className="d-flex flex-column">
+										<h6 className="p-0 ps-1 m-0">Alvares</h6>
+										<p className=" p-0 ps-1 m-0"> <RiMenuSearchLine />level </p>
+									</div>
+									<div className="vh"></div>
+								</div>
+							</div>
+							<hr className="m-5  p-0 m-0" />
+							<div className="d-flex flex-row">
+								<div className="text-center">1</div>
+								<div className="text-center">2</div>
+								<div className="text-center">3</div>
+							</div>
             </div>
           </div>
           {/* <div className="bg-success row m-0">

@@ -12,6 +12,7 @@ export const LinkedInIcon = '/assets/icons/LinkedInIcon.svg';
 export const ballIcon = '/assets/icons/ballIcon.svg';
 export const ToLeftArrowIcon = '/assets/icons/ToLeftArrowIcon.svg';
 export const ToRitghtArrowIcon = '/assets/icons/ToRitghtArrowIcon.svg';
+export const levelIcon = '/assets/icons/levelIcon.svg';
 
 
 //images
