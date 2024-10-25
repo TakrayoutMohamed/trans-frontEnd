@@ -15,7 +15,7 @@ export default defineConfig({
   },
   server: {
     port: Number(process.env.VITE_PORT),
-    host: true,
+    host: false,
   },
   resolve:{
     alias:{
