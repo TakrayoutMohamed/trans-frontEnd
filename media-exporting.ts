@@ -20,3 +20,4 @@ export const snowPingPongTable = '/assets/images/snowPingPongTable.svg';
 export const forestPingPongTable = '/assets/images/forestPingPongTable.svg';
 export const desertPingPongTable = '/assets/images/desertPingPongTable.svg';
 export const videoCaption = '/assets/images/videoCaption.svg';
+export const pongPlayer = '/assets/images/pongPlayer.svg';
