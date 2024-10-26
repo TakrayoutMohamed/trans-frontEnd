@@ -13,6 +13,10 @@ export const ballIcon = '/assets/icons/ballIcon.svg';
 export const ToLeftArrowIcon = '/assets/icons/ToLeftArrowIcon.svg';
 export const ToRitghtArrowIcon = '/assets/icons/ToRitghtArrowIcon.svg';
 export const levelIcon = '/assets/icons/levelIcon.svg';
+export const goldenMedalIcon = '/assets/icons/goldenMedalIcon.svg';
+export const selverMedalLevel1Icon = '/assets/icons/selverMedalLevel1Icon.svg';
+export const selverMedalLevel2Icon = '/assets/icons/selverMedalLevel2Icon.svg';
+export const selverMedalLevel3Icon = '/assets/icons/selverMedalLevel3Icon.svg';
 
 
 //images
