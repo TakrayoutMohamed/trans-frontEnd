@@ -1,6 +1,7 @@
 import { pongPlayer } from "@/media-exporting";
 import BackgroundCircles from "@privateComponents/BackgroundCircles";
-import ProfileInGame from "./components/ProfileInGame";
+import ProfileInGame from "@privateComponents/ProfileInGame";
+import RecentInGame from "@privateComponents/RecentInGame";
 
 const Game = () => {
   return (
@@ -45,9 +46,12 @@ const Game = () => {
             </div>
             <ProfileInGame/>
           </div>
-          {/* <div className="bg-success row m-0">
-						here is the second container
-					</div> */}
+          <div className="bg-successs row m-0">
+						<div className="col-12 col-sm-8 mt-2"></div>
+            <div className="bg-infoo col-12 col-sm-4 m-0 mt-2">
+              <RecentInGame/>
+            </div>
+					</div>
         </div>
       </div>
     </>
