@@ -99,7 +99,7 @@ const BackgroundCircles = () => {
       />
       <Circle
         className="p-1 opacity-50"
-        coordinates={{ xPercent: "70%", yPercent: "90%" }}
+        coordinates={{ xPercent: "70%", yPercent: "95%" }}
         size={{ width: "80px", height: "80px" }}
         backgroundGradiant={{ deg: "180", first: "-50", second: "150.71" }}
       />
