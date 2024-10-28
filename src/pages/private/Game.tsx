@@ -8,7 +8,7 @@ const Game = () => {
     <>
       <div className="position-relative w-100 h-100 m-0 ">
         <div
-          className="position-absolute bg-transparent h-100 w-100 top-0 start-0 position-relative"
+          className="position-absolute bg-transparent h-100 w-100 top-0 start-0 position-relative overflow-y-hidden"
           style={{}}
         >
           <BackgroundCircles />
@@ -47,8 +47,15 @@ const Game = () => {
             <ProfileInGame/>
           </div>
           <div className="bg-successs row m-0">
-						<div className="col-12 col-sm-8 mt-2"></div>
-            <div className="bg-infoo col-12 col-sm-4 m-0 mt-2">
+						<div className="bg-secondaryy col-12 col-sm-8 m-0 p-0">
+              <div className="bg-dangerr d-flex flex-column">
+                here is the game mode in  component
+              </div>
+              <div className="bg-dangerr d-flex flex-block">
+                here is the leader board in game component
+              </div>
+            </div>
+            <div className="bg-info col-12 col-sm-4 m-0">
               <RecentInGame/>
             </div>
 					</div>
