@@ -2,7 +2,8 @@ import { pongPlayer } from "@/media-exporting";
 import BackgroundCircles from "@privateComponents/BackgroundCircles";
 import ProfileInGame from "@privateComponents/ProfileInGame";
 import RecentInGame from "@privateComponents/RecentInGame";
-import LeaderBordInGame from "./components/LeaderBordInGame";
+import LeaderBordInGame from "@privateComponents/LeaderBordInGame";
+import GameModeInGame from "@privateComponents/GameModeInGame";
 
 const Game = () => {
   return (
@@ -49,12 +50,8 @@ const Game = () => {
           </div>
           <div className="bg-successs row m-0">
 						<div className="bg-secondaryy col-12 col-sm-8 m-0 p-0">
-              <div className="bg-dangerr d-flex justify-content-center w-100">
-                <div className="bg-info m-1">div1</div>
-                <div className="bg-info m-1">div2</div>
-                <div className="bg-info m-1">div3</div>
-                <div className="bg-info m-1">div4</div>
-                <div className="bg-info m-1">div5</div>
+              <div className="bg-danger d-flex flex-row">
+                <GameModeInGame/>
               </div>
               <div className="bg-dangerr d-flex flex-row">
                 <LeaderBordInGame/>
