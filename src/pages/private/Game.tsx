@@ -50,7 +50,7 @@ const Game = () => {
           </div>
           <div className="bg-successs row m-0">
 						<div className="bg-secondaryy col-12 col-sm-8 m-0 p-0">
-              <div className="bg-danger d-flex flex-row">
+              <div className="bg-dangerr d-flex flex-row">
                 <GameModeInGame/>
               </div>
               <div className="bg-dangerr d-flex flex-row">
