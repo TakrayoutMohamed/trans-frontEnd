@@ -26,3 +26,6 @@ export const forestPingPongTable = '/assets/images/forestPingPongTable.svg';
 export const desertPingPongTable = '/assets/images/desertPingPongTable.svg';
 export const videoCaption = '/assets/images/videoCaption.svg';
 export const pongPlayer = '/assets/images/pongPlayer.svg';
+export const robot = '/assets/images/robot.svg';
+export const friends = '/assets/images/friends.svg';
+export const tournament = '/assets/images/tournament.svg';
