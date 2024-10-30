@@ -1,4 +1,29 @@
-.game {}
+.game {
+    h1 {
+        font-family: "LuckiestGuy";
+        font-size: min(2vw + 1em, 80px);
+    }
+    h2 {
+        font-family: "LuckiestGuy";
+        font-size: min(2vw + 1em, 80px);
+    }
+    h3 {
+        font-family: "LuckiestGuy";
+        font-size: min(2vw + 1em, 80px);
+    }
+    h4 {
+        font-family: "LuckiestGuy";
+        font-size: min(2vw + 1em, 80px);
+    }
+    h5 {
+        font-family: "LuckiestGuy";
+        font-size: min(2vw + 1em, 80px);
+    }
+    h6 {
+        font-family: "LuckiestGuy";
+        font-size: min(2vw + 1em, 80px);
+    }
+}
 
 .gameBackgroundCircle {}
 

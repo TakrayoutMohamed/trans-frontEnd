@@ -1,9 +1,9 @@
-import { pongPlayer } from "@/media-exporting";
 import BackgroundCircles from "@privateComponents/BackgroundCircles";
 import ProfileInGame from "@privateComponents/ProfileInGame";
 import RecentInGame from "@privateComponents/RecentInGame";
 import LeaderBordInGame from "@privateComponents/LeaderBordInGame";
 import GameModeInGame from "@privateComponents/GameModeInGame";
+import PongPlayerInGame from "./components/PongPlayerInGame";
 
 const Game = () => {
   return (
@@ -16,51 +16,30 @@ const Game = () => {
           <BackgroundCircles />
         </div>
         <div className="bg-secondary-subtlee position-absolute container-fluid  text-white w-100 top-0 start-0 m-0 me-5">
-          <div className="bg-dangerr row m-4 mx-0">
-            <div className="col-none col-sm-1 m-0 p-0"></div>
-            <div
-              className="bg-danger-subtlee col-12 col-sm-7 position-relative mt-5"
-              style={{ minHeight: "12em" }}
-            >
-              <div
-                className="bg-transparent bg-success-subtlee position-relative h-100"
-                style={{ backdropFilter: "blur(6px)" }}
-              >
-                <div className="col-8 position-absolute z-0 bottom-0 border rounded-4 w-100 h-100 p-4 ps-5 ">
-                  <div className=" h3 w-75">HI USER! ENJOY YOUR TIMETIME</div>
-                  <div className="btn btn-info rounded-5 py-0 px-3">
-                    PLAY NOW
-                  </div>
-                </div>
-                <div
-                  className="bg-infoo col-4 position-absolute z-1 bottom-0 end-0"
-                  style={{ width: "49%", minWidth: "200px", maxWidth: "300px" }}
-                >
-                  <img
-                    src={pongPlayer}
-                    alt="pong player"
-                    width="100%"
-                    className="bg-info-subtlee"
-                    style={{}}
-                  />
-                </div>
-              </div>
+          <div className="bg-danger-subtle d-flex flex-column flex-sm-row m-0">
+            <div className="bg-danger col-12 col-sm-8 d-flex flex-row">
+              <PongPlayerInGame />
             </div>
-            <ProfileInGame/>
+            <div
+              className="bg-secondary col-12 col-sm-4 m-0 p-0 border mt-3 rounded-4"
+              style={{ backdropFilter: "blur(4px)" }}
+            >
+              <ProfileInGame />
+            </div>
           </div>
           <div className="bg-successs row m-0">
-						<div className="bg-secondaryy col-12 col-sm-8 m-0 p-0">
+            <div className="bg-secondaryy col-12 col-sm-8 m-0 p-0">
               <div className="bg-dangerr d-flex flex-row">
-                <GameModeInGame/>
+                <GameModeInGame />
               </div>
               <div className="bg-dangerr d-flex flex-row">
-                <LeaderBordInGame/>
+                <LeaderBordInGame />
               </div>
             </div>
             <div className="bg-info col-12 col-sm-4 m-0">
-              <RecentInGame/>
+              <RecentInGame />
             </div>
-					</div>
+          </div>
         </div>
       </div>
     </>
