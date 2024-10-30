@@ -31,7 +31,7 @@ const GameModeInGame = () => {
           className="m-1 my-auto ms-4"
           onClick={async () => changeToLeft()}
         >
-          <FaChevronLeft size={50} />
+          <FaChevronLeft size={"2em"} />
         </div>
         <div className="position-relative m-1 my-auto slides d-flex ">
           <div className="h-100 position-absolute z-2 d-flex flex-column p-2">
@@ -82,7 +82,7 @@ const GameModeInGame = () => {
           className="m-1 my-auto"
           onClick={async () => changeToRight()}
         >
-          <FaChevronRight size={50}/>
+          <FaChevronRight size={"2em"}/>
         </div>
       </div>
     </>

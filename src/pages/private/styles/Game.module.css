@@ -26,11 +26,11 @@
     >div:first-child {
         /* content:url("./../../../../public/assets/icons/ToLeftArrowIcon.svg"); */
         text-align: center;
-        border:0px white solid;
+        border:1px white solid;
         border-radius: 6px;
-        width: max(1vw + 1em, 10px);
-        min-width: fit-content;
-        height: max(1vw + 1em, 10px);
+        width: fit-content;
+        max-width: fit-content;
+        height: fit-content;
         min-height: fit-content;
     }
 
@@ -44,13 +44,13 @@
         height: 10vw;
         min-height: fit-content;
         > div {
-            /* background-color: green; */
+            background-color: orange;
             top:20%;
             height: fit-content !important;
             margin-left: 1em !important;
             button{
                 
-                margin-top: 3vh !important;
+                margin-top: 0.4em !important;
                 color: red;
             }
         }
@@ -58,19 +58,19 @@
     }
 
     >div:nth-child(3) {
-        color: yellow;
+        /* color: yellow; */
         width: 22vw;
         min-width: fit-content;
         height: 13vw;
         min-height: fit-content;
         > div {
-            /* background-color: green; */
-            top:30%;
+            background-color: yellowgreen;
+            top:2em;
             height: fit-content !important;
             margin-left: 2em !important;
             button{
                 
-                margin-top: 40% !important;
+                margin-top: 3em !important;
                 color: red;
             }
         }
