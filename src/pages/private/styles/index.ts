@@ -5,6 +5,7 @@ export const gameBackgroundCircle = GameStyles["gameBackgroundCircle"];
 export const gameModeInGame = GameStyles["gameModeInGame"];
 export const gameModeInGameSlides = GameStyles["gameModeInGameSlides"];
 
+export const pongPlayerInGame = GameStyles["pongPlayerInGame"];
 export const gameLeaderBoardInGame = GameStyles["gameLeaderBoardInGame"];
 export const gameProfileInGame = GameStyles["gameProfileInGame"];
 export const gameRecentInGame = GameStyles["gameRecentInGame"];
