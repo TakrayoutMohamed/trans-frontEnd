@@ -41,14 +41,17 @@
     >div:last-child {
         /**headers of the last part*/
         >div>div:first-child {
-            @media only screen and (min-width: 1800px) {
-                font-size: max(0.7em + 0.5vw, 30px);
-                font-weight: 400;
-                line-height: max(0.7em + 0.5vw, 30px);
-            }
+            background-color: red;
+            font-size: clamp(1em, 0.7em + 0.5vw, 2em);
+            /* font-size: 0.7em; */
+            font-weight: 400;
+            line-height: max(0.7em + 0.5vw, 30px);
+            /* @media only screen and (min-width: 1800px) {
+            } */
         }
         /**the content of the last part*/
-        div:last-child {
+        >div>div:last-child {
+            background-color: blue;
             @media only screen and (min-width: 1800px) {
                 font-size: max(0.2em + 1vw, 30px);
                 font-weight: 300;

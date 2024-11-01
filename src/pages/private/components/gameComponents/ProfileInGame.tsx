@@ -8,15 +8,15 @@ const ProfileInGame = () => {
       <div className={`bg-successs d-flex flex-column ${gameProfileInGame}`} >
         <div className=" text-center">My Profile</div>
         <div className="row col-12 p-0 m-0 mt-2">
-          <div className="bg-infoo col-6 d-flex flex-row p-0 m-0 ">
+          <div className="bg-infoo col-6 d-flex flex-row flex-wrap p-0 m-0 ">
             <img
               src={profileIcon}
               alt="my-profile"
               width="50%"
-              className="rounded-circle bg-success p-0 m-0 col-6"
+              className="rounded-circle bg-success m-0"
               style={{maxWidth:"100%", height:"auto"}}
             />
-            <div className="bg-infoo text-black d-flex flex-column m-0 p-0 col-6 my-auto ">
+            <div className="bg-infoo text-black d-flex flex-column m-0 p-0 my-auto ">
               <div className="bg-successs me-auto fw-semibold">Alvares</div>
               <p className="p-0 m-0">
                 <RiMenuSearchLine /> level 8.57
