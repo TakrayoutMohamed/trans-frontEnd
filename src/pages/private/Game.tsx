@@ -18,6 +18,7 @@ const Game = () => {
         </div>
         <div className="bg-secondary-subtlee position-absolute container-fluid  text-white w-100 top-0 start-0 m-0">
           <div className="bg-danger-subtlee d-flex flex-column flex-md-row m-0 mx-5">
+            <div className="bg-danger col-12 d-flex d-block d-md-none mb-5">aaaaaa</div>
             <div className="bg-dangere col-12 col-md-8 d-flex flex-row">
               <PongPlayerInGame />
             </div>
