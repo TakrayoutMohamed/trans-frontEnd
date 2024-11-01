@@ -5,7 +5,7 @@ import { gameProfileInGame } from "../styles";
 const ProfileInGame = () => {
   return (
     <>
-      <div className={`bg-success d-flex flex-column ${gameProfileInGame}`} >
+      <div className={`bg-successs d-flex flex-column ${gameProfileInGame}`} >
         <div className=" text-center">My Profile</div>
         <div className="row col-12 p-0 m-0 mt-2">
           <div className="bg-infoo col-6 d-flex flex-row p-0 m-0 ">
@@ -16,7 +16,7 @@ const ProfileInGame = () => {
               className="rounded-circle bg-success p-0 m-0 col-6"
               style={{maxWidth:"100%", height:"auto"}}
             />
-            <div className="bg-info text-black d-flex flex-column m-0 p-0 col-6 my-auto ">
+            <div className="bg-infoo text-black d-flex flex-column m-0 p-0 col-6 my-auto ">
               <div className="bg-successs me-auto fw-semibold">Alvares</div>
               <p className="p-0 m-0">
                 <RiMenuSearchLine /> level 8.57
@@ -24,12 +24,12 @@ const ProfileInGame = () => {
             </div>
           </div>
           <div className="col-1 vr p-0 m-0 border border-2"></div>
-          <div className="bg-danger-subtle col-5 d-flex p-0 mx-auto">
+          <div className="bg-danger-subtlee col-5 d-flex p-0 mx-auto">
             <img
               src={goldenMedalIcon}
               alt="medal Icon"
               width="70%"
-              className="bg-danger m-0 p-0 mx-auto"
+              className="bg-dangerr m-0 p-0 mx-auto"
               style={{maxWidth:"100%", height:"auto"}}
             />
           </div>

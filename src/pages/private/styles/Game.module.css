@@ -66,7 +66,7 @@
         div[id="PongPlayerText"] {
             /* background-color: red; */
             * {
-                font-size: min(2vw + 0.3em, 2em);
+                font-size: min(1vw + 0.9em, 2em);
                 font-family: "LuckiestGuy";
                 font-weight: 400;
                 /* line-height: 30px; */
@@ -92,7 +92,7 @@
     >div:first-child {
         
 
-        background-color: #5D5AE7;
+        /* background-color: #5D5AE7; */
         font-family: "LuckiestGuy";
         /* max-height: 40px; */
         @media only screen and (min-width: 2000px) {
@@ -110,7 +110,6 @@
     }
 
     >div:nth-child(2) *{
-        background-color: aqua;
          @media only screen and (min-width: 1500px) {
              color:red !important;
             font-weight: 400;
@@ -123,17 +122,14 @@
             font-weight: 300;
             padding-top: 3px;
             line-height: min(0.5vw + 1em, 80px);
-            font-size: min(0.5vw + 1em, 50px);
+            font-size: min(0.5vw + 1em, 40px);
         }
     }
 
     >div:last-child {
-        background-color: blueviolet;
-        /* min-height: 40%; */
         /**headers of the last part*/
         >div>div:first-child {
             @media only screen and (min-width: 1800px) {
-                background-color: greenyellow;
                 font-size: max(0.7em + 0.5vw, 30px);
                 font-weight: 400;
                 line-height: max(0.7em + 0.5vw, 30px);
@@ -142,8 +138,6 @@
         /**the content of the last part*/
         div:last-child {
             @media only screen and (min-width: 1800px) {
-                background-color: burlywood;
-                /* height: auto; */
                 font-size: max(0.2em + 1vw, 30px);
                 font-weight: 300;
                 line-height:  max(0.2em + 1vw, 30px);
