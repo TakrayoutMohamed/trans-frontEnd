@@ -1,5 +1,5 @@
 import { pongPlayer } from "@/media-exporting";
-import { pongPlayerInGame } from "../styles";
+import { pongPlayerInGame } from "../../styles";
 
 const PongPlayerInGame = () => {
   return (

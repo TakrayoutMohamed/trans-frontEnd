@@ -1,6 +1,6 @@
 import { goldenMedalIcon, profileIcon } from "@/media-exporting";
 import { RiMenuSearchLine } from "react-icons/ri";
-import { gameProfileInGame } from "../styles";
+import { gameProfileInGame } from "../../styles";
 
 const ProfileInGame = () => {
   return (

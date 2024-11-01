@@ -1,9 +1,9 @@
-import BackgroundCircles from "@privateComponents/BackgroundCircles";
-import ProfileInGame from "@privateComponents/ProfileInGame";
-import RecentInGame from "@privateComponents/RecentInGame";
-import LeaderBordInGame from "@privateComponents/LeaderBordInGame";
-import GameModeInGame from "@privateComponents/GameModeInGame";
-import PongPlayerInGame from "./components/PongPlayerInGame";
+import BackgroundCircles from "@/src/pages/private/components/gameComponents/BackgroundCircles";
+import ProfileInGame from "@/src/pages/private/components/gameComponents/ProfileInGame";
+import RecentInGame from "@/src/pages/private/components/gameComponents/RecentInGame";
+import LeaderBordInGame from "@/src/pages/private/components/gameComponents/LeaderBordInGame";
+import GameModeInGame from "@/src/pages/private/components/gameComponents/GameModeInGame";
+import PongPlayerInGame from "./components/gameComponents/PongPlayerInGame";
 import { game } from "./styles";
 
 const Game = () => {

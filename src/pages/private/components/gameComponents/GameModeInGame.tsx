@@ -1,5 +1,5 @@
 import { friends, robot, tournament } from "@/media-exporting";
-import { gameModeInGame } from "../styles";
+import { gameModeInGame } from "../../styles";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const changeToRight = () => {
