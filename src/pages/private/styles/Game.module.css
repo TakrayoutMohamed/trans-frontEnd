@@ -1,4 +1,5 @@
 .game {
+
     /* h1 {
         font-family: "LuckiestGuy";
         font-size: min(2vw + 1em, 80px);
@@ -10,7 +11,9 @@
     h3 {
         /* font-family: "LuckiestGuy"; */
         /* font-size: min(2vw * 4vh + 2em, 100px); */
-    }/*
+    }
+
+    /*
     h4 {
         font-family: "LuckiestGuy";
         font-size: min(2vw + 1em, 80px);
@@ -23,23 +26,26 @@
         font-family: "LuckiestGuy";
         font-size: min(2vw + 1em, 80px);
         } */
-    }
-    
-    .gameBackgroundCircle {}
-    
-    .gameLeaderBoardInGame {}
-    /* border border-black rounded-4 w-100 */
+}
+
+.gameBackgroundCircle {}
+
+.gameLeaderBoardInGame {}
+
+/* border border-black rounded-4 w-100 */
 .pongPlayerInGame {
     font-family: "LuckiestGuy";
     color: #C144D5;
     height: 30vh;
-    div[id="PongPlayerText"]{
+
+    div[id="PongPlayerText"] {
         background-color: #D9D9D91A;
         backdrop-filter: blur(3px);
         border: 1px #D9D9D91A solid;
         border-radius: 20px;
         height: 85%;
-        *{
+
+        * {
             font-family: "LuckiestGuy";
             font-size: min(1vw + 0.5em, 30px);
             font-weight: 400;
@@ -48,17 +54,20 @@
             text-align: left;
 
         }
-         button{
+
+        button {
             background: linear-gradient(90deg, #E03CCF -40.94%, #5D5AE7 168.9%);
-            font-size:1em !important;
+            font-size: 1em !important;
             color: white;
-            padding:0px 20px 0px !important;
+            padding: 0px 20px 0px !important;
         }
     }
-    @media only screen and (min-width:2000px ) {
-        color:black;
-        div[id="PongPlayerText"]{
-            *{
+
+    @media only screen and (min-width:2000px) {
+        color: black;
+
+        div[id="PongPlayerText"] {
+            * {
                 font-size: min(2vw + 0.3em, 2em);
                 font-family: "LuckiestGuy";
                 font-weight: 400;
@@ -66,19 +75,84 @@
                 letter-spacing: 0.14em;
                 text-align: left;
             }
-            button{
+
+            button {
                 background: linear-gradient(90deg, #E03CCF -40.94%, #5D5AE7 168.9%);
-                font-size:1em !important;
+                font-size: 1em !important;
                 width: fit-content !important;
-                padding:0px 80px 0px !important;
+                padding: 0px 80px 0px !important;
             }
         }
-        
+
     }
 
 }
 
-.gameProfileInGame {}
+.gameProfileInGame {
+    /* here is the first div , the profile title  */
+    >div:first-child {
+        
+
+        background-color: #5D5AE7;
+        font-family: "LuckiestGuy";
+        /* max-height: 40px; */
+        @media only screen and (min-width: 2000px) {
+            font-weight: 400;
+            padding-top: 10px;
+            line-height: min(1vw + 1em, 80px);
+            font-size: min(1vw + 1em, 80px);
+        }
+        @media only screen and (min-width: 2300px) {
+            font-weight: 400;
+            padding-top: 13px;
+            line-height: min(2vw + 1em, 80px);
+            font-size: min(2vw + 1em, 80px);
+        }
+    }
+
+    >div:nth-child(2) *{
+        background-color: aqua;
+         @media only screen and (min-width: 1500px) {
+             color:red !important;
+            font-weight: 400;
+            padding-top: 3px;
+            line-height: min(1vw + 1em, 30px);
+            font-size: min(1vw + 1em, 30px);
+        }
+        @media only screen and (min-width: 2000px) {
+            color:brown !important;
+            font-weight: 300;
+            padding-top: 3px;
+            line-height: min(0.5vw + 1em, 80px);
+            font-size: min(0.5vw + 1em, 50px);
+        }
+    }
+
+    >div:last-child {
+        background-color: blueviolet;
+        /* min-height: 40%; */
+        /**headers of the last part*/
+        >div>div:first-child {
+            @media only screen and (min-width: 1800px) {
+                background-color: greenyellow;
+                font-size: max(0.7em + 0.5vw, 30px);
+                font-weight: 400;
+                line-height: max(0.7em + 0.5vw, 30px);
+            }
+        }
+        /**the content of the last part*/
+        div:last-child {
+            @media only screen and (min-width: 1800px) {
+                background-color: burlywood;
+                /* height: auto; */
+                font-size: max(0.2em + 1vw, 30px);
+                font-weight: 300;
+                line-height:  max(0.2em + 1vw, 30px);
+            }
+        }
+
+        }
+}
 
 .gameRecentInGame {}
 
@@ -89,8 +163,9 @@
 
     >div {
         border-radius: 10%;
-        border:1px white solid;
-        > img{
+        border: 1px white solid;
+
+        >img {
             /* background-color: blueviolet !important; */
             max-width: 80%;
         }
@@ -98,9 +173,8 @@
 
     >div:last-child,
     >div:first-child {
-        /* content:url("./../../../../public/assets/icons/ToLeftArrowIcon.svg"); */
         text-align: center;
-        border:1px white solid;
+        border: 1px white solid;
         border-radius: 6px;
         width: fit-content;
         max-width: fit-content;
@@ -109,41 +183,43 @@
     }
 
     >div:nth-child(2),
-    >div:nth-child(4) 
-    {
+    >div:nth-child(4) {
         color: yellow;
         width: 17vw;
         min-width: fit-content;
-        /* max-width: fit-content; */
         height: 10vw;
         min-height: fit-content;
-        > div {
+
+        >div {
             background-color: orange;
-            top:20%;
+            top: 20%;
             height: fit-content !important;
             margin-left: 1em !important;
-            button{
-                
+
+            button {
+
                 margin-top: 0.4em !important;
                 color: red;
             }
         }
+
         filter: blur(3px);
     }
 
     >div:nth-child(3) {
-        /* color: yellow; */
         width: 22vw;
         min-width: fit-content;
         height: 13vw;
         min-height: fit-content;
-        > div {
+
+        >div {
             background-color: yellowgreen;
-            top:2em;
+            top: 2em;
             height: fit-content !important;
             margin-left: 2em !important;
-            button{
-                
+
+            button {
+
                 margin-top: 3em !important;
                 color: red;
             }
@@ -151,6 +227,6 @@
     }
 }
 
-.gameModeInGameSlides{
+.gameModeInGameSlides {
     /* font-size: 222px; */
 }

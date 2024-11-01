@@ -16,19 +16,19 @@ const Game = () => {
         >
           <BackgroundCircles />
         </div>
-        <div className="bg-secondary-subtlee position-absolute container-fluid  text-white w-100 top-0 start-0 m-0 me-5">
-          <div className="bg-danger-subtlee d-flex flex-column flex-sm-row m-0">
-            <div className="bg-dangere col-12 col-sm-8 d-flex flex-row">
+        <div className="bg-secondary-subtlee position-absolute container-fluid  text-white w-100 top-0 start-0 m-0">
+          <div className="bg-danger-subtlee d-flex flex-column flex-md-row m-0 mx-5">
+            <div className="bg-dangere col-12 col-md-8 d-flex flex-row">
               <PongPlayerInGame />
             </div>
             <div
-              className="bg-secondary col-12 col-sm-4 m-0 p-0 border mt-3 rounded-4"
+              className="bg-secondary col-12 col-md-4 m-0 p-0 border mt-3 rounded-4"
               style={{ backdropFilter: "blur(4px)" }}
             >
               <ProfileInGame />
             </div>
           </div>
-          <div className="bg-successs row m-0">
+          <div className="bg-successs row m-0 my-3 mx-5 ">
             <div className="bg-secondaryy col-12 col-sm-8 m-0 p-0">
               <div className="bg-dangerr d-flex flex-row">
                 <GameModeInGame />
@@ -37,7 +37,7 @@ const Game = () => {
                 <LeaderBordInGame />
               </div>
             </div>
-            <div className="bg-info col-12 col-sm-4 m-0">
+            <div className="bg-infoo col-12 col-sm-4 m-0">
               <RecentInGame />
             </div>
           </div>
