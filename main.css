@@ -7,6 +7,14 @@
     --fs-md:clamp(1.5rem, 6vw + 1rem, 6rem);
     --fs-sm:clamp(0.75rem, 3vw + 1rem, 3rem);
 }
+img{
+    max-width: 100%;
+    height: auto;
+}
+div{
+    margin: 0px;
+    padding: 0px;
+}
 .active > div
 {
     background-image: url("@icons/activeLinkIcon.svg");
