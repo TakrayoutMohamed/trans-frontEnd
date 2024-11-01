@@ -1,0 +1,54 @@
+/* border border-black rounded-4 w-100 */
+.pongPlayerInGame {
+    color: #C144D5;
+    div[id="PongPlayerText"] {
+        background-color: #D9D9D91A;
+        backdrop-filter: blur(3px);
+        border: 1px #D9D9D91A solid;
+        border-radius: 20px;
+        min-height: 70%;
+        height: fit-content;
+        padding: 3px;
+
+        * {
+            font-family: "LuckiestGuy";
+            font-size: min(1vw + 0.5em, 30px);
+            font-weight: 400;
+            line-height: 30px;
+            letter-spacing: 0.14em;
+        }
+
+        button {
+            background: linear-gradient(90deg, #E03CCF -40.94%, #5D5AE7 168.9%);
+            font-size: 1em !important;
+            margin-bottom: 10% !important;
+            color: white;
+            padding: 0px 20px 0px !important;
+        }
+    }
+
+    @media only screen and (min-width:2000px) {
+        color: black;
+        div[id="PongPlayerText"] {
+            /* background-color: red; */
+            * {
+                font-size: min(1vw + 0.9em, 2em);
+                font-family: "LuckiestGuy";
+                font-weight: 400;
+                /* line-height: 30px; */
+                letter-spacing: 0.14em;
+                text-align: left;
+            }
+
+            button {
+                background: linear-gradient(90deg, #E03CCF -40.94%, #5D5AE7 168.9%);
+                font-size: 1em !important;
+                width: fit-content !important;
+                min-height: fit-content;
+                padding: 0px 80px 0px !important;
+            }
+        }
+
+    }
+
+}

@@ -1,0 +1,74 @@
+/* game mode in game */
+.gameModeInGame {
+    height: fit-content;
+    width: 100%;
+
+    >div {
+        border-radius: 10%;
+        border: 1px white solid;
+
+        >img {
+            /* background-color: blueviolet !important; */
+            max-width: 80%;
+        }
+    }
+
+    >div:last-child,
+    >div:first-child {
+        text-align: center;
+        border: 1px white solid;
+        border-radius: 6px;
+        width: fit-content;
+        max-width: fit-content;
+        height: fit-content;
+        min-height: fit-content;
+    }
+
+    >div:nth-child(2),
+    >div:nth-child(4) {
+        color: yellow;
+        width: 17vw;
+        min-width: fit-content;
+        height: 10vw;
+        min-height: fit-content;
+
+        >div {
+            background-color: orange;
+            top: 20%;
+            height: fit-content !important;
+            margin-left: 1em !important;
+
+            button {
+
+                margin-top: 0.4em !important;
+                color: red;
+            }
+        }
+
+        filter: blur(3px);
+    }
+
+    >div:nth-child(3) {
+        width: 22vw;
+        min-width: fit-content;
+        height: 13vw;
+        min-height: fit-content;
+
+        >div {
+            background-color: yellowgreen;
+            top: 2em;
+            height: fit-content !important;
+            margin-left: 2em !important;
+
+            button {
+
+                margin-top: 3em !important;
+                color: red;
+            }
+        }
+    }
+}
+
+.gameModeInGameSlides {
+    font-size: 222px;
+}

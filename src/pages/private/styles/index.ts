@@ -1,11 +1,23 @@
 import GameStyles from "./Game.module.css";
+import BgCircleStyles from "./GameBackgroundCircle.module.css";
+import ModeStyles from "./GameModeInGame.module.css";
+import pongPlayerStyles from "./PongPlayerInGame.module.css";
+import LeaderBoardStyles from "./GameLeaderBoardInGame.module.css";
+import ProfileStyles from "./GameProfileInGame.module.css";
+import RecentStyles from "./GameRecentInGame.module.css";
 
+/**
+ * the styles of dashboard (game) components
+ */
 export const game = GameStyles["game"];
-export const gameBackgroundCircle = GameStyles["gameBackgroundCircle"];
-export const gameModeInGame = GameStyles["gameModeInGame"];
-export const gameModeInGameSlides = GameStyles["gameModeInGameSlides"];
+export const gameBackgroundCircle = BgCircleStyles["gameBackgroundCircle"];
 
-export const pongPlayerInGame = GameStyles["pongPlayerInGame"];
-export const gameLeaderBoardInGame = GameStyles["gameLeaderBoardInGame"];
-export const gameProfileInGame = GameStyles["gameProfileInGame"];
-export const gameRecentInGame = GameStyles["gameRecentInGame"];
+export const gameModeInGame = ModeStyles["gameModeInGame"];
+export const gameModeInGameSlides = ModeStyles["gameModeInGameSlides"];
+
+export const pongPlayerInGame = pongPlayerStyles["pongPlayerInGame"];
+export const gameLeaderBoardInGame = LeaderBoardStyles["gameLeaderBoardInGame"];
+export const gameProfileInGame = ProfileStyles["gameProfileInGame"];
+export const gameRecentInGame = RecentStyles["gameRecentInGame"];
+
+/************ */

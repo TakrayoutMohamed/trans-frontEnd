@@ -1,0 +1,60 @@
+
+.gameProfileInGame {
+    /* here is the first div , the profile title  */
+    >div:first-child {
+        
+
+        /* background-color: #5D5AE7; */
+        font-family: "LuckiestGuy";
+        /* max-height: 40px; */
+        @media only screen and (min-width: 2000px) {
+            font-weight: 400;
+            padding-top: 10px;
+            line-height: min(1vw + 1em, 80px);
+            font-size: min(1vw + 1em, 80px);
+        }
+        @media only screen and (min-width: 2300px) {
+            font-weight: 400;
+            padding-top: 13px;
+            line-height: min(2vw + 1em, 80px);
+            font-size: min(2vw + 1em, 80px);
+        }
+    }
+
+    >div:nth-child(2) *{
+         @media only screen and (min-width: 1500px) {
+             color:red !important;
+            font-weight: 400;
+            padding-top: 3px;
+            line-height: min(1vw + 1em, 30px);
+            font-size: min(1vw + 1em, 30px);
+        }
+        @media only screen and (min-width: 2000px) {
+            color:brown !important;
+            font-weight: 300;
+            padding-top: 3px;
+            line-height: min(0.5vw + 1em, 80px);
+            font-size: min(0.5vw + 1em, 40px);
+        }
+    }
+
+    >div:last-child {
+        /**headers of the last part*/
+        >div>div:first-child {
+            @media only screen and (min-width: 1800px) {
+                font-size: max(0.7em + 0.5vw, 30px);
+                font-weight: 400;
+                line-height: max(0.7em + 0.5vw, 30px);
+            }
+        }
+        /**the content of the last part*/
+        div:last-child {
+            @media only screen and (min-width: 1800px) {
+                font-size: max(0.2em + 1vw, 30px);
+                font-weight: 300;
+                line-height:  max(0.2em + 1vw, 30px);
+            }
+        }
+
+        }
+}
