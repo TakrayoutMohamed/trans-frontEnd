@@ -1,15 +1,15 @@
-
 .gameProfileInGame {
     background-color: #D9D9D91A;
     backdrop-filter: blur(3px);
     border: 1px #D9D9D91A solid;
     border-radius: 20px;
+    min-width: fit-content;
+    min-height: fit-content;
+
     /* here is the first div , the profile title  */
     >div:first-child {
-        
-
-        /* background-color: #5D5AE7; */
         font-family: "LuckiestGuy";
+
         /* max-height: 40px; */
         @media only screen and (min-width: 2000px) {
             font-weight: 400;
@@ -17,48 +17,65 @@
             line-height: min(1vw + 1em, 80px);
             font-size: min(1vw + 1em, 80px);
         }
+
         @media only screen and (min-width: 2300px) {
             font-weight: 400;
-            padding-top: 13px;
+            padding-top: 10px;
             line-height: min(2vw + 1em, 80px);
             font-size: min(2vw + 1em, 80px);
         }
     }
 
-    >div:nth-child(2) *{
-         @media only screen and (min-width: 1500px) {
-             color:red !important;
-            font-weight: 400;
-            padding-top: 3px;
-            line-height: min(1vw + 1em, 30px);
-            font-size: min(1vw + 1em, 30px);
+    /** here is the second dev the medal ,user image, username, user's level */
+    >div:nth-child(2) * {
+
+        font-weight: 300;
+        font-size: clamp(1em, 1.3vw + 0.3em, 1em);
+
+        /*the text of the profile child username and its level*/
+        > :last-child {
+
+            /*the username styles*/
+            >div {
+                color: #F15F66;
+                font-family: "LukiestGuy";
+                font-size: clamp(1em, 0.5em + 0.7vw, 1.5em);
+                /* font-size: clamp(1.3em, 1.8vw + 0.3em, 1.3em); */
+
+                font-weight: 500;
+            }
+
+            /*the level font styles*/
+            >p {
+                font-size: clamp(0.5em, 1em + 2vw, 1em);
+                font-weight: 500;
+            }
         }
-        @media only screen and (min-width: 2000px) {
-            color:brown !important;
+        @media only screen and (min-width: 2500px) {
+            padding-top: 10px;
+            font-size: clamp(0.9em, 1em + 1vw, 2em);
             font-weight: 300;
-            padding-top: 3px;
-            line-height: min(0.5vw + 1em, 80px);
-            font-size: min(0.5vw + 1em, 40px);
+            line-height: max(0.2em + 1vw, 30px);
         }
     }
 
     >div:last-child {
-        /**headers of the last part*/
+
+        /**headers of the last part (Lastgame status lastScore)*/
         >div>div:first-child {
-            /* background-color: red; */
             font-size: clamp(1em, 0.1em + 1vw, 2em);
             font-weight: 400;
             line-height: max(0.7em + 0.5vw, 30px);
         }
+
         /**the content of the last part*/
         >div>div:last-child {
-            /* background-color: blue; */
             @media only screen and (min-width: 1800px) {
                 font-size: max(0.2em + 1vw, 30px);
                 font-weight: 300;
-                line-height:  max(0.2em + 1vw, 30px);
+                line-height: max(0.2em + 1vw, 30px);
             }
         }
 
-        }
+    }
 }
