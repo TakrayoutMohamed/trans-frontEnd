@@ -10,7 +10,7 @@
         border-radius: 20px;
         min-height: 70%;
         height: fit-content;
-        padding: 3px;
+        padding-top: 1em;
 
         * {
             font-family: "LuckiestGuy";

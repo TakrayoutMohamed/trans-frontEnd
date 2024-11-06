@@ -5,9 +5,9 @@ const PongPlayerInGame = () => {
   return (
     <>
       <div
-        className={`bg-success-subtlee row w-100 m-0 p-0  ${pongPlayerInGame}`}
+        className={`bg-success-subtlee d-flex flex-wrap w-100 m-0 p-0  ${pongPlayerInGame}`}
       >
-        <div className="bg-info-subtlee d-none d-md-block col-2 h-100 m-0 p-0"></div>
+        <div className="bg-info-subtlee d-none d-md-block col-1 h-100 m-0 p-0"></div>
         <div className="col-12 col-md-10 d-flex position-relative bottom-0 m-0">
           <div
             className="bg-secondaryy d-flex col-12 position-relative z-0  mt-auto "
