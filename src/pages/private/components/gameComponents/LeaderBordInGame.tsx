@@ -96,7 +96,7 @@ const LeaderBordInGame = () => {
   const players: PlayerData[] = data;
   return (
     <>
-      <div className="d-none d-md-block col-1 m-2 p-5"></div>
+      <div className="bg-info-subtlee d-none d-md-block col-1 h-100 m-0 p-0"></div>
       <table className="d-flex flex-column w-100 mx-2">
         <thead className="">
           <tr className="d-flex justify-content-around my-2 px-0 text-center">
