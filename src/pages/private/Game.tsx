@@ -16,7 +16,7 @@ const Game = () => {
         >
           <BackgroundCircles />
         </div>
-        <div className="bg-secondary-subtle mx-auto position-relative text-white top-0 start-0" id="gameContent">
+        <div className="bg-secondary-subtlee position-relative top-0 start-0" id="gameContent">
           <div className="d-flex flex-column flex-md-row m-0">
             <div className="bg-dangerr col-12 d-flex d-block d-md-none mb-5"></div>
             <div className="bg-dangere col-12 col-md-8 d-flex flex-row">
