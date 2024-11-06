@@ -1,14 +1,15 @@
 /* game mode in game */
 .gameModeInGame {
     height: fit-content;
-    width: 100%;
+    min-width:100%;
+    width: fit-content;
 
     >div {
+        background-color: blueviolet !important;
         border-radius: 10%;
         border: 1px white solid;
 
         >img {
-            /* background-color: blueviolet !important; */
             max-width: 80%;
         }
     }
@@ -70,5 +71,6 @@
 }
 
 .gameModeInGameSlides {
-    font-size: 222px;
+    /* font-size: 222px; */
+    color:yellow;
 }

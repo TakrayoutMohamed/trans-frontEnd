@@ -1,36 +1,32 @@
 .game {
-
-    /* h1 {
-        font-family: "LuckiestGuy";
-        font-size: min(2vw + 1em, 80px);
-    }
-    h2 {
-        font-family: "LuckiestGuy";
-        font-size: min(2vw + 1em, 80px);
-    }*/
-    h3 {
-        font-family: "LuckiestGuy";
-        /* font-size: min(2vw * 4vh + 2em, 100px); */
-    }
-
-    /*
-    h4 {
-        font-family: "LuckiestGuy";
-        font-size: min(2vw + 1em, 80px);
-    }
-    h5 {
-        font-family: "LuckiestGuy";
-        font-size: min(2vw + 1em, 80px);
-    }
-    h6 {
-        font-family: "LuckiestGuy";
-        font-size: min(2vw + 1em, 80px);
-        } */
+    background-color: red;
+    padding: 0px;
+    margin: 0px;
+    width: fit-content;
+    max-width: 100%;
 }
 
+.game div[id="gameContent"] {
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* flex-grow: auto; */
+    row-gap: 0;
+    /* background-color: black; */
+}
 
+.game>div> :first-child {
+    background-color: blue;
+}
 
+.game>div> :last-child {
+    background-color: green;
 
+}
 
-
-
+.game div[id="gameBackground"] {
+    height: fit-content;
+    min-height: 100%;
+}
