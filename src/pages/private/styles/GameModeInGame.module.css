@@ -1,76 +1,148 @@
 /* game mode in game */
 .gameModeInGame {
-    height: fit-content;
-    min-width:100%;
-    width: fit-content;
-
-    >div {
-        background-color: blueviolet !important;
-        border-radius: 10%;
-        border: 1px white solid;
-
-        >img {
-            max-width: 80%;
-        }
-    }
+    display: flex;
+    justify-content: space-evenly;
+    min-width: 100%;
+    margin-inline: auto;
 
     >div:last-child,
     >div:first-child {
-        text-align: center;
         border: 1px white solid;
         border-radius: 6px;
-        width: fit-content;
-        max-width: fit-content;
-        height: fit-content;
-        min-height: fit-content;
+    }
+}
+
+.gameModeInGameSlides {
+
+
+    display: flex;
+    justify-content: space-evenly;
+
+    >div {
+        border: 1px white solid;
     }
 
-    >div:nth-child(2),
-    >div:nth-child(4) {
-        color: yellow;
-        width: 17vw;
-        min-width: fit-content;
-        height: 10vw;
+    img {
+        max-height: 100%;
+    }
+
+    >div:first-child,
+    >div:last-child {
+        height: 80%;
+        width: 40%;
         min-height: fit-content;
+        border-radius: 20px;
+        /* background-color: #5D5AE7; */
 
-        >div {
-            background-color: orange;
-            top: 20%;
-            height: fit-content !important;
-            margin-left: 1em !important;
-
-            button {
-
-                margin-top: 0.4em !important;
-                color: red;
-            }
+        >div>img {
+            background-color: gray;
         }
 
-        filter: blur(3px);
+        *>h3 {
+            font-family: var(--font-luckiestGuy);
+            font-weight: 500;
+            font-size: clamp(0.25em + 0.25vw, 0.5em + 1vw, 0.5em + 0.8vw);
+        }
+
+        *>p {
+            font-size: clamp(0.6em + 0.2vw, 0.5em + 1vw, 2em);
+            line-height: 1em;
+            font-weight: 300;
+            background-color: rebeccapurple !important;
+        }
+
+        /* the side slider's text and button  box */
+        button {
+            background: linear-gradient(90deg, #E03CCF -40.94%, #5D5AE7 168.9%);
+            color: white;
+            width: fit-content !important;
+            min-height: fit-content !important;
+            margin-top: 5% !important;
+            margin-bottom: 10% !important;
+            border-radius:23px;
+            text-wrap: nowrap;
+            font-family: var(--font-luckiestGuy);
+            font-size: 1em !important;
+            padding: 0px 5px 0px !important;
+        }
+        filter: blur(1.8px);
     }
 
-    >div:nth-child(3) {
-        width: 22vw;
-        min-width: fit-content;
-        height: 13vw;
-        min-height: fit-content;
+    >div:nth-child(2) {
+        height: 100%;
+        width: 70%;
+        border-radius: 20px;
 
         >div {
-            background-color: yellowgreen;
-            top: 2em;
-            height: fit-content !important;
-            margin-left: 2em !important;
+            margin-top: 20px !important;
+            >h3 {
+                /* background-color: aquamarine; */
+                font-family: var(--font-luckiestGuy);
+                font-weight: 500;
+                font-size: clamp(0.5vw + 0.5em, 1em + 2vw, 1em + 1vw);
+            }
+
+            >p {
+                font-size: clamp(0.6em + 0.2vw, 0.5em + 1vw, 2em);
+                line-height: 1em;
+                font-weight: 400;
+            }
 
             button {
+                background: linear-gradient(90deg, #E03CCF -40.94%, #5D5AE7 168.9%);
+                color: white;
+                width: fit-content !important;
+                min-height: fit-content !important;
+                margin-top:2em !important;
+                margin-bottom: 10% !important;
+                border-radius:23px;
+                text-wrap: nowrap;
+                font-family: var(--font-luckiestGuy);
+                font-size: 1em !important;
+                padding: 0px 9px 0px !important;
+            }
 
-                margin-top: 3em !important;
-                color: red;
+            img {
+                /* background-color: red; */
             }
         }
     }
 }
 
-.gameModeInGameSlides {
-    /* font-size: 222px; */
-    color:yellow;
+.gameModeInGameSlides>div[id="slideAiMode"] {
+    /* background-image: url(/public/assets/images/robot.svg);
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: auto 100%; */
+    width: fit-content;
+
+}
+
+.gameModeInGameSlides>div[id="slideTournament"] {
+    /* background-image: url(/public/assets/images/tournament.svg);
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: auto 90%; */
+    width: fit-content;
+    h3 {
+        background-color: aquamarine !important;
+        font-weight: 400;
+        font-size: clamp(1em, 1em + 1vw, 0.5em + 1vw);
+    }
+    p {
+        /* background-color: aquamarine !important; */
+        font-size: clamp(0.6em + 0.2vw, 0.5em + 1vw, 2em);
+        line-height: 1em;
+        font-weight: 400;
+    }
+
+}
+
+.gameModeInGameSlides>div[id="slideFriends"] {
+    /* background-image: url(/public/assets/images/friends.svg);
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: auto 60%; */
+    width: fit-content;
+
 }

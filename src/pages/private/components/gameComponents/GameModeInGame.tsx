@@ -1,22 +1,17 @@
 import { friends, robot, tournament } from "@/media-exporting";
-import { gameModeInGame } from "../../styles";
+import { gameModeInGame, gameModeInGameSlides } from "../../styles";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const changeToRight = () => {
-  const nodes = document.querySelectorAll(".slides");
-  const parent = document.querySelector(`.${gameModeInGame}`);
+  const nodes = document.querySelectorAll(`.${gameModeInGameSlides}>div`);
+  const parent = document.querySelector(`.${gameModeInGameSlides}`);
   console.log(nodes);
-
-  // parent?.insertBefore(nodes[0], nodes[1]);
-  // parent?.insertBefore(nodes[1], nodes[2]);
   parent?.insertBefore(nodes[2], nodes[0]);
 };
 const changeToLeft = () => {
   const nodes = document.querySelectorAll(".slides");
-  const parent = document.querySelector(`.${gameModeInGame}`);
+  const parent = document.querySelector(`.${gameModeInGameSlides}`);
   console.log(nodes);
-
-  // parent?.insertBefore(nodes[1], nodes[0]);
   parent?.insertBefore(nodes[0], nodes[2]);
   parent?.insertBefore(nodes[2], nodes[0]);
 };
@@ -25,61 +20,66 @@ const GameModeInGame = () => {
   return (
     <>
       <div
-        className={`d-flex justify-content-between mx-2 w-100 ${gameModeInGame}`}
+        className={`position-relative ${gameModeInGame}`}
       >
         <div
-          className="m-1 my-auto ms-4"
+          className="m-1 my-auto"
           onClick={async () => changeToLeft()}
         >
           <FaChevronLeft size={"2em"} />
         </div>
-        <div className="position-relative m-1 my-auto slides d-flex ">
-          <div className="h-100 position-absolute z-2 d-flex flex-column p-2">
-            <div className="m-0 p-0 ">TOURNAMENT</div>
-            <div className="m-0 p-0 ">the tournament challenge</div>
-            <button className="bg-success btn btn-dark w-75 m-0 p-0 ">
-              PLAY NOW
-            </button>
+        <div className={`${gameModeInGameSlides} flex-column flex-sm-row gap-2`}>
+          <div className=" m-1 my-auto slides d-flex mx-auto" id="slideTournament">
+            <div className="d-flex flex-column p-2 my-auto">
+              <h3 className="m-0 p-0 ">TOURNAMENT</h3>
+              <p className="m-0 p-0 ">the tournament challenge</p>
+              <button className="bg-success btn btn-dark m-0 p-0 ">
+                PLAY NOW
+              </button>
+            </div>
+            <div className="bg-successs ms-auto my-auto d-none d-sm-block">
+              <img
+                src={tournament}
+                alt="tournament image"
+                className="z-0 p-1"
+                />
+            </div>
           </div>
-          <img
-            src={tournament}
-            alt="tournament images"
-            height="90%"
-            className="float-end p-0 m-0 my-auto ms-auto"
-            />
-        </div>
-        <div className="position-relative m-1 my-auto slides d-flex ">
-          <div className="h-100 position-absolute z-2 d-flex flex-column p-2">
-            <div className="m-0 p-0 ">AI MODE</div>
-            <div className="m-0 p-0 ">the challenge computer</div>
-            <button className="bg-success btn btn-dark w-75 m-0 p-0 ">
-              PLAY NOW
-            </button>
+          <div className="m-1 my-auto slides d-flex mx-auto" id="slideAiMode">
+            <div className="d-flex flex-column p-2  my-auto">
+              <h3 className="m-0 p-0 ">AI MODE</h3>
+              <p className="m-0 p-0">the challenge computer</p>
+              <button className="bg-success btn btn-dark m-0 p-0 ">
+                PLAY NOW
+              </button>
+            </div>
+            <div className="bg-successs ms-auto my-auto d-none d-sm-block">
+              <img
+                src={robot}
+                alt="robot image"
+                className="z-0 p-1"
+                />
+            </div>
           </div>
-          <img
-            src={robot}
-            alt="robot images"
-            height="90%"
-            className="float-end p-0 m-0 my-auto ms-auto"
-            />
-        </div>
-        <div className="position-relative m-1 my-auto slides d-flex ">
-          <div className="h-100 position-absolute z-2 d-flex flex-column p-2">
-            <div className="m-0 p-0 ">FRIENDS</div>
-            <div className="m-0 p-0 ">the friends challenge</div>
-            <button className="bg-success btn btn-dark w-75 m-0 p-0 ">
-              PLAY NOW
-            </button>
+          <div className="m-1 my-auto slides d-flex m-auto" id="slideFriends">
+            <div className="d-flex flex-column p-2  my-auto">
+              <h3 className="m-0 p-0 ">FRIENDS</h3>
+              <p className="m-0 p-0 ">the friends challenge</p>
+              <button className="bg-success btn btn-dark m-0 p-0 ">
+                PLAY NOW
+              </button>
+            </div>
+            <div className="bg-successs ms-auto my-auto d-none d-sm-block">
+              <img
+                src={friends}
+                alt="friends images"
+                className="z-0 p-1"
+                />
+            </div>
           </div>
-          <img
-            src={friends}
-            alt="friends images"
-            height="70%"
-            className="float-end p-0 m-0 my-auto ms-auto"
-            />
         </div>
         <div
-          className="m-1 my-auto"
+          className="my-auto"
           onClick={async () => changeToRight()}
         >
           <FaChevronRight size={"2em"}/>
