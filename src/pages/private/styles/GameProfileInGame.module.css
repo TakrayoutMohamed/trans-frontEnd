@@ -6,47 +6,46 @@
     min-width: fit-content;
     min-height: fit-content;
 
-    /* here is the first div , the profile title  */
+    /* first div , the profile title  */
     >div:first-child {
         font-family: "LuckiestGuy";
-
-        /* max-height: 40px; */
+        padding-top: 1px;
         @media only screen and (min-width: 2000px) {
             font-weight: 400;
             padding-top: 10px;
-            line-height: min(1vw + 1em, 80px);
-            font-size: min(1vw + 1em, 80px);
+            line-height: min(1vw + 0.5em, 40px);
+            font-size: min(1vw + 0.5em, 40px);
         }
 
         @media only screen and (min-width: 2300px) {
             font-weight: 400;
             padding-top: 10px;
-            line-height: min(2vw + 1em, 80px);
-            font-size: min(2vw + 1em, 80px);
+            line-height: min(2vw + 0.5em, 40px);
+            font-size: min(2vw + 0.5em, 40px);
         }
     }
 
-    /** here is the second dev the medal ,user image, username, user's level */
+    /** second dev the medal ,user image, username, user's level */
     >div:nth-child(2) * {
 
         font-weight: 300;
         font-size: clamp(1em, 1.3vw + 0.3em, 1em);
-
-        /*the text of the profile child username and its level*/
+        /*the text of the profile child username, its level and medal*/
         > :last-child {
 
+            
             /*the username styles*/
             >div {
                 color: #F15F66;
                 font-family: "LukiestGuy";
                 font-size: clamp(1em, 0.5em + 0.7vw, 1.5em);
-                /* font-size: clamp(1.3em, 1.8vw + 0.3em, 1.3em); */
-
                 font-weight: 500;
             }
-
+            
             /*the level font styles*/
             >p {
+                padding-left:2px !important;
+                color:white;
                 font-size: clamp(0.5em, 1em + 2vw, 1em);
                 font-weight: 500;
             }
