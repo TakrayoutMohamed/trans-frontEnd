@@ -29,8 +29,8 @@ const Game = () => {
               <ProfileInGame />
             </div>
           </div>
-          <div className="d-flex flex-column flex-md-row m-0 ">
-            <div className="bg-secondaryy col-12 col-md-8 d-flex flex-column">
+          <div className="d-flex flex-column flex-md-row m-0 gap-4 gap-md-0 ">
+            <div className="bg-secondaryy col-12 col-md-8 d-flex flex-column gap-4">
               <div className="d-flex flex-row flex-wrap">
                 <GameModeInGame />
               </div>
