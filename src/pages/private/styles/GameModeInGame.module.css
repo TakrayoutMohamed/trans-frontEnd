@@ -1,14 +1,16 @@
 /* game mode in game */
 .gameModeInGame {
     display: flex;
-    justify-content: space-evenly;
-    min-width: 100%;
-    margin-inline: auto;
+    justify-content: space-around;
+    width: 90%;
 
     >div:last-child,
     >div:first-child {
         border: 1px white solid;
         border-radius: 6px;
+         *{
+            width: max(15px, 1em + 1vw);
+        }
     }
 }
 
@@ -16,10 +18,12 @@
 
 
     display: flex;
+    min-width: 80%;
     justify-content: space-evenly;
 
     >div {
         border: 1px white solid;
+        /* margin-block: min(auto, 20px) !important; */
     }
 
     img {
@@ -29,10 +33,9 @@
     >div:first-child,
     >div:last-child {
         height: 80%;
-        width: 40%;
+        width: min(40%, 200px);
         min-height: fit-content;
         border-radius: 20px;
-        /* background-color: #5D5AE7; */
 
         >div>img {
             background-color: gray;
@@ -41,11 +44,11 @@
         *>h3 {
             font-family: var(--font-luckiestGuy);
             font-weight: 500;
-            font-size: clamp(0.25em + 0.25vw, 0.5em + 1vw, 0.5em + 0.8vw);
+            font-size: clamp(0.25em + 0.25vw, 0.5em + 0.5vw, 0.5em + 0.8vw);
         }
 
         *>p {
-            font-size: clamp(0.6em + 0.2vw, 0.5em + 1vw, 2em);
+            font-size: clamp(0.3em + 0.2vw, 0.1em + 0.5vw, 2em);
             line-height: 1em;
             font-weight: 300;
             background-color: rebeccapurple !important;
@@ -62,7 +65,7 @@
             border-radius:23px;
             text-wrap: nowrap;
             font-family: var(--font-luckiestGuy);
-            font-size: 1em !important;
+            font-size: clamp(0.25em + 0.25vw, 0.5em + 0.5vw, 0.5em + 0.8vw) !important;
             padding: 0px 5px 0px !important;
         }
         filter: blur(1.8px);
@@ -71,6 +74,7 @@
     >div:nth-child(2) {
         height: 100%;
         width: 70%;
+        width: min(70%, 400px);
         border-radius: 20px;
 
         >div {
@@ -79,7 +83,7 @@
                 /* background-color: aquamarine; */
                 font-family: var(--font-luckiestGuy);
                 font-weight: 500;
-                font-size: clamp(0.5vw + 0.5em, 1em + 2vw, 1em + 1vw);
+                font-size: clamp(0.5vw + 0.5em, 0.5em + 2vw, 1em + 1vw);
             }
 
             >p {
@@ -114,7 +118,7 @@
     background-repeat: no-repeat;
     background-position: right;
     background-size: auto 100%; */
-    width: fit-content;
+    /* width: fit-content; */
 
 }
 
@@ -123,17 +127,17 @@
     background-repeat: no-repeat;
     background-position: right;
     background-size: auto 90%; */
-    width: fit-content;
+    /* width: fit-content; */
     h3 {
-        background-color: aquamarine !important;
+        /* background-color: aquamarine !important;
         font-weight: 400;
-        font-size: clamp(1em, 1em + 1vw, 0.5em + 1vw);
+        font-size: clamp(1em, 1em + 1vw, 0.5em + 1vw); */
     }
     p {
         /* background-color: aquamarine !important; */
-        font-size: clamp(0.6em + 0.2vw, 0.5em + 1vw, 2em);
+        /* font-size: clamp(0.6em + 0.2vw, 0.5em + 1vw, 2em);
         line-height: 1em;
-        font-weight: 400;
+        font-weight: 400; */
     }
 
 }
@@ -143,6 +147,6 @@
     background-repeat: no-repeat;
     background-position: right;
     background-size: auto 60%; */
-    width: fit-content;
+    /* width: fit-content; */
 
 }

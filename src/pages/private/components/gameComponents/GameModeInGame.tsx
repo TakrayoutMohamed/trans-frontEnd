@@ -19,17 +19,18 @@ const changeToLeft = () => {
 const GameModeInGame = () => {
   return (
     <>
+      <div className="d-none d-md-block row col-12 p-4"></div>
       <div
-        className={`position-relative ${gameModeInGame}`}
+        className={`position-relativee ${gameModeInGame}`}
       >
         <div
           className="m-1 my-auto"
           onClick={async () => changeToLeft()}
         >
-          <FaChevronLeft size={"2em"} />
+          <FaChevronLeft size={""} />
         </div>
-        <div className={`${gameModeInGameSlides} flex-column flex-sm-row gap-2`}>
-          <div className=" m-1 my-auto slides d-flex mx-auto" id="slideTournament">
+        <div className={`${gameModeInGameSlides} flex-column flex-sm-row`}>
+          <div className="slides d-flex m-1 my-auto mx-auto" id="slideTournament">
             <div className="d-flex flex-column p-2 my-auto">
               <h3 className="m-0 p-0 ">TOURNAMENT</h3>
               <p className="m-0 p-0 ">the tournament challenge</p>
@@ -45,7 +46,7 @@ const GameModeInGame = () => {
                 />
             </div>
           </div>
-          <div className="m-1 my-auto slides d-flex mx-auto" id="slideAiMode">
+          <div className="slides d-flex m-1 my-auto mx-auto" id="slideAiMode">
             <div className="d-flex flex-column p-2  my-auto">
               <h3 className="m-0 p-0 ">AI MODE</h3>
               <p className="m-0 p-0">the challenge computer</p>
@@ -61,7 +62,7 @@ const GameModeInGame = () => {
                 />
             </div>
           </div>
-          <div className="m-1 my-auto slides d-flex m-auto" id="slideFriends">
+          <div className="slides d-flex m-1 my-auto m-auto" id="slideFriends">
             <div className="d-flex flex-column p-2  my-auto">
               <h3 className="m-0 p-0 ">FRIENDS</h3>
               <p className="m-0 p-0 ">the friends challenge</p>
@@ -82,7 +83,7 @@ const GameModeInGame = () => {
           className="my-auto"
           onClick={async () => changeToRight()}
         >
-          <FaChevronRight size={"2em"}/>
+          <FaChevronRight/>
         </div>
       </div>
     </>
