@@ -1,0 +1,14 @@
+.chatLayout{
+    display: flex;
+    flex-direction: column;
+    background-color: antiquewhite;
+    /* min-height: 100vh; */
+
+}
+
+.chatLayout div[id="main"]{
+    color: black;
+    background-color: blueviolet;
+    min-height: fit-content;
+
+}

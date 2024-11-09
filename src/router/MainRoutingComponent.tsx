@@ -13,6 +13,8 @@ import DashboardLayout from "@router/layouts/DashboardLayout";
 import ProfileLayout from "@router/layouts/ProfileLayout";
 import FriendsLayout from "@router/layouts/FriendsLayout";
 import SettingLayout from "@router/layouts/SettingLayout";
+import RegistrationLayout from "@router/layouts/RegistrationLayout";
+import ChatLayout from "@router/layouts/ChatLayout";
 
 // pages
 import Home from "@publicPages/Home";
@@ -29,11 +31,11 @@ import Friends from "@privatePages/Friends";
 import FriendProfile from "@privatePages/FriendProfile";
 import Details from "@privatePages/Details";
 import Password from "@privatePages/Password";
+import ChatArea from "@privatePages/ChatArea";
 
 // routers protection
 import PrivateRoutes from "@router/PrivateRoutes";
 import AuthorizationRoutes from "@router/AuthorizationRoutes";
-import RegistrationLayout from "./layouts/RegistrationLayout";
 
 const routingTree: RouteObject[] = createRoutesFromElements(
   <Route element={<RootLayout />}>
@@ -60,7 +62,10 @@ const routingTree: RouteObject[] = createRoutesFromElements(
             <Route path=":userName" element={<FriendProfile />} />{/* Friend Profile */}
           </Route>
         </Route>
-        <Route path="chat" element={<Chat />} /> {/*chat */}
+        <Route path="chat" element={<ChatLayout />} > {/*chat */}
+          <Route index element={<Chat />} />
+          <Route path=":userName" element={<ChatArea />} />
+        </Route>
         <Route path="setting" element={<SettingLayout />}>{/*setting layout */}
           <Route index element={<Details />} /> {/*details */}
           <Route path="password" element={<Password />} /> {/*password */}

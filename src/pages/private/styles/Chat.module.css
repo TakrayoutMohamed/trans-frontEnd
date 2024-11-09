@@ -1,1 +1,7 @@
-.chat{}
+.chat{
+    display: flex;
+    flex-direction: column;
+    background-color: antiquewhite;
+    /* min-height: 100vh; */
+
+}
