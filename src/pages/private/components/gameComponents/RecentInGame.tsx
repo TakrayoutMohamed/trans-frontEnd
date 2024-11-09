@@ -1,4 +1,5 @@
 import { profileIcon } from "@/media-exporting";
+import { gameRecentInGame, gameRecentInGameImageAndName } from "../../styles";
 
 const data = [
   {
@@ -61,32 +62,28 @@ type PlayerInfoProps = {
 
 const NameAndImageIcon = ({ player, isWinner }: PlayerInfoProps) => {
   return isWinner ? (
-    <div className="d-flex flex-row w-100">
-      <img
-        src={profileIcon}
-        alt="playerIcon"
-        height="100%"
-        width="40%"
-        className="bg-success rounded-circle"
-      />
-      <div className="fw-medium w-100 text-center my-auto" title={player.name}>
+    <div className="bg-info9 d-flex flex-row">
+      <div className="">
+        <img src={profileIcon} alt="playerIcon" className="" />
+      </div>
+      <div className="fw-medium text-center my-auto" title={player.name}>
         {player.name.length > 8 && player.name.substring(0, 6).concat("...")}
         {player.name.length <= 8 && player.name}
       </div>
     </div>
   ) : (
-    <div className="d-flex flex-row w-100">
-      <div className="fw-medium w-100 text-center my-auto " title={player.name}>
+    <div className="d-flex flex-row">
+      <div className="fw-medium text-center my-auto " title={player.name}>
         {player.name.length > 8 && player.name.substring(0, 6).concat("...")}
         {player.name.length <= 8 && player.name}
       </div>
-      <img
-        src={profileIcon}
-        alt="playerIcon"
-        height="100%"
-        width="40%"
-        className="bg-danger rounded-circle"
-      />
+      <div className="">
+        <img
+          src={profileIcon}
+          alt="playerIcon"
+          className=""
+        />
+      </div>
     </div>
   );
 };
@@ -107,9 +104,9 @@ const RecentInGame = () => {
 
   return (
     <>
-      <div className="w-100 m-0">
-        <div className="h3 text-center">Recent</div>
-        <div className="d-flex flex-column rounded-5 border p-1 m-0">
+      <div className={`${gameRecentInGame}`}>
+        <div className="h1 text-center">Recent</div>
+        <div className="d-flex flex-column border m-0">
           {!matches ||
             (!matches.length && (
               <div className="h4 text-warning"> No matches yet</div>
@@ -119,7 +116,7 @@ const RecentInGame = () => {
               index < 10 ? (
                 <div
                   key={index}
-                  className="bg-primary bg-opacity-50 d-flex rounded-5 mb-1 p-1 justify-content-between"
+                  className={`d-flex ${gameRecentInGameImageAndName}`}
                 >
                   {match.player1.scored >= match.player2.scored ? (
                     <>
@@ -127,7 +124,7 @@ const RecentInGame = () => {
                         player={match.player1}
                         isWinner={true}
                       />
-                      <div className="h3 m-auto">VS</div>
+                      <div className="h3 my-auto">VS</div>
                       <NameAndImageIcon
                         player={match.player2}
                         isWinner={false}
@@ -139,7 +136,7 @@ const RecentInGame = () => {
                         player={match.player2}
                         isWinner={true}
                       />
-                      <div className="h3 m-auto">VS</div>
+                      <div className="h3 my-auto">VS</div>
                       <NameAndImageIcon
                         player={match.player1}
                         isWinner={false}
