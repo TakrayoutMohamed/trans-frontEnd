@@ -19,5 +19,6 @@ export const pongPlayerInGame = pongPlayerStyles["pongPlayerInGame"];
 export const gameLeaderBoardInGame = LeaderBoardStyles["gameLeaderBoardInGame"];
 export const gameProfileInGame = ProfileStyles["gameProfileInGame"];
 export const gameRecentInGame = RecentStyles["gameRecentInGame"];
+export const gameRecentInGameImageAndName = RecentStyles["gameRecentInGameImageAndName"];
 
 /************ */
