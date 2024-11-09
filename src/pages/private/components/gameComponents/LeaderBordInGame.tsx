@@ -100,13 +100,13 @@ const LeaderBordInGame = () => {
       <div className={`bg-infoe d-flex flex-row col-12 ${gameLeaderBoardInGame}`}>
         <div className="bg-successs d-none d-md-block col-1 h-auto m-0 p-0"></div>
         <table className="d-flex flex-column w-100 ">
-          <thead className="">
-            <tr className="d-flex justify-content-around my-2 px-0 text-center">
-              <th className="d-none d-sm-block">RANK</th>
-              <th className="">{""}</th>
-              <th>NAME</th>
-              <th className="">SCORE</th>
-              <th className="d-none d-sm-block">LEVEL</th>
+          <thead className="p-0">
+            <tr className="d-flex justify-content-around my-2 mx-0 px-0 text-center">
+              <th className="d-none d-sm-block text-center">RANK</th>
+              <th className="" style={{visibility:"hidden"}}>Image</th>
+              <th className="text-center">NAME</th>
+              <th className=" d-none d-sm-block text-center">SCORE</th>
+              <th className="text-center">LEVEL</th>
               <th>MEDAL</th>
             </tr>
           </thead>
@@ -128,20 +128,16 @@ const LeaderBordInGame = () => {
                     <td className="my-auto p-0">
                       <img
                         src={player.image}
-                        height="100%"
-                        width="100%"
                         className="bg-success rounded-circle m-0"
                         alt="user image"
                       />
                     </td>
                     <td className="my-auto p-0">{player.name}</td>
-                    <td className="my-auto p-0">{player.score}xp</td>
-                    <td className="my-auto p-0 d-none d-sm-block">{player.level}</td>
+                    <td className="my-auto p-0 d-none d-sm-block">{player.score}xp</td>
+                    <td className="my-auto p-0">{player.level}</td>
                     <td className="my-auto p-0">
                       <img
                         src={player.medal}
-                        height="100%"
-                        width="80%"
                         className="bg-dark rounded-circle"
                         alt="medal image"
                       />

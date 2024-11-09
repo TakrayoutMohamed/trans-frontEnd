@@ -1,7 +1,5 @@
 .gameLeaderBoardInGame {
-    background-color: aqua;
     * > th{
-        /* color:red; */
         font-size: clamp(1em, 0.2em + 1vw, 3em);
     }
     * > td{
