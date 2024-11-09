@@ -5,6 +5,7 @@ import pongPlayerStyles from "./PongPlayerInGame.module.css";
 import LeaderBoardStyles from "./GameLeaderBoardInGame.module.css";
 import ProfileStyles from "./GameProfileInGame.module.css";
 import RecentStyles from "./GameRecentInGame.module.css";
+import ChatStyles from "./Chat.module.css";
 
 /**
  * the styles of dashboard (game) components
@@ -19,6 +20,12 @@ export const pongPlayerInGame = pongPlayerStyles["pongPlayerInGame"];
 export const gameLeaderBoardInGame = LeaderBoardStyles["gameLeaderBoardInGame"];
 export const gameProfileInGame = ProfileStyles["gameProfileInGame"];
 export const gameRecentInGame = RecentStyles["gameRecentInGame"];
-export const gameRecentInGameImageAndName = RecentStyles["gameRecentInGameImageAndName"];
+export const gameRecentInGameImageAndName =
+  RecentStyles["gameRecentInGameImageAndName"];
 
+/**
+ * the styles of chat components
+ */
+
+export const chat = ChatStyles["chat"];
 /************ */
