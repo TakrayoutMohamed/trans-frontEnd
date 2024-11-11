@@ -20,7 +20,7 @@ const Sidebar = () => {
   return (
     <>
       <div
-        className=" h-auto d-flex flex-column justify-content-between text-center  border border-2 rounded-end-4 rounded-bottom-0 overflow-y-auto"
+        className=" h-auto d-flex flex-column justify-content-between text-center  border border-2 rounded-end-4 rounded-bottom-0 overflow-y-auto backgroundActive"
         style={styleSidebar}
       >
         <ImagesIcon

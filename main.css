@@ -15,7 +15,7 @@ div{
     margin: 0px;
     padding: 0px;
 }
-.active > div
+.backgroundActive .active > div
 {
     background-image: url("@icons/activeLinkIcon.svg");
     background-position: center;
