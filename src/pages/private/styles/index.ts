@@ -6,6 +6,8 @@ import LeaderBoardStyles from "./GameLeaderBoardInGame.module.css";
 import ProfileStyles from "./GameProfileInGame.module.css";
 import RecentStyles from "./GameRecentInGame.module.css";
 import ChatStyles from "./Chat.module.css";
+import UsersChatCardStyles from "./ChatUsersChatCard.module.css";
+import ConversationsList from "./ChatConversationsList.module.css";
 
 /**
  * the styles of dashboard (game) components
@@ -28,4 +30,7 @@ export const gameRecentInGameImageAndName =
  */
 
 export const chat = ChatStyles["chat"];
+export const chatUsersChatCard = UsersChatCardStyles["chatUsersChatCard"];
+export const chatConversationsList = ConversationsList["chatConversationsList"];
+
 /************ */

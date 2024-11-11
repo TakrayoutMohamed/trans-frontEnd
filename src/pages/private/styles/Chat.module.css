@@ -1,7 +1,7 @@
 .chat{
     display: flex;
     flex-direction: column;
-    background-color: antiquewhite;
+    background-color: rgb(216, 141, 43);
     /* min-height: 100vh; */
 
 }
