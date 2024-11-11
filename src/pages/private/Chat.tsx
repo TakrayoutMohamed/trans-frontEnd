@@ -1,6 +1,5 @@
 import { chat } from "./styles";
 
-const chatData = {};
 const Chat = () => {
   return (
     <>
