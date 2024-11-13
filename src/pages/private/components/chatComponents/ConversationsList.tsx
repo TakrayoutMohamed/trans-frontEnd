@@ -22,6 +22,15 @@ const ConversationListData: ConversationList[] = [
   { userName: "name7", isActive: true, isWriting: true, unreadMsg: 20 },
 ];
 
+function searchFilter(e, setConversationsList, ConversationListData) {
+  e.preventDefault();
+  setConversationsList(
+    ConversationListData.filter((conversation) =>
+      conversation.userName.toLowerCase().includes(e.target.value.toLowerCase())
+    )
+  );
+}
+
 const ConversationsList = () => {
   const [conversationsList, setConversationsList] = useState<
     ConversationList[]
@@ -36,18 +45,18 @@ const ConversationsList = () => {
   return (
     <>
       <div className={`${chatConversationsList}`}>
-        <div className="input-group">
-          <span
-            className="input-group-text bg-transparent p-1"
-            id="basic-addon1"
-          >
+        <div className="input-groupss" id="searchInput">
+          <span className="input-group-texts" id="basic-addon1">
             <BiSearch />
           </span>
           <input
             type="text"
             name="search"
-            className="form-control"
+            className="form-controlss"
             placeholder="Search......."
+            onChange={(e) =>
+              searchFilter(e, setConversationsList, ConversationListData)
+            }
             aria-describedby="basic-addon1"
           />
         </div>
@@ -68,7 +77,11 @@ const ConversationsList = () => {
             role="tabpanel"
             aria-labelledby="unread-msgs"
           >
-            <UsersChatCard conversations={unreadConversations} />
+            {unreadConversations.length ? (
+              <UsersChatCard conversations={unreadConversations} />
+            ) : (
+              <div>you have seen all your chats!</div>
+            )}
           </div>
         </div>
       </div>

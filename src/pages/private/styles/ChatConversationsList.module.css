@@ -1,3 +1,40 @@
-.chatConversationsList{
-    background-color: rgb(194, 248, 0) !important;
+.chatConversationsList {
+    padding: 0px;
+    margin: 0px;
+    /* background-color: rgb(194, 248, 0) !important; */
+}
+
+.chatConversationsList [id="searchInput"] {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 92% !important;
+    border-radius: 100px !important;
+    background-color: #391E44 !important;
+
+    /* background-color: aqua !important; */
+    >span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        border: none;
+        padding-inline: 10px !important;
+        margin: 0px !important;
+    }
+
+    >input {
+        background-color: inherit !important;
+        color: rgba(255, 255, 255, 0.907);
+        padding: 0.4em !important;
+        margin: 0px !important;
+        width: 100%;
+        border: none;
+        border-top-right-radius: 100px;
+        border-bottom-right-radius: 100px;
+    }
+
+    >input:focus-visible {
+        outline: 0px solid #391E44;
+    }
 }
