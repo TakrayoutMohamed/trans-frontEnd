@@ -63,9 +63,9 @@ const UsersChatCard = ({ conversations }: UsersChatCardProps) => {
                 <text
                   x="50%"
                   y="50%"
-                  font-size="12"
-                  text-anchor="middle"
-                  alignment-baseline="central"
+                  fontSize="12"
+                  textAnchor="middle"
+                  alignmentBaseline="central"
                 >
                   {conversation.unreadMsg}
                 </text>
