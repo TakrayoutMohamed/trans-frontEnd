@@ -1,7 +1,8 @@
-import { memo, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { BiSearch } from "react-icons/bi";
 import UsersChatCard from "./UsersChatCard";
 import { chatConversationsList } from "../../styles";
+import TabListHeaders from "./TabListHeaders";
 
 export interface ConversationList {
   userName: string;
@@ -11,27 +12,35 @@ export interface ConversationList {
 }
 
 const ConversationListData: ConversationList[] = [
-  { userName: "name", isActive: true, isWriting: false, unreadMsg: 3 },
+  { userName: "name", isActive: true, isWriting: true, unreadMsg: 3 },
   { userName: "name1", isActive: false, isWriting: false, unreadMsg: 2 },
   { userName: "name2", isActive: true, isWriting: true, unreadMsg: 0 },
   { userName: "name3", isActive: false, isWriting: false, unreadMsg: 0 },
   { userName: "name4", isActive: false, isWriting: false, unreadMsg: 1 },
   { userName: "name5", isActive: false, isWriting: false, unreadMsg: 0 },
-  { userName: "name6", isActive: false, isWriting: true, unreadMsg: 3 },
+  { userName: "name6", isActive: true, isWriting: true, unreadMsg: 3 },
+  { userName: "name7", isActive: true, isWriting: true, unreadMsg: 20 },
 ];
 
 const ConversationsList = () => {
-  const [conversationsList, setConversationsList] = useState<ConversationList[]>(ConversationListData);
-  // setConversationsList(ConversationListData);
+  const [conversationsList, setConversationsList] = useState<
+    ConversationList[]
+  >([]);
+  useEffect(() => {
+    setConversationsList(ConversationListData);
+  }, [ConversationListData]);
   const unreadConversations = conversationsList.filter(
     (conversation) => conversation.unreadMsg > 0
   );
   console.log("conversations list re-rendered");
   return (
     <>
-      <div className={`bg-success ${chatConversationsList}`}>
+      <div className={`${chatConversationsList}`}>
         <div className="input-group">
-          <span className="input-group-text" id="basic-addon1">
+          <span
+            className="input-group-text bg-transparent p-1"
+            id="basic-addon1"
+          >
             <BiSearch />
           </span>
           <input
@@ -43,35 +52,8 @@ const ConversationsList = () => {
           />
         </div>
         <div className="">Message</div>
-        <ul className="nav nav-tabs " role="tablist">
-          <li className="nav-item" role="presentation">
-            <a
-              className="nav-link active"
-              id="all-msgs"
-              data-bs-toggle="tab"
-              href="#all-msgs-content"
-              role="tab"
-              aria-controls="all-msgs-content"
-              aria-selected="true"
-            >
-              All Chats
-            </a>
-          </li>
-          <li className="nav-item" role="presentation">
-            <a
-              className="nav-link"
-              id="unread-msgs"
-              data-bs-toggle="tab"
-              href="#unread-msgs-content"
-              role="tab"
-              aria-controls="unread-msgs-content"
-              aria-selected="false"
-            >
-              unread
-            </a>
-          </li>
-        </ul>
-        <div className="tab-content" id="tab-content">
+        <TabListHeaders />
+        <div className="tab-content mt-3" id="tab-content">
           <div
             className="tab-pane active bg-info"
             id="all-msgs-content"
