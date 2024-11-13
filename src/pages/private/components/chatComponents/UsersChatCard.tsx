@@ -3,35 +3,59 @@ import { ConversationList } from "./ConversationsList";
 import { chatUsersChatCard } from "../../styles";
 
 type UsersChatCardProps = {
-    conversations: ConversationList[];
-  };
-  
-  const UsersChatCard = ({ conversations }: UsersChatCardProps) => {
-    console.log("users chat card re-rendered");
-    
-    return (
-      <>
-        {conversations.map((conversation, index) => (
-          <div className={`d-flex flex-row ${chatUsersChatCard}`} key={index}>
-            <div className="position-relative">
-              <img src={profileIcon} width="10px" alt="profile image" />
-              <span className="position-absolute top-0 start-100 translate-midle bg-success rounded-circle"></span>
-            </div>
-            <div className="d-flex flex-column">
-              <h6 className="">{conversation.userName}</h6>
-              <p className="">{conversation.isWriting && "Typing......."}</p>
-            </div>
-            <div
-              className={`ms-auto rounded-circle bg-success d-flex align-items-center justify-content-center ${
-                conversation.unreadMsg < 1 && "d-none"
-              }`}
-              style={{ width: "20%"}}
-            >
-              {conversation.unreadMsg}
+  conversations: ConversationList[];
+};
+
+const UsersChatCard = ({ conversations }: UsersChatCardProps) => {
+  console.log("users chat card re-rendered");
+
+  return (
+    <>
+      {conversations.map((conversation, index) => (
+        <div className={`${chatUsersChatCard}`} key={index}>
+          <div className="" id="userImage">
+            <div className="">
+              <svg className="">
+                <pattern id="pattImage" x="0" y="0" height="100%" width="100%">
+                  <image x="0" y="0" href={profileIcon} />
+                </pattern>
+                <circle
+                  cx="1em"
+                  cy="1em"
+                  r="1em"
+                  fill="url(#pattImage)"
+                  stroke="lightblue"
+                  stroke-width="1"
+                />
+              </svg>
+              <svg className="">
+                {conversation.isActive && (
+                  <circle
+                    className="position-absolutee"
+                    cx="6px"
+                    cy="6px"
+                    r="6px"
+                    fill="#21FF5FED"
+                  />
+                )}
+              </svg>
             </div>
           </div>
-        ))}
-      </>
-    );
-  };
-export default UsersChatCard
+          <div className="" id="userNameWriting">
+            <p className="">{conversation.userName}</p>
+            <small className={`${!conversation.isWriting && "invisible"} `}>
+              Typing.......
+            </small>
+          </div>
+          <div
+            className={`${conversation.unreadMsg < 1 && "invisible"}`}
+            id="unreadMsgs"
+          >
+            <span className="">{conversation.unreadMsg}</span>
+          </div>
+        </div>
+      ))}
+    </>
+  );
+};
+export default UsersChatCard;
