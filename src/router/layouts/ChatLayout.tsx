@@ -3,6 +3,8 @@ import { Fragment } from "react/jsx-runtime";
 import { chatLayout } from "../styles";
 import { useState } from "react";
 import ConversationsList from "@/src/pages/private/components/chatComponents/ConversationsList";
+import '@router/styles/chatGlobalOverridingStyles.css';
+
 
 const ChatLayout = () => {
   const [isProfileVisible, setProfileVisible] = useState<boolean>(true);
