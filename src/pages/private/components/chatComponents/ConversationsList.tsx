@@ -66,11 +66,11 @@ const ConversationsList = () => {
             aria-describedby="basic-addon1"
           />
         </div>
-        <div className="">Message</div>
+        <div className="message">Message</div>
         <TabListHeaders />
         <div className="tab-content mt-3" id="tab-content">
           <div
-            className="tab-pane active bg-info"
+            className="tab-pane active"
             id="all-msgs-content"
             role="tabpanel"
             aria-labelledby="all-msgs"
