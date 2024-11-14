@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from "react";
+import { ChangeEvent, memo, useEffect, useState } from "react";
 import { BiSearch } from "react-icons/bi";
 import UsersChatCard from "./UsersChatCard";
 import { chatConversationsList } from "../../styles";
@@ -22,15 +22,6 @@ const ConversationListData: ConversationList[] = [
   { userName: "name7", isActive: true, isWriting: true, unreadMsg: 20 },
 ];
 
-function searchFilter(e, setConversationsList, ConversationListData) {
-  e.preventDefault();
-  setConversationsList(
-    ConversationListData.filter((conversation) =>
-      conversation.userName.toLowerCase().includes(e.target.value.toLowerCase())
-    )
-  );
-}
-
 const ConversationsList = () => {
   const [conversationsList, setConversationsList] = useState<
     ConversationList[]
@@ -41,6 +32,23 @@ const ConversationsList = () => {
   const unreadConversations = conversationsList.filter(
     (conversation) => conversation.unreadMsg > 0
   );
+  function searchFilter(event: ChangeEvent<HTMLInputElement>) {
+    event.preventDefault();
+    setTimeout(() => {
+      const filteredSearchData = ConversationListData.filter((conversation) => {
+        return conversation.userName
+          .toLowerCase()
+          .includes(event.target.value.toLowerCase());
+      });
+      console.log(event.target.value);
+      console.log(filteredSearchData.length);
+      filteredSearchData.length < 1
+        ? (event.target.style.color = "red")
+        : (event.target.style.color = "white");
+      filteredSearchData.length > 0 &&
+        setConversationsList(filteredSearchData);
+    }, 500);
+  }
   console.log("conversations list re-rendered");
   return (
     <>
@@ -54,9 +62,7 @@ const ConversationsList = () => {
             name="search"
             className="form-controlss"
             placeholder="Search......."
-            onChange={(e) =>
-              searchFilter(e, setConversationsList, ConversationListData)
-            }
+            onChange={(event) => searchFilter(event)}
             aria-describedby="basic-addon1"
           />
         </div>
