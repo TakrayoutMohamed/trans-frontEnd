@@ -17,6 +17,9 @@ export const goldenMedalIcon = '/assets/icons/goldenMedalIcon.svg';
 export const selverMedalLevel1Icon = '/assets/icons/selverMedalLevel1Icon.svg';
 export const selverMedalLevel2Icon = '/assets/icons/selverMedalLevel2Icon.svg';
 export const selverMedalLevel3Icon = '/assets/icons/selverMedalLevel3Icon.svg';
+export const blockIcon = '/assets/icons/blockIcon.svg';
+export const tournamentIcon = '/assets/icons/tournamentIcon.svg';
+export const visibilityProfileIcon = '/assets/icons/visibilityProfileIcon.svg';
 
 
 //images
@@ -29,3 +32,4 @@ export const pongPlayer = '/assets/images/pongPlayer.svg';
 export const robot = '/assets/images/robot.svg';
 export const friends = '/assets/images/friends.svg';
 export const tournament = '/assets/images/tournament.svg';
+export const chatBackgroundImage = '/assets/images/chatBackgroundImage.svg';
