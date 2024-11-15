@@ -1,6 +1,7 @@
 import { profileIcon } from "@/media-exporting";
 import { ConversationList } from "./ConversationsList";
 import { chatUsersChatCard } from "../../styles";
+import { Link } from "react-router-dom";
 
 type UsersChatCardProps = {
   conversations: ConversationList[];
@@ -13,7 +14,7 @@ const UsersChatCard = ({ conversations }: UsersChatCardProps) => {
   return (
     <>
       {conversations.map((conversation, index) => (
-        <div className={`${chatUsersChatCard}`} key={index}>
+        <Link to={conversation.userName} className={`${chatUsersChatCard}`} key={index}>
           <div className="" id="userImage">
             <div className="">
               <svg className="">
@@ -71,7 +72,7 @@ const UsersChatCard = ({ conversations }: UsersChatCardProps) => {
                 </text>
               </svg>
           </div>
-        </div>
+        </Link>
       ))}
     </>
   );

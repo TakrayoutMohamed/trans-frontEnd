@@ -1,5 +1,6 @@
 .chatUsersChatCard {
     /* background-color: rgb(146, 225, 163) !important; */
+    text-decoration: none;
     background: rgba(57, 30, 68, 1);
     color: white;
     display: flex;
