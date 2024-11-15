@@ -1,41 +1,38 @@
 .chat {
     display: flex;
     flex-direction: column;
-    /* border-radius: 20px; */
-    /* background-color: rgb(216, 141, 43); */
     min-height: 100%;
 
 }
 
 .chat div[id="chatAreaHeader"] {
-    /* background-color: yellow; */
     display: flex;
     flex-direction: row;
     margin: 0.5em;
 
     div[id="userImageInChat"] {
-        /* background-color: yellow !important; */
         margin-block: auto;
-        /* margin-left:1em; */
 
-        > :first-child {
-            >svg:first-child {
-                margin-inline: auto;
-                margin-block: auto;
-                width: 3em;
-                height: 3em;
-
-                image {
-                    width: 100%;
-                    height: 100%;
-                }
+        svg:first-child {
+            margin-inline: auto;
+            margin-block: auto;
+            width: 3em;
+            height: 3em;
+            image {
+                width: 100%;
+                height: 100%;
             }
         }
-
+        
+    }
+    svg[class*="profileVisibility"]{
+        cursor:pointer;
+        height: 100%;
+        padding-inline:2px;
+        border-radius: 100%;
     }
 
     div[id="userNameStatus"] {
-        /* background-color: aqua !important; */
         color: white;
         display: flex;
         flex-direction: column;
@@ -73,23 +70,25 @@
     flex-direction: column;
     justify-content: space-between;
 
-    > div[class*="messagesArea"] {
+    >div[class*="messagesArea"] {
         flex-grow: 1;
-        overflow-y:auto;
-        padding: 0px !important;;
-        margin:0px !important;
+        overflow-y: auto;
+        padding: 0px !important;
+        ;
+        margin: 0px !important;
         height: 10px !important;
-        /* background-color: red; */
     }
+
     ::-webkit-scrollbar {
-        width: 0.1em;
+        width: 0em;
     }
+
     ::-webkit-scrollbar-thumb {
-        /* background-color: darkgrey; */
         outline: 0px solid slategrey;
     }
+
     ::-webkit-scrollbar-track {
-        -webkit-box-shadow: inset 0 0 0px rgba(0,0,0,0.3);
+        -webkit-box-shadow: inset 0 0 0px rgba(0, 0, 0, 0.3);
     }
 
     form[class*="sendMessageField"] {
@@ -110,17 +109,23 @@
         input:focus-visible {
             outline: 0px solid #391E44;
         }
-        input::placeholder{
-            color:white;
+
+        input::placeholder {
+            color: white;
         }
 
         span:first-child {
             margin-inline: 0.2em 0.4em;
-            /* background: #000; */
         }
 
         span:last-child {
-            /* background-color: rgb(5, 134, 247); */
+            cursor: pointer;
         }
+    }
+}
+
+.chat div[class*="chatContent"] {
+    div[class*="messagesArea"] {
+        padding: 0.6em !important;
     }
 }
