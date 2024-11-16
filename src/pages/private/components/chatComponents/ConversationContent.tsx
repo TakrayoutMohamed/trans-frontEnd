@@ -1,5 +1,6 @@
 import { profileIcon } from "@/media-exporting";
 import { useParams } from "react-router-dom";
+import { chatConversationContent } from "../../styles";
 
 const data = {
   conversation: [
@@ -229,59 +230,36 @@ const data = {
 const ConversationContent = () => {
   const { userName } = useParams();
   console.log("conversation Content re-rendered");
-  let previousMsgOwner = "";
+  let previousMsgOwner = " ";
   return (
     <>
       {data.conversation.map((convers, index) => (
         <div
           key={index}
-          className={`bg-infos bg-dangers ${
-            previousMsgOwner !== convers.sender && "mt-2"
-          } `}
+          className={
+            chatConversationContent +
+            " " +
+            `${(previousMsgOwner !== convers.sender).toString()}`
+          }
         >
           {convers.sender === userName && (
-            <span className="bg-dangers d-flex flex-row align-items-center p-0">
-              <p
-                className={`ms-auto`}
-                style={{
-                  width: "fit-content",
-                  background: "rgba(217, 191, 255, 1)",
-                  textAlign: "right",
-                  marginBlock: "1px",
-                  borderRadius: "33px",
-                  paddingInline: "1px",
-                }}
-              >
-                {convers.message}
-              </p>
+            <div className="MessagesOfOther">
               {previousMsgOwner !== userName ? (
                 <img
                   src={profileIcon}
-                  alt=""
-                  className="bg-info rounded-end-5 "
-                  style={{ marginLeft: "4px" }}
+                  alt={`img of ${userName}`}
+                  className=""
                 />
               ) : (
-                <div className="bg-info m-0" style={{ width: "35px" }}></div>
+                <div className=""></div>
               )}
-            </span>
+              <p className="">{convers.message}</p>
+            </div>
           )}
           {convers.sender !== userName && (
-            <span className="bg-dangers d-flex flex-row align-items-center p-0">
-              <p
-                className={``}
-                style={{
-                  width: "fit-content",
-                  background: "rgb(100, 176, 90)",
-                  textAlign: "left",
-                  marginBlock: "1px",
-                  borderRadius: "33px",
-                  paddingInline: "2px",
-                }}
-              >
-                {convers.message}
-              </p>
-            </span>
+            <div className="MessagesOfOwner">
+              <p className="">{convers.message}</p>
+            </div>
           )}
           {(previousMsgOwner = convers.sender) && <></>}
         </div>
@@ -291,4 +269,3 @@ const ConversationContent = () => {
 };
 
 export default ConversationContent;
-// background: rgba(217, 191, 255, 1);// background color of the messages

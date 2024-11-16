@@ -9,6 +9,7 @@ import ChatStyles from "./Chat.module.css";
 import UsersChatCardStyles from "./ChatUsersChatCard.module.css";
 import ConversationsList from "./ChatConversationsList.module.css";
 import TabListHeader from "./ChatTabListHeaders.module.css";
+import ConversationContent from "./ChatConversationContent.module.css";
 
 /**
  * the styles of dashboard (game) components
@@ -34,5 +35,6 @@ export const chat = ChatStyles["chat"];
 export const chatUsersChatCard = UsersChatCardStyles["chatUsersChatCard"];
 export const chatConversationsList = ConversationsList["chatConversationsList"];
 export const chatTabListHeader = TabListHeader["chatTabListHeader"];
+export const chatConversationContent = ConversationContent["chatConversationContent"];
 
 /************ */
