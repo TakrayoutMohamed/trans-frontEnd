@@ -1,11 +1,13 @@
 import { Fragment } from 'react'
+import { profileLayout } from '../styles'
 import { Outlet } from 'react-router-dom'
 
 const ProfileLayout = () => {
   return (
 	<Fragment>
-		<div className="bg-info">ProfileLayout</div>
+		<div className={`${profileLayout}`}>
 		<Outlet/>
+		</div>
 	</Fragment>
   )
 }
