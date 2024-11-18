@@ -35,18 +35,18 @@ export enum statsType {
     return (
       <>
         <div className={`${profileStats}`}>
-          <div className="h3">{title}</div>
-          <div className="d-flex flex-row">
+          <div className="title">{title}</div>
+          <div className="d-flex flex-row matches">
             <div className="">Matches</div>
             <div className="p-1 bg-info"></div>
             <div className="">{matchesData.data[statsType].matches}</div>
           </div>
-          <div className="d-flex flex-row">
+          <div className="d-flex flex-row wins">
             <div className="">Wins</div>
             <div className="p-1 bg-info"></div>
             <div className="">{matchesData.data[statsType].win}</div>
           </div>
-          <div className="d-flex flex-row">
+          <div className="d-flex flex-row loses">
             <div className="">Loses</div>
             <div className="p-1 bg-info"></div>
             <div className="">{matchesData.data[statsType].lose}</div>

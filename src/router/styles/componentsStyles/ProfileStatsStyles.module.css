@@ -1,4 +1,42 @@
-.profileStats{
+.profileStats {
+    display: flex;
+    flex-direction: column;
     background-color: black !important;
-    color: green !important;
+    color: white !important;
+    min-width: fit-content;
+    min-height: fit-content;
+}
+
+.profileStats div[class*="title"] {
+    display: flex;
+    align-items: center;
+    min-height: fit-content;
+    justify-content: center;
+    font-family: var(--font-luckiestGuy);
+    font-size: clamp(0.7em, 0.7em + 1vw, 2em);
+}
+
+.profileStats div[class*="wins"],
+div[class*="matches"],
+div[class*="loses"] {
+    justify-content: space-between;
+    align-items: center;
+    font-size: clamp(0.5em, 0.4em + 1vw, 2em);
+
+    :nth-child(1) {
+        color: white;
+        min-width: 50%;
+    }
+
+    :nth-child(2) {
+        padding: 2px !important;
+        margin: 0px !important;
+        min-width: calc(20px + 1vw);
+        height: 30%;
+    }
+
+    :nth-child(3) {
+        color: white;
+        margin-left: auto;
+    }
 }
