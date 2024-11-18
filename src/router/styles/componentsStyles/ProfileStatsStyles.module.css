@@ -13,6 +13,7 @@
     min-height: fit-content;
     justify-content: center;
     font-family: var(--font-luckiestGuy);
+    margin-block:1em 0.5em;
     font-size: clamp(0.7em, 0.7em + 1vw, 2em);
 }
 
@@ -39,4 +40,8 @@ div[class*="loses"] {
         color: white;
         margin-left: auto;
     }
+}
+
+.profileStats div[class*="loses"]{
+    margin-bottom: 1em;
 }

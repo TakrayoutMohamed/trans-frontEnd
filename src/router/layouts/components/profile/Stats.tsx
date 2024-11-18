@@ -20,12 +20,12 @@ const matchesData = {
     ],
   };
 
-export enum statsType {
+enum statsType {
     AISTATS,
     TOURNAMENTSTATS,
     CLASSICSTATS,
   }
-  
+
   interface StatsProps {
     title: string;
     statsType: statsType;

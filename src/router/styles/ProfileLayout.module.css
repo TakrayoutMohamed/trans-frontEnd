@@ -1,7 +1,7 @@
 .profileLayout {
     background-color: rgb(212, 165, 165) !important;
-    /* height: 100%; */
-    min-height: 100vh !important;
+    min-height: 50em !important;
+    height: 100%;
     color: black;
     display: grid;
     grid-template-rows: repeat(11, 8.33%) 1fr;
@@ -14,8 +14,14 @@
     grid-column: 1 / 5;
     grid-row: 5 / 9;
     background-color: yellow;
-    min-height: fit-content;
-    min-width: fit-content;
+    height: fit-content;
+    >div{
+        margin-left:auto;
+        margin-top: 3em;
+        padding:1em;
+        max-width: 80%;
+        min-width: 60%;
+    }
 }
 
 .profileLayout div[class*="profileStats"] {
@@ -28,7 +34,7 @@
 
 .profileLayout div[class*="classicTournamentStats"] {
     grid-column: 8 / 11;
-    grid-row: 1 / 113;
+    grid-row: 1 / 13;
     background-color: rgb(217, 84, 179);
     display: flex;
     flex-direction: column;
@@ -38,19 +44,33 @@
 }
 
 .profileLayout div[class*="classicStats"] {
-    /* grid-column:8 / 11;
-    grid-row: 1 / 5; */
     background-color: rgb(0, 200, 255);
-    min-height: fit-content;
     min-width: fit-content;
+    >div{
+        margin-inline: 5%;
+        margin-top: 1em;
+        padding:1.2em;
+        min-height: 12em;
+    }
 }
 
 .profileLayout div[class*="tournamentStats"] {
-    /* grid-column:8 / 11;
-    grid-row: 9 / 13; */
     background-color: rgb(0, 200, 255);
-    min-height: fit-content;
     min-width: fit-content;
+    >div{
+        margin-inline: 5%;
+        margin-bottom: 1em;
+        padding:1.2em;
+        min-height: 12em;
+    }
+    * [class*="title"]{
+        font-size: clamp(0.4em, 0.4em + 1vw, 2em);
+    }
+    * [class*="wins"],* [class*="loses"],* [class*="matches"]
+    {
+        font-size: clamp(0.4em, 0.4em + 1vw, 2em);
+
+    }
 }
 
 .profileLayout div[class*="breadcrumbs"] {

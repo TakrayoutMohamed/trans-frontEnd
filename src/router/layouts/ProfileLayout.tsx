@@ -1,7 +1,13 @@
 import { Fragment } from "react";
 import { profileLayout } from "../styles";
 import { Outlet } from "react-router-dom";
-import Stats, { statsType } from "./components/profile/Stats";
+import Stats from "./components/profile/Stats";
+
+enum statsType {
+  AISTATS,
+  TOURNAMENTSTATS,
+  CLASSICSTATS,
+}
 
 const ProfileLayout = () => {
   return (
@@ -17,6 +23,7 @@ const ProfileLayout = () => {
               statsType={statsType.CLASSICSTATS}
             ></Stats>
           </div>
+          {/* <div className="" style={{minHeight:"20em"}} ></div> */}
           <div className="tournamentStats">
             <Stats
               title={"TOURNAMENT STATS"}
