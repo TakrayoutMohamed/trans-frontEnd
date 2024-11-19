@@ -1,6 +1,8 @@
+import { profile } from "./styles"
+
 const Profile = () => {
   return (
-    <div className='bg-secondary-subtle'>Profile</div>
+    <div className={`${profile}`}>Profile</div>
   )
 }
 
