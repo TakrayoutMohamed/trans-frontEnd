@@ -55,7 +55,8 @@ const routingTree: RouteObject[] = createRoutesFromElements(
       <Route element={<DashboardLayout />}>
         <Route path="game" element={<Game />} /> {/*game */}
         <Route path="profile" element={<ProfileLayout />}>{/*profile layout */}
-          <Route path="details" element={<Profile />} /> {/* profile */}
+          <Route index element={<Profile />} /> {/* profile */}
+          <Route path="me" element={<Profile />} /> {/* profile */}
           <Route path="recent" element={<Recent />} /> {/* Recent */}
           <Route path="friends" element={<FriendsLayout />}>{/* Friends layout*/}
             <Route index element={<Friends />} /> {/* Friends */}
