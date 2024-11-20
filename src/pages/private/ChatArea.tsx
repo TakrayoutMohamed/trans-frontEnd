@@ -4,11 +4,70 @@ import { chat } from "./styles";
 import { IoArrowForwardCircleOutline } from "react-icons/io5";
 import { SlEmotsmile } from "react-icons/sl";
 import ConversationContent from "./components/chatComponents/ConversationContent";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+// import { io } from "socket.io-client";
+
+// const socket = io.connect(String(process.env.BACKEND_API_URL));
+// console.log(process.env.BACKEND_API_URL)
+const MessageSchema = z.object({
+  textMessage: z
+    .string()
+    .max(1023, { message: "the message should not be more than 1023 chars" })
+    .min(1, { message: "not allowed to send an empty string" }),
+});
+
+type MessageSchemaType = z.infer<typeof MessageSchema>;
+
+const FormComponent = () => {
+  // const [message, setMessage] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<MessageSchemaType>({ resolver: zodResolver(MessageSchema) });
+  const onSubmit: SubmitHandler<MessageSchemaType> = async (
+    data: MessageSchemaType
+  ) => {
+    try {
+      console.log(data);
+      // socket.emit("message")
+
+      // console.log(message);
+    } catch (err) {
+      console.log(err);
+      console.log(errors);
+    }
+  };
+
+  return (
+    <>
+      <form className="sendMessageField" onSubmit={handleSubmit(onSubmit)}>
+        <span className="">
+          <SlEmotsmile size={30} />
+        </span>
+        <input
+          type="text"
+          placeholder="Type..."
+          {...register("textMessage", { required: true })}
+          className=""
+          autoComplete="on"
+          // onChange={(event) => setMessage(event.target.value)}
+        />
+        <button className="" type="submit">
+          <IoArrowForwardCircleOutline size={30} />
+        </button>
+      </form>
+    </>
+  );
+};
 
 const ChatArea = () => {
   const { userName } = useParams();
   const setProfileVisible =
     useOutletContext<React.Dispatch<React.SetStateAction<boolean>>>();
+
   console.log("chat area reloaded");
   return (
     <>
@@ -66,25 +125,7 @@ const ChatArea = () => {
           <div className="messagesArea">
             <ConversationContent />
           </div>
-          <form
-            className="sendMessageField"
-            method="post"
-            action="#"
-            onSubmit={(event) => event.preventDefault()}
-          >
-            <span className="">
-              <SlEmotsmile size={30} />
-            </span>
-            <input
-              type="text"
-              placeholder="Type..."
-              name="textMessage"
-              className=""
-            />
-            <span className="">
-              <IoArrowForwardCircleOutline size={30} />
-            </span>
-          </form>
+          <FormComponent />
         </div>
       </div>
     </>
