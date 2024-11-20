@@ -39,14 +39,15 @@ import AuthorizationRoutes from "@router/AuthorizationRoutes";
 
 const routingTree: RouteObject[] = createRoutesFromElements(
   <Route element={<RootLayout />}>
-    <Route path="/" element={<HomeLayout />}>{/*landing page routing */}
+    {/*landing page routing */}
+    <Route path="/" element={<HomeLayout />}>
       <Route index element={<Home />} /> {/* home page*/}
       <Route path="about-us" element={<AboutUs />} /> {/* about us*/}
       <Route path="team" element={<Team />} /> {/* team*/}
       <Route path="contact" element={<Contact />} /> {/* contact*/}
     </Route>
     <Route element={<AuthorizationRoutes />}>
-      <Route element={<RegistrationLayout/>}>
+      <Route element={<RegistrationLayout />}>
         <Route path="sign-up" element={<SignUp />} /> {/* sign up*/}
         <Route path="sign-in" element={<SignIn />} /> {/* sign in*/}
       </Route>
@@ -54,20 +55,25 @@ const routingTree: RouteObject[] = createRoutesFromElements(
     <Route element={<PrivateRoutes />}>
       <Route element={<DashboardLayout />}>
         <Route path="game" element={<Game />} /> {/*game */}
-        <Route path="profile" element={<ProfileLayout />}>{/*profile layout */}
+        {/*profile layout */}
+        <Route path="profile" element={<ProfileLayout />}>
           <Route index element={<Profile />} /> {/* profile */}
           <Route path="me" element={<Profile />} /> {/* profile */}
           <Route path="recent" element={<Recent />} /> {/* Recent */}
-          <Route path="friends" element={<FriendsLayout />}>{/* Friends layout*/}
+          {/* Friends layout*/}
+          <Route path="friends" element={<FriendsLayout />}>
             <Route index element={<Friends />} /> {/* Friends */}
-            <Route path=":userName" element={<FriendProfile />} />{/* Friend Profile */}
+            {/* Friend Profile */}
+            <Route path=":userName" element={<FriendProfile />} />
           </Route>
         </Route>
-        <Route path="chat" element={<ChatLayout />} > {/*chat */}
+        {/*chat */}
+        <Route path="chat" element={<ChatLayout />}>
           <Route index element={<Chat />} />
           <Route path=":userName" element={<ChatArea />} />
         </Route>
-        <Route path="setting" element={<SettingLayout />}>{/*setting layout */}
+        {/*setting layout */}
+        <Route path="setting" element={<SettingLayout />}>
           <Route index element={<Details />} /> {/*details */}
           <Route path="password" element={<Password />} /> {/*password */}
         </Route>
@@ -76,10 +82,25 @@ const routingTree: RouteObject[] = createRoutesFromElements(
   </Route>
 );
 
-const router = createBrowserRouter(routingTree);
+const router = createBrowserRouter(routingTree, {
+  future: {
+    v7_fetcherPersist: true,
+    v7_normalizeFormMethod: true,
+    v7_partialHydration: true,
+    v7_relativeSplatPath: true,
+    v7_skipActionErrorRevalidation: true,
+  },
+});
 
 const MainRoutingComponent = () => {
-  return <RouterProvider router={router}></RouterProvider>;
+  return (
+    <RouterProvider
+      future={{
+        v7_startTransition: true,
+      }}
+      router={router}
+    ></RouterProvider>
+  );
 };
 
 export default MainRoutingComponent;
