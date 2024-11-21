@@ -8,47 +8,43 @@ import { useLayoutEffect } from "react";
 import { useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import { setAccessToken } from "./states/authentication/accessTokenSlice";
-import { axiosPrivate } from "./services/api/axios";
+import useAxiosPrivate from "./services/hooks/useAxiosPrivate";
 
 function App() {
   const accessToken = useSelector(
     (state: RootState) => state.accessToken.value
   );
+  const axiosPrivateHook = useAxiosPrivate();
   const dispatch = store.dispatch;
   useLayoutEffect(() => {
-    if (Cookies.get("accessToken") && !accessToken)
-    {
+    if (Cookies.get("accessToken") && !accessToken) {
       const checkAuthentication = async () => {
         // send to server to verify if its a realy acceptable token
-        const res = await axiosPrivate
-        .post(
-          "/authenticate",
-          JSON.stringify({ accessToken: Cookies.get("accessToken") })
-        )
+        const res = await axiosPrivateHook.post("verify_token", {
+          token: Cookies.get("accessToken"),
+        });
         return res;
-      }
-      checkAuthentication().
-      then((res) => {
-        // console.log("response from app : "+JSON.stringify(res))
-        // if the returned token is valid than store it in the accessToken state
-        if (res.data?.accessToken && res.data?.accessToken === Cookies.get("accessToken"))
-          {
+      };
+      checkAuthentication()
+        .then((res) => {
+          // console.log("response from app : first one");
+          // console.log(res);
+          // if the returned token is valid than store it in the accessToken state
+          if (res.statusText == "OK") {
             dispatch(setAccessToken(Cookies.get("accessToken")!));
             dispatch(setAuthenticated());
-          }
-          else throw Error("not valid access token")
+          } else throw Error("not valid access token alvares");
           return res.data;
-      }).then((res) => {
-        console.log("response from app : "+JSON.stringify(res))
-        
-      })
-      .catch(
-        // else remove that token
-        (err) => {
-          console.log(err)
-          dispatch(setUnauthenticated());
-          Cookies.remove("accessToken")
-      });
+        })
+        .catch(
+          // else remove that token
+          (err) => {
+            console.log("error from catch");
+            console.log(err);
+            dispatch(setUnauthenticated());
+            Cookies.remove("accessToken");
+          }
+        );
     }
   }, []);
   return (

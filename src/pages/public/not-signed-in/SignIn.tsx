@@ -20,7 +20,6 @@ import { z } from "zod";
 import Cookies from "js-cookie";
 import { setAuthenticated } from "@/src/states/authentication/authenticatorSlice";
 
-
 const signInSchema = z.object({
   email: z
     .string({ message: "email is required" })
@@ -36,7 +35,11 @@ type SignInSchemaType = z.infer<typeof signInSchema>;
 const SignIn = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const {register, handleSubmit, formState: {errors}} = useForm<SignInSchemaType>({resolver: zodResolver(signInSchema)})
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignInSchemaType>({ resolver: zodResolver(signInSchema) });
   useEffect(() => {}, []);
   const startAnimationSignIn = (): void => {
     const animation = document.querySelector(".animationSelectorSignIn");
@@ -48,72 +51,75 @@ const SignIn = () => {
   };
   const [errorMsg, setErrorMsg] = useState("");
   const lastLocation = location.state?.from?.pathname || "/profile";
-  const dispatch =  store.dispatch;
+  const dispatch = store.dispatch;
 
-  const onSubmit:SubmitHandler<SignInSchemaType> = async (data : SignInSchemaType) => {
+  const onSubmit: SubmitHandler<SignInSchemaType> = async (
+    data: SignInSchemaType
+  ) => {
     try {
-        const res = await axiosPrivate.post(
-          "/sign-in",
-          JSON.stringify(data),
-          {
-            // withCredentials : true,
-          }
-        );
-        Cookies.set("accessToken" , res.data?.accessToken);
-        dispatch(setAccessToken(res.data?.accessToken))
-        dispatch(setAuthenticated())
-        navigate(lastLocation, {replace:true});
+      const res = await axiosPrivate.post("login", data);
+      console.log("res");
+      console.log(res);
+      
+      Cookies.set("accessToken", res.data?.access);
+      dispatch(setAccessToken(res.data?.access));
+      dispatch(setAuthenticated());
+      navigate(lastLocation, { replace: true });
     } catch (err) {
-      if (err instanceof AxiosError)
-      {
+      if (err instanceof AxiosError) {
         const error: AxiosError = err as AxiosError;
-        if (!error.response) 
-          {
-            setErrorMsg('No Server Response');
-          }
-          else  if (error.response?.status === 401) {
-            setErrorMsg('Unauthorized');
-          } else {
-            setErrorMsg('Login Failed');
-          }
-      }
-      else{
+        console.log(error)
+        if (!error.response) {
+          setErrorMsg("No Server Response");
+        } else if (error.response?.status === 401) {
+          setErrorMsg("Unauthorized");
+        } else {
+          setErrorMsg("Login Failed");
+        }
+      } else {
         setErrorMsg(errorMsg);
       }
-      console.log(errorMsg)
+      console.log(errorMsg);
     }
   };
   const onError: SubmitErrorHandler<SignInSchemaType> = async (dataerror) => {
     console.log("error function in sign in email : " + dataerror?.email);
     console.log("error function in sign in passwd : " + dataerror?.password);
     console.log("error function in sign in root : " + dataerror?.root);
-  }
+  };
   return (
     <div
       className={`d-flex flex-row-reverse animationSelectorSignIn w-100 ${signInRenderAnimation} ${signIn}`}
     >
       <div className="w-100 ">
         <div className="d-flex justify-content-center h-100">
-          <form className="w-75 my-auto" onSubmit={handleSubmit(onSubmit, onError)} >
+          <form
+            className="w-75 my-auto"
+            onSubmit={handleSubmit(onSubmit, onError)}
+          >
             <div className="mb-4">
               <input
                 type="text"
                 className="form-control rounded-5 p-2"
                 placeholder="Email...."
                 autoComplete={"on"}
-                {...register("email", {required: true})}
+                {...register("email", { required: true })}
               />
-              {errors?.email && <span className="text-danger">{errors.email.message}</span>}
+              {errors?.email && (
+                <span className="text-danger">{errors.email.message}</span>
+              )}
             </div>
             <div className="mb-4 ">
               <input
                 type="password"
                 className="form-control rounded-5 p-2"
                 placeholder="Password...."
-                {...register("password", {required: true})}
+                {...register("password", { required: true })}
                 autoComplete={"off"}
               />
-              {errors?.password && <span className="text-danger">{errors.password.message}</span>}
+              {errors?.password && (
+                <span className="text-danger">{errors.password.message}</span>
+              )}
             </div>
             <div className="d-flex justify-content-evenly mb-4 p-2">
               <Link
@@ -149,9 +155,12 @@ const SignIn = () => {
                 SIGN IN
               </button>
             </div>
-          {errorMsg && <span className="text-danger bg-warning-subtle row m-0 ">{errorMsg}</span>}
+            {errorMsg && (
+              <span className="text-danger bg-warning-subtle row m-0 ">
+                {errorMsg}
+              </span>
+            )}
           </form>
-
         </div>
       </div>
       <div className={`border d-flex my-auto mx-3 ms-5 p-0  ${signInBare}`}>

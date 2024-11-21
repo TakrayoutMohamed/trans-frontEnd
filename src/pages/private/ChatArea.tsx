@@ -7,31 +7,38 @@ import ConversationContent from "./components/chatComponents/ConversationContent
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-// import { io } from "socket.io-client";
+// import { w3cwebsocket } from "websocket";
+// import { useSelector } from "react-redux";
+// import { RootState } from "@/src/states/store";
 
-// const socket = io.connect(String(process.env.BACKEND_API_URL));
-// console.log(process.env.BACKEND_API_URL)
+// const ApiToBackendSockets = "ws://" + process.env.BACKEND_API_URL + "/ws/";
+
 const MessageSchema = z.object({
   textMessage: z
-    .string()
-    .max(1023, { message: "the message should not be more than 1023 chars" })
-    .min(1, { message: "not allowed to send an empty string" }),
+  .string()
+  .max(1023, { message: "the message should not be more than 1023 chars" })
+  .min(1, { message: "not allowed to send an empty string" }),
 });
 
 type MessageSchemaType = z.infer<typeof MessageSchema>;
 
 const FormComponent = () => {
-  // const [message, setMessage] = useState("");
+  // const AccessToken = useSelector((state: RootState) => state.accessToken.value);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<MessageSchemaType>({ resolver: zodResolver(MessageSchema) });
+  // const client = new w3cwebsocket(ApiToBackendSockets + AccessToken);
   const onSubmit: SubmitHandler<MessageSchemaType> = async (
     data: MessageSchemaType
   ) => {
     try {
       console.log(data);
+      // client.onopen = () => {
+      //   console.log("hello client connected")
+      //   console.log(data.textMessage)
+      // }
       // socket.emit("message")
 
       // console.log(message);
