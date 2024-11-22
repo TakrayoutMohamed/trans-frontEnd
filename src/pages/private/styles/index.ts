@@ -4,13 +4,14 @@ import ModeStyles from "./GameModeInGame.module.css";
 import pongPlayerStyles from "./PongPlayerInGame.module.css";
 import LeaderBoardStyles from "./GameLeaderBoardInGame.module.css";
 import GameProfileStyles from "./GameProfileInGame.module.css";
-import RecentStyles from "./GameRecentInGame.module.css";
+import GameRecentStyles from "./GameRecentInGame.module.css";
 import ChatStyles from "./Chat.module.css";
 import UsersChatCardStyles from "./ChatUsersChatCard.module.css";
 import ConversationsList from "./ChatConversationsList.module.css";
 import TabListHeader from "./ChatTabListHeaders.module.css";
 import ConversationContent from "./ChatConversationContent.module.css";
 import ProfileStyles from "./Profile.module.css";
+import RecentStyles from "./Recent.module.css";
 
 /**
  * the styles of dashboard (game) components
@@ -24,7 +25,7 @@ export const gameModeInGameSlides = ModeStyles["gameModeInGameSlides"];
 export const pongPlayerInGame = pongPlayerStyles["pongPlayerInGame"];
 export const gameLeaderBoardInGame = LeaderBoardStyles["gameLeaderBoardInGame"];
 export const gameProfileInGame = GameProfileStyles["gameProfileInGame"];
-export const gameRecentInGame = RecentStyles["gameRecentInGame"];
+export const gameRecentInGame = GameRecentStyles["gameRecentInGame"];
 export const gameRecentInGameImageAndName =
   RecentStyles["gameRecentInGameImageAndName"];
 
@@ -44,3 +45,4 @@ export const chatConversationContent =
  */
 
 export const profile = ProfileStyles["profile"];
+export const recent = RecentStyles["recent"];
