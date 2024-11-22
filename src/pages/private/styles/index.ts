@@ -12,6 +12,7 @@ import TabListHeader from "./ChatTabListHeaders.module.css";
 import ConversationContent from "./ChatConversationContent.module.css";
 import ProfileStyles from "./Profile.module.css";
 import RecentStyles from "./Recent.module.css";
+import FriendsStyles from "./Friends.module.css";
 
 /**
  * the styles of dashboard (game) components
@@ -46,3 +47,4 @@ export const chatConversationContent =
 
 export const profile = ProfileStyles["profile"];
 export const recent = RecentStyles["recent"];
+export const friends = FriendsStyles["friends"];
