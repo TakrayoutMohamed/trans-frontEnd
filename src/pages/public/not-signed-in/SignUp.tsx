@@ -54,7 +54,7 @@ const SignUp = () => {
     try {
       data = { ...data, first_name: "aaaaalvaDefault", last_name: "neeeegroDefault" };
       console.log(data);
-      const res = await axios.post("signup", JSON.stringify(data));
+      await axios.post("signup", JSON.stringify(data));
       navigate("/sign-in", { replace: true });
     } catch (err) {
       if (err instanceof AxiosError) {
