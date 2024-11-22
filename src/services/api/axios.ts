@@ -2,17 +2,18 @@ import axios, {CanceledError} from 'axios';
 
 const BASE_URL = "http://127.0.0.1:8000/api/";
 
-export default axios.create({
-    baseURL: BASE_URL,
-});
-
 export const axiosPrivate =  axios.create({
     baseURL: BASE_URL,
-    // headers: {'Content-Type' : 'application/json', },
-    headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
+    headers: {'Content-Type' : 'application/json', },
     // withCredentials : true,
-})
+});
+export default axios.create({
+    baseURL: BASE_URL,
+    headers: {
+        'Content-Type' : 'application/json',
+    },
+    // withCredentials : true,
+});
+
 
 export {CanceledError};

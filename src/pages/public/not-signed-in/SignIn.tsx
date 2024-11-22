@@ -1,4 +1,4 @@
-import { axiosPrivate } from "@/src/services/api/axios";
+import axios from "@/src/services/api/axios";
 import { setAccessToken } from "@/src/states/authentication/accessTokenSlice";
 import { store } from "@/src/states/store";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -57,7 +57,7 @@ const SignIn = () => {
     data: SignInSchemaType
   ) => {
     try {
-      const res = await axiosPrivate.post("login", data);
+      const res = await axios.post("login", data);
       console.log("res");
       console.log(res);
       
@@ -102,7 +102,7 @@ const SignIn = () => {
                 type="text"
                 className="form-control rounded-5 p-2"
                 placeholder="Email...."
-                autoComplete={"on"}
+                autoComplete="on"
                 {...register("email", { required: true })}
               />
               {errors?.email && (

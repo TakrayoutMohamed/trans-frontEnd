@@ -1,5 +1,5 @@
-import { axiosPrivate } from "@/src/services/api/axios";
-import { store } from "@/src/states/store";
+import axios from "@/src/services/api/axios";
+// import { store } from "@/src/states/store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   signUpAnimation,
@@ -52,9 +52,9 @@ const SignUp = () => {
     data: SignUpSchemaType
   ) => {
     try {
-      data = { ...data, first_name: "aaaaalva", last_name: "neeeegro" };
+      data = { ...data, first_name: "aaaaalvaDefault", last_name: "neeeegroDefault" };
       console.log(data);
-      const res = await axiosPrivate.post("signup", JSON.stringify(data));
+      const res = await axios.post("signup", JSON.stringify(data));
       navigate("/sign-in", { replace: true });
     } catch (err) {
       if (err instanceof AxiosError) {

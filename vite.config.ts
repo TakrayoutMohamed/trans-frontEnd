@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { ProxyOptions, defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import path from "path";
 import { config } from 'dotenv';
@@ -14,6 +14,9 @@ export default defineConfig({
     'process.env' : process.env
   },
   server: {
+    proxy: {
+      '/apisss/' : process.env.BACKEND_API_URL as ProxyOptions ,
+    },
     port: Number(process.env.VITE_PORT),
     host: true,
   },
