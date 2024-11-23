@@ -28,7 +28,7 @@ export const gameLeaderBoardInGame = LeaderBoardStyles["gameLeaderBoardInGame"];
 export const gameProfileInGame = GameProfileStyles["gameProfileInGame"];
 export const gameRecentInGame = GameRecentStyles["gameRecentInGame"];
 export const gameRecentInGameImageAndName =
-  RecentStyles["gameRecentInGameImageAndName"];
+  GameRecentStyles["gameRecentInGameImageAndName"];
 
 /**
  * the styles of chat components
