@@ -1,8 +1,9 @@
 import { Fragment } from "react";
 import { profileLayout } from "../styles";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import Stats from "./components/profile/Stats";
 import { profileIcon } from "@/media-exporting";
+import WaletState from "./components/profile/WaletStats";
 
 enum statsType {
   AISTATS,
@@ -60,7 +61,7 @@ const ProfileLayout = () => {
           </div>
         </div>
         <div className="breadcrumbs"></div>
-        <div className="waletStats"></div>
+        <div className="waletStats"><WaletState/></div>
       </div>
     </Fragment>
   );
