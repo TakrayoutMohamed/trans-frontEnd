@@ -146,7 +146,7 @@
         justify-content: right;
         align-items: center;
         position: relative;
-        width: 50%;
+        width: 40%;
         padding: 0px;
         margin: 0px !important;
 
@@ -178,6 +178,6 @@
 
     div[class*="user-image-link-content"]>div[class*="link-content"] {
         color: red;
-        width: 50%;
+        width: 60%;
     }
 }
