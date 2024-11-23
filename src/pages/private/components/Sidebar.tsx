@@ -6,6 +6,7 @@ import {
   homeIcon,
   profileIcon,
   settingsIcon,
+  tournamentIcon,
 } from "@/media-exporting";
 import ImagesIcon from "@pages/components/ImageIcon";
 
@@ -60,6 +61,14 @@ const Sidebar = () => {
             imgSize={{ width: "35px", height: "35px" }}
             title="Chat"
             alt="chatIcon"
+          />
+        </NavLink>
+        <NavLink to={"/tournament"} className="my-auto">
+          <ImagesIcon
+            imgPath={tournamentIcon}
+            imgSize={{ width: "35px", height: "35px" }}
+            title="tournament"
+            alt="tournament icon"
           />
         </NavLink>
         <NavLink to={"/setting"} className="my-auto mb-5">

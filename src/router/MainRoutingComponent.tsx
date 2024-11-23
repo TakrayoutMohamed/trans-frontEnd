@@ -15,6 +15,8 @@ import ProfileLayout from "@router/layouts/ProfileLayout";
 import SettingLayout from "@router/layouts/SettingLayout";
 import RegistrationLayout from "@router/layouts/RegistrationLayout";
 import ChatLayout from "@router/layouts/ChatLayout";
+import TournamentLayout from "./layouts/TournamentLayout";
+// import FriendsLayout from "./layouts/FriendsLayout";
 
 // pages
 import Home from "@publicPages/Home";
@@ -32,6 +34,7 @@ import Friends from "@privatePages/Friends";
 import Details from "@privatePages/Details";
 import Password from "@privatePages/Password";
 import ChatArea from "@privatePages/ChatArea";
+// import FriendProfile from "../pages/private/FriendProfile";
 
 // routers protection
 import PrivateRoutes from "@router/PrivateRoutes";
@@ -56,21 +59,25 @@ const routingTree: RouteObject[] = createRoutesFromElements(
     <Route element={<DashboardLayout />}>
       <Route path="game" element={<Game />} /> {/*game */}
       {/*profile layout */}
-      <Route path="profile" element={<ProfileLayout />}>
-        <Route index element={<Profile />} /> {/* profile */}
-        <Route path="me" element={<Profile />} /> {/* profile */}
-        <Route path="recent" element={<Recent />} /> {/* Recent */}
-        <Route path="friends" element={<Friends />} /> {/* Friends */}
-      </Route>
+      <Route path="profile">
+        <Route element={<ProfileLayout />}>
+          <Route index element={<Profile />} /> {/* profile */}
+          <Route path="recent" element={<Recent />} /> {/* Recent */}
+          <Route path="friends" element={<Friends />} /> {/* Friends */}
+        </Route>
         {/* Friends layout*/}
-      {/* <Route path="friends" element={<FriendsLayout />}>
-        <Route path=":userName" element={<FriendProfile />} />
-      </Route> */}
+        {/* <Route path="user" element={<FriendsLayout />}>
+          <Route path="profile" element={<Profile />} />
+          <Route path="recent" element={<Recent />} />
+        </Route> */}
+      </Route>
       {/*chat */}
       <Route path="chat" element={<ChatLayout />}>
         <Route index element={<Chat />} />
         <Route path=":userName" element={<ChatArea />} />
       </Route>
+      {/*tournament */}
+      <Route path="tournament" element={<TournamentLayout />}></Route>
       {/*setting layout */}
       <Route path="setting" element={<SettingLayout />}>
         <Route index element={<Details />} /> {/*details */}
