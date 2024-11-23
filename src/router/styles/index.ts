@@ -5,7 +5,7 @@ import ChatStyle from "@router/styles/ChatLayout.module.css";
 import ChatProfileStyles from "@router/styles/componentsStyles/ChatProfileStyles.module.css";
 import ProfileLayoutStyles from "@router/styles/ProfileLayout.module.css";
 import ProfileStatsStyles from "@router/styles/componentsStyles/ProfileStatsStyles.module.css";
-
+import ProfileWaletStatsStyles from "@router/styles/componentsStyles/ProfileWaletStatsStyles.module.css";
 
 export const homeLayout = homeLayoutStyles["homeLayout"];
 
@@ -27,4 +27,4 @@ export const chatProfileStyles = ChatProfileStyles["chatProfileStyles"];
 
 export const profileLayout = ProfileLayoutStyles["profileLayout"];
 export const profileStats = ProfileStatsStyles["profileStats"];
-
+export const profileWaletStats = ProfileWaletStatsStyles["profileWaletStats"];
