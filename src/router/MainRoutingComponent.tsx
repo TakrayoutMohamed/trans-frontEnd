@@ -1,6 +1,7 @@
 import {
   createBrowserRouter,
   createRoutesFromElements,
+  Navigate,
   Route,
   RouteObject,
   RouterProvider,
@@ -11,12 +12,10 @@ import RootLayout from "@router/layouts/RootLayout";
 import HomeLayout from "@router/layouts/HomeLayout";
 import DashboardLayout from "@router/layouts/DashboardLayout";
 import ProfileLayout from "@router/layouts/ProfileLayout";
-// import FriendsLayout from "@router/layouts/FriendsLayout";
 import SettingLayout from "@router/layouts/SettingLayout";
 import RegistrationLayout from "@router/layouts/RegistrationLayout";
 import ChatLayout from "@router/layouts/ChatLayout";
 import TournamentLayout from "./layouts/TournamentLayout";
-// import FriendsLayout from "./layouts/FriendsLayout";
 
 // pages
 import Home from "@publicPages/Home";
@@ -30,11 +29,9 @@ import Chat from "@privatePages/Chat";
 import Game from "@privatePages/Game";
 import Recent from "@privatePages/Recent";
 import Friends from "@privatePages/Friends";
-// import FriendProfile from "@privatePages/FriendProfile";
 import Details from "@privatePages/Details";
 import Password from "@privatePages/Password";
 import ChatArea from "@privatePages/ChatArea";
-// import FriendProfile from "../pages/private/FriendProfile";
 
 // routers protection
 import PrivateRoutes from "@router/PrivateRoutes";
@@ -56,34 +53,36 @@ const routingTree: RouteObject[] = createRoutesFromElements(
       </Route>
     </Route>
     <Route element={<PrivateRoutes />}>
-    <Route element={<DashboardLayout />}>
-      <Route path="game" element={<Game />} /> {/*game */}
-      {/*profile layout */}
-      <Route path="profile">
-        <Route element={<ProfileLayout />}>
-          <Route index element={<Profile />} /> {/* profile */}
-          <Route path="recent" element={<Recent />} /> {/* Recent */}
-          <Route path="friends" element={<Friends />} /> {/* Friends */}
+      <Route element={<DashboardLayout />}>
+        <Route path="game" element={<Game />} /> {/*game */}
+        {/*profile layout */}
+        <Route path="profile">
+          <Route element={<ProfileLayout />}>
+            <Route index element={<Navigate to="details" replace />} />{" "}
+            {/* profile */}
+            <Route path="details" element={<Profile />} /> {/* profile */}
+            <Route path="recent" element={<Recent />} /> {/* Recent */}
+            <Route path="friends" element={<Friends />} /> {/* Friends */}
+            <Route path=":userName">
+              <Route index element={<Navigate to="details" replace />} />
+              <Route path="details" element={<Profile />} />
+              <Route path="recent" element={<Recent />} />
+            </Route>
+          </Route>
         </Route>
-        {/* Friends layout*/}
-        {/* <Route path="user" element={<FriendsLayout />}>
-          <Route path="profile" element={<Profile />} />
-          <Route path="recent" element={<Recent />} />
-        </Route> */}
+        {/*chat */}
+        <Route path="chat" element={<ChatLayout />}>
+          <Route index element={<Chat />} />
+          <Route path=":userName" element={<ChatArea />} />
+        </Route>
+        {/*tournament */}
+        <Route path="tournament" element={<TournamentLayout />}></Route>
+        {/*setting layout */}
+        <Route path="setting" element={<SettingLayout />}>
+          <Route index element={<Details />} /> {/*details */}
+          <Route path="password" element={<Password />} /> {/*password */}
+        </Route>
       </Route>
-      {/*chat */}
-      <Route path="chat" element={<ChatLayout />}>
-        <Route index element={<Chat />} />
-        <Route path=":userName" element={<ChatArea />} />
-      </Route>
-      {/*tournament */}
-      <Route path="tournament" element={<TournamentLayout />}></Route>
-      {/*setting layout */}
-      <Route path="setting" element={<SettingLayout />}>
-        <Route index element={<Details />} /> {/*details */}
-        <Route path="password" element={<Password />} /> {/*password */}
-      </Route>
-    </Route>
     </Route>
   </Route>
 );

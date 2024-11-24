@@ -127,6 +127,12 @@
             text-decoration: none !important;
         }
 
+        >a {
+            display: flex;
+            justify-content: center;
+            flex-grow: 1;
+        }
+
         >a[class*="active"] {
             background-color: rgba(68, 11, 123, 1);
         }

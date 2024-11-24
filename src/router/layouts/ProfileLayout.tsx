@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { profileLayout } from "../styles";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useParams } from "react-router-dom";
 import Stats from "./components/profile/Stats";
 import { profileIcon } from "@/media-exporting";
 import WaletState from "./components/profile/WaletStats";
@@ -12,6 +12,7 @@ enum statsType {
 }
 
 const ProfileLayout = () => {
+  const { userName } = useParams();
   return (
     <Fragment>
       <div className={`${profileLayout}`}>
@@ -31,15 +32,23 @@ const ProfileLayout = () => {
         </div>
         <div className="profileStatsLayout">
           <div className="profile-side-bar">
-            <NavLink className="" to="recent">
+            <NavLink
+              className=""
+              to={(userName ? userName + "/" : "") + "recent"}
+            >
               Recent
             </NavLink>
-            <NavLink className="" to="me" >
+            <NavLink
+              className=""
+              to={(userName ? userName + "/" : "") + "details"}
+            >
               Profile
             </NavLink>
-            <NavLink className="" to="friends">
-              Friends
-            </NavLink>
+            {!userName && (
+              <NavLink className="" to="friends">
+                Friends
+              </NavLink>
+            )}
           </div>
           <div className="user-image-link-content">
             <div className="user-image">
@@ -61,7 +70,9 @@ const ProfileLayout = () => {
           </div>
         </div>
         <div className="breadcrumbs"></div>
-        <div className="waletStats"><WaletState/></div>
+        <div className="waletStats">
+          <WaletState />
+        </div>
       </div>
     </Fragment>
   );
