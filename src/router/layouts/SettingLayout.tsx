@@ -7,15 +7,22 @@ import { BiSearch } from "react-icons/bi";
 const SettingLayout = () => {
   return (
     <Fragment>
-      <div className={settingLayout + " p-2"}>
+      <div className={settingLayout}>
         <div className="input-field">
-          <BiSearch />
-          <input type="text" name="search" id="searchSettings" />
+          <label htmlFor="searchSettings">
+            <BiSearch size={22} color="white" className="search-add-on" />
+          </label>
+          <input
+            type="text"
+            name="search"
+            id="searchSettings"
+            placeholder="Search....."
+          />
         </div>
         <section className="sectionOfSetting">
           <div className="user-background-image">
             <div className="background-img">
-              <img src={settingBackgroundImage} alt="" />
+              <img src={settingBackgroundImage} alt="background image for setting" />
             </div>
             <div className="user-image">
               <img src={profileIcon} alt="image of user" className="" />
