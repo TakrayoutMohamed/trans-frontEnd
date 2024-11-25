@@ -29,8 +29,9 @@ import Chat from "@privatePages/Chat";
 import Game from "@privatePages/Game";
 import Recent from "@privatePages/Recent";
 import Friends from "@privatePages/Friends";
-import Details from "@privatePages/Details";
-import Password from "@privatePages/Password";
+import SettingDetails from "@/src/pages/private/SettingDetails";
+import SettingProfile from "../pages/private/SettingProfile";
+import SettingPassword from "@/src/pages/private/SettingPassword";
 import ChatArea from "@privatePages/ChatArea";
 
 // routers protection
@@ -79,8 +80,10 @@ const routingTree: RouteObject[] = createRoutesFromElements(
         <Route path="tournament" element={<TournamentLayout />}></Route>
         {/*setting layout */}
         <Route path="setting" element={<SettingLayout />}>
-          <Route index element={<Details />} /> {/*details */}
-          <Route path="password" element={<Password />} /> {/*password */}
+          <Route index element={<Navigate to="details" replace />} />
+          <Route path="details" element={<SettingDetails />} />
+          <Route path="profile" element={<SettingProfile />} />
+          <Route path="password" element={<SettingPassword />} />
         </Route>
       </Route>
     </Route>

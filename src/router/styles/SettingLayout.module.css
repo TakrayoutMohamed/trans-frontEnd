@@ -1,0 +1,81 @@
+.settingLayout {
+   color: white;
+   background-color: rgb(159, 207, 207);
+   display: flex;
+   flex-direction: column;
+   margin-left: auto;
+   margin-right: auto;
+   gap: 0.5em 0px;
+   height: 100%;
+}
+
+.settingLayout div[class*="input-field"] {
+   background-color: blue;
+}
+
+.settingLayout section[class*="sectionOfSetting"] {
+   background-color: bisque;
+   flex-grow: 1;
+   display: flex;
+   flex-direction: column;
+   width: 100%;
+
+   div[class*="user-background-image"] {
+      position: relative;
+      min-height: calc(12% + 8vw);
+      --user-img-width: clamp(6em, 4em + 5vw, 12em);
+      --background-img-height: 70%;
+
+      div[class*="background-img"] {
+         background-color: rgb(80, 51, 80);
+         height: var(--background-img-height);
+
+         >img {
+            width: 100%;
+            height: 100%;
+         }
+      }
+
+      div[class*="user-image"] {
+         position: absolute;
+         width: var(--user-img-width);
+         top: calc(var(--background-img-height) - calc(var(--user-img-width) / 2));
+         left: calc(1.5em + 2vw);
+         background-color: white;
+         border-radius: 100%;
+         padding: 0.3em;
+
+         >img {
+            width: 100%;
+            background-color: rgb(0, 176, 176);
+            border-radius: 100%;
+         }
+      }
+   }
+
+   div[class*="setting-routes-outlets"] {
+      div[class*="setting-routes"] {
+         display: flex;
+         flex-direction: row;
+         column-gap: 2em;
+         background-color: rgb(138, 138, 31);
+
+         a {
+
+            text-decoration: none;
+            color: white;
+            font-family: var(--font-luckiestGuy);
+         }
+
+         a[class*="active"] {
+            color: blue;
+         }
+      }
+
+      div[class*="setting-outlets"] {
+         background-color: rgb(27, 141, 52);
+         padding: 1em;
+
+      }
+   }
+}

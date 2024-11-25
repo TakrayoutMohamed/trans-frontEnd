@@ -33,4 +33,5 @@ export const friends = "/assets/images/friends.svg";
 export const tournament = "/assets/images/tournament.svg";
 export const chatBackgroundImage = "/assets/images/chatBackgroundImage.svg";
 export const coinsBackground = "/assets/images/coinsBackground.svg";
-export const settingBackgroundImage = "/assets/images/settingBackgroundImage.png";
+export const settingBackgroundImage =
+  "/assets/images/settingBackgroundImage.png";
