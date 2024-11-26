@@ -1,6 +1,8 @@
+import { settingPassword } from "./styles"
+
 const SettingPassword = () => {
   return (
-    <div className="bg-secondary-subtle">Password setting</div>
+    <div className={settingPassword}>Password setting</div>
   )
 }
 

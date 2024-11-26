@@ -1,6 +1,8 @@
+import { settingDetails } from "./styles"
+
 const SettingDetails = () => {
   return (
-    <div className="bg-secondary-subtle">Details setting</div>
+    <div className={settingDetails}>Details setting</div>
   )
 }
 

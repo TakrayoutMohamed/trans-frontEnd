@@ -1,0 +1,51 @@
+.settingProfile {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    color: white;
+    background-color: aqua;
+}
+
+.settingProfile form {
+    display: flex;
+    flex-direction: column;
+
+    >div {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+}
+
+.settingProfile div[class*="first-last-name"] {
+    background-color: antiquewhite;
+
+
+    div {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6em 0em;
+    }
+
+    /* div[class*="first-name"] {} */
+
+    /* div[class*="last-name"] {} */
+}
+
+.settingProfile {
+    input {
+        border: 0px;
+        border-radius: 9px;
+        padding: 0.3em 1em;
+        background-color: rgba(84, 54, 57, 0.48);
+        color: rgba(255, 255, 255, 0.82);
+    }
+
+    ::placeholder {
+        color: rgba(255, 255, 255, 0.27);
+    }
+
+    :focus-visible {
+        outline: 2px solid #391E44;
+    }
+}

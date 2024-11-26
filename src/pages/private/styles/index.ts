@@ -13,6 +13,9 @@ import ConversationContent from "./ChatConversationContent.module.css";
 import ProfileStyles from "./Profile.module.css";
 import RecentStyles from "./Recent.module.css";
 import FriendsStyles from "./Friends.module.css";
+import SettingDetailsStyles from "./SettingDetails.module.css";
+import SettingProfileStyles from "./SettingProfile.module.css";
+import SettingPasswordStyles from "./SettingPassword.module.css";
 
 /**
  * the styles of dashboard (game) components
@@ -48,3 +51,11 @@ export const chatConversationContent =
 export const profile = ProfileStyles["profile"];
 export const recent = RecentStyles["recent"];
 export const friends = FriendsStyles["friends"];
+
+/**
+ * the styles of setting components
+*/
+
+export const settingProfile = SettingProfileStyles["settingProfile"];
+export const settingDetails = SettingDetailsStyles["settingDetails"];
+export const settingPassword = SettingPasswordStyles["settingPassword"];
