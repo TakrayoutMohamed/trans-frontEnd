@@ -29,7 +29,6 @@ import Chat from "@privatePages/Chat";
 import Game from "@privatePages/Game";
 import Recent from "@privatePages/Recent";
 import Friends from "@privatePages/Friends";
-import SettingDetails from "@/src/pages/private/SettingDetails";
 import SettingProfile from "../pages/private/SettingProfile";
 import SettingPassword from "@/src/pages/private/SettingPassword";
 import ChatArea from "@privatePages/ChatArea";
@@ -80,8 +79,7 @@ const routingTree: RouteObject[] = createRoutesFromElements(
         <Route path="tournament" element={<TournamentLayout />}></Route>
         {/*setting layout */}
         <Route path="setting" element={<SettingLayout />}>
-          <Route index element={<Navigate to="details" replace />} />
-          <Route path="details" element={<SettingDetails />} />
+          <Route index element={<Navigate to="profile" replace />} />
           <Route path="profile" element={<SettingProfile />} />
           <Route path="password" element={<SettingPassword />} />
         </Route>

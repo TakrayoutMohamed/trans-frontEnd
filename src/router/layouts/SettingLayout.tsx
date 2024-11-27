@@ -30,9 +30,6 @@ const SettingLayout = () => {
           </div>
           <div className="setting-routes-outlets">
             <div className="setting-routes">
-              <NavLink to={"details"} className="">
-                Details
-              </NavLink>
               <NavLink to={"profile"} className="">
                 Profile
               </NavLink>
