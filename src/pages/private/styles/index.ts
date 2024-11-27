@@ -13,7 +13,6 @@ import ConversationContent from "./ChatConversationContent.module.css";
 import ProfileStyles from "./Profile.module.css";
 import RecentStyles from "./Recent.module.css";
 import FriendsStyles from "./Friends.module.css";
-import SettingDetailsStyles from "./SettingDetails.module.css";
 import SettingProfileStyles from "./SettingProfile.module.css";
 import SettingPasswordStyles from "./SettingPassword.module.css";
 
@@ -57,5 +56,4 @@ export const friends = FriendsStyles["friends"];
 */
 
 export const settingProfile = SettingProfileStyles["settingProfile"];
-export const settingDetails = SettingDetailsStyles["settingDetails"];
 export const settingPassword = SettingPasswordStyles["settingPassword"];
