@@ -1,7 +1,6 @@
 .profileStats {
     display: flex;
     flex-direction: column;
-    /* background-color: black !important; */
     color: white !important;
     min-width: fit-content;
     min-height: fit-content;
@@ -44,4 +43,16 @@ div[class*="loses"] {
 
 .profileStats div[class*="loses"]{
     margin-bottom: 1em;
+}
+
+@media screen and (max-width: 800px) {
+    .profileStats div[class*="title"] {
+        margin-block:0px;
+        font-size: clamp(0.8em, 0.8em + 2vw, 3em);
+    }
+    .profileStats div[class*="wins"],
+    div[class*="matches"],
+    div[class*="loses"] {
+        font-size: clamp(0.3em, 0.5em + 1.3vw, 2em);
+    }
 }

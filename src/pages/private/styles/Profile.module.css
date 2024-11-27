@@ -12,3 +12,11 @@
         line-height: 2em;
     }
 }
+@media screen and (max-width: 800px) {
+    .profile{
+        margin-left:auto;
+        >div{
+            font-size: clamp(0.5em, 0.8em + 1vw, 1.5em);        
+        }
+    }
+}
