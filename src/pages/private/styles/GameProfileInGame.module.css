@@ -6,7 +6,7 @@
     min-width: fit-content;
     min-height: fit-content;
     width: 95%;
-    height: 80%;
+    height: 90%;
     border: 1px solid rgba(217, 217, 217, 0.1);
     border-radius: 35px;
     background-color: rgba(217, 217, 217, 0.1);
@@ -141,7 +141,7 @@
         div[class*="vertical-line"] {
             border: 2px solid rgba(255, 255, 255, 0.57);
             margin-top: auto;
-            min-height: 70%;
+            min-height: 50%;
         }
     }
 }

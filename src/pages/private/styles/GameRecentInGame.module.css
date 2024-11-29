@@ -1,27 +1,33 @@
 .gameRecentInGame {
     /**title of the recent games(text Recent)*/
-    max-height: 100%;
-
-    /**title of the recent games*/
-    >div:first-child {
-        font-size: clamp(1em, 1vw + 1.2em, 6em);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    min-width: 90%;
+    width: fit-content;
+    margin-inline: auto;
+    
+    div[class*="title"]{
+        /* background-color: red; */
         margin-bottom: 0px;
-        line-height: fit-content;
+        /* margin-top: 2em; */
         font-family: var(--font-luckiestGuy);
+        font-size: clamp(0.9em, 1.5em + 1vw, 3.5em);
+        line-height: fit-content;
+        text-align: center;
     }
-
-    /**body of the recent games*/
-    >div:last-child {
-        /* margin-top:0px; */
-        padding-block: 0.2em;
+    div[class*="recent-board"]{
+        display: flex;
+        flex-direction: column;
+        border: 1px white solid;
+        border-radius: 35px;
+        padding-block: 0.5em;
+        padding-inline: 0.75em;
         border-radius: 20px;
         background-image: linear-gradient(180deg, #03062E 0%, #5F0A94 170.71%);
-        background-color: rgba(217, 217, 217, 0.1);
-        /* border: 2px solid !important; */
-
-
-        /* border-image: linear-gradient(90deg, #FFC7C7 0%, #997878 100%) !important; */
-
+        /* background-color: rgba(217, 217, 217, 0.1); */
+        
 
     }
 }
@@ -30,21 +36,19 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin-inline: 5px;
-    margin-block: 0.2em;
+    margin-block: 0.25em;
     padding: 0.2em;
+    min-width: fit-content;
     border-radius: 20px;
-    /* height: clamp(1.5em, 2vw + 1em , 4em); */
     background: linear-gradient(90deg, rgba(68, 255, 0, 0.442) 0%, rgba(255, 0, 0, 0.383) 100%);
 
-
-    /* left div (image, name of the winner)*/
-    >div:first-child {
+    >div[class*="winner"]{
+        display: flex;
+        flex-direction: row;
         min-width: fit-content;
         width: 45%;
 
-        /** user image*/
-        >div:first-child {
+        >div[class*="user-image"]{
             display: flex;
             justify-content: center;
             padding: 0px;
@@ -53,48 +57,62 @@
             border: 2px solid black;
             border-radius: 100%;
             img {
+                border-radius: 100%;
                 width: 100%;
                 padding: 0px;
                 margin: 0px;
             }
         }
 
-        /** user name*/
-        >div:last-child {
+        >div[class*="user-name"] {
+            text-align: center;
+            font-weight:500;
             flex-grow: 2;
             font-size: clamp(1em, 0.2em + 1vw, 6em);
         }
     }
 
     /** VS container text */
-    >div:nth-child(2) {
-        font-size: clamp(0.5em, 1.5vw + 0.5em, 6em);
+    >div[class*="vs-container"] {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        padding:0px;
+        margin:0px;
+        background-color: red;
+        font-size: clamp(0.6em, 0.5em + 1vw, 3.5em);
         font-family: var(--font-luckiestGuy);
-        font-weight: 900;
+        font-weight: 600;
+        line-height: fit-content;
     }
 
     /* right div (image, name of the losser)*/
-    >div:last-child {
+    >div[class*="loser"]{
+        display: flex;
+        flex-direction: row;
         flex-grow: 2;
         min-width: fit-content;
 
-        /** user name*/
-        > :first-child {
+        >div[class*="user-name"] {
+            text-align: left;
+            font-weight:500;
             flex-grow: 2;
+            margin-left:25%;
             font-size: clamp(1em, 0.2em + 1vw, 6em);
         }
+        div[class*="user-image"]{
 
-        /** user image*/
-        > :last-child {
             display: flex;
             justify-content: center;
-            padding: 0px;
-            margin: 0px;
+            /* padding: 0px; */
+            /* margin: 0px; */
             width: clamp(1%, 11% + 1vh, 20%);
             border: 2px solid black;
             border-radius: 100%;
-
+            
             img {
+                border-radius: 100%;
                 width: 100%;
                 padding: 0px;
                 margin: 0px;

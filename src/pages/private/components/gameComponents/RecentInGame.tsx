@@ -62,22 +62,22 @@ type PlayerInfoProps = {
 
 const NameAndImageIcon = ({ player, isWinner }: PlayerInfoProps) => {
   return isWinner ? (
-    <div className="bg-info9 d-flex flex-row">
-      <div className="">
+    <div className="winner">
+      <div className="user-image">
         <img src={profileIcon} alt="playerIcon" className="" />
       </div>
-      <div className="fw-medium text-center my-auto" title={player.name}>
+      <div className="user-name" title={player.name}>
         {player.name.length > 8 && player.name.substring(0, 6).concat("...")}
         {player.name.length <= 8 && player.name}
       </div>
     </div>
   ) : (
-    <div className="d-flex flex-row">
-      <div className="fw-medium text-center my-auto " title={player.name}>
+    <div className="loser">
+      <div className="user-name" title={player.name}>
         {player.name.length > 8 && player.name.substring(0, 6).concat("...")}
         {player.name.length <= 8 && player.name}
       </div>
-      <div className="">
+      <div className="user-image">
         <img
           src={profileIcon}
           alt="playerIcon"
@@ -104,9 +104,9 @@ const RecentInGame = () => {
 
   return (
     <>
-      <div className={`${gameRecentInGame}`}>
-        <div className="h1 text-center">Recent</div>
-        <div className="d-flex flex-column border m-0">
+      <div className={gameRecentInGame}>
+        <div className="title">Recent</div>
+        <div className="recent-board">
           {!matches ||
             (!matches.length && (
               <div className="h4 text-warning"> No matches yet</div>
@@ -116,7 +116,7 @@ const RecentInGame = () => {
               index < 10 ? (
                 <div
                   key={index}
-                  className={`d-flex ${gameRecentInGameImageAndName}`}
+                  className={gameRecentInGameImageAndName}
                 >
                   {match.player1.scored >= match.player2.scored ? (
                     <>
@@ -124,7 +124,7 @@ const RecentInGame = () => {
                         player={match.player1}
                         isWinner={true}
                       />
-                      <div className="h3 my-auto">VS</div>
+                      <div className="vs-container">VS</div>
                       <NameAndImageIcon
                         player={match.player2}
                         isWinner={false}
@@ -136,7 +136,7 @@ const RecentInGame = () => {
                         player={match.player2}
                         isWinner={true}
                       />
-                      <div className="h3 my-auto">VS</div>
+                      <div className="vs-container">VS</div>
                       <NameAndImageIcon
                         player={match.player1}
                         isWinner={false}
