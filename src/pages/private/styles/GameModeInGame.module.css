@@ -1,29 +1,84 @@
-/* game mode in game */
 .gameModeInGame {
     display: flex;
-    justify-content: space-around;
-    width: 90%;
+    justify-content: space-between;
+    margin-left: auto;
+    margin-top: auto;
+    height: 80%;
+    width: 98%;
+    color: white;
 
-    >div:last-child,
-    >div:first-child {
+    >div[class*="left-arrow"],
+    >div[class*="right-arrow"] {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        z-index: 1;
         border: 1px white solid;
         border-radius: 6px;
-         *{
-            width: max(15px, 1em + 1vw);
-        }
+        cursor: pointer !important;
+        width: fit-content;
+        height: fit-content;
+        margin-block: auto;
+        padding-inline: 0.3em;
+        padding-block: 0.1em;
     }
 }
 
 .gameModeInGameSlides {
-
-
     display: flex;
+    flex-direction: row;
     min-width: 80%;
-    justify-content: space-evenly;
+    justify-content: space-around;
+
+    >div[id="slideTournament"] {
+        display: flex;
+        margin: auto;
+
+        h3 {
+            font-family: var(--font-luckiestGuy);
+            font-weight: 500;
+            font-size: clamp(0.5em, 0.6em + 1vw, 1.5em) !important;
+            text-wrap: nowrap;
+        }
+
+        p {
+            font-size: clamp(0.6em, 0.5em + 1vw, 1em);
+        }
+
+        button {
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(90deg, #E03CCF -40.94%, #5D5AE7 168.9%);
+            max-width: 10em;
+            min-height: fit-content !important;
+            padding-inline: 0px !important;
+            padding-block: 0.08em;
+            border-radius: 23px;
+            border: none;
+            line-height: fit-content;
+            text-wrap: nowrap;
+            font-family: var(--font-luckiestGuy);
+            font-size: clamp(0.8em, 0.2em + 1vw, 1.2em);
+        }
+    }
+
+    >div[id="slideAiMode"] {
+        display: flex;
+        margin: auto;
+
+    }
+
+    >div[id="slideFriends"] {
+        display: flex;
+        margin: auto;
+
+
+    }
 
     >div {
-        border: 1px white solid;
-        /* margin-block: min(auto, 20px) !important; */
+        border: 2px rgba(255, 255, 255, 0.25) solid;
     }
 
     img {
@@ -33,120 +88,154 @@
     >div:first-child,
     >div:last-child {
         height: 80%;
-        width: min(40%, 200px);
-        min-height: fit-content;
+        min-width: 25%;
+        display: grid;
+        grid-template-columns: 10fr;
+        grid-template-rows: 1fr;
         border-radius: 20px;
+        border-width: 4px;
 
-        >div>img {
-            background-color: gray;
-        }
+        div[class*="text-button"] {
+            grid-column: 1 / 9;
+            grid-row: 1/2;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 80%;
+            min-width: fit-content;
+            margin-block: auto;
+            margin-left: min(1em, 10%);
 
-        *>h3 {
-            font-family: var(--font-luckiestGuy);
-            font-weight: 500;
-            font-size: clamp(0.25em + 0.25vw, 0.5em + 0.5vw, 0.5em + 0.8vw);
-        }
-
-        *>p {
-            font-size: clamp(0.3em + 0.2vw, 0.1em + 0.5vw, 2em);
-            line-height: 1em;
-            font-weight: 300;
-            background-color: rebeccapurple !important;
-        }
-
-        /* the side slider's text and button  box */
-        button {
-            background: linear-gradient(90deg, #E03CCF -40.94%, #5D5AE7 168.9%);
-            color: white;
-            width: fit-content !important;
-            min-height: fit-content !important;
-            margin-top: 5% !important;
-            margin-bottom: 10% !important;
-            border-radius:23px;
-            text-wrap: nowrap;
-            font-family: var(--font-luckiestGuy);
-            font-size: clamp(0.25em + 0.25vw, 0.5em + 0.5vw, 0.5em + 0.8vw) !important;
-            padding: 0px 5px 0px !important;
-        }
-        filter: blur(1.8px);
-    }
-
-    >div:nth-child(2) {
-        height: 100%;
-        width: 70%;
-        width: min(70%, 400px);
-        border-radius: 20px;
-
-        >div {
-            margin-top: 20px !important;
             >h3 {
-                /* background-color: aquamarine; */
                 font-family: var(--font-luckiestGuy);
                 font-weight: 500;
-                font-size: clamp(0.5vw + 0.5em, 0.5em + 2vw, 1em + 1vw);
+                font-size: clamp(0.5em, 0.5em + 2vw, 1.3em);
+                text-wrap: nowrap;
             }
 
             >p {
-                font-size: clamp(0.6em + 0.2vw, 0.5em + 1vw, 2em);
-                line-height: 1em;
-                font-weight: 400;
+                font-size: clamp(0.6em, 0.5em + 1vw, 1em);
             }
 
             button {
-                background: linear-gradient(90deg, #E03CCF -40.94%, #5D5AE7 168.9%);
+                position: relative;
+                bottom: -1.5em;
                 color: white;
-                width: fit-content !important;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: linear-gradient(90deg, #E03CCF -40.94%, #5D5AE7 168.9%);
+                max-width: 10em;
                 min-height: fit-content !important;
-                margin-top:2em !important;
-                margin-bottom: 10% !important;
-                border-radius:23px;
+                padding-block: 0.08em;
+                border-radius: 23px;
+                border: none;
+                line-height: fit-content;
                 text-wrap: nowrap;
                 font-family: var(--font-luckiestGuy);
-                font-size: 1em !important;
-                padding: 0px 9px 0px !important;
+                font-size: clamp(0.8em, 0.2em + 1vw, 1.2em);
+                cursor: no-drop;
             }
+        }
+
+        div[class*="game-mode-image"] {
+            grid-column: 1 / 10;
+            grid-row: 1 / 4;
+            display: flex;
+            align-items: center;
+            border-radius: inherit;
+            background-image: url("/assets/images/blurEffectBackgroundImage.svg");
+            background-position-x: 200%;
+            background-position-y: center;
+            background-size: 80% 80%;
+            backdrop-filter: blur(10px);
+            background-repeat: no-repeat;
+            background-attachment: local;
 
             img {
-                /* background-color: red; */
+                height: 100%;
+                margin-left: 50%;
+                width: 50%;
+            }
+        }
+
+        filter: blur(1.3px);
+    }
+
+    /*div in the center of modes*/
+    >div:nth-child(2) {
+        height: 100%;
+        min-width: 40%;
+
+        margin-inline: 1em;
+        display: grid;
+        grid-template-columns: 10fr;
+        grid-template-rows: 1fr;
+        border-radius: 20px;
+
+        div[class*="text-button"] {
+            grid-column: 1 / 8;
+            grid-row: 1/2;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 80%;
+            margin-block: auto;
+            margin-left: 1em;
+
+            >h3 {
+                font-family: var(--font-luckiestGuy);
+                font-weight: 500;
+                font-size: clamp(0.5em, 0.5em + 2vw, 1.3em);
+                text-wrap: nowrap;
+            }
+
+            >p {
+                font-size: clamp(0.6em, 0.5em + 1vw, 1em);
+            }
+
+            button {
+                position: relative;
+                bottom: -1.5em;
+                color: white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: linear-gradient(90deg, #E03CCF -40.94%, #5D5AE7 168.9%);
+                min-width: fit-content !important;
+                max-width: 10em;
+                min-height: fit-content !important;
+                padding-block: 0.08em;
+                border-radius: 23px;
+                border: none;
+                line-height: fit-content;
+                text-wrap: nowrap;
+                font-family: var(--font-luckiestGuy);
+                font-size: clamp(1em, 0.6em + 1vw, 1.5em);
+            }
+        }
+
+        div[class*="game-mode-image"] {
+            grid-column: 1 / 10;
+            grid-row: 1 / 4;
+            display: flex;
+            align-items: center;
+            border-radius: inherit;
+            background-image: url("/assets/images/blurEffectBackgroundImage.svg");
+            background-position-x: 200%;
+            background-position-y: 30%;
+            background-size: 80%;
+            backdrop-filter: blur(10px);
+            background-repeat: no-repeat;
+            background-attachment: local;
+
+            img {
+                height: 80%;
+                margin-left: 50%;
+                width: 50%;
             }
         }
     }
-}
-
-.gameModeInGameSlides>div[id="slideAiMode"] {
-    /* background-image: url(/public/assets/images/robot.svg);
-    background-repeat: no-repeat;
-    background-position: right;
-    background-size: auto 100%; */
-    /* width: fit-content; */
-
-}
-
-.gameModeInGameSlides>div[id="slideTournament"] {
-    /* background-image: url(/public/assets/images/tournament.svg);
-    background-repeat: no-repeat;
-    background-position: right;
-    background-size: auto 90%; */
-    /* width: fit-content; */
-    h3 {
-        /* background-color: aquamarine !important;
-        font-weight: 400;
-        font-size: clamp(1em, 1em + 1vw, 0.5em + 1vw); */
-    }
-    p {
-        /* background-color: aquamarine !important; */
-        /* font-size: clamp(0.6em + 0.2vw, 0.5em + 1vw, 2em);
-        line-height: 1em;
-        font-weight: 400; */
-    }
-
-}
-
-.gameModeInGameSlides>div[id="slideFriends"] {
-    /* background-image: url(/public/assets/images/friends.svg);
-    background-repeat: no-repeat;
-    background-position: right;
-    background-size: auto 60%; */
-    /* width: fit-content; */
-
 }

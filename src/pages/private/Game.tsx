@@ -5,44 +5,39 @@ import LeaderBordInGame from "@/src/pages/private/components/gameComponents/Lead
 import GameModeInGame from "@/src/pages/private/components/gameComponents/GameModeInGame";
 import PongPlayerInGame from "./components/gameComponents/PongPlayerInGame";
 import { game } from "./styles";
+import SearchFriendsInGame from "./components/gameComponents/SearchFriendsInGame";
 
 const Game = () => {
   return (
     <>
-      <div className={`position-relative container-fluid w-100 m-0 ${game}`}>
-        <div
-          className="position-absolute w-100 top-0 start-0 position-relative overflow-y-hidden" id="gameBackground" 
-          style={{}}
-        >
+      <div className={game}>
+        <div className="" id="gameBackground">
           <BackgroundCircles />
         </div>
-        <div className="bg-secondary-subtlee position-relative top-0 start-0" id="gameContent">
-          <div className="d-flex flex-column flex-md-row m-0">
-            <div className="bg-dangerr col-12 d-flex d-block d-md-none mb-5"></div>
-            <div className="bg-dangere col-12 col-md-8 d-flex flex-row">
+        <main className="game-container">
+          <section className="searchFriends-pongPlayer-gameMode-leaderBoard-container">
+            <div className="searchFriends-container">
+              <SearchFriendsInGame />
+            </div>
+            <div className="pongPlayer-container">
               <PongPlayerInGame />
             </div>
-            <div
-              className="bg-secondaryy col-12 col-md-4 m-0 p-0 mt-3"
-              style={{ backdropFilter: "blur(4px)" }}
-            >
+            <div className="gameMode-container">
+              <GameModeInGame />
+            </div>
+            <div className="leaderBoard-container">
+              <LeaderBordInGame />
+            </div>
+          </section>
+          <section className="profile-recentGames-container">
+            <div className="profile-container">
               <ProfileInGame />
             </div>
-          </div>
-          <div className="d-flex flex-column flex-md-row m-0 gap-4 gap-md-0 ">
-            <div className="bg-secondaryy col-12 col-md-8 d-flex flex-column gap-4">
-              <div className="d-flex flex-row flex-wrap">
-                <GameModeInGame />
-              </div>
-              <div className="bg-dangerr d-flex flex-row">
-                <LeaderBordInGame />
-              </div>
-            </div>
-            <div className="bg-infoo col-12 col-md-4 m-0">
+            <div className="recentGames-container">
               <RecentInGame />
             </div>
-          </div>
-        </div>
+          </section>
+        </main>
       </div>
     </>
   );

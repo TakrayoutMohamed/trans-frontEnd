@@ -1,6 +1,7 @@
 import GameStyles from "./Game.module.css";
 import BgCircleStyles from "./GameBackgroundCircle.module.css";
 import ModeStyles from "./GameModeInGame.module.css";
+import SearchFriendsStyles from "./GameSearchFriendsInGame.module.css";
 import pongPlayerStyles from "./PongPlayerInGame.module.css";
 import LeaderBoardStyles from "./GameLeaderBoardInGame.module.css";
 import GameProfileStyles from "./GameProfileInGame.module.css";
@@ -25,6 +26,7 @@ export const gameBackgroundCircle = BgCircleStyles["gameBackgroundCircle"];
 export const gameModeInGame = ModeStyles["gameModeInGame"];
 export const gameModeInGameSlides = ModeStyles["gameModeInGameSlides"];
 
+export const searchFriendsInGame = SearchFriendsStyles["searchFriendsInGame"];
 export const pongPlayerInGame = pongPlayerStyles["pongPlayerInGame"];
 export const gameLeaderBoardInGame = LeaderBoardStyles["gameLeaderBoardInGame"];
 export const gameProfileInGame = GameProfileStyles["gameProfileInGame"];
