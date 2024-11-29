@@ -97,22 +97,21 @@ const LeaderBordInGame = () => {
   const players: PlayerData[] = data;
   return (
     <>
-      <div className={`bg-infoe d-flex flex-row col-12 ${gameLeaderBoardInGame}`}>
-        <div className="bg-successs d-none d-md-block col-1 h-auto m-0 p-0"></div>
-        <table className="d-flex flex-column w-100 ">
-          <thead className="p-0">
-            <tr className="d-flex justify-content-around my-2 mx-0 px-0 text-center">
-              <th className="d-none d-sm-block text-center">RANK</th>
+      <div className={gameLeaderBoardInGame}>
+        <table className="">
+          <thead className="">
+            <tr className="">
+              <th className="">RANK</th>
               <th className="" style={{visibility:"hidden"}}>Image</th>
-              <th className="text-center">NAME</th>
-              <th className=" d-none d-sm-block text-center">SCORE</th>
-              <th className="text-center">LEVEL</th>
+              <th className="">NAME</th>
+              <th className=" ">SCORE</th>
+              <th className="">LEVEL</th>
               <th>MEDAL</th>
             </tr>
           </thead>
           <tbody className="">
             {!players || !players.length ? (
-              <tr className="text-center">
+              <tr className="">
                 <td colSpan={6}> No data in Leader board!!</td>
               </tr>
             ) : (
@@ -120,37 +119,36 @@ const LeaderBordInGame = () => {
                 index < 6 ? (
                   <tr
                     key={index}
-                    className="bg-secondary bg-opacity-50 d-flex justify-content-around rounded-5 text-center my-2 px-0 "
+                    className=""
                   >
-                    <th scope="col" className="my-auto p-2  d-none d-sm-block">
+                    <th scope="col" className="">
                       {player.rank}
                     </th>
-                    <td className="my-auto p-0">
+                    <td className="">
                       <img
                         src={player.image}
-                        className="bg-success rounded-circle m-0"
+                        className="user-image"
                         alt="user image"
                       />
                     </td>
-                    <td className="my-auto p-0">{player.name}</td>
-                    <td className="my-auto p-0 d-none d-sm-block">{player.score}xp</td>
-                    <td className="my-auto p-0">{player.level}</td>
-                    <td className="my-auto p-0">
+                    <td className="">{player.name}</td>
+                    <td className="">{player.score}xp</td>
+                    <td className="">{player.level}</td>
+                    <td className="">
                       <img
                         src={player.medal}
-                        className="bg-dark rounded-circle"
+                        className="medal-image"
                         alt="medal image"
                       />
                     </td>
                   </tr>
                 ) : (
-                  <tr key={index} className="p-0 m-0"></tr>
+                  <tr key={index} className="d-none"></tr>
                 )
               )
             )}
           </tbody>
         </table>
-        <div className=" bg-successs d-none d-md-block col-1 h-100 m-0 p-0"></div>
       </div>
     </>
   );
