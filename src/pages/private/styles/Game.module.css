@@ -33,15 +33,15 @@
             "pongPlayer-container"
             "pongPlayer-container"
             "pongPlayer-container"
+            "pongPlayer-container"
+            "pongPlayer-container"
+            "pongPlayer-container"
             "gameMode-container"
             "gameMode-container"
             "gameMode-container"
             "gameMode-container"
             "gameMode-container"
             "gameMode-container"
-            "gameMode-container"
-            "leaderBoard-container"
-            "leaderBoard-container"
             "leaderBoard-container"
             "leaderBoard-container"
             "leaderBoard-container"
@@ -83,7 +83,6 @@
         grid-template-columns: 1fr;
         grid-template-areas:
             "none"
-            "none"
             "profile-container"
             "profile-container"
             "profile-container"
@@ -91,9 +90,10 @@
             "profile-container"
             "profile-container"
             "profile-container"
-            "recentGames-container"
-            "recentGames-container"
-            "recentGames-container"
+            "profile-container"
+            "profile-container"
+            "profile-container"
+            "profile-container"
             "recentGames-container"
             "recentGames-container"
             "recentGames-container"
@@ -107,12 +107,13 @@
             "recentGames-container"
             "recentGames-container"
         ;
+
         div[class*="profile-container"] {
             background-color: rgb(136, 119, 119);
             backdrop-filter: "blur(4px)";
             grid-area: profile-container;
         }
-        
+
         div[class*="recentGames-container"] {
             grid-area: recentGames-container;
         }
