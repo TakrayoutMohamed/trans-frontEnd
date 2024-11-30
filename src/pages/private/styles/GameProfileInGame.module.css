@@ -32,7 +32,6 @@
             div[class*="user-image"] {
                 display: flex;
                 width: 40%;
-
                 >img {
                     border-radius: 100%;
                     background-color: rgb(2, 113, 2);
@@ -49,7 +48,7 @@
                 div[class*="user-name"] {
                     color: #F15F66;
                     font-family: "Hiragino Maru Gothic ProN";
-                    font-size: clamp(1em, 0.5em + 0.7vw, 1.5em);
+                    font-size: clamp(0.3em, 0.4em + 1vw, 2em);
                     font-weight: 500;
                     margin-right: auto;
                     font-weight: medium;
@@ -59,8 +58,8 @@
                     margin: 0px;
                     padding: 0px;
                     color: white;
-                    font-size: clamp(0.5em, 1em + 2vw, 1em);
-                    font-weight: 500;
+                    font-size: clamp(0.1em, 0.2em + 0.75vw, 1em);
+                    font-weight: 200;
                 }
             }
         }
