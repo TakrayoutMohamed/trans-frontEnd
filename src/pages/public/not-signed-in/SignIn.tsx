@@ -15,7 +15,7 @@ import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { BiSolidLeftArrow } from "react-icons/bi";
 import { FcGoogle } from "react-icons/fc";
 import { Si42, SiGithub } from "react-icons/si";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import Cookies from "js-cookie";
 import { setAuthenticated } from "@/src/states/authentication/authenticatorSlice";
@@ -31,6 +31,19 @@ const signInSchema = z.object({
     .max(30, { message: "password must be less than 30 chars" }),
 });
 type SignInSchemaType = z.infer<typeof signInSchema>;
+
+const authenticateWithThirdParty = async (thirdParty: string) => {
+  try {
+    const test = await axios.post("/api/oauth", { platform: thirdParty });
+    console.log("testing authentication using a third party ");
+    console.log(test);
+  } catch (err) {
+    console.log(
+      "error from authentication using using a third party  " + thirdParty
+    );
+    console.log(err);
+  }
+};
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -60,7 +73,7 @@ const SignIn = () => {
       const res = await axios.post("login", data);
       console.log("res");
       console.log(res);
-      
+
       Cookies.set("accessToken", res.data?.access);
       dispatch(setAccessToken(res.data?.access));
       dispatch(setAuthenticated());
@@ -68,7 +81,7 @@ const SignIn = () => {
     } catch (err) {
       if (err instanceof AxiosError) {
         const error: AxiosError = err as AxiosError;
-        console.log(error)
+        console.log(error);
         if (!error.response) {
           setErrorMsg("No Server Response");
         } else if (error.response?.status === 401) {
@@ -122,30 +135,27 @@ const SignIn = () => {
               )}
             </div>
             <div className="d-flex justify-content-evenly mb-4 p-2">
-              <Link
-                to="#42"
+              <div
                 className="text-decoration-none rounded-5 p-1 pe-2 pb-1 text-center"
-                target="_blank"
                 style={{ background: "#8D6B92" }}
+                onClick={() => authenticateWithThirdParty("42")}
               >
                 <Si42 size={40} color="#000000" />
-              </Link>
-              <Link
-                to="#github"
+              </div>
+              <div
                 className="text-decoration-none rounded-5 p-1 text-center"
-                target="_blank"
                 style={{ background: "#8D6B92" }}
+                onClick={() => authenticateWithThirdParty("github")}
               >
                 <SiGithub size={40} color="#000000" />
-              </Link>
-              <Link
-                to="#google"
+              </div>
+              <div
                 className="text-decoration-none rounded-5 p-1 text-center"
-                target="_blank"
                 style={{ background: "#8D6B92" }}
+                onClick={() => authenticateWithThirdParty("gmail")}
               >
                 <FcGoogle size={40} color="#000000" />
-              </Link>
+              </div>
             </div>
             <div className="text-center">
               <button
