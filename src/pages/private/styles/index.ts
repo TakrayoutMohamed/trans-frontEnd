@@ -1,4 +1,5 @@
 import GameStyles from "./Game.module.css";
+import SidebarStyles from "./Sidebar.module.css";
 import BgCircleStyles from "./GameBackgroundCircle.module.css";
 import ModeStyles from "./GameModeInGame.module.css";
 import SearchFriendsStyles from "./GameSearchFriendsInGame.module.css";
@@ -16,6 +17,12 @@ import RecentStyles from "./Recent.module.css";
 import FriendsStyles from "./Friends.module.css";
 import SettingProfileStyles from "./SettingProfile.module.css";
 import SettingPasswordStyles from "./SettingPassword.module.css";
+
+/**
+ * the styles of sidebar components
+ */
+
+export const sidebar = SidebarStyles["sidebar"];
 
 /**
  * the styles of dashboard (game) components
@@ -55,7 +62,7 @@ export const friends = FriendsStyles["friends"];
 
 /**
  * the styles of setting components
-*/
+ */
 
 export const settingProfile = SettingProfileStyles["settingProfile"];
 export const settingPassword = SettingPasswordStyles["settingPassword"];

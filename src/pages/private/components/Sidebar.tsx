@@ -8,76 +8,59 @@ import {
   settingsIcon,
   tournamentIcon,
 } from "@/media-exporting";
-import ImagesIcon from "@pages/components/ImageIcon";
-
-const styleSidebar = {
-  background: "linear-gradient(#03062E 0%, #5F0A94 45.71%)",
-  width: "100px",
-  minWidth: "40px",
-  maxWidth: "100px",
-};
+import { sidebar } from "../styles";
 
 const Sidebar = () => {
   return (
     <>
-      <div
-        className=" h-auto d-flex flex-column justify-content-between text-center  border border-2 rounded-end-4 rounded-bottom-0 overflow-y-auto backgroundActive"
-        style={styleSidebar}
-      >
-        <ImagesIcon
-          imgPath={brandIcon}
-          imgSize={{ width: "50px", height: "50px" }}
-          styles="w-auto mt-4"
-          title="brandLogo"
-          alt="brandIcon"
-        />
-        <NavLink to={"/"} className="my-auto ">
-          <ImagesIcon
-            imgPath={homeIcon}
-            imgSize={{ width: "35px", height: "35px" }}
-            title="Home"
-            alt="homeIcon"
-          />
+      <div className={`${sidebar} backgroundActive`}>
+        <div className="brand-icon">
+          <img src={brandIcon} alt="brandIcon" className="" title="brandLogo" />
+        </div>
+        <NavLink to={"/"} className=" ">
+          <div className="link-icon">
+            <img src={homeIcon} alt="homeIcon" className="" title="home" />
+          </div>
         </NavLink>
-        <NavLink to={"/profile"} className="my-auto">
-          <ImagesIcon
-            imgPath={profileIcon}
-            imgSize={{ width: "35px", height: "35px" }}
-            title="Profile"
-            alt="profileIcon"
-          />
+        <NavLink to={"/profile"} className="">
+          <div className="link-icon">
+            <img
+              src={profileIcon}
+              alt="profileIcon"
+              className=""
+              title="profile"
+            />
+          </div>
         </NavLink>
-        <NavLink to={"/game"} className="my-auto">
-          <ImagesIcon
-            imgPath={gameIcon}
-            imgSize={{ width: "35px", height: "35px" }}
-            title="Game"
-            alt="gameIcon"
-          />
+        <NavLink to={"/game"} className="">
+          <div className="link-icon">
+            <img src={gameIcon} alt="gameIcon" className="" title="game" />
+          </div>
         </NavLink>
-        <NavLink to={"/chat"} className="my-auto">
-          <ImagesIcon
-            imgPath={chatIcon}
-            imgSize={{ width: "35px", height: "35px" }}
-            title="Chat"
-            alt="chatIcon"
-          />
+        <NavLink to={"/chat"} className="">
+          <div className="link-icon">
+            <img src={chatIcon} alt="chatIcon" className="" title="chat" />
+          </div>
         </NavLink>
-        <NavLink to={"/tournament"} className="my-auto">
-          <ImagesIcon
-            imgPath={tournamentIcon}
-            imgSize={{ width: "35px", height: "35px" }}
-            title="tournament"
-            alt="tournament icon"
-          />
+        <NavLink to={"/tournament"} className="">
+          <div className="link-icon">
+            <img
+              src={tournamentIcon}
+              alt="tournamentIcon"
+              className=""
+              title="tournament"
+            />
+          </div>
         </NavLink>
-        <NavLink to={"/setting"} className="my-auto mb-5">
-          <ImagesIcon
-            imgPath={settingsIcon}
-            imgSize={{ width: "35px", height: "35px" }}
-            title="Setting"
-            alt="settingIcon"
-          />
+        <NavLink to={"/setting"} className=" mb-5">
+          <div className="link-icon">
+            <img
+              src={settingsIcon}
+              alt="settingsIcon"
+              className=""
+              title="settings"
+            />
+          </div>
         </NavLink>
       </div>
     </>

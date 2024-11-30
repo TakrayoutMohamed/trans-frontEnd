@@ -1,0 +1,45 @@
+.sidebar {
+    min-width: 40px;
+    max-width: 5em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    text-align: center;
+    border: 4px rgba(255, 255, 255, 0.6);
+    border-top-right-radius: 1.5em;
+    overflow-y: auto;
+    background: linear-gradient(#03062E 0%, #5F0A94 45.71%);
+
+    div[class*="brand-icon"] {
+        padding: 0.5em;
+        margin-top: 0.6em;
+
+        >img {
+            width: 100%;
+        }
+    }
+
+    >a {
+        /* background-color: red; */
+        margin-block: auto;
+        width: 100%;
+
+        div[class*="link-icon"] {
+            height: fit-content;
+
+            >img {
+                width: 50%;
+            }
+        }
+    }
+
+    a[class*="active"]>div {
+        background-image: url("@icons/activeLinkIcon.svg");
+        background-position: center center;
+        background-size: 50px;
+        border-radius: 100px;
+        padding: 0.6em;
+        background-repeat: no-repeat;
+
+    }
+}
