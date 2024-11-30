@@ -13,32 +13,135 @@ interface SearchUsers {
 }
 
 const AllUsers: SearchUsers[] = [
-  {userName: "alvares1",firstName: "alvares",lastName: "negredo",status: true,},
-  {userName: "alvares2",firstName: "alvares",lastName: "negredo",status: false,},
-  {userName: "alvares3",firstName: "alvares",lastName: "negredo",status: true,},
-  {userName: "alvares4",firstName: "alvares",lastName: "negredo",status: false,},
-  {userName: "alvares5",firstName: "alvares",lastName: "negredo",status: true,},
-  {userName: "alvares6",firstName: "alvares",lastName: "negredo",status: false,},
-  {userName: "alvares7",firstName: "alvares",lastName: "negredo",status: true,},
-  {userName: "alvares8",firstName: "alvares",lastName: "negredo",status: false,},
-  {userName: "alvares9",firstName: "alvares",lastName: "negredo",status: true,},
-  {userName: "alvares10",firstName: "alvares",lastName: "negredo",status: false,},
-  {userName: "alvares11",firstName: "alvares",lastName: "negredo",status: true,},
-  {userName: "alvares12",firstName: "alvares",lastName: "negredo",status: false,},
-  {userName: "alvares13",firstName: "alvares",lastName: "negredo",status: true,},
-  {userName: "alvares14",firstName: "alvares",lastName: "negredo",status: false,},
-  {userName: "alvares15",firstName: "alvares",lastName: "negredo",status: true,},
-  {userName: "alvares16",firstName: "alvares",lastName: "negredo",status: true,},
-  {userName: "alvares17",firstName: "alvares",lastName: "negredo",status: true,},
-  {userName: "alvares18",firstName: "alvares",lastName: "negredo",status: true,},
+  {
+    userName: "alvares1",
+    firstName: "alvares",
+    lastName: "negredo",
+    status: true,
+  },
+  {
+    userName: "alvares2",
+    firstName: "alvares",
+    lastName: "negredo",
+    status: false,
+  },
+  {
+    userName: "alvares3",
+    firstName: "alvares",
+    lastName: "negredo",
+    status: true,
+  },
+  {
+    userName: "alvares4",
+    firstName: "alvares",
+    lastName: "negredo",
+    status: false,
+  },
+  {
+    userName: "alvares5",
+    firstName: "alvares",
+    lastName: "negredo",
+    status: true,
+  },
+  {
+    userName: "alvares6",
+    firstName: "alvares",
+    lastName: "negredo",
+    status: false,
+  },
+  {
+    userName: "alvares7",
+    firstName: "alvares",
+    lastName: "negredo",
+    status: true,
+  },
+  {
+    userName: "alvares8",
+    firstName: "alvares",
+    lastName: "negredo",
+    status: false,
+  },
+  {
+    userName: "alvares9",
+    firstName: "alvares",
+    lastName: "negredo",
+    status: true,
+  },
+  {
+    userName: "alvares10",
+    firstName: "alvares",
+    lastName: "negredo",
+    status: false,
+  },
+  {
+    userName: "alvares11",
+    firstName: "alvares",
+    lastName: "negredo",
+    status: true,
+  },
+  {
+    userName: "alvares12",
+    firstName: "alvares",
+    lastName: "negredo",
+    status: false,
+  },
+  {
+    userName: "alvares13",
+    firstName: "alvares",
+    lastName: "negredo",
+    status: true,
+  },
+  {
+    userName: "alvares14",
+    firstName: "alvares",
+    lastName: "negredo",
+    status: false,
+  },
+  {
+    userName: "alvares15",
+    firstName: "alvares",
+    lastName: "negredo",
+    status: true,
+  },
+  {
+    userName: "alvares16",
+    firstName: "alvares",
+    lastName: "negredo",
+    status: true,
+  },
+  {
+    userName: "alvares17",
+    firstName: "alvares",
+    lastName: "negredo",
+    status: true,
+  },
+  {
+    userName: "alvares18",
+    firstName: "alvares",
+    lastName: "negredo",
+    status: true,
+  },
 ];
+let isInputFocused: boolean = false;
+let isDevFocused: boolean = false;
+const hideSearchList = () => {
+  let selectSearchList = document.querySelector(".searched-friends-list");
+  if (isInputFocused === false && isDevFocused === false) {
+    if (!selectSearchList?.classList.contains("d-none"))
+      selectSearchList?.classList.add("d-none");
+  }
+};
+const showSearchList = () => {
+  let selectSearchList = document.querySelector(".searched-friends-list");
+  if (selectSearchList?.classList.contains("d-none"))
+    selectSearchList?.classList.remove("d-none");
+};
 
 const SearchFriendsInGame = () => {
   const [users, setUsers] = useState<SearchUsers[]>([]);
   function searchForUser(event: ChangeEvent<HTMLInputElement>) {
     event.preventDefault();
     let user = event.currentTarget.value;
-    console.log(user);
     if (!user.length) {
       users.length && setUsers([]);
     } else {
@@ -49,7 +152,6 @@ const SearchFriendsInGame = () => {
             .includes(user.toLowerCase());
         })
       );
-      console.log(users);
     }
   }
   return (
@@ -60,18 +162,36 @@ const SearchFriendsInGame = () => {
         </label>
         <input
           type="text"
-          name="search"
+          name="searchUsers"
           id="searchUsers"
+          className="searchUsers"
           placeholder="Search....."
           onChange={(event) => {
             searchForUser(event);
           }}
+          onFocus={() => {
+            isInputFocused = true;
+            showSearchList();
+          }}
+          onBlur={() => {
+            isInputFocused = false;
+            hideSearchList();
+          }}
         />
       </div>
-      <div className="searched-friends-list">
-        {(users &&
-          users.length) ?
-          (users.map((user, index) => (
+      <div
+        className="searched-friends-list"
+        tabIndex={0}
+        onMouseEnter={() => (isDevFocused = true)}
+        onMouseLeave={() => (isDevFocused = false)}
+        onFocus={() => showSearchList()}
+        onBlur={() => {
+          isDevFocused = false;
+          hideSearchList();
+        }}
+      >
+        {users && users.length ? (
+          users.map((user, index) => (
             <div className="searched-friends-cards" key={index}>
               <Link
                 to={`/profile/` + user.userName}
@@ -102,8 +222,10 @@ const SearchFriendsInGame = () => {
                 </div>
               </div>
             </div>
-        ))): <></>}
-
+          ))
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );
