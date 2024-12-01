@@ -34,7 +34,7 @@ import SettingPassword from "@/src/pages/private/SettingPassword";
 import ChatArea from "@privatePages/ChatArea";
 
 // routers protection
-// import PrivateRoutes from "@router/PrivateRoutes";
+import PrivateRoutes from "@router/PrivateRoutes";
 import AuthorizationRoutes from "@router/AuthorizationRoutes";
 
 const routingTree: RouteObject[] = createRoutesFromElements(
@@ -52,7 +52,7 @@ const routingTree: RouteObject[] = createRoutesFromElements(
         <Route path="sign-in" element={<SignIn />} /> {/* sign in*/}
       </Route>
     </Route>
-    {/* <Route element={<PrivateRoutes />}> */}
+    <Route element={<PrivateRoutes />}>
       <Route element={<DashboardLayout />}>
         <Route path="game" element={<Game />} /> {/*game */}
         {/*profile layout */}
@@ -84,7 +84,7 @@ const routingTree: RouteObject[] = createRoutesFromElements(
           <Route path="password" element={<SettingPassword />} />
         </Route>
       </Route>
-    {/* </Route> */}
+    </Route>
   </Route>
 );
 
