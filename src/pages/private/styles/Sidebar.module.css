@@ -1,15 +1,18 @@
 .sidebar {
-    min-width: 40px;
-    max-width: 5em;
+    width: clamp(3em, 2em + 2vw, 5em);
+}
+
+.sidebar>div[class*="sidebar-content"] {
     display: flex;
+    height: 100%;
     flex-direction: column;
+    flex-grow: 2;
     justify-content: space-evenly;
     text-align: center;
-    border: 4px rgba(255, 255, 255, 0.6);
+    border: 2px rgba(255, 255, 255, 0.6) solid;
     border-top-right-radius: 1.5em;
     overflow-y: auto;
     background: linear-gradient(#03062E 0%, #5F0A94 45.71%);
-
     div[class*="brand-icon"] {
         padding: 0.5em;
         margin-top: 0.6em;
@@ -20,7 +23,6 @@
     }
 
     >a {
-        /* background-color: red; */
         margin-block: auto;
         width: 100%;
 
@@ -33,13 +35,21 @@
         }
     }
 
-    a[class*="active"]>div {
-        background-image: url("@icons/activeLinkIcon.svg");
-        background-position: center center;
-        background-size: 50px;
-        border-radius: 100px;
-        padding: 0.6em;
-        background-repeat: no-repeat;
+    a[class*="active"] {
+        >div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: url("@icons/activeLinkIcon.svg");
+            background-position: center center;
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            padding: 0.4em;
 
+            >img {
+                width: 100%;
+            }
+
+        }
     }
 }
