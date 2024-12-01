@@ -1,6 +1,6 @@
 import axios, {CanceledError} from 'axios';
 
-const BASE_URL = "http://127.0.0.1:8000/api/";
+const BASE_URL = "http://10.12.9.5:8000/api/";
 
 export const axiosPrivate =  axios.create({
     baseURL: BASE_URL,
