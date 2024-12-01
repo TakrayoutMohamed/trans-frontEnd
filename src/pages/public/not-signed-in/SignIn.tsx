@@ -19,6 +19,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import Cookies from "js-cookie";
 import { setAuthenticated } from "@/src/states/authentication/authenticatorSlice";
+import ModalOtp from "./ModalOtp";
 
 const signInSchema = z.object({
   email: z
@@ -30,11 +31,12 @@ const signInSchema = z.object({
     .min(3, { message: "password must be more than 3 chars" })
     .max(30, { message: "password must be less than 30 chars" }),
 });
+
 type SignInSchemaType = z.infer<typeof signInSchema>;
 
 const authenticateWithThirdParty = async (thirdParty: string) => {
   try {
-    const test = await axios.post("/api/oauth", { platform: thirdParty });
+    const test = await axios.post("oauth", { platform: thirdParty });
     console.log("testing authentication using a third party ");
     console.log(test);
   } catch (err) {
@@ -54,6 +56,7 @@ const SignIn = () => {
     formState: { errors },
   } = useForm<SignInSchemaType>({ resolver: zodResolver(signInSchema) });
   useEffect(() => {}, []);
+  // const [isPopupVisible, setIsPopupVisible] = useState<boolean>(false);
   const startAnimationSignIn = (): void => {
     const animation = document.querySelector(".animationSelectorSignIn");
     animation?.classList.remove(signInRenderAnimation);
@@ -65,7 +68,7 @@ const SignIn = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const lastLocation = location.state?.from?.pathname || "/profile";
   const dispatch = store.dispatch;
-
+  const [emailForOtp, setEmailForOtp] = useState("");
   const onSubmit: SubmitHandler<SignInSchemaType> = async (
     data: SignInSchemaType
   ) => {
@@ -73,11 +76,28 @@ const SignIn = () => {
       const res = await axios.post("login", data);
       console.log("res");
       console.log(res);
+      if (res.data) {
+        if (res.data["2fa"] === true) {
+          setEmailForOtp(res?.data["email"]);
+          const myModal = document.getElementById("staticBackdrop");
+          const buttonClick = document.getElementById("tst");
+          myModal?.focus();
+          buttonClick?.click();
+        }
+        Cookies.set("accessToken", res.data?.access);
+        dispatch(setAccessToken(res.data?.access));
+        if (res.data?.access) {
+          dispatch(setAuthenticated());
+          navigate(lastLocation, { replace: true });
+        }
+      } else {
+        console.log("here i need to check for 2 fa validation");
+        console.log(res.data);
+        console.log(res.data["2fa"]);
+      }
+      // else{
 
-      Cookies.set("accessToken", res.data?.access);
-      dispatch(setAccessToken(res.data?.access));
-      dispatch(setAuthenticated());
-      navigate(lastLocation, { replace: true });
+      // }
     } catch (err) {
       if (err instanceof AxiosError) {
         const error: AxiosError = err as AxiosError;
@@ -104,6 +124,7 @@ const SignIn = () => {
     <div
       className={`d-flex flex-row-reverse animationSelectorSignIn w-100 ${signInRenderAnimation} ${signIn}`}
     >
+      <ModalOtp email={emailForOtp} />
       <div className="w-100 ">
         <div className="d-flex justify-content-center h-100">
           <form
@@ -170,6 +191,18 @@ const SignIn = () => {
                 {errorMsg}
               </span>
             )}
+            {/* <div className="mb-4 ">
+              <input
+                type="text"
+                className="form-control rounded-5 p-2"
+                placeholder="otp code...."
+                {...register("otp", { required: false })}
+                autoComplete={"off"}
+              />
+              {errors?.otp && (
+                <span className="text-danger">{errors.otp.message}</span>
+              )}
+            </div> */}
           </form>
         </div>
       </div>
