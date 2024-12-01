@@ -1,0 +1,100 @@
+.modalOtp {
+    background-color: rgb(225, 255, 0);
+    button{
+        background-color: rgb(211, 50, 50);
+    }
+    div[id="staticBackdrop"] {
+        div[class*="modal-dialog"]{
+            /* background-color: rgb(255, 255, 255,0.01); */
+            div[class*="modal-content"] {
+                /* background-color: rebeccapurple; */
+                background: linear-gradient(180deg, #03062E 0%, #5F0A94 156.71%);
+                border-radius: 23px;
+                padding: 2px;
+                div[class*="modal-body"] {
+                    padding: 2px;
+                    border-radius: inherit;
+                    >span{
+                        display: flex;
+                        margin-left: 2em;
+                    }
+                    /* background-color: aqua; */
+                    >form{
+                        /* background-color: bisque; */
+                        padding:1em;
+                        display: flex;
+                        flex-direction: column;
+
+                        justify-content: space-between;
+                        /* border-radius: 0.2em; */
+                        div[class*="otp-code"]{
+                            /* background-color: rgb(44, 119, 61); */
+                            display:flex;
+                            flex-direction: column;
+                            min-height: 5em;
+                            justify-content: space-between;
+                            >span{
+                                /* margin-block: auto; */
+                                margin-top: 0.5em;
+                                margin-bottom: auto;
+                                /* background-color: red; */
+                            }
+                            div[class*="inputs-code"]{
+                                display: flex;
+                                flex: row no-wrap;
+                                justify-content: space-between;
+                                width: 100%;
+                                /* flex-shrink: 1; */
+                                /* background-color: aqua; */
+                                >input{
+                                    /* background-color: red; */
+                                    display: flex;
+                                    justify-content: center;
+                                    border-radius: 12px;
+                                    padding: 0.3em;
+                                    padding-left: 0.8em;
+                                    font-size: 1em;
+                                    margin:0px;
+                                    border:0px;
+                                    align-items: center;
+                                    font-family: var(--font-luckiestGuy);
+                                    line-height: 1em;
+                                    width: 2.2em;
+                                    height: 2em;
+                                }
+                            }
+                        }
+                        div[class*="submit-cancel-button"]{
+                            /* background-color: blueviolet; */
+                            display: flex;
+                            flex-direction: row;
+                            justify-content: space-between;
+                            
+                            input[class*="cancel"]{
+                                border-radius: 12px;
+                                font-size: 2em;
+                                padding-block: 0em;
+                                padding-inline: 0.5em;
+                                /* background-color:antiquewhite; */
+                            }
+                            input[class*="cancel"]:hover{
+                                background-color: rgb(255, 0, 0,0.9);
+                            }
+                            input[class*="submit"]{
+                                border-radius: 12px;
+                                font-size: 2em;
+                                padding-block: 0em;
+                                padding-inline: 0.5em;
+                                /* background-color:antiquewhite; */
+                            }
+                            input[class*="submit"]:hover{
+                                background-color: rgb(0, 125, 0,0.8);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+    }
+}
