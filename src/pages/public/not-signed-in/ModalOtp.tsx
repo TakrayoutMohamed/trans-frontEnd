@@ -1,15 +1,12 @@
 import axios from "@/src/services/api/axios";
-import { setAccessToken } from "@/src/states/authentication/accessTokenSlice";
-import { setAuthenticated } from "@/src/states/authentication/authenticatorSlice";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
+import setAuthenticationData from "@pages/modules/setAuthenticationData";
 import { z } from "zod";
 import { AxiosError } from "axios";
 import { useState } from "react";
-import { store } from "@/src/states/store";
-import { modalOtp } from "../styles";
+import { modalOtp } from "@publicPagesStyles/index";
 const signInOtpSchema = z.object({
   otp1: z.string({ message: " Otp code verefication is  required" }).length(1, {
     message: "length of the verification code must be 6 numbers",
@@ -48,7 +45,6 @@ const ModalOtp = ({ email }: ModalOtpProps) => {
 
   const [errorMsg, setErrorMsg] = useState("");
   const lastLocation = location.state?.from?.pathname || "/profile";
-  const dispatch = store.dispatch;
 
   const submitOtp: SubmitHandler<SignInOtpSchemaType> = async (
     otpData: SignInOtpSchemaType
@@ -68,15 +64,8 @@ const ModalOtp = ({ email }: ModalOtpProps) => {
       });
       console.log("res");
       console.log(res);
-      if (res.data?.access && res.status === 200) {
-        Cookies.set("accessToken", res.data?.access);
-        dispatch(setAccessToken(res.data?.access));
-        dispatch(setAuthenticated());
-        const myModal = document.getElementById("staticBackdrop");
-        // const buttonClick = document.getElementById("tst");
-        myModal?.classList.add('show')
-        myModal?.focus();
-        // buttonClick?.click();
+      if (setAuthenticationData(res.data?.access) && res.status === 200) {
+        document.getElementById("tst")?.click;
         navigate(lastLocation, { replace: true });
       }
     } catch (err) {

@@ -1,6 +1,4 @@
 import axios from "@/src/services/api/axios";
-import { setAccessToken } from "@/src/states/authentication/accessTokenSlice";
-import { store } from "@/src/states/store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   signInAnimation,
@@ -17,9 +15,8 @@ import { FcGoogle } from "react-icons/fc";
 import { Si42, SiGithub } from "react-icons/si";
 import { useLocation, useNavigate } from "react-router-dom";
 import { z } from "zod";
-import Cookies from "js-cookie";
-import { setAuthenticated } from "@/src/states/authentication/authenticatorSlice";
-import ModalOtp from "./ModalOtp";
+import ModalOtp from "@publicPages/not-signed-in/ModalOtp";
+import setAuthenticationData from "@pages/modules/setAuthenticationData";
 
 const signInSchema = z.object({
   email: z
@@ -47,6 +44,7 @@ const authenticateWithThirdParty = async (thirdParty: string) => {
   }
 };
 
+
 const SignIn = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -56,7 +54,6 @@ const SignIn = () => {
     formState: { errors },
   } = useForm<SignInSchemaType>({ resolver: zodResolver(signInSchema) });
   useEffect(() => {}, []);
-  // const [isPopupVisible, setIsPopupVisible] = useState<boolean>(false);
   const startAnimationSignIn = (): void => {
     const animation = document.querySelector(".animationSelectorSignIn");
     animation?.classList.remove(signInRenderAnimation);
@@ -66,8 +63,7 @@ const SignIn = () => {
     }, 700);
   };
   const [errorMsg, setErrorMsg] = useState("");
-  const lastLocation = location.state?.from?.pathname || "/profile";
-  const dispatch = store.dispatch;
+  const lastLocation = location.state?.from?.pathname || "/game";
   const [emailForOtp, setEmailForOtp] = useState("");
   const onSubmit: SubmitHandler<SignInSchemaType> = async (
     data: SignInSchemaType
@@ -79,25 +75,14 @@ const SignIn = () => {
       if (res.data) {
         if (res.data["2fa"] === true) {
           setEmailForOtp(res?.data["email"]);
-          const myModal = document.getElementById("staticBackdrop");
-          const buttonClick = document.getElementById("tst");
-          myModal?.focus();
-          buttonClick?.click();
+          document.getElementById("tst")?.click;
         }
-        Cookies.set("accessToken", res.data?.access);
-        dispatch(setAccessToken(res.data?.access));
-        if (res.data?.access) {
-          dispatch(setAuthenticated());
+        if (setAuthenticationData(res.data?.access)) {
           navigate(lastLocation, { replace: true });
         }
       } else {
-        console.log("here i need to check for 2 fa validation");
-        console.log(res.data);
-        console.log(res.data["2fa"]);
+        throw new AxiosError("No data provided by server");
       }
-      // else{
-
-      // }
     } catch (err) {
       if (err instanceof AxiosError) {
         const error: AxiosError = err as AxiosError;

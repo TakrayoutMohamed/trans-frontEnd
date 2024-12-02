@@ -8,7 +8,7 @@
             /* background-color: rgb(255, 255, 255,0.01); */
             div[class*="modal-content"] {
                 /* background-color: rebeccapurple; */
-                background: linear-gradient(180deg, #03062E 0%, #5F0A94 156.71%);
+                background: linear-gradient(180deg,#5F0A94  0%, #03062E 156.71%);
                 border-radius: 23px;
                 padding: 2px;
                 div[class*="modal-body"] {
@@ -69,26 +69,33 @@
                             display: flex;
                             flex-direction: row;
                             justify-content: space-between;
+                            font-family: var(--font-luckiestGuy);
                             
                             input[class*="cancel"]{
                                 border-radius: 12px;
-                                font-size: 2em;
+                                font-size: 1.5em;
                                 padding-block: 0em;
                                 padding-inline: 0.5em;
                                 /* background-color:antiquewhite; */
                             }
                             input[class*="cancel"]:hover{
                                 background-color: rgb(255, 0, 0,0.9);
+                                font-size: 1.2em;
+                                /* padding: 0px; */
+                                transition: 0.2s;
                             }
                             input[class*="submit"]{
                                 border-radius: 12px;
-                                font-size: 2em;
+                                font-size: 1.5em;
                                 padding-block: 0em;
                                 padding-inline: 0.5em;
                                 /* background-color:antiquewhite; */
                             }
                             input[class*="submit"]:hover{
                                 background-color: rgb(0, 125, 0,0.8);
+                                font-size: 1.75em;
+                                padding-block: 0px;
+                                transition: 0.2s;
                             }
                         }
                     }
