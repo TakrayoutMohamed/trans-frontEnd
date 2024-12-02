@@ -107,30 +107,6 @@
     }
 }
 
-.settingProfile div[class*="enable2F-container"] {
-    display: flex;
-    flex-direction: column;
-
-    div[class*="enable2F"] {
-        display: flex;
-        flex-direction: row;
-        column-gap: 1em;
-        align-items: center;
-
-        label {
-            line-height: 1em;
-        }
-
-        input {
-            display: flex;
-            margin-top: auto;
-            margin-bottom: auto;
-            width: 5em;
-            height: 1.2em;
-        }
-    }
-}
-
 .settingProfile {
     input {
         border: 0px;

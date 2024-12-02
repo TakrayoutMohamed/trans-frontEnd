@@ -17,6 +17,7 @@ import RecentStyles from "./Recent.module.css";
 import FriendsStyles from "./Friends.module.css";
 import SettingProfileStyles from "./SettingProfile.module.css";
 import SettingPasswordStyles from "./SettingPassword.module.css";
+import SettingTwoFactorAuthentificationStyles from "./SettingTwoFactorAuthentification.module.css";
 
 /**
  * the styles of sidebar components
@@ -66,3 +67,4 @@ export const friends = FriendsStyles["friends"];
 
 export const settingProfile = SettingProfileStyles["settingProfile"];
 export const settingPassword = SettingPasswordStyles["settingPassword"];
+export const twoFactorAuthentification = SettingTwoFactorAuthentificationStyles["twoFactorAuthentification"];

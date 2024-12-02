@@ -1,5 +1,6 @@
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { settingPassword } from "./styles";
+import TwoFactorAuthentication from "@privateComponents/settings/TwoFactorAuthentication";
 
 function toggleCurrentPasswordEye() {
   let currentPasswordOn = document.getElementById("toggleCurrentPasswordEyeOn");
@@ -155,6 +156,9 @@ const SettingPassword = () => {
               placeholder="username..."
             />
           </div>
+        </div>
+        <div className="enable2F-container">
+          <TwoFactorAuthentication />
         </div>
       </form>
     </div>

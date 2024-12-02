@@ -1,0 +1,33 @@
+.twoFactorAuthentification {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    row-gap: 1em;
+    column-gap: 2em;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 50%;
+
+    >button {
+        height: fit-content;
+        border-radius: 12px;
+        margin-bottom: auto;
+    }
+
+    >button[class*="two-factor-deactivation"] {
+        background-color: rgba(255, 0, 0, 0.7);
+    }
+
+    >button[class*="two-factor-activation"] {
+        background-color: rgb(153, 255, 0, 0.8);
+    }
+
+    div[class*="qr-code"] {
+        display: flex;
+        background-color: red;
+
+        >img {
+            max-width: 14em;
+        }
+    }
+}

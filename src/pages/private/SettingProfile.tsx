@@ -1,10 +1,5 @@
 import { TbCloudUpload } from "react-icons/tb";
 import { settingProfile } from "./styles";
-import { useSelector } from "react-redux";
-import { RootState } from "@/src/states/store";
-import axios from "@/src/services/api/axios";
-import { useState } from "react";
-import QRCode from 'qrcode';
 
 function checkIsImageValid() {
   let previewImage = document.getElementById(
@@ -43,55 +38,7 @@ function checkIsImageValid() {
   }
 }
 
-// const src
-const sendRequest2Fa = async (accessToken: string | undefined): Promise<string> => {
-  console.log("authentication images");
-  try {
-    const response = await axios.post(
-      "enable2fa",
-      {},
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
-    console.log("response from setting Profile 2fa");
-    console.log(response);
-    const tst = await QRCode.toDataURL(response.data.otp);
-    console.log("tst")
-    console.log(tst)
-    return tst;
-  } catch (err) {
-    console.log("error in error frow setting Profile 2fa");
-    console.log(err);
-  }
-  return "";
-};
-const sendRequest2FaDeactivate = async (accessToken: string | undefined): Promise<void> => {
-  console.log("authentication images");
-  try {
-    const response = await axios.get(
-      "enable2fa",
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
-    console.log("response from setting Profile 2fa");
-    console.log(response);
-  } catch (err) {
-    console.log("error in error frow setting Profile 2fa");
-    console.log(err);
-  }
-};
-
 const SettingProfile = () => {
-  const accessToken = useSelector((state: RootState) => state.accessToken);
-  const [srcQrconde, setSrcQrcode] = useState<React.SetStateAction<string>>("");
   return (
     <div className={settingProfile}>
       <form
@@ -165,26 +112,6 @@ const SettingProfile = () => {
             <img alt="user image" className="d-none" id="selectedImage" />
             <span id="image-errors" className="text-danger d-none"></span>
           </label>
-        </div>
-        <div className="enable2F-container">
-          <div className="enable2F">
-            <button
-              type="button"
-              onClick={async () => setSrcQrcode( await sendRequest2Fa(accessToken.value))}
-            >
-              Two factor Authentication
-            </button>
-            <button
-              type="button"
-              onClick={async () => (await sendRequest2FaDeactivate(accessToken.value))}
-            >
-              Two factor Authentication deactivate
-            </button>
-            {/* <input autoComplete="on" type="checkbox" id="enable2F" /> */}
-            <div className="">
-              <img src={(srcQrconde.toString())} alt="" className=""/>
-            </div>
-          </div>
         </div>
         <div className="submit-button-container">
           <div className="submit-button">
