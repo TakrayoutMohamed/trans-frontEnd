@@ -1,9 +1,9 @@
-import styles from "@publicPages/styles/Home.module.css";
+import HomeStyles from "@publicPages/styles/Home.module.css";
 import styleSignIn from "@publicPages/styles/SignIn.module.css";
 import ModalOtpstyles from "@publicPages/styles/ModalOtp.module.css";
 import styleSignUp from "@publicPages/styles/SignUp.module.css";
 
-export const home: string = styles["home"];
+export const home: string = HomeStyles["home"];
 
 export const signIn: string = styleSignIn["signIn"];
 export const modalOtp: string = ModalOtpstyles["modalOtp"];
