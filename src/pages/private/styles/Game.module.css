@@ -18,11 +18,11 @@
     height: 100%;
     z-index: 2;
     min-height: 70em;
-    color:white;
+    color: white;
 
 
     section[class*="searchFriends-pongPlayer-gameMode-leaderBoard-container"] {
-        background-color: rgb(50, 199, 199);
+        /* background-color: rgb(50, 199, 199); */
         display: grid;
         grid-template-rows: repeat(26fr);
         grid-template-columns: 1fr;
@@ -54,18 +54,18 @@
         ;
 
         div[class*="searchFriends-container"] {
-            background-color: red;
+            /* background-color: red; */
             grid-area: searchFriends-container;
         }
 
         div[class*="pongPlayer-container"] {
-            background-color: rgb(212, 212, 64);
+            /* background-color: rgb(212, 212, 64); */
             grid-area: pongPlayer-container;
 
         }
 
         div[class*="gameMode-container"] {
-            background-color: rgb(11, 60, 104);
+            /* background-color: rgb(11, 60, 104); */
             grid-area: gameMode-container;
             display: flex;
             height: 100%;
@@ -73,14 +73,14 @@
         }
 
         div[class*="leaderBoard-container"] {
-            background-color: rgb(205, 125, 27);
+            /* background-color: rgb(205, 125, 27); */
             grid-area: leaderBoard-container;
 
         }
     }
 
     section[class*="profile-recentGames-container"] {
-        background-color: rgb(243, 226, 204);
+        /* background-color: rgb(243, 226, 204); */
         display: grid;
         grid-template-rows: repeat(26fr);
         grid-template-columns: 1fr;
@@ -112,7 +112,7 @@
         ;
 
         div[class*="profile-container"] {
-            background-color: rgb(136, 119, 119);
+            /* background-color: rgb(136, 119, 119); */
             backdrop-filter: "blur(4px)";
             grid-area: profile-container;
         }
@@ -125,6 +125,24 @@
 
 
 
-@media screen and (min-width: 767px) {}
+/**
+* Tablet view
+*/
+@media screen and (max-width: 1100px) {
+    .game {
+        section[class*="profile-recentGames-container"] {
+            div[class*="profile-container"] {
+                /* background-color: aqua; */
+                >div{
+                    /* height: fit-content;
+                    min-height: 50%; */
+                    text-shadow: 1px;
+                }
+            }
+        }
 
-@media screen and (max-width: 767px) {}
+        background-color: red;
+    }
+}
+
+@media screen and (max-width: 800px) {}
