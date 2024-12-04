@@ -8,7 +8,7 @@ import {
   signInBare,
 } from "@publicPagesStyles/index.ts";
 import { AxiosError } from "axios";
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { BiSolidLeftArrow } from "react-icons/bi";
 import { FcGoogle } from "react-icons/fc";
@@ -17,6 +17,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import ModalOtp from "@publicPages/not-signed-in/ModalOtp";
 import setAuthenticationData from "@pages/modules/setAuthenticationData";
+import ModalComponent from "../../private/components/settings/ModalComponent";
 
 const signInSchema = z.object({
   email: z
@@ -44,7 +45,6 @@ const authenticateWithThirdParty = async (thirdParty: string) => {
   }
 };
 
-
 const SignIn = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -63,8 +63,10 @@ const SignIn = () => {
     }, 700);
   };
   const [errorMsg, setErrorMsg] = useState("");
-  const lastLocation = location.state?.from?.pathname || "/game";
   const [emailForOtp, setEmailForOtp] = useState("");
+  const [isOpen, setIsOpen] = useState<boolean>(true);
+  const lastLocation = location.state?.from?.pathname || "/game";
+  console.log("signIn rendered");
   const onSubmit: SubmitHandler<SignInSchemaType> = async (
     data: SignInSchemaType
   ) => {
@@ -75,7 +77,7 @@ const SignIn = () => {
       if (res.data) {
         if (res.data["2fa"] === true) {
           setEmailForOtp(res?.data["email"]);
-          document.getElementById("tst")?.click;
+          setIsOpen(true);
         }
         if (setAuthenticationData(res.data?.access)) {
           navigate(lastLocation, { replace: true });
@@ -109,7 +111,17 @@ const SignIn = () => {
     <div
       className={`d-flex flex-row-reverse animationSelectorSignIn w-100 ${signInRenderAnimation} ${signIn}`}
     >
-      <ModalOtp email={emailForOtp} />
+      <ModalComponent
+        setIsOpen={setIsOpen}
+        isOpen={isOpen}
+        className="auto"
+        // style={{content: {}}}
+        shouldCloseOnOverlayClick={false}
+        shouldFocusAfterRender={true}
+        shouldCloseOnEsc={true}
+      >
+        <ModalOtp email={emailForOtp} setIsOpen={setIsOpen} />
+      </ModalComponent>
       <div className="w-100 ">
         <div className="d-flex justify-content-center h-100">
           <form

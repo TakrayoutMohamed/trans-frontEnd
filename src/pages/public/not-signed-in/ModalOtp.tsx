@@ -1,6 +1,6 @@
 import axios from "@/src/services/api/axios";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import setAuthenticationData from "@pages/modules/setAuthenticationData";
 import { z } from "zod";
@@ -32,9 +32,10 @@ type SignInOtpSchemaType = z.infer<typeof signInOtpSchema>;
 
 interface ModalOtpProps {
   email: string;
+  setIsOpen: React.Dispatch<boolean>;
 }
 
-const ModalOtp = ({ email }: ModalOtpProps) => {
+const ModalOtp = ({ email, setIsOpen }: ModalOtpProps) => {
   const navigate = useNavigate();
   const location = useLocation();
   const {
@@ -65,7 +66,7 @@ const ModalOtp = ({ email }: ModalOtpProps) => {
       console.log("res");
       console.log(res);
       if (setAuthenticationData(res.data?.access) && res.status === 200) {
-        document.getElementById("tst")?.click;
+        setIsOpen(false);
         navigate(lastLocation, { replace: true });
       }
     } catch (err) {
@@ -86,36 +87,21 @@ const ModalOtp = ({ email }: ModalOtpProps) => {
       console.log(err);
     }
   };
+  const onError: SubmitErrorHandler<SignInOtpSchemaType> = (errors) => {
+    if (errors.otp1) setErrorMsg(errors.otp1.message + " ");
+    else if (errors.otp2) setErrorMsg(errors.otp2.message + " ");
+    else if (errors.otp3) setErrorMsg(errors.otp3.message + " ");
+    else if (errors.otp4) setErrorMsg(errors.otp4.message + " ");
+    else if (errors.otp5) setErrorMsg(errors.otp5.message + " ");
+    else if (errors.otp6) setErrorMsg(errors.otp6.message + " ");
+  };
   return (
     <div className={modalOtp}>
-      <button
-        type="button"
-        className="btn btn-primary d-none"
-        data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop"
-        id="tst"
-      >
-        fdasfd
-      </button>
-      <div
-        className="modal fade"
-        id="staticBackdrop"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabIndex={-1}
-        aria-labelledby="staticBackdropLabel"
-        aria-hidden="false"
-      >
-        <div className="modal-dialog modal-dialog-centered">
+      <div id="staticBackdrop">
+        <div className="modal-dialogs">
           <div className="modal-content">
             <div className="modal-body">
-              <form
-                className=""
-                onSubmit={handleSubmit(submitOtp, (error) => {
-                  console.log("error in module handle submit");
-                  console.log(error);
-                })}
-              >
+              <form className="" onSubmit={handleSubmit(submitOtp, onError)}>
                 <div className="otp-code">
                   <div className="inputs-code">
                     <input
@@ -162,9 +148,7 @@ const ModalOtp = ({ email }: ModalOtpProps) => {
                     />
                   </div>
                   {errors && (
-                    <span className="text-danger">
-                      {errors.root?.message}
-                    </span>
+                    <span className="text-danger">{errors.root?.message}</span>
                   )}
                 </div>
                 <div className="submit-cancel-button">
@@ -173,8 +157,7 @@ const ModalOtp = ({ email }: ModalOtpProps) => {
                     type="button"
                     className="cancel"
                     value="cancel"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
+                    onClick={() => setIsOpen(false)}
                   />
                 </div>
               </form>
