@@ -8,7 +8,7 @@ import {
   signInBare,
 } from "@publicPagesStyles/index.ts";
 import { AxiosError } from "axios";
-import { SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { BiSolidLeftArrow } from "react-icons/bi";
 import { FcGoogle } from "react-icons/fc";
@@ -17,7 +17,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import ModalOtp from "@publicPages/not-signed-in/ModalOtp";
 import setAuthenticationData from "@pages/modules/setAuthenticationData";
-import ModalComponent from "../../private/components/settings/ModalComponent";
+import ModalComponent from "../../../router/layouts/components/ModalComponent";
+import Modal from "react-modal";
 
 const signInSchema = z.object({
   email: z
@@ -44,7 +45,19 @@ const authenticateWithThirdParty = async (thirdParty: string) => {
     console.log(err);
   }
 };
-
+const customStyles: Modal.Styles | undefined = {
+  content: {
+    padding: "0px",
+    top: "0px",
+    left: "0px",
+  },
+  overlay: {
+    margin: "0px",
+    padding: "0px",
+    maxHeight: "100%",
+    maxWidth: "100%",
+  },
+};
 const SignIn = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -114,11 +127,12 @@ const SignIn = () => {
       <ModalComponent
         setIsOpen={setIsOpen}
         isOpen={isOpen}
-        className="auto"
-        // style={{content: {}}}
+        className=""
+        style={customStyles}
         shouldCloseOnOverlayClick={false}
         shouldFocusAfterRender={true}
         shouldCloseOnEsc={true}
+        id={`modalOtp`}
       >
         <ModalOtp email={emailForOtp} setIsOpen={setIsOpen} />
       </ModalComponent>

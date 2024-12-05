@@ -42,7 +42,9 @@ const ModalOtp = ({ email, setIsOpen }: ModalOtpProps) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SignInOtpSchemaType>({ resolver: zodResolver(signInOtpSchema) });
+  } = useForm<SignInOtpSchemaType>({
+    resolver: zodResolver(signInOtpSchema),
+  });
 
   const [errorMsg, setErrorMsg] = useState("");
   const lastLocation = location.state?.from?.pathname || "/profile";
@@ -97,74 +99,68 @@ const ModalOtp = ({ email, setIsOpen }: ModalOtpProps) => {
   };
   return (
     <div className={modalOtp}>
-      <div id="staticBackdrop">
-        <div className="modal-dialogs">
-          <div className="modal-content">
-            <div className="modal-body">
-              <form className="" onSubmit={handleSubmit(submitOtp, onError)}>
-                <div className="otp-code">
-                  <div className="inputs-code">
-                    <input
-                      type="text"
-                      maxLength={1}
-                      className=""
-                      {...register("otp1", { required: true })}
-                      autoComplete={"off"}
-                    />
-                    <input
-                      type="text"
-                      maxLength={1}
-                      className=""
-                      {...register("otp2", { required: true })}
-                      autoComplete={"off"}
-                    />
-                    <input
-                      type="text"
-                      maxLength={1}
-                      className=""
-                      {...register("otp3", { required: true })}
-                      autoComplete={"off"}
-                    />
-                    <input
-                      type="text"
-                      maxLength={1}
-                      className=""
-                      {...register("otp4", { required: true })}
-                      autoComplete={"off"}
-                    />
-                    <input
-                      type="text"
-                      maxLength={1}
-                      className=""
-                      {...register("otp5", { required: true })}
-                      autoComplete={"off"}
-                    />
-                    <input
-                      type="text"
-                      maxLength={1}
-                      className=""
-                      {...register("otp6", { required: true })}
-                      autoComplete={"off"}
-                    />
-                  </div>
-                  {errors && (
-                    <span className="text-danger">{errors.root?.message}</span>
-                  )}
-                </div>
-                <div className="submit-cancel-button">
-                  <input type="submit" className="submit" value="verify" />
-                  <input
-                    type="button"
-                    className="cancel"
-                    value="cancel"
-                    onClick={() => setIsOpen(false)}
-                  />
-                </div>
-              </form>
-              {errorMsg && <span className="text-danger">{errorMsg}</span>}
+      <div className="modal-body">
+        <form className="" onSubmit={handleSubmit(submitOtp, onError)}>
+          <div className="otp-code">
+            <div className="inputs-code">
+              <input
+                type="text"
+                maxLength={1}
+                className=""
+                {...register("otp1", { required: true })}
+                autoComplete={"off"}
+              />
+              <input
+                type="text"
+                maxLength={1}
+                className=""
+                {...register("otp2", { required: true })}
+                autoComplete={"off"}
+              />
+              <input
+                type="text"
+                maxLength={1}
+                className=""
+                {...register("otp3", { required: true })}
+                autoComplete={"off"}
+              />
+              <input
+                type="text"
+                maxLength={1}
+                className=""
+                {...register("otp4", { required: true })}
+                autoComplete={"off"}
+              />
+              <input
+                type="text"
+                maxLength={1}
+                className=""
+                {...register("otp5", { required: true })}
+                autoComplete={"off"}
+              />
+              <input
+                type="text"
+                maxLength={1}
+                className=""
+                {...register("otp6", { required: true })}
+                autoComplete={"off"}
+              />
             </div>
+            {errors && (
+              <span className="text-danger">{errors.root?.message}</span>
+            )}
           </div>
-        </div>
+          <div className="submit-cancel-button">
+            <input type="submit" className="submit" value="verify" />
+            <input
+              type="button"
+              className="cancel"
+              value="cancel"
+              onClick={() => setIsOpen(false)}
+            />
+          </div>
+        </form>
+        {errorMsg && <span className="text-danger">{errorMsg}</span>}
       </div>
     </div>
   );

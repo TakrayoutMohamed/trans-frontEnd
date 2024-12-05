@@ -6,17 +6,6 @@ interface ModalComponentProps extends ReactModal.Props {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const customStyles:Modal.Styles | undefined ={
-  content: {
-    position: "absolute",
-    backgroundColor: "green",
-    // padding: "1em"
-  },
-  overlay:{
-    backgroundColor: "red"
-  }
-};
-
 Modal.setAppElement("#root");
 const ModalComponent = (props: ModalComponentProps) => {
   function closeModal() {
@@ -29,8 +18,6 @@ const ModalComponent = (props: ModalComponentProps) => {
         shouldCloseOnEsc={true}
         contentLabel="Example Modal"
         {...props}
-        style={customStyles}
-        // className={props.className + " bg-danger"}
       >
         {props.children}
       </Modal>
