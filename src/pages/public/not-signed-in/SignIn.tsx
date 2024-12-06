@@ -77,7 +77,7 @@ const SignIn = () => {
   };
   const [errorMsg, setErrorMsg] = useState("");
   const [emailForOtp, setEmailForOtp] = useState("");
-  const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const lastLocation = location.state?.from?.pathname || "/game";
   console.log("signIn rendered");
   const onSubmit: SubmitHandler<SignInSchemaType> = async (
@@ -131,6 +131,7 @@ const SignIn = () => {
         style={customStyles}
         shouldCloseOnOverlayClick={false}
         shouldFocusAfterRender={true}
+        shouldReturnFocusAfterClose={true}
         shouldCloseOnEsc={true}
         id={`modalOtp`}
       >

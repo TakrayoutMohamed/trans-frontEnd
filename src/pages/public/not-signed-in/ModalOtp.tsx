@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import setAuthenticationData from "@pages/modules/setAuthenticationData";
 import { z } from "zod";
 import { AxiosError } from "axios";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { modalOtp } from "@publicPagesStyles/index";
 const signInOtpSchema = z.object({
   otp1: z.string({ message: " Otp code verefication is  required" }).length(1, {
@@ -35,6 +35,30 @@ interface ModalOtpProps {
   setIsOpen: React.Dispatch<boolean>;
 }
 
+const isInputHasAttribute = (
+  inputField: HTMLInputElement,
+  attributName: string
+): boolean => {
+  return inputField.hasAttribute(attributName);
+};
+
+const autoFocusLogic = (e: ChangeEvent<HTMLInputElement>) => {
+  const inputs = document.getElementsByTagName("input");
+  let i;
+  let nextInput: HTMLInputElement;
+
+  i = Number(e.target.getAttribute("name")?.charAt(3));
+  nextInput = (
+    i === 6 ? inputs.namedItem("otpSubmit") : inputs.namedItem("otp" + (i + 1))
+  ) as HTMLInputElement;
+  if (e.target.value) {
+    e.target.blur();
+    if (isInputHasAttribute(nextInput, "disabled"))
+      nextInput.attributes.removeNamedItem("disabled");
+    nextInput?.focus();
+  }
+};
+
 const ModalOtp = ({ email, setIsOpen }: ModalOtpProps) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -48,7 +72,6 @@ const ModalOtp = ({ email, setIsOpen }: ModalOtpProps) => {
 
   const [errorMsg, setErrorMsg] = useState("");
   const lastLocation = location.state?.from?.pathname || "/profile";
-
   const submitOtp: SubmitHandler<SignInOtpSchemaType> = async (
     otpData: SignInOtpSchemaType
   ) => {
@@ -107,8 +130,12 @@ const ModalOtp = ({ email, setIsOpen }: ModalOtpProps) => {
                 type="text"
                 maxLength={1}
                 className=""
+                autoFocus
                 {...register("otp1", { required: true })}
                 autoComplete={"off"}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  autoFocusLogic(e)
+                }
               />
               <input
                 type="text"
@@ -116,6 +143,10 @@ const ModalOtp = ({ email, setIsOpen }: ModalOtpProps) => {
                 className=""
                 {...register("otp2", { required: true })}
                 autoComplete={"off"}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  autoFocusLogic(e)
+                }
+                disabled
               />
               <input
                 type="text"
@@ -123,6 +154,10 @@ const ModalOtp = ({ email, setIsOpen }: ModalOtpProps) => {
                 className=""
                 {...register("otp3", { required: true })}
                 autoComplete={"off"}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  autoFocusLogic(e)
+                }
+                disabled
               />
               <input
                 type="text"
@@ -130,6 +165,10 @@ const ModalOtp = ({ email, setIsOpen }: ModalOtpProps) => {
                 className=""
                 {...register("otp4", { required: true })}
                 autoComplete={"off"}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  autoFocusLogic(e)
+                }
+                disabled
               />
               <input
                 type="text"
@@ -137,6 +176,10 @@ const ModalOtp = ({ email, setIsOpen }: ModalOtpProps) => {
                 className=""
                 {...register("otp5", { required: true })}
                 autoComplete={"off"}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  autoFocusLogic(e)
+                }
+                disabled
               />
               <input
                 type="text"
@@ -144,6 +187,10 @@ const ModalOtp = ({ email, setIsOpen }: ModalOtpProps) => {
                 className=""
                 {...register("otp6", { required: true })}
                 autoComplete={"off"}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  autoFocusLogic(e)
+                }
+                disabled
               />
             </div>
             {errors && (
@@ -151,7 +198,12 @@ const ModalOtp = ({ email, setIsOpen }: ModalOtpProps) => {
             )}
           </div>
           <div className="submit-cancel-button">
-            <input type="submit" className="submit" value="verify" />
+            <input
+              type="submit"
+              className="submit"
+              name="otpSubmit"
+              value="verify"
+            />
             <input
               type="button"
               className="cancel"
