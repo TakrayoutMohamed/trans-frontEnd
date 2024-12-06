@@ -2,8 +2,13 @@ import { Fragment } from "react/jsx-runtime";
 import { home } from "@publicPagesStyles/index";
 import { ImFilm } from "react-icons/im";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "@/src/states/store";
 
 const Home = () => {
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.authenticator.value
+  );
   return (
     <Fragment>
       <main className={`${home}`}>
@@ -38,14 +43,20 @@ const Home = () => {
         <section className="section-video-sign-in-links">
           <div className="video-sign-in-links">
             <span className="">
-                <ImFilm/>
+              <ImFilm />
               <Link to="#" className="video-link">
                 WATCH VIDEO
               </Link>
             </span>
-            <Link to="/sign-in" className="sign-in-link">
-              SIGN IN
-            </Link>
+            {isAuthenticated ? (
+              <Link to="#logout" className="sign-in-link">
+                LOG OUT
+              </Link>
+            ) : (
+              <Link to="/sign-in" className="sign-in-link">
+                SIGN IN
+              </Link>
+            )}
           </div>
           <div className="underline"></div>
         </section>

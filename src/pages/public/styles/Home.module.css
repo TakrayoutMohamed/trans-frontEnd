@@ -45,7 +45,7 @@
         flex-direction: row;
         flex-wrap: wrap;
         height: fit-content;
-        z-index: 1;
+        z-index: 0;
 
         div[class*="header-paragraph"] {
             display: flex;
