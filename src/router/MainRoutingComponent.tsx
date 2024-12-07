@@ -36,6 +36,7 @@ import ChatArea from "@privatePages/ChatArea";
 // routers protection
 import PrivateRoutes from "@router/PrivateRoutes";
 import AuthorizationRoutes from "@router/AuthorizationRoutes";
+import PersistLogin from "../services/PresistLogin";
 
 const routingTree: RouteObject[] = createRoutesFromElements(
   <Route element={<RootLayout />}>
@@ -52,36 +53,38 @@ const routingTree: RouteObject[] = createRoutesFromElements(
         <Route path="sign-in" element={<SignIn />} /> {/* sign in*/}
       </Route>
     </Route>
-    <Route element={<PrivateRoutes />}>
-      <Route element={<DashboardLayout />}>
-        <Route path="game" element={<Game />} /> {/*game */}
-        {/*profile layout */}
-        <Route path="profile">
-          <Route element={<ProfileLayout />}>
-            <Route index element={<Navigate to="details" replace />} />{" "}
-            {/* profile */}
-            <Route path="details" element={<Profile />} /> {/* profile */}
-            <Route path="recent" element={<Recent />} /> {/* Recent */}
-            <Route path="friends" element={<Friends />} /> {/* Friends */}
-            <Route path=":userName">
-              <Route index element={<Navigate to="details" replace />} />
-              <Route path="details" element={<Profile />} />
-              <Route path="recent" element={<Recent />} />
+    <Route element={<PersistLogin/>}>
+      <Route element={<PrivateRoutes />}>
+        <Route element={<DashboardLayout />}>
+          <Route path="game" element={<Game />} /> {/*game */}
+          {/*profile layout */}
+          <Route path="profile">
+            <Route element={<ProfileLayout />}>
+              <Route index element={<Navigate to="details" replace />} />{" "}
+              {/* profile */}
+              <Route path="details" element={<Profile />} /> {/* profile */}
+              <Route path="recent" element={<Recent />} /> {/* Recent */}
+              <Route path="friends" element={<Friends />} /> {/* Friends */}
+              <Route path=":userName">
+                <Route index element={<Navigate to="details" replace />} />
+                <Route path="details" element={<Profile />} />
+                <Route path="recent" element={<Recent />} />
+              </Route>
             </Route>
           </Route>
-        </Route>
-        {/*chat */}
-        <Route path="chat" element={<ChatLayout />}>
-          <Route index element={<Chat />} />
-          <Route path=":userName" element={<ChatArea />} />
-        </Route>
-        {/*tournament */}
-        <Route path="tournament" element={<TournamentLayout />}></Route>
-        {/*setting layout */}
-        <Route path="setting" element={<SettingLayout />}>
-          <Route index element={<Navigate to="profile" replace />} />
-          <Route path="profile" element={<SettingProfile />} />
-          <Route path="password" element={<SettingPassword />} />
+          {/*chat */}
+          <Route path="chat" element={<ChatLayout />}>
+            <Route index element={<Chat />} />
+            <Route path=":userName" element={<ChatArea />} />
+          </Route>
+          {/*tournament */}
+          <Route path="tournament" element={<TournamentLayout />}></Route>
+          {/*setting layout */}
+          <Route path="setting" element={<SettingLayout />}>
+            <Route index element={<Navigate to="profile" replace />} />
+            <Route path="profile" element={<SettingProfile />} />
+            <Route path="password" element={<SettingPassword />} />
+          </Route>
         </Route>
       </Route>
     </Route>
