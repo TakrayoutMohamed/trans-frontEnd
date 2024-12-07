@@ -15,6 +15,7 @@ const dispatch = store.dispatch;
 export default function setAuthenticatedData(
   RespondedAccessToken: string
 ): boolean {
+  setUnAuthenticatedData()
   setCookies(RespondedAccessToken);
   dispatch(setAccessToken(RespondedAccessToken));
   if (RespondedAccessToken) {

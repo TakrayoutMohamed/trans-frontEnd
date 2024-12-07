@@ -4,9 +4,9 @@ import { useLayoutEffect } from "react";
 import { useSelector } from "react-redux";
 import useAxiosPrivate from "./services/hooks/useAxiosPrivate";
 import setAuthenticationData, {
-  setUnAuthenticatedData,
   setUserData,
 } from "./pages/modules/setAuthenticationData";
+import Cookies from "js-cookie";
 
 function App() {
   const isAuthenticated = useSelector(
@@ -17,13 +17,14 @@ function App() {
   );
   const axiosPrivateHook = useAxiosPrivate();
   useLayoutEffect(() => {
-    const checkAuthentication = async () => {
-      const res = await axiosPrivateHook.post("refresh_token");
-      return res;
-    };
+    if (Cookies.get("accessToken")?.length) {
+      setAuthenticationData(Cookies.get("accessToken") + "");
+    }
     const getUsersInfo = async () => {
       try {
-        const userData = await axiosPrivateHook.get("user_info");
+        const userData = await axiosPrivateHook.get("user_info",{headers: {
+          Authorization: `Bearer ${accessToken}`
+        }});
         setUserData(userData.data);
       } catch (err) {
         console.log("error in getUsersInfo");
@@ -31,18 +32,6 @@ function App() {
       }
     };
     if (isAuthenticated && accessToken) getUsersInfo();
-    checkAuthentication()
-      .then((res) => {
-        if (res.statusText == "OK") {
-          setAuthenticationData(res.data.access_token);
-        } else throw Error("not valid access token alvares");
-        return res.data;
-      })
-      .catch((err) => {
-        setUnAuthenticatedData();
-        console.log("error from catch");
-        console.log(err);
-      });
   }, [isAuthenticated]);
   return (
     <>
