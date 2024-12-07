@@ -1,13 +1,13 @@
 import { Action, ThunkAction, configureStore } from "@reduxjs/toolkit";
 import authenticatorSlice from "@src/states/authentication/authenticatorSlice";
 import accessTokenSlice from "./authentication/accessTokenSlice";
-import userNameSlice from "./authentication/userNameSlice";
+import userSlice from "./authentication/userSlice";
 
 export const store = configureStore({
   reducer: {
     authenticator: authenticatorSlice,
     accessToken: accessTokenSlice,
-    userName: userNameSlice
+    user: userSlice
   },
 });
 
