@@ -1,26 +1,17 @@
 import { useSelector } from "react-redux";
 import { RootState } from "@/src/states/store";
-import axios from "@/src/services/api/axios";
 import { useState } from "react";
 import QRCode from "qrcode";
 import { twoFactorAuthentification } from "@privatePages/styles";
 import ModalComponent from "@/src/router/layouts/components/ModalComponent";
 import Modal from "react-modal";
+import useAxiosPrivate from "@/src/services/hooks/useAxiosPrivate";
+import { AxiosInstance } from "axios";
+import { setUserData } from "@/src/pages/modules/setAuthenticationData";
 
-const sendRequest2Fa = async (
-  accessToken: string | undefined
-): Promise<string> => {
+const sendRequest2Fa = async (axiosHook: AxiosInstance): Promise<string> => {
   try {
-    const response = await axios.post(
-      "enable2fa",
-      {},
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
+    const response = await axiosHook.post("enable2fa");
     console.log("response from setting Profile 2fa");
     console.log(response);
     return await QRCode.toDataURL(response.data.otp);
@@ -31,15 +22,10 @@ const sendRequest2Fa = async (
   return "";
 };
 const sendRequest2FaDeactivate = async (
-  accessToken: string | undefined
+  axiosHook: AxiosInstance
 ): Promise<void> => {
   try {
-    const response = await axios.get("enable2fa", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await axiosHook.get("enable2fa");
     console.log("response from setting Profile 2fa");
     console.log(response);
   } catch (err) {
@@ -47,8 +33,6 @@ const sendRequest2FaDeactivate = async (
     console.log(err);
   }
 };
-
-const data = { is2fa: false };
 
 const customStyles: Modal.Styles | undefined = {
   content: {},
@@ -62,9 +46,10 @@ const customStyles: Modal.Styles | undefined = {
 };
 
 const TwoFactorAuthentication = () => {
-  const accessToken = useSelector((state: RootState) => state.accessToken);
+  const axiosPrivateHook = useAxiosPrivate();
+  const userData = useSelector((state: RootState) => state.user.value);
   const [srcQrconde, setSrcQrcode] = useState<React.SetStateAction<string>>("");
-  const [isTwoFactor, setIsTwoFactor] = useState(data.is2fa);
+  // const [isTwoFactor, setIsTwoFactor] = useState(data.is2fa);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
     <>
@@ -87,14 +72,14 @@ const TwoFactorAuthentication = () => {
             <img src={srcQrconde.toString()} alt="QRCode image" className="" />
           </div>
         </ModalComponent>
-        {isTwoFactor ? (
+        {userData.is2fa ? (
           <button
             type="button"
             className="two-factor-deactivation"
             onClick={async () => {
-              await sendRequest2FaDeactivate(accessToken.value);
+              await sendRequest2FaDeactivate(axiosPrivateHook);
               setSrcQrcode("");
-              setIsTwoFactor(false);
+              setUserData({ ...userData, is2fa: false });
             }}
           >
             Deactivate 2FA
@@ -104,8 +89,8 @@ const TwoFactorAuthentication = () => {
             type="button"
             className="two-factor-activation"
             onClick={async () => {
-              setSrcQrcode(await sendRequest2Fa(accessToken.value));
-              setIsTwoFactor(true);
+              setSrcQrcode(await sendRequest2Fa(axiosPrivateHook));
+              setUserData({ ...userData, is2fa: true });
               setIsOpen(true);
             }}
           >
