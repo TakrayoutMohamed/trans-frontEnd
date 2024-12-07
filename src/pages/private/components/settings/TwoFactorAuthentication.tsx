@@ -1,38 +1,15 @@
 import { useSelector } from "react-redux";
 import { RootState } from "@/src/states/store";
 import { useState } from "react";
-import QRCode from "qrcode";
 import { twoFactorAuthentification } from "@privatePages/styles";
 import ModalComponent from "@/src/router/layouts/components/ModalComponent";
 import Modal from "react-modal";
 import useAxiosPrivate from "@/src/services/hooks/useAxiosPrivate";
-import { AxiosInstance } from "axios";
-import { setUserData } from "@/src/pages/modules/setAuthenticationData";
 
-const sendRequest2Fa = async (axiosHook: AxiosInstance): Promise<string> => {
-  try {
-    const response = await axiosHook.post("enable2fa");
-    console.log("response from setting Profile 2fa");
-    console.log(response);
-    return await QRCode.toDataURL(response.data.otp);
-  } catch (err) {
-    console.log("error in error frow setting Profile 2fa");
-    console.log(err);
-  }
-  return "";
-};
-const sendRequest2FaDeactivate = async (
-  axiosHook: AxiosInstance
-): Promise<void> => {
-  try {
-    const response = await axiosHook.get("enable2fa");
-    console.log("response from setting Profile 2fa");
-    console.log(response);
-  } catch (err) {
-    console.log("error in error frow setting Profile 2fa");
-    console.log(err);
-  }
-};
+import { setUserData } from "@/src/pages/modules/setAuthenticationData";
+import { sendRequest2Fa, sendRequest2FaDeactivate } from "@/src/pages/modules/send2FaRequest";
+
+
 
 const customStyles: Modal.Styles | undefined = {
   content: {},
@@ -49,7 +26,6 @@ const TwoFactorAuthentication = () => {
   const axiosPrivateHook = useAxiosPrivate();
   const userData = useSelector((state: RootState) => state.user.value);
   const [srcQrconde, setSrcQrcode] = useState<React.SetStateAction<string>>("");
-  // const [isTwoFactor, setIsTwoFactor] = useState(data.is2fa);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
     <>

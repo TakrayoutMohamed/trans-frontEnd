@@ -7,6 +7,7 @@ import { z } from "zod";
 import { AxiosError } from "axios";
 import { ChangeEvent, useState } from "react";
 import { modalOtp } from "@publicPagesStyles/index";
+import { autoFocusLogic } from "../../modules/autoFocusLogic";
 const signInOtpSchema = z.object({
   otp1: z.string({ message: " Otp code verefication is  required" }).length(1, {
     message: "length of the verification code must be 6 numbers",
@@ -34,30 +35,6 @@ interface ModalOtpProps {
   email: string;
   setIsOpen: React.Dispatch<boolean>;
 }
-
-const isInputHasAttribute = (
-  inputField: HTMLInputElement,
-  attributName: string
-): boolean => {
-  return inputField.hasAttribute(attributName);
-};
-
-const autoFocusLogic = (e: ChangeEvent<HTMLInputElement>) => {
-  const inputs = document.getElementsByTagName("input");
-  let i;
-  let nextInput: HTMLInputElement;
-
-  i = Number(e.target.getAttribute("name")?.charAt(3));
-  nextInput = (
-    i === 6 ? inputs.namedItem("otpSubmit") : inputs.namedItem("otp" + (i + 1))
-  ) as HTMLInputElement;
-  if (e.target.value) {
-    e.target.blur();
-    if (isInputHasAttribute(nextInput, "disabled"))
-      nextInput.attributes.removeNamedItem("disabled");
-    nextInput?.focus();
-  }
-};
 
 const ModalOtp = ({ email, setIsOpen }: ModalOtpProps) => {
   const navigate = useNavigate();
