@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import setAuthenticatedData from "@/src/pages/modules/setAuthenticationData";
 
 const UseAxiosPrivate = () => {
-  const accessToken = useSelector((state: RootState) => state.accessToken);
+  const accessToken = useSelector((state: RootState) => state.accessToken.value);
   const refresh = useRefreshToken();
   useEffect(() => {
     const requestInterceptor = axiosPrivate.interceptors.request.use(
