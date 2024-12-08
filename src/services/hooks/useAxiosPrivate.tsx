@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import setAuthenticatedData from "@/src/pages/modules/setAuthenticationData";
 
-const useAxiosPrivate = () => {
+const UseAxiosPrivate = () => {
   const accessToken = useSelector((state: RootState) => state.accessToken);
   const refresh = useRefreshToken();
   useEffect(() => {
@@ -44,4 +44,4 @@ const useAxiosPrivate = () => {
   return axiosPrivate;
 };
 
-export default useAxiosPrivate;
+export default UseAxiosPrivate;

@@ -2,7 +2,7 @@ import MainRoutingComponent from "@router/MainRoutingComponent.tsx";
 import { RootState } from "./states/store";
 import { useLayoutEffect } from "react";
 import { useSelector } from "react-redux";
-import useAxiosPrivate from "./services/hooks/useAxiosPrivate";
+import UseAxiosPrivate from "./services/hooks/UseAxiosPrivate";
 import setAuthenticationData, {
   setUserData,
 } from "./pages/modules/setAuthenticationData";
@@ -15,7 +15,7 @@ function App() {
   const accessToken = useSelector(
     (state: RootState) => state.accessToken.value
   );
-  const axiosPrivateHook = useAxiosPrivate();
+  const axiosPrivateHook = UseAxiosPrivate();
   useLayoutEffect(() => {
     if (Cookies.get("accessToken")?.length) {
       setAuthenticationData(Cookies.get("accessToken") + "");
