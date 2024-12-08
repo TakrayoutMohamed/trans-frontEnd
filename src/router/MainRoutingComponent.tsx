@@ -16,6 +16,7 @@ import SettingLayout from "@router/layouts/SettingLayout";
 import RegistrationLayout from "@router/layouts/RegistrationLayout";
 import ChatLayout from "@router/layouts/ChatLayout";
 import TournamentLayout from "./layouts/TournamentLayout";
+import NotFoundLayout from "./layouts/NotFoundLayout";
 
 // pages
 import Home from "@publicPages/Home";
@@ -88,6 +89,7 @@ const routingTree: RouteObject[] = createRoutesFromElements(
         </Route>
       </Route>
     </Route>
+    <Route path="*" element={<NotFoundLayout/>}> </Route>
   </Route>
 );
 
