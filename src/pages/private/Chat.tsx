@@ -2,6 +2,8 @@ import { SlEmotsmile } from "react-icons/sl";
 import { chat } from "./styles";
 import { IoArrowForwardCircleOutline } from "react-icons/io5";
 import { profileIcon, visibilityProfileIcon } from "@/media-exporting";
+import { MdMarkUnreadChatAlt } from "react-icons/md";
+import { GiConversation } from "react-icons/gi";
 const Chat = () => {
   const userName = "?????"
 return (
@@ -58,7 +60,10 @@ return (
       </div>
       <div className="chatContent">
         <div className="messagesArea">
-          {/* <ConversationContent /> */}
+          <div className="default-chat-icon">
+              {/* <img src={"/assets/images/chatAnimation.gif"} width="100%" height="100%" alt="" /> */}
+              <GiConversation color="white" size="80%" className=""/>
+          </div>
         </div>
         <form
           className="sendMessageField"
