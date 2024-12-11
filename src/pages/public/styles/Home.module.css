@@ -10,10 +10,11 @@
 
 .home {
 
-    min-height: fit-content;
     flex-grow: 1;
     display: grid;
     padding: 2em;
+    position: relative;
+    min-height: 40em;
     grid-template-rows: 60% 1fr;
     grid-template-columns: 1fr;
     background-image: url("/assets/images/homeBackgroundTable.svg");
