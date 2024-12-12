@@ -1,6 +1,6 @@
 import axios, {CanceledError} from 'axios';
 
-const BASE_URL = "http://localhost:8000/api/";
+const BASE_URL = process.env.BACKEND_API_URL + "/api/";
 axios.defaults.withCredentials = true;
 
 export const axiosPrivate =  axios.create({
