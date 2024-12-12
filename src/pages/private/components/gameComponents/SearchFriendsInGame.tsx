@@ -1,127 +1,16 @@
 import { BiBlock, BiSearch } from "react-icons/bi";
 import { searchFriendsInGame } from "../../styles";
-import { ChangeEvent, memo, useState } from "react";
+import { ChangeEvent, memo, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { profileIcon } from "@/media-exporting";
 import { RiUserAddFill } from "react-icons/ri";
+import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
+import { UserDataType } from "@/src/states/authentication/userSlice";
+import { AxiosInstance } from "axios";
+import { useSelector } from "react-redux";
+import { RootState } from "@/src/states/store";
 
-interface SearchUsers {
-  userName: string;
-  firstName: string;
-  lastName: string;
-  status: boolean;
-}
-
-const AllUsers: SearchUsers[] = [
-  {
-    userName: "alvares1",
-    firstName: "alvares",
-    lastName: "negredo",
-    status: true,
-  },
-  {
-    userName: "alvares2",
-    firstName: "alvares",
-    lastName: "negredo",
-    status: false,
-  },
-  {
-    userName: "alvares3",
-    firstName: "alvares",
-    lastName: "negredo",
-    status: true,
-  },
-  {
-    userName: "alvares4",
-    firstName: "alvares",
-    lastName: "negredo",
-    status: false,
-  },
-  {
-    userName: "alvares5",
-    firstName: "alvares",
-    lastName: "negredo",
-    status: true,
-  },
-  {
-    userName: "alvares6",
-    firstName: "alvares",
-    lastName: "negredo",
-    status: false,
-  },
-  {
-    userName: "alvares7",
-    firstName: "alvares",
-    lastName: "negredo",
-    status: true,
-  },
-  {
-    userName: "alvares8",
-    firstName: "alvares",
-    lastName: "negredo",
-    status: false,
-  },
-  {
-    userName: "alvares9",
-    firstName: "alvares",
-    lastName: "negredo",
-    status: true,
-  },
-  {
-    userName: "alvares10",
-    firstName: "alvares",
-    lastName: "negredo",
-    status: false,
-  },
-  {
-    userName: "alvares11",
-    firstName: "alvares",
-    lastName: "negredo",
-    status: true,
-  },
-  {
-    userName: "alvares12",
-    firstName: "alvares",
-    lastName: "negredo",
-    status: false,
-  },
-  {
-    userName: "alvares13",
-    firstName: "alvares",
-    lastName: "negredo",
-    status: true,
-  },
-  {
-    userName: "alvares14",
-    firstName: "alvares",
-    lastName: "negredo",
-    status: false,
-  },
-  {
-    userName: "alvares15",
-    firstName: "alvares",
-    lastName: "negredo",
-    status: true,
-  },
-  {
-    userName: "alvares16",
-    firstName: "alvares",
-    lastName: "negredo",
-    status: true,
-  },
-  {
-    userName: "alvares17",
-    firstName: "alvares",
-    lastName: "negredo",
-    status: true,
-  },
-  {
-    userName: "alvares18",
-    firstName: "alvares",
-    lastName: "negredo",
-    status: true,
-  },
-];
+let AllUsers: UserDataType[] = [];
 let isInputFocused: boolean = false;
 let isDevFocused: boolean = false;
 const hideSearchList = () => {
@@ -137,19 +26,61 @@ const showSearchList = () => {
     selectSearchList?.classList.remove("d-none");
 };
 
+const sendFriendRequest = (
+  axiosPrivateHook: AxiosInstance,
+  user: UserDataType
+) => {
+  axiosPrivateHook
+    .post("friend_req", { username: user.username })
+    .then((res) => {
+      console.log("friend request sent to " + user.username);
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+const getAllFriendRequest = () => {
+  
+}
+
+const fetchAllUsers = async (axiosPrivateHook: AxiosInstance) => {
+  const response = await axiosPrivateHook.post("search_user");
+  if (response.statusText != "OK") throw new Error("Failed to get Users data");
+  return response;
+};
+
 const SearchFriendsInGame = () => {
-  const [users, setUsers] = useState<SearchUsers[]>([]);
+  const [users, setUsers] = useState<UserDataType[]>([]);
+  const userData = useSelector((state: RootState) => state.user.value);
+  const axiosPrivateHook = UseAxiosPrivate();
+  useEffect(() => {
+    fetchAllUsers(axiosPrivateHook)
+      .then((response) => {
+        console.log("response in Search Friends in Game");
+        console.log(response);
+        AllUsers = response.data.user;
+      })
+      .catch((err) => {
+        console.log("error in Search Friends in Game");
+        console.log(err);
+        AllUsers = [];
+      });
+  }, []);
   function searchForUser(event: ChangeEvent<HTMLInputElement>) {
     event.preventDefault();
-    let user = event.currentTarget.value;
-    if (!user.length) {
+    let userField = event.currentTarget.value;
+    if (!userField.length) {
       users.length && setUsers([]);
     } else {
       setUsers(
         AllUsers.filter((filteredUser) => {
-          return filteredUser.userName
-            .toLowerCase()
-            .includes(user.toLowerCase());
+          let filteredUserToLowerCase = filteredUser.username?.toLowerCase();
+            return (
+              filteredUserToLowerCase?.includes(userField.toLowerCase()) &&
+              filteredUserToLowerCase !== userData.username?.toLowerCase()
+            );
         })
       );
     }
@@ -165,7 +96,7 @@ const SearchFriendsInGame = () => {
           name="searchUsers"
           id="searchUsers"
           className="searchUsers"
-          placeholder="Search....."
+          placeholder="Search for users....."
           onChange={(event) => {
             searchForUser(event);
           }}
@@ -191,10 +122,10 @@ const SearchFriendsInGame = () => {
         }}
       >
         {users && users.length ? (
-          users.map((user, index) => (
-            <div className="searched-friends-cards" key={index}>
+          users.map((user) => (
+            <div className="searched-friends-cards" key={user.username}>
               <Link
-                to={`/profile/` + user.userName}
+                to={`/profile/` + user.username}
                 className="user-image-first-last-name"
               >
                 <div className="user-image">
@@ -208,13 +139,16 @@ const SearchFriendsInGame = () => {
                 </div>
                 <div className="user-first-last-name">
                   <div className="first-last-name">
-                    {user.firstName + " " + user.lastName}
+                    {user.first_name + " " + user.last_name}
                   </div>
-                  <div className="user-name">{user.userName}</div>
+                  <div className="user-name">{user.username}</div>
                 </div>
               </Link>
               <div className="block-add-button">
-                <div className="add-button">
+                <div
+                  className="add-button"
+                  onClick={() => sendFriendRequest(axiosPrivateHook, user)}
+                >
                   <RiUserAddFill />
                 </div>
                 <div className="block-button">
