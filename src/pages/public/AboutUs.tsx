@@ -1,10 +1,10 @@
-import useRefreshToken from "@/src/services/hooks/useRefreshToken"
+import refreshToken from "@/src/services/hooks/refreshToken"
 
 const AboutUs = () => {
   const refreshToken = async () => {
     try{
 
-      const refreshTokenHook = useRefreshToken();
+      const refreshTokenHook = refreshToken();
       const response = await refreshTokenHook()
       console.log("refresh token from about us")
       console.log(response);

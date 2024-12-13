@@ -1,13 +1,13 @@
 import { RootState } from "@/src/states/store";
 import { axiosPrivate } from "../api/axios";
-import useRefreshToken from "./useRefreshToken";
+import refreshToken from "./refreshToken";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import setAuthenticatedData from "@/src/pages/modules/setAuthenticationData";
 
 const UseAxiosPrivate = () => {
   const accessToken = useSelector((state: RootState) => state.accessToken.value);
-  const refresh = useRefreshToken();
+  const refresh = refreshToken();
   useEffect(() => {
     const requestInterceptor = axiosPrivate.interceptors.request.use(
       (config) => {
