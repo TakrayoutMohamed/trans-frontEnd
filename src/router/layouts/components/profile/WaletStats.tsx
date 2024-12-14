@@ -3,9 +3,13 @@ import { profileWaletStats } from "@/src/router/styles";
 import { LiaCoinsSolid } from "react-icons/lia";
 import { RiCoinsLine } from "react-icons/ri";
 
-const data = { first_name: "alvares", last_name: "negredo", level: "12.55" };
+interface WaletStatsProps{
+  first_name?: string;
+  last_name?: string;
+  level?: number;
+}
 
-const WaletStats = () => {
+const WaletStats = ({first_name = "firstname", last_name= "lastname", level = 0} : WaletStatsProps) => {
   return (
     <>
       <div className={`${profileWaletStats}`}>
@@ -17,9 +21,9 @@ const WaletStats = () => {
           </div>
           <div className="user-name-level">
             <div className="user-name">
-              {data.first_name + " " + data.last_name}
+              {first_name + " " + last_name}
             </div>
-            <div className="user-level"> lvl. {data.level}</div>
+            <div className="user-level"> lvl. {level}</div>
           </div>
         </div>
         <div className="walet-cents-coins">
