@@ -1,38 +1,63 @@
 import MainRoutingComponent from "@router/MainRoutingComponent.tsx";
-import { RootState } from "./states/store";
+import { store } from "./states/store";
 import { useLayoutEffect } from "react";
-import { useSelector } from "react-redux";
 import UseAxiosPrivate from "./services/hooks/UseAxiosPrivate";
-import setAuthenticationData, {
+import setAuthenticatedData, {
+  setBlockedData,
+  setFriendsData,
   setUserData,
 } from "./pages/modules/setAuthenticationData";
+import { AxiosInstance } from "axios";
 import Cookies from "js-cookie";
+import { setAccessToken } from "./states/authentication/accessTokenSlice";
 
+const getUsersInfo = async (axiosPrivateHook: AxiosInstance) => {
+  await axiosPrivateHook
+    .get("user_info")
+    .then((res) => {
+      setUserData(res.data);
+    })
+    .catch((err) => {
+      console.log("error in getUsersInfo");
+      console.log(err);
+    });
+};
+const getFriendsData = async (axiosPrivateHook: AxiosInstance) => {
+  axiosPrivateHook
+    .get("friends")
+    .then((res) => {
+      setFriendsData(res.data.friends);
+    })
+    .catch((err) => {
+      console.log("error in getFriendsInfo");
+      console.log(err);
+    });
+};
+const getBlockedData = async (axiosPrivateHook: AxiosInstance) => {
+  axiosPrivateHook
+    .get("block_user")
+    .then((res) => {
+      setBlockedData(res.data.blocked);
+    })
+    .catch((err) => {
+      console.log("error in getBlockedInfo");
+      console.log(err);
+    });
+};
 function App() {
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.authenticator.value
-  );
-  const accessToken = useSelector(
-    (state: RootState) => state.accessToken.value
-  );
   const axiosPrivateHook = UseAxiosPrivate();
   useLayoutEffect(() => {
-    if (Cookies.get("accessToken")?.length) {
-      setAuthenticationData(Cookies.get("accessToken") + "");
-    }
-    const getUsersInfo = async () => {
-      try {
-        const userData = await axiosPrivateHook.get("user_info",{headers: {
-          Authorization: `Bearer ${accessToken}`
-        }});
-        setUserData(userData.data);
-      } catch (err) {
-        console.log("error in getUsersInfo");
-        console.log(err);
+    if (!store.getState().authenticator.value) {
+      if (Cookies.get("accessToken")?.length) {
+        setAccessToken(Cookies.get("accessToken"));
       }
-    };
-    if (isAuthenticated && accessToken) getUsersInfo();
-  }, [isAuthenticated]);
+    }
+    if (store.getState().accessToken.value) {
+      getUsersInfo(axiosPrivateHook);
+      getFriendsData(axiosPrivateHook);
+      getBlockedData(axiosPrivateHook);
+    }
+  }, [store.getState().authenticator.value]);
   return (
     <>
       <MainRoutingComponent></MainRoutingComponent>
