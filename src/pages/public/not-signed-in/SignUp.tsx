@@ -24,17 +24,12 @@ const signUpSchema = z.object({
     .email({ message: "Enter valid email" }),
   username: z
     .string({ message: "username is required" })
+    .min(3, { message: "username length must be more than 3 chars" })
     .max(50, { message: "username length is less than 50 chars" }),
   password: z
     .string({ message: "password is required" })
     .min(3, { message: "password must be more than 3 chars" })
     .max(30, { message: "password must be less than 30 chars" }),
-  first_name: z
-    .string({ message: "first_name is required" })
-    .max(50, { message: "first_name length is less than 50 chars" }),
-  last_name: z
-    .string({ message: "last_name is required" })
-    .max(50, { message: "last_name length is less than 50 chars" }),
 });
 
 type SignUpSchemaType = z.infer<typeof signUpSchema>;
@@ -52,8 +47,6 @@ const SignUp = () => {
     data: SignUpSchemaType
   ) => {
     try {
-      data = { ...data, first_name: "aaaaalvaDefault", last_name: "neeeegroDefault" };
-      console.log(data);
       await axios.post("signup", JSON.stringify(data));
       navigate("/sign-in", { replace: true });
     } catch (err) {
@@ -96,8 +89,6 @@ const SignUp = () => {
             className="w-75 my-auto"
             onSubmit={handleSubmit(onSubmit, onError)}
           >
-            <input type="text" autoComplete="on" {...register("first_name", { required: true })} className="d-none" />
-            <input type="text" autoComplete="on" {...register("last_name", { required: true })} className="d-none" />
             <div className="mb-4">
               <input
                 type="text"
