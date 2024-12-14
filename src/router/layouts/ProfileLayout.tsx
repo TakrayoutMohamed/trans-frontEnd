@@ -1,9 +1,34 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { profileLayout } from "../styles";
 import { NavLink, Outlet, useParams } from "react-router-dom";
 import Stats from "./components/profile/Stats";
 import { profileIcon } from "@/media-exporting";
 import WaletState from "./components/profile/WaletStats";
+import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
+import { UserDataType } from "@/src/states/authentication/userSlice";
+import { store } from "@/src/states/store";
+const matchesData = {
+  data: [
+    {
+      //aiStates
+      matches: 27,
+      win: 24,
+      lose: 3,
+    },
+    {
+      //tournament states
+      matches: 20,
+      win: 17,
+      lose: 3,
+    },
+    {
+      //classic states
+      matches: 15,
+      win: 12,
+      lose: 3,
+    },
+  ],
+};
 
 enum statsType {
   AISTATS,
@@ -13,20 +38,49 @@ enum statsType {
 
 const ProfileLayout = () => {
   const { userName } = useParams();
+  const [data, setData] = useState<UserDataType>(store.getState().user.value);
+  const axiosPrivateHook = UseAxiosPrivate();
+  useEffect(() => {
+    if (userName && userName !== store.getState().user.value.username) {
+      axiosPrivateHook
+        .post("search_username", {
+          username: userName,
+        })
+        .then((res) => {
+          setData(res.data.user);
+        })
+        .catch((error) => {
+          console.log("error in getting the data of user in WaletStates");
+          console.log(error);
+          setData(store.getState().user.value);
+        });
+    } else {
+      setData(store.getState().user.value);
+    }
+  }, [userName]);
+  console.log("profile layout ");
+  console.log(data);
+
   return (
     <Fragment>
       <div className={`${profileLayout}`}>
         <div className="aiStats">
-          <Stats title={"AI STATS"} statsType={statsType.AISTATS} />
+          <Stats
+            title={"AI STATS"}
+            data={matchesData.data[statsType.AISTATS]}
+          />
         </div>
         <div className="classicTournamentStats">
           <div className="classicStats">
-            <Stats title={"CLASSIC STATS"} statsType={statsType.CLASSICSTATS} />
+            <Stats
+              title={"CLASSIC STATS"}
+              data={matchesData.data[statsType.CLASSICSTATS]}
+            />
           </div>
           <div className="tournamentStats">
             <Stats
               title={"TOURNAMENT STATS"}
-              statsType={statsType.TOURNAMENTSTATS}
+              data={matchesData.data[statsType.TOURNAMENTSTATS]}
             />
           </div>
         </div>
@@ -61,17 +115,19 @@ const ProfileLayout = () => {
                 />
               </svg>
               <div className="">
-                <img src={profileIcon} alt="user image" />
+                <img src={data.avatar? process.env.BACKEND_API_URL+""+data.avatar : profileIcon} alt="user image" />
+                
               </div>
             </div>
             <div className="link-content">
-              <Outlet />
+              <Outlet context={data} />
             </div>
           </div>
         </div>
-        <div className="breadcrumbs"></div>
         <div className="waletStats">
-          <WaletState />
+          <WaletState
+            data={data}
+          />
         </div>
       </div>
     </Fragment>

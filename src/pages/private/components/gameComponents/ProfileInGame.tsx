@@ -1,8 +1,11 @@
 import { goldenMedalIcon, profileIcon } from "@/media-exporting";
 import { RiMenuSearchLine } from "react-icons/ri";
 import { gameProfileInGame } from "../../styles";
+import { useSelector } from "react-redux";
+import { RootState } from "@/src/states/store";
 
 const ProfileInGame = () => {
+  const userData = useSelector((state: RootState) => state.user.value);
   return (
     <>
       <div className={gameProfileInGame}>
@@ -13,9 +16,9 @@ const ProfileInGame = () => {
               <img src={profileIcon} alt="my-profile" className="" />
             </div>
             <div className="user-name-level">
-              <div className="user-name">Alvares</div>
+              <div className="user-name">{userData.username}</div>
               <p className="user-level">
-                <RiMenuSearchLine /> level 8.57
+                <RiMenuSearchLine /> level {userData.level ? userData.level: 0 }
               </p>
             </div>
           </div>
@@ -33,7 +36,13 @@ const ProfileInGame = () => {
           <div className=" vertical-line"></div>
           <div className="status">
             <div className="title">Status</div>
-            <div className="text-success content">online</div>
+            <div
+              className={`content ${
+                userData.is_online ? "text-success" : "text-danger"
+              }`}
+            >
+              {userData.is_online ? "online" : "offline"}
+            </div>
           </div>
           <div className="vertical-line"></div>
           <div className="last-score">

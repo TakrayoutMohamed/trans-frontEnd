@@ -20,6 +20,7 @@
 
             img {
                 min-width: 2em;
+                max-width: 2.5em;
             }
         }
 

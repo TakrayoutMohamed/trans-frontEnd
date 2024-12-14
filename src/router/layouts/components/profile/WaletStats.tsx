@@ -1,29 +1,32 @@
 import { coinsBackground, profileIcon } from "@/media-exporting";
 import { profileWaletStats } from "@/src/router/styles";
+import { UserDataType } from "@/src/states/authentication/userSlice";
 import { LiaCoinsSolid } from "react-icons/lia";
 import { RiCoinsLine } from "react-icons/ri";
 
 interface WaletStatsProps{
-  first_name?: string;
-  last_name?: string;
-  level?: number;
+  data: UserDataType;
 }
 
-const WaletStats = ({first_name = "firstname", last_name= "lastname", level = 0} : WaletStatsProps) => {
+const WaletStats = ({data} : WaletStatsProps) => {
   return (
     <>
       <div className={`${profileWaletStats}`}>
         <div className="user-image-name-level">
           <div className="user-image">
             <div className="">
-              <img src={profileIcon} alt="" className="rounded-5 bg-info" />
+              <img
+              src={data.avatar? process.env.BACKEND_API_URL+""+data.avatar : profileIcon}
+              alt=""
+              className="rounded-5 bg-info"
+              />
             </div>
           </div>
           <div className="user-name-level">
             <div className="user-name">
-              {first_name + " " + last_name}
+              {data.first_name + " " + data.last_name}
             </div>
-            <div className="user-level"> lvl. {level}</div>
+            <div className="user-level"> lvl. {data.level?data.level: 0}</div>
           </div>
         </div>
         <div className="walet-cents-coins">
