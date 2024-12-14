@@ -57,7 +57,7 @@ const ProfileLayout = () => {
     } else {
       setData(store.getState().user.value);
     }
-  }, [userName]);
+  }, [userName,store.getState().user.value]);
   console.log("profile layout ");
   console.log(data);
 
@@ -98,7 +98,7 @@ const ProfileLayout = () => {
             >
               Profile
             </NavLink>
-            {!userName && (
+            {(!userName || userName === store.getState().user.value.username) && (
               <NavLink className="" to="friends">
                 Friends
               </NavLink>

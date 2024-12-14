@@ -4,11 +4,11 @@ import { UserDataType } from "@/src/states/authentication/userSlice";
 import { LiaCoinsSolid } from "react-icons/lia";
 import { RiCoinsLine } from "react-icons/ri";
 
-interface WaletStatsProps{
-  data: UserDataType;
+interface WaletStatsProps {
+  data: UserDataType | undefined;
 }
 
-const WaletStats = ({data} : WaletStatsProps) => {
+const WaletStats = ({ data }: WaletStatsProps) => {
   return (
     <>
       <div className={`${profileWaletStats}`}>
@@ -16,17 +16,26 @@ const WaletStats = ({data} : WaletStatsProps) => {
           <div className="user-image">
             <div className="">
               <img
-              src={data.avatar? process.env.BACKEND_API_URL+""+data.avatar : profileIcon}
-              alt=""
-              className="rounded-5 bg-info"
+                src={
+                  data?.avatar
+                    ? process.env.BACKEND_API_URL + "" + data.avatar
+                    : profileIcon
+                }
+                alt=""
+                className="rounded-5 bg-info"
               />
             </div>
           </div>
           <div className="user-name-level">
             <div className="user-name">
-              {data.first_name + " " + data.last_name}
+              {(data?.first_name?.length ? data.first_name : "?????????") +
+                " " +
+                (data?.last_name?.length ? data.last_name : "?????????")}
             </div>
-            <div className="user-level"> lvl. {data.level?data.level: 0}</div>
+            <div className="user-level">
+              {" "}
+              lvl. {data?.level ? data.level : 0}
+            </div>
           </div>
         </div>
         <div className="walet-cents-coins">
