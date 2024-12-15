@@ -4,8 +4,7 @@ import { TfiTrash } from "react-icons/tfi";
 import { BsThreeDots } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
-import { axiosPrivate } from "@/src/services/api/axios";
-import { RootState, store } from "@/src/states/store";
+import { RootState } from "@/src/states/store";
 import { AxiosInstance } from "axios";
 import { useSelector } from "react-redux";
 
@@ -14,12 +13,29 @@ const blockUser = (AxiosPrivateHook: AxiosInstance, username: string): void => {
     .then((res) => {
       console.log("res : you blocked this user");
       console.log(res);
+      // here i have to add the blocked user to the list of blocked users
     })
     .catch((err) => {
       console.log("error in blocking a user ");
       console.log(err);
     });
-  //here i have to send a block request to server to  block this user
+};
+
+const inviteToGame = (AxiosPrivateHook: AxiosInstance, username: string) => {
+  console.log("handle invite to game ");
+};
+const unfriendUser = (AxiosPrivateHook: AxiosInstance, username: string) => {
+  console.log("handle unfriend user  to game ");
+  AxiosPrivateHook.delete("friend_req", { data: { username: username } })
+    .then((res) => {
+      console.log("res : you removed this user " + username + " from friends");
+      console.log(res);
+      //here i need to remove the user from the list of friends
+    })
+    .catch((err) => {
+      console.log("error in unfriend  a user ");
+      console.log(err);
+    });
 };
 
 const Friends = () => {
@@ -28,7 +44,7 @@ const Friends = () => {
   if (!friendsList || !friendsList.length)
     return (
       <div className={`${friends}`}>
-        <p className="w-100">
+        <p className="no-friends">
           You have no friends yet !!!!
           <br />
           go to{" "}
@@ -53,7 +69,11 @@ const Friends = () => {
                 <div className="user-image">
                   <div className="">
                     <img
-                      src={profileIcon}
+                      src={
+                        friend.avatar
+                          ? process.env.BACKEND_API_URL + "" + friend.avatar
+                          : profileIcon
+                      }
                       alt=""
                       className="rounded-5 bg-info"
                     />
@@ -61,7 +81,10 @@ const Friends = () => {
                 </div>
                 <div className="user-name-level">
                   <div className="user-name">
-                    {friend.first_name + " " + friend.last_name}
+                    {friend?.first_name?.length
+                      ? friend.first_name
+                      : "?????????"}{" "}
+                    {friend?.last_name?.length ? friend.last_name : "?????????"}
                   </div>
                   <div className="user-level">
                     lvl. {friend.level ? friend.level : 0}
@@ -69,8 +92,21 @@ const Friends = () => {
                 </div>
               </Link>
               <div className="invite-remove-button">
-                <div className="invite-button">invite</div>
-                <div className="remove-button" title="unfriend">
+                <div
+                  className="invite-button"
+                  onClick={() =>
+                    inviteToGame(AxiosPrivateHook, friend.username!)
+                  }
+                >
+                  invite
+                </div>
+                <div
+                  className="remove-button"
+                  title="unfriend"
+                  onClick={() =>
+                    unfriendUser(AxiosPrivateHook, friend.username!)
+                  }
+                >
                   <TfiTrash />
                 </div>
               </div>
