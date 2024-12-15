@@ -3,141 +3,48 @@ import { friends } from "./styles";
 import { TfiTrash } from "react-icons/tfi";
 import { BsThreeDots } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
+import { axiosPrivate } from "@/src/services/api/axios";
+import { RootState, store } from "@/src/states/store";
+import { AxiosInstance } from "axios";
+import { useSelector } from "react-redux";
 
-const data = [
-  {
-    username: "alvares1",
-    first_name: "alvares",
-    last_name: "negredo",
-    level: "12.25s",
-    photo: "user1photo",
-  },
-  {
-    username: "alvares2",
-    first_name: "alvares",
-    last_name: "negredo",
-    level: "12.25",
-    photo: "user1photo",
-  },
-  {
-    username: "alvares3",
-    first_name: "alvares",
-    last_name: "negredo",
-    level: "12.25",
-    photo: "user1photo",
-  },
-  {
-    username: "alvares4",
-    first_name: "alvares",
-    last_name: "negredo",
-    level: "12.25",
-    photo: "user1photo",
-  },
-  {
-    username: "alvares5",
-    first_name: "alvares",
-    last_name: "negredo",
-    level: "12.25",
-    photo: "user1photo",
-  },
-  {
-    username: "alvares6",
-    first_name: "alvares",
-    last_name: "negredo",
-    level: "12.25",
-    photo: "user1photo",
-  },
-  {
-    username: "alvares7",
-    first_name: "alvares",
-    last_name: "negredo",
-    level: "12.25",
-    photo: "user1photo",
-  },
-  {
-    username: "alvares8",
-    first_name: "alvares",
-    last_name: "negredo",
-    level: "12.25",
-    photo: "user1photo",
-  },
-  {
-    username: "alvares9",
-    first_name: "alvares",
-    last_name: "negredo",
-    level: "12.25",
-    photo: "user1photo",
-  },
-  {
-    username: "alvares10",
-    first_name: "alvares",
-    last_name: "negredo",
-    level: "12.25",
-    photo: "user1photo",
-  },
-  {
-    username: "alvares11",
-    first_name: "alvares",
-    last_name: "negredo",
-    level: "12.25",
-    photo: "user1photo",
-  },
-  {
-    username: "alvares12",
-    first_name: "alvares",
-    last_name: "negredo",
-    level: "12.25",
-    photo: "user1photo",
-  },
-  {
-    username: "alvares13",
-    first_name: "alvares",
-    last_name: "negredo",
-    level: "12.25",
-    photo: "user1photo",
-  },
-  {
-    username: "alvares14",
-    first_name: "alvares",
-    last_name: "negredo",
-    level: "12.25",
-    photo: "user1photo",
-  },
-  {
-    username: "alvares15",
-    first_name: "alvares",
-    last_name: "negredo",
-    level: "12.25",
-    photo: "user1photo",
-  },
-  {
-    username: "alvares16",
-    first_name: "alvares",
-    last_name: "negredo",
-    level: "12.25",
-    photo: "user1photo",
-  },
-  {
-    username: "alvares17",
-    first_name: "alvares",
-    last_name: "negredo",
-    level: "12.25e",
-    photo: "user1photo",
-  },
-];
-
-const blockUser = (username: string): void => {
-  console.log(username);
-  //here i have to send a block request to server to  block this user and also remove it from friends list
+const blockUser = (AxiosPrivateHook: AxiosInstance, username: string): void => {
+  AxiosPrivateHook.post("block_user", { username: username })
+    .then((res) => {
+      console.log("res : you blocked this user");
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log("error in blocking a user ");
+      console.log(err);
+    });
+  //here i have to send a block request to server to  block this user
 };
 
 const Friends = () => {
+  const AxiosPrivateHook = UseAxiosPrivate();
+  const friendsList = useSelector((state: RootState) => state.friends.value);
+  if (!friendsList || !friendsList.length)
+    return (
+      <div className={`${friends}`}>
+        <p className="w-100">
+          You have no friends yet !!!!
+          <br />
+          go to{" "}
+          <Link to="/game" className="">
+            dashboard
+          </Link>{" "}
+          to search for them
+        </p>
+      </div>
+    );
   return (
     <div className={`${friends}`}>
       <div className="">
-        {data &&
-          data.length &&
-          data.map((friend, index) => (
+        {friendsList &&
+          friendsList.length &&
+          friendsList.map((friend, index) => (
             <div className="friends-card" key={index}>
               <Link
                 to={`/profile/` + friend.username}
@@ -156,12 +63,14 @@ const Friends = () => {
                   <div className="user-name">
                     {friend.first_name + " " + friend.last_name}
                   </div>
-                  <div className="user-level"> lvl. {friend.level}</div>
+                  <div className="user-level">
+                    lvl. {friend.level ? friend.level : 0}
+                  </div>
                 </div>
               </Link>
               <div className="invite-remove-button">
                 <div className="invite-button">invite</div>
-                <div className="remove-button">
+                <div className="remove-button" title="unfriend">
                   <TfiTrash />
                 </div>
               </div>
@@ -175,7 +84,7 @@ const Friends = () => {
               <div className="dropdown-menu">
                 <div
                   className="block"
-                  onClick={() => blockUser(friend.username)}
+                  onClick={() => blockUser(AxiosPrivateHook, friend.username!)}
                 >
                   <span className="">
                     <img src={blockIcon} width={20} alt="" />

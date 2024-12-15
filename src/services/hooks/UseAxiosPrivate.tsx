@@ -6,7 +6,9 @@ import { useEffect } from "react";
 import setAuthenticatedData from "@/src/pages/modules/setAuthenticationData";
 
 const UseAxiosPrivate = () => {
-  const accessToken = useSelector((state: RootState) => state.accessToken.value);
+  const accessToken = useSelector(
+    (state: RootState) => state.accessToken.value
+  );
   const refresh = refreshToken();
   useEffect(() => {
     const requestInterceptor = axiosPrivate.interceptors.request.use(
@@ -29,7 +31,7 @@ const UseAxiosPrivate = () => {
           prevRequest.sent = true;
           const newAccessToken = await refresh();
           prevRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
-          setAuthenticatedData(newAccessToken);
+          setAuthenticatedData(newAccessToken!);
           return axiosPrivate(prevRequest);
         }
         return Promise.reject(error);

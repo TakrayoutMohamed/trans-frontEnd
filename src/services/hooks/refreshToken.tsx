@@ -5,16 +5,18 @@ const refreshUrl = "refresh_token";
 
 const refreshToken = () => {
   const refresh = async () => {
-    try{
+    let accessToken: string | undefined;
+    try {
       const response = await axios.post(refreshUrl);
-      setAuthenticatedData(response.data.access_token)
-      return response.data.access_token;
-    }
-    catch(err){
-      console.log("error in refreshToken ")
+      setAuthenticatedData(response.data.access_token);
+      accessToken = response.data.access_token;
+    } catch (err) {
+      console.log("error in refreshToken ");
       console.log(err);
+      accessToken = undefined;
+    } finally {
+      return accessToken;
     }
-    return ""
   };
   return refresh;
 };

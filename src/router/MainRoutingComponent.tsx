@@ -40,30 +40,27 @@ import AuthorizationRoutes from "@router/AuthorizationRoutes";
 
 const routingTree: RouteObject[] = createRoutesFromElements(
   <Route element={<RootLayout />}>
-    {/*landing page routing */}
     <Route path="/" element={<HomeLayout />}>
-      <Route index element={<Home />} /> {/* home page*/}
-      <Route path="about-us" element={<AboutUs />} /> {/* about us*/}
-      <Route path="team" element={<Team />} /> {/* team*/}
-      <Route path="contact" element={<Contact />} /> {/* contact*/}
+      <Route index element={<Home />} />
+      <Route path="about-us" element={<AboutUs />} />
+      <Route path="team" element={<Team />} />
+      <Route path="contact" element={<Contact />} />
     </Route>
     <Route element={<AuthorizationRoutes />}>
       <Route element={<RegistrationLayout />}>
-        <Route path="sign-up" element={<SignUp />} /> {/* sign up*/}
-        <Route path="sign-in" element={<SignIn />} /> {/* sign in*/}
+        <Route path="sign-up" element={<SignUp />} />
+        <Route path="sign-in" element={<SignIn />} />
       </Route>
     </Route>
     <Route element={<PrivateRoutes />}>
       <Route element={<DashboardLayout />}>
-        <Route path="game" element={<Game />} /> {/*game */}
-        {/*profile layout */}
+        <Route path="game" element={<Game />} />
         <Route path="profile">
           <Route element={<ProfileLayout />}>
-            <Route index element={<Navigate to="details" replace />} />{" "}
-            {/* profile */}
-            <Route path="details" element={<Profile />} /> {/* profile */}
-            <Route path="recent" element={<Recent />} /> {/* Recent */}
-            <Route path="friends" element={<Friends />} /> {/* Friends */}
+            <Route index element={<Navigate to="details" replace />} />
+            <Route path="details" element={<Profile />} />
+            <Route path="recent" element={<Recent />} />
+            <Route path="friends" element={<Friends />} />
             <Route path=":userName">
               <Route index element={<Navigate to="details" replace />} />
               <Route path="details" element={<Profile />} />
@@ -71,14 +68,11 @@ const routingTree: RouteObject[] = createRoutesFromElements(
             </Route>
           </Route>
         </Route>
-        {/*chat */}
         <Route path="chat" element={<ChatLayout />}>
           <Route index element={<Chat />} />
           <Route path=":userName" element={<ChatArea />} />
         </Route>
-        {/*tournament */}
         <Route path="tournament" element={<TournamentLayout />}></Route>
-        {/*setting layout */}
         <Route path="setting" element={<SettingLayout />}>
           <Route index element={<Navigate to="profile" replace />} />
           <Route path="profile" element={<SettingProfile />} />
@@ -86,9 +80,7 @@ const routingTree: RouteObject[] = createRoutesFromElements(
         </Route>
       </Route>
     </Route>
-    <Route path="*" element={<NotFoundLayout />}>
-      {" "}
-    </Route>
+    <Route path="*" element={<NotFoundLayout />}></Route>
   </Route>
 );
 
@@ -109,7 +101,7 @@ const MainRoutingComponent = () => {
         v7_startTransition: true,
       }}
       router={router}
-    ></RouterProvider>
+    />
   );
 };
 

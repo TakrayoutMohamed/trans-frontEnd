@@ -1,6 +1,6 @@
 import MainRoutingComponent from "@router/MainRoutingComponent.tsx";
-import { store } from "./states/store";
-import { useLayoutEffect } from "react";
+import { RootState } from "./states/store";
+import { useEffect } from "react";
 import UseAxiosPrivate from "./services/hooks/UseAxiosPrivate";
 import setAuthenticatedData, {
   setBlockedData,
@@ -9,7 +9,7 @@ import setAuthenticatedData, {
 } from "./pages/modules/setAuthenticationData";
 import { AxiosInstance } from "axios";
 import Cookies from "js-cookie";
-import { setAccessToken } from "./states/authentication/accessTokenSlice";
+import { useSelector } from "react-redux";
 
 const getUsersInfo = async (axiosPrivateHook: AxiosInstance) => {
   await axiosPrivateHook
@@ -22,6 +22,7 @@ const getUsersInfo = async (axiosPrivateHook: AxiosInstance) => {
       console.log(err);
     });
 };
+
 const getFriendsData = async (axiosPrivateHook: AxiosInstance) => {
   axiosPrivateHook
     .get("friends")
@@ -33,6 +34,7 @@ const getFriendsData = async (axiosPrivateHook: AxiosInstance) => {
       console.log(err);
     });
 };
+
 const getBlockedData = async (axiosPrivateHook: AxiosInstance) => {
   axiosPrivateHook
     .get("block_user")
@@ -44,24 +46,26 @@ const getBlockedData = async (axiosPrivateHook: AxiosInstance) => {
       console.log(err);
     });
 };
+
 function App() {
   const axiosPrivateHook = UseAxiosPrivate();
-  useLayoutEffect(() => {
-    if (!store.getState().authenticator.value) {
-      if (Cookies.get("accessToken")?.length) {
-        setAccessToken(Cookies.get("accessToken"));
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.authenticator.value
+  );
+  useEffect(() => {
+    if (!isAuthenticated) {
+      if (Cookies.get("accessToken") !== undefined) {
+        setAuthenticatedData(Cookies.get("accessToken")!);
       }
-    }
-    if (store.getState().accessToken.value) {
+    } else {
       getUsersInfo(axiosPrivateHook);
       getFriendsData(axiosPrivateHook);
       getBlockedData(axiosPrivateHook);
     }
-  }, [store.getState().authenticator.value]);
+  }, [isAuthenticated]);
   return (
     <>
-      <MainRoutingComponent></MainRoutingComponent>
-      {/* <div>App</div> */}
+      <MainRoutingComponent />
     </>
   );
 }
