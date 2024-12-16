@@ -6,7 +6,8 @@ import { profileIcon } from "@/media-exporting";
 import WaletState from "./components/profile/WaletStats";
 import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
 import { UserDataType } from "@/src/states/authentication/userSlice";
-import { store } from "@/src/states/store";
+import { RootState, store } from "@/src/states/store";
+import { useSelector } from "react-redux";
 const matchesData = {
   data: [
     {
@@ -38,10 +39,11 @@ enum statsType {
 
 const ProfileLayout = () => {
   const { userName } = useParams();
-  const [data, setData] = useState<UserDataType>(store.getState().user.value);
+  const currentUserData = useSelector((state: RootState) => state.user.value);
+  const [data, setData] = useState<UserDataType>(currentUserData);
   const axiosPrivateHook = UseAxiosPrivate();
   useEffect(() => {
-    if (userName && userName !== store.getState().user.value.username) {
+    if (userName && userName !== currentUserData) {
       axiosPrivateHook
         .post("search_username", {
           username: userName,
@@ -50,16 +52,13 @@ const ProfileLayout = () => {
           setData(res.data.user);
         })
         .catch((error) => {
-          console.log("error in getting the data of user in WaletStates");
           console.log(error);
-          setData(store.getState().user.value);
+          setData(currentUserData);
         });
     } else {
-      setData(store.getState().user.value);
+      setData(currentUserData);
     }
-  }, [userName,store.getState().user.value]);
-  console.log("profile layout ");
-  console.log(data);
+  }, [userName,currentUserData]);
 
   return (
     <Fragment>
