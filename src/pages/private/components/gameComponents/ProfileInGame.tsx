@@ -13,12 +13,20 @@ const ProfileInGame = () => {
         <div className="medal-user">
           <div className="user-image-name-level">
             <div className="user-image">
-              <img src={profileIcon} alt="my-profile" className="" />
+              <img
+                src={
+                  userData.avatar
+                    ? process.env.BACKEND_API_URL + "" + userData.avatar
+                    : profileIcon
+                }
+                alt="my-profile"
+                className=""
+              />
             </div>
             <div className="user-name-level">
               <div className="user-name">{userData.username}</div>
               <p className="user-level">
-                <RiMenuSearchLine /> level {userData.level ? userData.level: 0 }
+                <RiMenuSearchLine /> level {userData.level ? userData.level : 0}
               </p>
             </div>
           </div>

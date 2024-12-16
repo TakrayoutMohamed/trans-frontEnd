@@ -3,8 +3,11 @@ import { Fragment } from "react/jsx-runtime";
 import { settingLayout } from "../styles";
 import { profileIcon, settingBackgroundImage } from "@/media-exporting";
 import { BiSearch } from "react-icons/bi";
+import { useSelector } from "react-redux";
+import { RootState } from "@/src/states/store";
 
 const SettingLayout = () => {
+  const userData = useSelector((state: RootState) => state.user.value)
   return (
     <Fragment>
       <div className={settingLayout}>
@@ -25,7 +28,11 @@ const SettingLayout = () => {
               <img src={settingBackgroundImage} alt="background image for setting" />
             </div>
             <div className="user-image">
-              <img src={profileIcon} alt="image of user" className="" />
+              <img src={
+                  userData.avatar
+                    ? process.env.BACKEND_API_URL + "" + userData.avatar
+                    : profileIcon
+                } alt="image of user" className="" />
             </div>
           </div>
           <div className="setting-routes-outlets">

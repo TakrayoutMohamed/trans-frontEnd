@@ -14,7 +14,7 @@ type DropdownProps = {
 const Dropdown = ({ className, linksDetails, children }: DropdownProps) => {
   return (
     <Fragment>
-      <div className={`${className} dropdown bg-danger`}>
+      <div className={`${className} dropdown`}>
         <span className="" data-bs-toggle="dropdown" aria-expanded="true">
           {children}
         </span>

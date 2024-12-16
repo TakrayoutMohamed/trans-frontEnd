@@ -3,7 +3,6 @@ import { brandIcon, profileIcon } from "@/media-exporting.ts";
 import { useSelector } from "react-redux";
 import { RootState } from "@/src/states/store";
 import Dropdown, { Links } from "@pages/components/Dropdown";
-import ImagesIcon from "@pages/components/ImageIcon";
 import logOut from "@/src/router/modules/logOut";
 
 const dropdownLinks: Links[] = [
@@ -53,6 +52,9 @@ const Navbar = () => {
   const isAuthenticated: boolean = useSelector(
     (state: RootState) => state.authenticator.value
   );
+  const userData = useSelector(
+    (state: RootState) => state.user.value
+  );
 
   return (
     <>
@@ -99,14 +101,15 @@ const Navbar = () => {
             </NavLink>
           )}
           {isAuthenticated && (
-            <Dropdown className=" rounded-pill" linksDetails={dropdownLinks}>
-              <ImagesIcon
-                //this one still need to be modified to use the pic of the user
-                imgPath={profileIcon}
-                imgSize={{ width: "60px", height: "60px" }}
-                title="profile image"
-                alt="dropDown"
-                styles="bg-success rounded-5"
+            <Dropdown className="" linksDetails={dropdownLinks}>
+              <img src={
+                userData.avatar
+                ? process.env.BACKEND_API_URL + "" + userData.avatar
+                : profileIcon
+              }
+                alt="User image"
+                className="bg-success"
+                style={{ width:"60px", height:"",borderRadius:"100%"  }}
               />
             </Dropdown>
           )}
