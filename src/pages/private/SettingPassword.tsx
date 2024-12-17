@@ -1,18 +1,79 @@
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { settingPassword } from "./styles";
 import TwoFactorAuthentication from "@privateComponents/settings/TwoFactorAuthentication";
-import { toggleCurrentPasswordEye, toggleNewPasswordEye, toggleRepeatPasswordEye } from "../modules/togglePasswordEye";
+import {
+  toggleCurrentPasswordEye,
+  toggleNewPasswordEye,
+  toggleRepeatPasswordEye,
+} from "../modules/togglePasswordEye";
+import {
+  SubmitHandler,
+  useForm,
+} from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
+
+const updatePasswordSchema = z
+  .object({
+    old_password: z
+      .string()
+      .min(8, { message: " not valid password" })
+      .optional(),
+    password: z
+      .string()
+      .min(8, { message: " new password should be at least 8 chars" })
+      .max(20, { message: " new password be less then 20 chars" })
+      .refine((str) => /[A-Z]/.test(str), {
+        message: "please add an uppercase letter",
+      })
+      .refine((str) => /[a-z]/.test(str), {
+        message: "please add a lowercase letter",
+      })
+      .refine((str) => /[0-9]/.test(str), {
+        message: "please add a number character",
+      })
+      .refine((str) => /^([\x21-\x7E]){8,20}$/.test(str), {
+        message: "please no spaces or special characters allowed",
+      })
+      .optional(),
+    password1: z.string().optional(),
+  })
+  .refine(
+    (data) => {
+      return data.password === data.password1;
+    },
+    { message: " password don't match", path: ["password1"] }
+  );
+
+type UpdatePasswordSchemaType = z.infer<typeof updatePasswordSchema>;
 
 const SettingPassword = () => {
+  const axiosPrivateHook = UseAxiosPrivate();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<UpdatePasswordSchemaType>({
+    resolver: zodResolver(updatePasswordSchema),
+  });
   console.log("component of settings password is re-rendered");
+
+  const onSubmit: SubmitHandler<UpdatePasswordSchemaType> = async (
+    data: UpdatePasswordSchemaType
+  ) => {
+    try {
+      const res = await axiosPrivateHook.post("pass", data);
+      reset({ old_password: "", password: "", password1: "" });
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <div className={settingPassword}>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          console.log("form submited");
-        }}
-      >
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="current-password-container">
           <div className="current-password">
             <label htmlFor="current-password">Current password</label>
@@ -22,6 +83,7 @@ const SettingPassword = () => {
                 type="password"
                 id="current-password"
                 placeholder="************"
+                {...register("old_password", { required: true })}
               />
               <IoMdEyeOff
                 color="white"
@@ -38,6 +100,11 @@ const SettingPassword = () => {
                 onClick={toggleCurrentPasswordEye}
               />
             </span>
+            {errors.old_password && (
+              <span className="error-message">
+                {errors.old_password.message}
+              </span>
+            )}
           </div>
         </div>
         <div className="new-password-container">
@@ -49,6 +116,7 @@ const SettingPassword = () => {
                 type="password"
                 id="new-password"
                 placeholder="***********"
+                {...register("password", { required: true })}
               />
               <IoMdEyeOff
                 color="white"
@@ -65,10 +133,13 @@ const SettingPassword = () => {
                 onClick={toggleNewPasswordEye}
               />
             </span>
+            {errors.password && (
+              <span className="error-message">{errors.password.message}</span>
+            )}
           </div>
           <div className="passwordHelper">
             Your password must be 8-20 characters long, contain letters and
-            numbers, and must not contain spaces, special characters, or emoji.
+            numbers, and must not contain spaces, or emoji.
           </div>
         </div>
         <div className="repeat-password-container">
@@ -80,6 +151,7 @@ const SettingPassword = () => {
                 type="password"
                 id="repeat-password"
                 placeholder="***********"
+                {...register("password1", { required: true })}
               />
               <IoMdEyeOff
                 color="white"
@@ -96,6 +168,9 @@ const SettingPassword = () => {
                 onClick={toggleRepeatPasswordEye}
               />
             </span>
+            {errors.password1 && (
+              <span className="error-message">{errors.password1.message}</span>
+            )}
           </div>
         </div>
         <div className="submit-button-container">
