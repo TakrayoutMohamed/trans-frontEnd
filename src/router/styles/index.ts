@@ -9,6 +9,7 @@ import SettingLayoutStyles from "@router/styles/SettingLayout.module.css";
 import ProfileStatsStyles from "@router/styles/componentsStyles/ProfileStatsStyles.module.css";
 import ProfileWaletStatsStyles from "@router/styles/componentsStyles/ProfileWaletStatsStyles.module.css";
 import NotFoundLayoutStyles from "@router/styles/NotFoundLayout.module.css";
+import TournamentLayoutStyles from "@router/styles/TournamentLayout.module.css";
 
 export const homeLayout = homeLayoutStyles["homeLayout"];
 
@@ -41,3 +42,7 @@ export const settingLayout = SettingLayoutStyles["settingLayout"];
 /**setting layout styles */
 
 export const notFoundLayout = NotFoundLayoutStyles["notFoundLayout"];
+
+/**tournament layout styles */
+
+export const tournamentLayout = TournamentLayoutStyles["tournamentLayout"];
