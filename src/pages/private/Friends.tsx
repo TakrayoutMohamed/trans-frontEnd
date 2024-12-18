@@ -7,6 +7,8 @@ import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
 import { RootState } from "@/src/states/store";
 import { AxiosInstance } from "axios";
 import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { UserDataType } from "@/src/states/authentication/userSlice";
 
 const blockUser = (AxiosPrivateHook: AxiosInstance, username: string): void => {
   AxiosPrivateHook.post("block_user", { username: username })
@@ -40,8 +42,13 @@ const unfriendUser = (AxiosPrivateHook: AxiosInstance, username: string) => {
 
 const Friends = () => {
   const AxiosPrivateHook = UseAxiosPrivate();
-  const friendsList = useSelector((state: RootState) => state.friends.value);
-  if (!friendsList || !friendsList.length)
+  // const friendsList = useSelector((state: RootState) => state.friends.value);
+  const friendsData= useSelector((state: RootState) => state.friends.value);
+  const [friendsList, setFriendsList] = useState<UserDataType[]>([]);
+  useEffect(() => {
+    setFriendsList(friendsData);
+  },[friendsData])
+  if (!friendsList || !friendsList.length){
     return (
       <div className={`${friends}`}>
         <p className="no-friends">
@@ -55,6 +62,7 @@ const Friends = () => {
         </p>
       </div>
     );
+  }
   return (
     <div className={`${friends}`}>
       <div className="">
