@@ -7,9 +7,15 @@ import { RiUserAddFill } from "react-icons/ri";
 import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
 import { AxiosInstance } from "axios";
 import { useSelector } from "react-redux";
-import { RootState } from "@/src/states/store";
+import { RootState, store } from "@/src/states/store";
 import { AllUsersDataType } from "@/src/states/authentication/allUsersSlice";
-import { setAllUsersData } from "@/src/pages/modules/setAuthenticationData";
+import {
+  setAllUsersData,
+  setBlockedData,
+  setFriendsData,
+} from "@/src/pages/modules/setAuthenticationData";
+import { MdPersonRemoveAlt1 } from "react-icons/md";
+import { CgUnblock } from "react-icons/cg";
 
 let isInputFocused: boolean = false;
 let isDevFocused: boolean = false;
@@ -37,6 +43,59 @@ const sendFriendRequest = (
       console.log(res);
     })
     .catch((err) => {
+      console.log(err);
+    });
+};
+
+const removeFriend = (axiosPrivateHook: AxiosInstance, username: string) => {
+  axiosPrivateHook
+    .delete("friend_req", { data: { username: username } })
+    .then((res) => {
+      console.log("remove Friend " + username + " ");
+      console.log(res);
+      setFriendsData(
+        store
+          .getState()
+          .friends.value.filter((friend) => friend.username !== username)
+      );
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+const removeBlockToUser = (
+  axiosPrivateHook: AxiosInstance,
+  username: string
+) => {
+  axiosPrivateHook
+    .delete("block_user", { data: { username: username } })
+    .then((res) => {
+      console.log("removed block to user " + username + " ");
+      console.log(res);
+      setBlockedData(
+        store
+          .getState()
+          .blocked.value.filter((blocked) => blocked.username !== username)
+      );
+      // here i have to add the blocked user to the list of blocked users
+    })
+    .catch((err) => {
+      console.log("error in removing block to a user ");
+      console.log(err);
+    });
+};
+
+const blockUser = (axiosPrivateHook: AxiosInstance, user: AllUsersDataType) => {
+  axiosPrivateHook
+    .post("block_user", { username: user.username })
+    .then((res) => {
+      console.log("you block user " + user.username + " ");
+      console.log(res);
+      // setBlockedData({...store.getState().blocked.value, user})
+      // here i have to add the blocked user to the list of blocked users
+    })
+    .catch((err) => {
+      console.log("error in blocking a user ");
       console.log(err);
     });
 };
@@ -147,18 +206,43 @@ const SearchFriendsInGame = () => {
                   <div className="user-name">{user.username}</div>
                 </div>
               </Link>
-              <div className="block-add-button">
-                <div
-                  className="add-button"
-                  onClick={() =>
-                    sendFriendRequest(axiosPrivateHook, user.username)
-                  }
-                >
-                  <RiUserAddFill />
-                </div>
-                <div className="block-button">
-                  <BiBlock />
-                </div>
+              <div className="block-addFriend-buttons">
+                {user.is_friend ? (
+                  <div
+                    className="unfriend-button"
+                    onClick={() =>
+                      removeFriend(axiosPrivateHook, user.username)
+                    }
+                  >
+                    <MdPersonRemoveAlt1 />
+                  </div>
+                ) : (
+                  <div
+                    className="add-button"
+                    onClick={() =>
+                      sendFriendRequest(axiosPrivateHook, user.username)
+                    }
+                  >
+                    <RiUserAddFill />
+                  </div>
+                )}
+                {user.is_blocked ? (
+                  <div
+                    className="remove-block"
+                    onClick={() =>
+                      removeBlockToUser(axiosPrivateHook, user.username)
+                    }
+                  >
+                    <CgUnblock />
+                  </div>
+                ) : (
+                  <div
+                    className="block-button"
+                    onClick={() => blockUser(axiosPrivateHook, user)}
+                  >
+                    <BiBlock />
+                  </div>
+                )}
               </div>
             </div>
           ))

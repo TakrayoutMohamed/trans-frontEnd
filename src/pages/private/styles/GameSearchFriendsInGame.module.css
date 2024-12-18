@@ -105,7 +105,7 @@
             }
         }
 
-        div[class*="block-add-button"] {
+        div[class*="block-addFriend-buttons"] {
             display: flex;
             flex-direction: row;
             align-items: center;
@@ -120,6 +120,16 @@
                 font-size: clamp(0.3em, 0.3em + 1vw, 1em);
                 line-height: 1em;
             }
+            div[class*="remove-block"] {
+                color: white;
+                padding-inline: 0.6em;
+                padding-block: 0.3em;
+                border-radius: 1em;
+                background: rgb(1, 255, 170);
+                cursor: pointer;
+                font-size: clamp(0.3em, 0.3em + 1vw, 1em);
+                line-height: 1em;
+            }
 
             div[class*="add-button"] {
                 display: flex;
@@ -129,6 +139,16 @@
                 border-radius: 30px;
                 cursor: pointer;
                 background: rgb(0, 202, 54);
+            }
+
+            div[class*="unfriend-button"] {
+                display: flex;
+                align-items: center;
+                padding-inline: 0.6em;
+                padding-block: 0.3em;
+                border-radius: 30px;
+                cursor: pointer;
+                background: rgb(202, 0, 0);
             }
         }
     }
