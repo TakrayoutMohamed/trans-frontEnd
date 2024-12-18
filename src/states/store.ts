@@ -4,12 +4,14 @@ import accessTokenSlice from "./authentication/accessTokenSlice";
 import userSlice from "./authentication/userSlice";
 import friendsSlice from "./authentication/friendsSlice";
 import blockedSlice from "./authentication/blockedSlice";
+import allUsersSlice from "./authentication/allUsersSlice";
 
 export const store = configureStore({
   reducer: {
     authenticator: authenticatorSlice,
     accessToken: accessTokenSlice,
     user: userSlice,
+    allUsers: allUsersSlice,
     friends: friendsSlice,
     blocked: blockedSlice,
   },

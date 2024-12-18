@@ -8,6 +8,7 @@ import { setUser } from "@/src/states/authentication/userSlice";
 import { store } from "@/src/states/store";
 import { UserDataType } from "@/src/states/authentication/userSlice";
 import { setFriends } from "@/src/states/authentication/friendsSlice";
+import { AllUsersDataType, setAllUsers } from "@/src/states/authentication/allUsersSlice";
 
 const setCookies = (cookiesAccessToken: string): void => {
   Cookies.set("accessToken", cookiesAccessToken);
@@ -36,6 +37,11 @@ export function setUserData(userData: UserDataType) {
   dispatch(setUser(userData));
   console.log("users data in set User data ");
   console.log(userData);
+}
+export function setAllUsersData(allUsersData: AllUsersDataType[]) {
+  dispatch(setAllUsers(allUsersData));
+  console.log("all users data in set users data");
+  console.log(allUsersData);
 }
 
 export function setFriendsData(friendsData: UserDataType[]) {

@@ -5,12 +5,12 @@ import { Link } from "react-router-dom";
 import { profileIcon } from "@/media-exporting";
 import { RiUserAddFill } from "react-icons/ri";
 import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
-import { UserDataType } from "@/src/states/authentication/userSlice";
 import { AxiosInstance } from "axios";
 import { useSelector } from "react-redux";
 import { RootState } from "@/src/states/store";
+import { AllUsersDataType } from "@/src/states/authentication/allUsersSlice";
+import { setAllUsersData } from "@/src/pages/modules/setAuthenticationData";
 
-let AllUsers: UserDataType[] = [];
 let isInputFocused: boolean = false;
 let isDevFocused: boolean = false;
 const hideSearchList = () => {
@@ -28,12 +28,12 @@ const showSearchList = () => {
 
 const sendFriendRequest = (
   axiosPrivateHook: AxiosInstance,
-  user: UserDataType
+  username: string
 ) => {
   axiosPrivateHook
-    .post("friend_req", { username: user.username })
+    .post("friend_req", { username: username })
     .then((res) => {
-      console.log("friend request sent to " + user.username);
+      console.log("friend request sent to " + username);
       console.log(res);
     })
     .catch((err) => {
@@ -41,32 +41,35 @@ const sendFriendRequest = (
     });
 };
 
-const getAllFriendRequest = () => {
-  
-}
+// const getAllFriendRequest = () => {};
 
-const fetchAllUsers = async (axiosPrivateHook: AxiosInstance) => {
-  const response = await axiosPrivateHook.post("search_user");
-  if (response.statusText != "OK") throw new Error("Failed to get Users data");
-  return response;
-};
+// const fetchAllUsers = async (axiosPrivateHook: AxiosInstance) => {
+//   const response = await axiosPrivateHook.post("search_user");
+//   if (response.statusText != "OK") throw new Error("Failed to get Users data");
+//   return response;
+// };
 
 const SearchFriendsInGame = () => {
-  const [users, setUsers] = useState<UserDataType[]>([]);
+  const [users, setUsers] = useState<AllUsersDataType[]>([]);
   const userData = useSelector((state: RootState) => state.user.value);
+  const allUsersData = useSelector((state: RootState) => state.allUsers.value);
   const axiosPrivateHook = UseAxiosPrivate();
   useEffect(() => {
-    fetchAllUsers(axiosPrivateHook)
-      .then((response) => {
-        console.log("response in Search Friends in Game");
-        console.log(response);
-        AllUsers = response.data.user;
-      })
-      .catch((err) => {
-        console.log("error in Search Friends in Game");
-        console.log(err);
-        AllUsers = [];
-      });
+    if (!allUsersData || !allUsersData.length) {
+      axiosPrivateHook
+        .post("search_user")
+        .then((response) => {
+          console.log("response in Search Friends in Game");
+          console.log(response);
+          setAllUsersData(response.data.user);
+          console.log(allUsersData);
+        })
+        .catch((err) => {
+          console.log("error in Search Friends in Game");
+          console.log(err);
+          setAllUsersData([]);
+        });
+    }
   }, []);
   function searchForUser(event: ChangeEvent<HTMLInputElement>) {
     event.preventDefault();
@@ -75,12 +78,12 @@ const SearchFriendsInGame = () => {
       users.length && setUsers([]);
     } else {
       setUsers(
-        AllUsers.filter((filteredUser) => {
+        allUsersData.filter((filteredUser) => {
           let filteredUserToLowerCase = filteredUser.username?.toLowerCase();
-            return (
-              filteredUserToLowerCase?.includes(userField.toLowerCase()) &&
-              filteredUserToLowerCase !== userData.username?.toLowerCase()
-            );
+          return (
+            filteredUserToLowerCase?.includes(userField.toLowerCase()) &&
+            filteredUserToLowerCase !== userData.username?.toLowerCase()
+          );
         })
       );
     }
@@ -147,7 +150,9 @@ const SearchFriendsInGame = () => {
               <div className="block-add-button">
                 <div
                   className="add-button"
-                  onClick={() => sendFriendRequest(axiosPrivateHook, user)}
+                  onClick={() =>
+                    sendFriendRequest(axiosPrivateHook, user.username)
+                  }
                 >
                   <RiUserAddFill />
                 </div>
