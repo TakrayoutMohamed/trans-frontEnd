@@ -1,4 +1,4 @@
-import setAuthenticatedData from "@/src/pages/modules/setAuthenticationData";
+import setAuthenticatedData, { setUnAuthenticatedData } from "@/src/pages/modules/setAuthenticationData";
 import axios from "../api/axios";
 
 const refreshUrl = "refresh_token";
@@ -14,6 +14,7 @@ const refreshToken = () => {
       console.log("error in refreshToken ");
       console.log(err);
       accessToken = undefined;
+      setUnAuthenticatedData();
     } finally {
       return accessToken;
     }
