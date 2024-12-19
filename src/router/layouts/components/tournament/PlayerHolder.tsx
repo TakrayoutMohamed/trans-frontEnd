@@ -3,13 +3,14 @@ import Svg from './Svg'
 import { playerPfp } from '@/media-exporting'
 import { invitePlayer } from '@/media-exporting'
 import FriendsList from './FriendsList'
+import { UserDataType } from '@/src/states/authentication/userSlice'
 
 
 interface PlayerHolderProps{
 	id: number;
 	winner: boolean;
 	joinable: boolean;
-	FriendsData?: any;
+	FriendsData?: UserDataType[];
 }
 
 const PlayerHolder = ({id, winner, joinable = true, FriendsData = undefined}: PlayerHolderProps) => {
@@ -17,7 +18,8 @@ const PlayerHolder = ({id, winner, joinable = true, FriendsData = undefined}: Pl
 
 	if (id == 1 || id == 2) {
 		console.log(winner)
-		console.log(`Friends data in ${id} is ${FriendsData}`)
+		console.log(`Friends data in ${id}`)
+		console.log(FriendsData)
 	}
 
 	const handlePlayerInvite : any = () => {
