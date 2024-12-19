@@ -14,6 +14,7 @@ const TournamentBody = () => {
   const friendsDataGlobal = useSelector(
     (state: RootState) => state.friends.value
   );
+
   const [friendsData, setFriendsData] = useState<FriendsDataType[]>([]);
   useEffect(() => {
     if (!friendsData || !friendsData.length)
@@ -46,9 +47,15 @@ const TournamentBody = () => {
     /* JEFF TODO : pass friendsData to PlayerHolder's and display the friends!!!! PS : we need a dummy friend data */
   }
 
+	const dummyFriendsData = [
+	  { "username": "Available", "is_online" : true },
+	  { "username": "Ready", "is_online" : false },
+	  { "username": "Started", "is_online" : true  }
+	];
+
   return (
     <div className="TournamentBody">
-      <TournamentBodyLeftSide />
+      <TournamentBodyLeftSide FriendsData={dummyFriendsData}/>
       <TournamentBodyMiddleSide />
       <TournamentBodyRightSide />
     </div>
