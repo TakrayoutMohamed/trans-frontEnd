@@ -69,11 +69,21 @@ const TournamentBody = () => {
 		}, 1000)
 	*/ }
 
+	const [focusedId, setFocusedId] = useState(0)
+
+	const setFocusedIdWrapper = (id: number) => {
+		console.log(`id is changed to ${id}`)
+		setFocusedId(id)
+
+		}
+
   return (
     <div className="TournamentBody">
-      <TournamentBodyLeftSide FriendsData={friendsDataGlobal}/>
+      <TournamentBodyLeftSide FriendsData={friendsDataGlobal} focusedId={focusedId} handleClick={setFocusedIdWrapper}/>
       <TournamentBodyMiddleSide />
-      <TournamentBodyRightSide FriendsData={friendsDataGlobal}/>
+	  { /* 
+      <TournamentBodyRightSide FriendsData={friendsDataGlobal} focusedId={focusedId} handleClick={setFocusedId}/>
+	  */}
     </div>
   );
 };
