@@ -214,7 +214,7 @@ const SearchFriendsInGame = () => {
                 <div className="user-image">
                   <div className="">
                     <img
-                      src={profileIcon}
+                      src={user.avatar ? user.avatar : profileIcon}
                       alt=""
                       className="rounded-5 bg-info"
                     />

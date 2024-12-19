@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 export interface AllUsersDataType {
+  avatar: string;
   first_name: string;
   last_name: string;
   username: string;
