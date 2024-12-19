@@ -10,6 +10,7 @@ import setAuthenticatedData, {
 import { AxiosInstance } from "axios";
 import Cookies from "js-cookie";
 import { useSelector } from "react-redux";
+import { UserDataType } from "./states/authentication/userSlice";
 
 const getUsersInfo = async (axiosPrivateHook: AxiosInstance) => {
   await axiosPrivateHook
@@ -39,7 +40,7 @@ const getBlockedData = async (axiosPrivateHook: AxiosInstance) => {
   axiosPrivateHook
     .get("block_user")
     .then((res) => {
-      setBlockedData(res.data.blocked);
+      setBlockedData(res.data.blocked.map((user : UserDataType) => user.username));
     })
     .catch((err) => {
       console.log("error in getBlockedInfo");

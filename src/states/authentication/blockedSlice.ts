@@ -1,8 +1,9 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { UserDataType } from "./userSlice";
+
+export type BlockerUsersType = {username: string};
 
 interface AuthenticationState{
-    value: UserDataType[]
+    value: BlockerUsersType[]
 }
 
 const initialState: AuthenticationState = {value: []}
@@ -11,7 +12,7 @@ const blockedSlice = createSlice({
     name: "blocked",
     initialState,
     reducers: {
-        setBlocked: (state, action: PayloadAction<UserDataType[]>) => {
+        setBlocked: (state, action: PayloadAction<BlockerUsersType[]>) => {
             state.value = action.payload;
         }
     }

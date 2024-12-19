@@ -9,6 +9,7 @@ import { store } from "@/src/states/store";
 import { UserDataType } from "@/src/states/authentication/userSlice";
 import { setFriends } from "@/src/states/authentication/friendsSlice";
 import { AllUsersDataType, setAllUsers } from "@/src/states/authentication/allUsersSlice";
+import { BlockerUsersType, setBlocked } from "@/src/states/authentication/blockedSlice";
 
 const setCookies = (cookiesAccessToken: string): void => {
   Cookies.set("accessToken", cookiesAccessToken);
@@ -50,8 +51,8 @@ export function setFriendsData(friendsData: UserDataType[]) {
   console.log(friendsData);
 }
 
-export function setBlockedData(blockedData: UserDataType[]) {
-  dispatch(setFriends(blockedData));
+export function setBlockedData(blockedData: BlockerUsersType[]) {
+  dispatch(setBlocked(blockedData));
   console.log("Blocked data in set Blocked data ");
   console.log(blockedData);
 }

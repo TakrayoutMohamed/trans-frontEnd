@@ -49,7 +49,7 @@ const sendFriendRequest = (
 
 const removeFriend = (axiosPrivateHook: AxiosInstance, username: string) => {
   axiosPrivateHook
-    .delete("friend_req", { data: { username: username } })
+    .delete("friends", { data: { username: username } })
     .then((res) => {
       console.log("remove Friend " + username + " ");
       console.log(res);
@@ -60,9 +60,11 @@ const removeFriend = (axiosPrivateHook: AxiosInstance, username: string) => {
       );
     })
     .catch((err) => {
+      console.log(username)
       console.log(err);
     });
 };
+
 const removeBlockToUser = (
   axiosPrivateHook: AxiosInstance,
   username: string
@@ -77,7 +79,13 @@ const removeBlockToUser = (
           .getState()
           .blocked.value.filter((blocked) => blocked.username !== username)
       );
-      // here i have to add the blocked user to the list of blocked users
+      setAllUsersData(
+        store.getState().allUsers.value.map((user) => {
+          return user.username === username
+            ? { ...user, is_blocked: false }
+            : user;
+        })
+      );
     })
     .catch((err) => {
       console.log("error in removing block to a user ");
@@ -85,14 +93,23 @@ const removeBlockToUser = (
     });
 };
 
-const blockUser = (axiosPrivateHook: AxiosInstance, user: AllUsersDataType) => {
+const blockUser = (axiosPrivateHook: AxiosInstance, username: string) => {
   axiosPrivateHook
-    .post("block_user", { username: user.username })
+    .post("block_user", { username: username })
     .then((res) => {
-      console.log("you block user " + user.username + " ");
+      console.log("you block user " + username + " ");
       console.log(res);
-      // setBlockedData({...store.getState().blocked.value, user})
-      // here i have to add the blocked user to the list of blocked users
+      setBlockedData([
+        ...store.getState().blocked.value,
+        { username: username },
+      ]);
+      setAllUsersData(
+        store.getState().allUsers.value.map((user) => {
+          return user.username === username
+            ? { ...user, is_blocked: true }
+            : user;
+        })
+      );
     })
     .catch((err) => {
       console.log("error in blocking a user ");
@@ -129,13 +146,17 @@ const SearchFriendsInGame = () => {
           setAllUsersData([]);
         });
     }
-  }, []);
+    else{
+      setUsers(allUsersData.filter((user) => user.username !== userData.username));
+    }
+  }, [allUsersData, userData]);
   function searchForUser(event: ChangeEvent<HTMLInputElement>) {
     event.preventDefault();
     let userField = event.currentTarget.value;
     if (!userField.length) {
       users.length && setUsers([]);
     } else {
+      console.log(allUsersData);
       setUsers(
         allUsersData.filter((filteredUser) => {
           let filteredUserToLowerCase = filteredUser.username?.toLowerCase();
@@ -238,7 +259,7 @@ const SearchFriendsInGame = () => {
                 ) : (
                   <div
                     className="block-button"
-                    onClick={() => blockUser(axiosPrivateHook, user)}
+                    onClick={() => blockUser(axiosPrivateHook, user.username)}
                   >
                     <BiBlock />
                   </div>
