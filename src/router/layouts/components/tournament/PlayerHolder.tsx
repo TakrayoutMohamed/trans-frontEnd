@@ -9,10 +9,16 @@ interface PlayerHolderProps{
 	id: number;
 	winner: boolean;
 	joinable: boolean;
+	FriendsData?: any;
 }
 
-const PlayerHolder = ({id, winner, joinable = true}: PlayerHolderProps) => {
+const PlayerHolder = ({id, winner, joinable = true, FriendsData = undefined}: PlayerHolderProps) => {
 	const [inviteMode, setInviteMode] = useState(false)
+
+	if (id == 1 || id == 2) {
+		console.log(winner)
+		console.log(`Friends data in ${id} is ${FriendsData}`)
+	}
 
 	const handlePlayerInvite : any = () => {
 		setInviteMode(!inviteMode)
@@ -34,7 +40,7 @@ const PlayerHolder = ({id, winner, joinable = true}: PlayerHolderProps) => {
 			</div>
 			<div className="InviteButton">
 				{joinable && <Svg src={invitePlayer} width={25} handlePlayerInvite={handlePlayerInvite} /> }
-				{joinable && inviteMode && <FriendsList />}
+				{joinable && inviteMode && <FriendsList FriendsData={FriendsData}/>}
 
 			</div>
 		</div>

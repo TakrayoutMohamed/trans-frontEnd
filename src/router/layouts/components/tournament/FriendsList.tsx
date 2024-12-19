@@ -33,13 +33,15 @@ const Friend = ({index, name, online=false}: FriendProps) => {
 	)
 }
 
+interface Friends{
+	username?: string;
+	is_online?: boolean;
+}
 
-
-
-const FriendsList = () => {
-	const friends = useFetch("http://localhost:4000/friends") as UserDataType[]
-
+const FriendsList = (friends : {friends:Friends}) => {
 	const [joined, setJoined] = useState(false)
+
+	console.log(friends)
 
 	const handleJoin = () => {
 		setJoined(true)
