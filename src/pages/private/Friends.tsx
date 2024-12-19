@@ -1,20 +1,46 @@
 import { blockIcon, profileIcon } from "@/media-exporting";
 import { friends } from "./styles";
-import { TfiTrash } from "react-icons/tfi";
 import { BsThreeDots } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
-import { RootState } from "@/src/states/store";
+import { RootState, store } from "@/src/states/store";
 import { AxiosInstance } from "axios";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { UserDataType } from "@/src/states/authentication/userSlice";
+import { MdPersonRemoveAlt1 } from "react-icons/md";
+import {
+  setBlockedData,
+  setFriendsData,
+} from "../modules/setAuthenticationData";
+import { CgUnblock } from "react-icons/cg";
 
 const blockUser = (AxiosPrivateHook: AxiosInstance, username: string): void => {
   AxiosPrivateHook.post("block_user", { username: username })
     .then((res) => {
       console.log("res : you blocked this user");
       console.log(res);
+      setBlockedData([...store.getState().blocked.value, { username: username }]);
+    })
+    .catch((err) => {
+      console.log("error in blocking a user ");
+      console.log(err);
+    });
+};
+
+const unblockUser = (
+  AxiosPrivateHook: AxiosInstance,
+  username: string
+): void => {
+  AxiosPrivateHook.delete("block_user", { data: { username: username } })
+    .then((res) => {
+      console.log("res : you unblocked this user");
+      console.log(res);
+      setBlockedData(
+        store
+          .getState()
+          .blocked.value.filter((blocked) => blocked.username !== username)
+      );
       // here i have to add the blocked user to the list of blocked users
     })
     .catch((err) => {
@@ -28,10 +54,15 @@ const inviteToGame = (AxiosPrivateHook: AxiosInstance, username: string) => {
 };
 const unfriendUser = (AxiosPrivateHook: AxiosInstance, username: string) => {
   console.log("handle unfriend user  to game ");
-  AxiosPrivateHook.delete("friend_req", { data: { username: username } })
+  AxiosPrivateHook.delete("friends", { data: { username: username } })
     .then((res) => {
       console.log("res : you removed this user " + username + " from friends");
       console.log(res);
+      setFriendsData(
+        store
+          .getState()
+          .friends.value.filter((friend) => friend.username !== username)
+      );
       //here i need to remove the user from the list of friends
     })
     .catch((err) => {
@@ -43,12 +74,13 @@ const unfriendUser = (AxiosPrivateHook: AxiosInstance, username: string) => {
 const Friends = () => {
   const AxiosPrivateHook = UseAxiosPrivate();
   // const friendsList = useSelector((state: RootState) => state.friends.value);
-  const friendsData= useSelector((state: RootState) => state.friends.value);
+  const friendsData = useSelector((state: RootState) => state.friends.value);
+  const blockedList = useSelector((state: RootState) => state.blocked.value);
   const [friendsList, setFriendsList] = useState<UserDataType[]>([]);
   useEffect(() => {
     setFriendsList(friendsData);
-  },[friendsData])
-  if (!friendsList || !friendsList.length){
+  }, [friendsData]);
+  if (!friendsList || !friendsList.length) {
     return (
       <div className={`${friends}`}>
         <p className="no-friends">
@@ -115,7 +147,7 @@ const Friends = () => {
                     unfriendUser(AxiosPrivateHook, friend.username!)
                   }
                 >
-                  <TfiTrash />
+                  <MdPersonRemoveAlt1 size={17} />
                 </div>
               </div>
               <div
@@ -126,15 +158,33 @@ const Friends = () => {
                 <BsThreeDots size={30} color="white" />
               </div>
               <div className="dropdown-menu">
-                <div
-                  className="block"
-                  onClick={() => blockUser(AxiosPrivateHook, friend.username!)}
-                >
-                  <span className="">
-                    <img src={blockIcon} width={20} alt="" />
-                  </span>
-                  block {friend.username}!
-                </div>
+                {blockedList.find(
+                  (user) => user.username === friend.username
+                ) ? (
+                  <div
+                    className="block"
+                    onClick={() =>
+                      unblockUser(AxiosPrivateHook, friend.username!)
+                    }
+                  >
+                    <span className="">
+                      <CgUnblock color="green" />
+                    </span>
+                    unblock {friend.username}!
+                  </div>
+                ) : (
+                  <div
+                    className="block"
+                    onClick={() =>
+                      blockUser(AxiosPrivateHook, friend.username!)
+                    }
+                  >
+                    <span className="">
+                      <img src={blockIcon} width={20} alt="" />
+                    </span>
+                    block {friend.username}!
+                  </div>
+                )}
                 <Link
                   to={`/profile/` + friend.username}
                   className="view-profile"
