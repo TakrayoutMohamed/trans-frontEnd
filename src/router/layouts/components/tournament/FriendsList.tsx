@@ -1,5 +1,4 @@
 import {useState} from 'react'
-import useFetch from './useFetch'
 import { tournamentRobot } from '@/media-exporting'
 import { inviteFriend } from '@/media-exporting'
 import Svg from './Svg'
@@ -33,15 +32,15 @@ const Friend = ({index, name, online=false}: FriendProps) => {
 	)
 }
 
-interface Friends{
-	username?: string;
-	is_online?: boolean;
-}
+// interface Friends{
+// 	username?: string;
+// 	is_online?: boolean;
+// }
 
-const FriendsList = (friends : {friends:Friends}) => {
+const FriendsList = (props) => {
 	const [joined, setJoined] = useState(false)
 
-	console.log(friends)
+	console.log(props.FriendsData)
 
 	const handleJoin = () => {
 		setJoined(true)
@@ -52,7 +51,7 @@ const FriendsList = (friends : {friends:Friends}) => {
 	return (
 		<div className="FriendsList">
 			<button style={{background: `${color}`}} className="JoinButton" onClick={handleJoin}>JOIN</button>
-			{friends && friends.map((friend , index:number) => (
+			{props.FriendsData && props.FriendsData.map((friend : UserDataType , index:number) => (
 				<Friend index={index} name={friend.username+""} online={friend.is_online ? true : false}/>
 			))}
 

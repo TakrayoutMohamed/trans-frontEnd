@@ -47,10 +47,11 @@ const TournamentBody = () => {
     /* JEFF TODO : pass friendsData to PlayerHolder's and display the friends!!!! PS : we need a dummy friend data */
   }
 
-	const dummyFriendsData = [
+	const dummyFriendsData: UserDataType[] = [
 	  { "username": "Available", "is_online" : true },
 	  { "username": "Ready", "is_online" : false },
-	  { "username": "Started", "is_online" : true  }
+	  { "username": "Started", "is_online" : true  },
+	  { "username": "Stssssarteds", "is_online" : true  }
 	];
 
   return (
