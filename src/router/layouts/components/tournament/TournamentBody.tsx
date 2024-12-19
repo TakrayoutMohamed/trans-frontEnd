@@ -41,12 +41,8 @@ const TournamentBody = () => {
       return { ...friend, joined: !friend?.joined ? false : true };
     });
   }, [friendsDataGlobal]);
-  console.log("");
 
-  {
-    /* JEFF TODO : pass friendsData to PlayerHolder's and display the friends!!!! PS : we need a dummy friend data */
-  }
-
+{ /* debugging stuff
 	const dummyFriendsData: UserDataType[] = [
 	  { "username": "Available", "is_online" : true },
 	  { "username": "Ready", "is_online" : false },
@@ -54,11 +50,30 @@ const TournamentBody = () => {
 	  { "username": "Stssssarteds", "is_online" : true  }
 	];
 
+	const [friends,setFriends] = useState(dummyFriendsData)
+
+	setTimeout(() => {
+
+		const tmp = friends
+		let elem = {} as UserDataType;
+		let elem2 = {} as UserDataType;
+
+		elem.username = "jeff"
+		elem.is_online = true
+		elem2.username = "jeff2"
+		elem2.is_online = false
+		tmp.push(elem)
+		tmp.push(elem2)
+
+		setFriends(tmp)
+		}, 1000)
+	*/ }
+
   return (
     <div className="TournamentBody">
-      <TournamentBodyLeftSide FriendsData={dummyFriendsData}/>
+      <TournamentBodyLeftSide FriendsData={friendsDataGlobal}/>
       <TournamentBodyMiddleSide />
-      <TournamentBodyRightSide />
+      <TournamentBodyRightSide FriendsData={friendsDataGlobal}/>
     </div>
   );
 };

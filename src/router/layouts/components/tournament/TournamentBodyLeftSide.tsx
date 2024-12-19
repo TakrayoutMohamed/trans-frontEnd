@@ -1,7 +1,6 @@
 import PlayerHolder from './PlayerHolder'
 
 
-
 const TournamentBodyLeftSide = (props) => {
 	return (
 		<div className="TournamentBodyLeftSide">
