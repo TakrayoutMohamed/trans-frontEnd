@@ -52,7 +52,7 @@ const FriendsList = (props) => {
 		<div className="FriendsList">
 			<button style={{background: `${color}`}} className="JoinButton" onClick={handleJoin}>JOIN</button>
 			{props.FriendsData && props.FriendsData.map((friend : UserDataType , index:number) => (
-				<Friend index={index} name={friend.username+""} online={friend.is_online ? true : false}/>
+				<Friend index={index} name={friend.username+""} online={friend.is_online ? true : false} key={friend.username}/>
 			))}
 
 		</div>
