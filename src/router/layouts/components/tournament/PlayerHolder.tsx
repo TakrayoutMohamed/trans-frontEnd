@@ -27,6 +27,7 @@ const PlayerHolder = ({id, winner, joinable, FriendsData = undefined, focusedId,
 			setInviteMode(false)
 	}
 
+
 	let text
 	if (id)
 		text = `Player ${id}`
@@ -43,7 +44,7 @@ const PlayerHolder = ({id, winner, joinable, FriendsData = undefined, focusedId,
 			</div>
 			<div className="InviteButton">
 				{joinable && <Svg src={invitePlayer} width={25} handlePlayerInvite={handlePlayerInvite}/> }
-				{joinable && inviteMode && id == focusedId && <FriendsList FriendsData={FriendsData}/>}
+				{joinable && inviteMode && id == focusedId && <FriendsList FriendsData={FriendsData} setFocusedId={setFocusedId}/>}
 			</div>
 		</div>
 	)
