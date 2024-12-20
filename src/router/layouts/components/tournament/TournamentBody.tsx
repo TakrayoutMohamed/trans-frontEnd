@@ -42,48 +42,14 @@ const TournamentBody = () => {
     });
   }, [friendsDataGlobal]);
 
-{ /* debugging stuff
-	const dummyFriendsData: UserDataType[] = [
-	  { "username": "Available", "is_online" : true },
-	  { "username": "Ready", "is_online" : false },
-	  { "username": "Started", "is_online" : true  },
-	  { "username": "Stssssarteds", "is_online" : true  }
-	];
-
-	const [friends,setFriends] = useState(dummyFriendsData)
-
-	setTimeout(() => {
-
-		const tmp = friends
-		let elem = {} as UserDataType;
-		let elem2 = {} as UserDataType;
-
-		elem.username = "jeff"
-		elem.is_online = true
-		elem2.username = "jeff2"
-		elem2.is_online = false
-		tmp.push(elem)
-		tmp.push(elem2)
-
-		setFriends(tmp)
-		}, 1000)
-	*/ }
 
 	const [focusedId, setFocusedId] = useState(0)
 
-	const setFocusedIdWrapper = (id: number) => {
-		console.log(`id is changed to ${id}`)
-		setFocusedId(id)
-
-		}
-
   return (
     <div className="TournamentBody">
-      <TournamentBodyLeftSide FriendsData={friendsDataGlobal} focusedId={focusedId} handleClick={setFocusedIdWrapper}/>
+      <TournamentBodyLeftSide FriendsData={friendsDataGlobal} focusedId={focusedId} setFocusedId={setFocusedId}/>
       <TournamentBodyMiddleSide />
-	  { /* 
-      <TournamentBodyRightSide FriendsData={friendsDataGlobal} focusedId={focusedId} handleClick={setFocusedId}/>
-	  */}
+      <TournamentBodyRightSide FriendsData={friendsDataGlobal} focusedId={focusedId} setFocusedId={setFocusedId}/>
     </div>
   );
 };

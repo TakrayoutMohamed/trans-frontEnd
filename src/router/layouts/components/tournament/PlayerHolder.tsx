@@ -12,14 +12,19 @@ interface PlayerHolderProps{
 	joinable: boolean;
 	FriendsData?: UserDataType[];
 	focusedId?: number;
-	handleClick?: any; // TODO : ask alvares what to do here!!! 
+	setFocusedId?: any; // TODO : ask alvares what to do here!!! 
 }
 
-const PlayerHolder = ({id, winner, joinable = true, FriendsData = undefined, focusedId, handleClick}: PlayerHolderProps) => {
+const PlayerHolder = ({id, winner, joinable, FriendsData = undefined, focusedId, setFocusedId = (id:number) => (id)}: PlayerHolderProps) => {
 	const [inviteMode, setInviteMode] = useState(false)
+	console.log(winner)
 
 	const handlePlayerInvite : any = () => {
-		setInviteMode(!inviteMode)
+		setFocusedId(id)
+		if (!inviteMode) // if no friendlist is showing, always show a new one upon userclick
+			setInviteMode(true)
+		else if (inviteMode && id == focusedId) // if double clicking on the current friendlist -> hide it, otherwise show the new one
+			setInviteMode(false)
 	}
 
 	let text
@@ -28,7 +33,7 @@ const PlayerHolder = ({id, winner, joinable = true, FriendsData = undefined, foc
 	else
 		text = "ma3rft hh"
 		{/* TODO : ask abelfany achno ndir fblast ma3rf hh */}
-
+	
 	return (
 		<div className="PlayerHolder">
 		{ /* TODO : add coloring to the Tournament winner */ }
@@ -37,12 +42,8 @@ const PlayerHolder = ({id, winner, joinable = true, FriendsData = undefined, foc
 				{text}
 			</div>
 			<div className="InviteButton">
-			{/*
-				{joinable && <Svg src={invitePlayer} width={25} handlePlayerInvite={handlePlayerInvite} onCLick={() => {handleClick(id)}}/> }
-				*/}
-				{joinable && <Svg src={invitePlayer} width={25} handlePlayerInvite={handlePlayerInvite} onCLick={() => {handleClick(id)}}/> }
+				{joinable && <Svg src={invitePlayer} width={25} handlePlayerInvite={handlePlayerInvite}/> }
 				{joinable && inviteMode && id == focusedId && <FriendsList FriendsData={FriendsData}/>}
-
 			</div>
 		</div>
 	)

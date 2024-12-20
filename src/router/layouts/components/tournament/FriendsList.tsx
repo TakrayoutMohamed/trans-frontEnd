@@ -32,11 +32,6 @@ const Friend = ({index, name, online=false}: FriendProps) => {
 	)
 }
 
-// interface Friends{
-// 	username?: string;
-// 	is_online?: boolean;
-// }
-
 const FriendsList = (props) => {
 	const [joined, setJoined] = useState(false)
 
