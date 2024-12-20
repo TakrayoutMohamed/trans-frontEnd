@@ -3,7 +3,6 @@ import { axiosPrivate } from "../api/axios";
 import refreshToken from "./refreshToken";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
-import setAuthenticatedData from "@/src/pages/modules/setAuthenticationData";
 
 const UseAxiosPrivate = () => {
   const accessToken = useSelector(
@@ -31,7 +30,6 @@ const UseAxiosPrivate = () => {
           prevRequest.sent = true;
           const newAccessToken = await refresh();
           prevRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
-          setAuthenticatedData(newAccessToken);
           return axiosPrivate(prevRequest);
         }
         return Promise.reject(error);
