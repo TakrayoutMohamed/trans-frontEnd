@@ -8,8 +8,14 @@ import { setUser } from "@/src/states/authentication/userSlice";
 import { store } from "@/src/states/store";
 import { UserDataType } from "@/src/states/authentication/userSlice";
 import { setFriends } from "@/src/states/authentication/friendsSlice";
-import { AllUsersDataType, setAllUsers } from "@/src/states/authentication/allUsersSlice";
-import { BlockerUsersType, setBlocked } from "@/src/states/authentication/blockedSlice";
+import {
+  AllUsersDataType,
+  setAllUsers,
+} from "@/src/states/authentication/allUsersSlice";
+import {
+  BlockerUsersType,
+  setBlocked,
+} from "@/src/states/authentication/blockedSlice";
 
 const setCookies = (cookiesAccessToken: string): void => {
   Cookies.set("accessToken", cookiesAccessToken);
@@ -17,11 +23,13 @@ const setCookies = (cookiesAccessToken: string): void => {
 const dispatch = store.dispatch;
 
 export default function setAuthenticatedData(
-  RespondedAccessToken: string
+  RespondedAccessToken: string | undefined
 ): boolean {
-  setCookies(RespondedAccessToken);
-  dispatch(setAccessToken(RespondedAccessToken));
-  if (RespondedAccessToken) {
+  if (!RespondedAccessToken) {
+    setUnAuthenticatedData();
+  } else {
+    setCookies(RespondedAccessToken);
+    dispatch(setAccessToken(RespondedAccessToken));
     dispatch(setAuthenticated());
     return true;
   }
