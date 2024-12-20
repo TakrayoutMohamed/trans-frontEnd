@@ -31,7 +31,7 @@ const UseAxiosPrivate = () => {
           prevRequest.sent = true;
           const newAccessToken = await refresh();
           prevRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
-          setAuthenticatedData(newAccessToken!);
+          setAuthenticatedData(newAccessToken);
           return axiosPrivate(prevRequest);
         }
         return Promise.reject(error);
