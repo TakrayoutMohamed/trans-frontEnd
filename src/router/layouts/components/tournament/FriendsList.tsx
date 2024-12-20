@@ -32,11 +32,6 @@ const Friend = ({index, name, online=false}: FriendProps) => {
 	)
 }
 
-// interface Friends{
-// 	username?: string;
-// 	is_online?: boolean;
-// }
-
 const FriendsList = (props) => {
 	const [joined, setJoined] = useState(false)
 
@@ -52,7 +47,7 @@ const FriendsList = (props) => {
 		<div className="FriendsList">
 			<button style={{background: `${color}`}} className="JoinButton" onClick={handleJoin}>JOIN</button>
 			{props.FriendsData && props.FriendsData.map((friend : UserDataType , index:number) => (
-				<Friend index={index} name={friend.username+""} online={friend.is_online ? true : false}/>
+				<Friend index={index} name={friend.username+""} online={friend.is_online ? true : false} key={friend.username}/>
 			))}
 
 		</div>
