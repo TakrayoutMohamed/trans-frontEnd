@@ -106,7 +106,8 @@
         border: inherit;
 
         * {
-            padding: 0.8em;
+            padding-left: 0.8em;
+            padding-right: 0.8em;
             color: white;
             writing-mode: vertical-lr;
             font-family: var(--font-luckiestGuy);
@@ -220,13 +221,17 @@
                 max-height: 10%;
 
                 * {
-                    padding: 0.5em;
+                    padding: 0em;
                 }
 
                 >a {
                     writing-mode: horizontal-tb;
                     rotate: 0deg;
                     transition: inherit;
+                }
+                >a[class*="active"] {
+                    padding: 0.4em;
+                    height: 100%;
                 }
 
             }

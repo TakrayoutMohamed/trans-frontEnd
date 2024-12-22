@@ -37,6 +37,7 @@ import ChatArea from "@privatePages/ChatArea";
 // routers protection
 import PrivateRoutes from "@router/PrivateRoutes";
 import AuthorizationRoutes from "@router/AuthorizationRoutes";
+import FriendRequests from "../pages/private/FriendRequests";
 
 const routingTree: RouteObject[] = createRoutesFromElements(
   <Route element={<RootLayout />}>
@@ -61,6 +62,7 @@ const routingTree: RouteObject[] = createRoutesFromElements(
             <Route path="details" element={<Profile />} />
             <Route path="recent" element={<Recent />} />
             <Route path="friends" element={<Friends />} />
+            <Route path="requests" element={<FriendRequests />} />
             <Route path=":userName">
               <Route index element={<Navigate to="details" replace />} />
               <Route path="details" element={<Profile />} />
