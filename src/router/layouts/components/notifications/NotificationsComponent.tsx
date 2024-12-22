@@ -2,6 +2,7 @@ import { notificationsComponent } from "@/src/router/styles";
 import { useEffect, useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
+import { ToastContentProps } from "react-toastify";
 
 interface ProgressBarProps {
   toCloseAt?: number | false;
@@ -17,8 +18,6 @@ export const ProgressBar = ({
   onClose,
 }: ProgressBarProps) => {
   const [progressBar, setProgressBar] = useState<number>(0);
-  // console.log(startTime + "    " + toCloseAt);
-
   useEffect(() => {
     if (toCloseAt && !isPaused) {
       const timeId = setTimeout(() => {
@@ -43,7 +42,7 @@ export const ProgressBar = ({
   );
 };
 
-interface NotificationsComponentProps {
+interface NotificationsComponentProps extends Partial<ToastContentProps> {
   message: string;
   reject: () => void;
   accept: () => void;
@@ -55,7 +54,6 @@ const NotificationsComponent = ({
   reject,
   accept,
 }: NotificationsComponentProps) => {
-  console.log("Notification Component");
   return (
     <>
       <div className={notificationsComponent}>
