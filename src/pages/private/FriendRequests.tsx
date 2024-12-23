@@ -1,60 +1,22 @@
-import { blockIcon, profileIcon } from "@/media-exporting";
+import { profileIcon } from "@/media-exporting";
 import { friendRequests } from "./styles";
-import { BsThreeDots } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
-import { RootState, store } from "@/src/states/store";
+import { store } from "@/src/states/store";
 import { AxiosInstance } from "axios";
-import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { UserDataType } from "@/src/states/authentication/userSlice";
-import { MdPersonRemoveAlt1 } from "react-icons/md";
 import {
-  setBlockedData,
   setFriendsData,
 } from "../modules/setAuthenticationData";
-import { CgUnblock } from "react-icons/cg";
+import { acceptFriendRequest, rejectFriendRequest } from "../modules/fetchingData";
 
-const blockUser = (AxiosPrivateHook: AxiosInstance, username: string): void => {
-  AxiosPrivateHook.post("block_user", { username: username })
-    .then((res) => {
-      console.log("res : you blocked this user");
-      console.log(res);
-      setBlockedData([
-        ...store.getState().blocked.value,
-        { username: username },
-      ]);
-    })
-    .catch((err) => {
-      console.log("error in blocking a user ");
-      console.log(err);
-    });
-};
 
-const unblockUser = (
-  AxiosPrivateHook: AxiosInstance,
-  username: string
-): void => {
-  AxiosPrivateHook.delete("block_user", { data: { username: username } })
-    .then((res) => {
-      console.log("res : you unblocked this user");
-      console.log(res);
-      setBlockedData(
-        store
-          .getState()
-          .blocked.value.filter((blocked) => blocked.username !== username)
-      );
-      // here i have to add the blocked user to the list of blocked users
-    })
-    .catch((err) => {
-      console.log("error in blocking a user ");
-      console.log(err);
-    });
-};
 
-const unfriendUser = (AxiosPrivateHook: AxiosInstance, username: string) => {
+const unfriendUser = (axiosPrivateHook: AxiosInstance, username: string) => {
   console.log("handle unfriend user  to game ");
-  AxiosPrivateHook.delete("friends", { data: { username: username } })
+  axiosPrivateHook
+    .delete("friends", { data: { username: username } })
     .then((res) => {
       console.log("res : you removed this user " + username + " from friends");
       console.log(res);
@@ -71,20 +33,88 @@ const unfriendUser = (AxiosPrivateHook: AxiosInstance, username: string) => {
     });
 };
 
+type FriendRequestsType = UserDataType & { type: string };
+
+async function fetchReceivedFriendRequests(axiosPrivateHook: AxiosInstance) {
+  let receivedFriendRequests: FriendRequestsType[] | null = null;
+  try {
+    const res = await axiosPrivateHook.get("friend_req", {
+      params: { type: "received" },
+    });
+    // console.log("response in fetchReceivedFriendRequests received data");
+    // console.log(res);
+    if (res.data.friend_requests && res.data.friend_requests.length) {
+      receivedFriendRequests = res.data.friend_requests.map(
+        (friendReq: FriendRequestsType) => ({
+          ...friendReq,
+          type: "received",
+        })
+      );
+    }
+  } catch (err) {
+    console.log("error in fetchReceivedFriendRequests received");
+    console.log(err);
+  }
+  return receivedFriendRequests;
+}
+
+async function fetchSentFriendRequests(axiosPrivateHook: AxiosInstance) {
+  let sentFriendRequests: FriendRequestsType[] | null = null;
+  try {
+    const res = await axiosPrivateHook.get("friend_req", {
+      params: { type: "send" },
+    });
+    console.log("response in fetchSentFriendRequests sent data");
+    console.log(res);
+    if (res.data.friend_requests && res.data.friend_requests.length) {
+      sentFriendRequests = res.data.friend_requests.map(
+        (friendReq: FriendRequestsType) => ({
+          ...friendReq,
+          type: "sent",
+        })
+      );
+    }
+  } catch (err) {
+    console.log("error in fetchSentFriendRequests sent");
+    console.log(err);
+  }
+  return sentFriendRequests;
+}
+
 const FriendRequests = () => {
-  const AxiosPrivateHook = UseAxiosPrivate();
-  // const friendRequestsList = useSelector((state: RootState) => state.friends.value);
-  const friendsData = useSelector((state: RootState) => state.friends.value);
-  const blockedList = useSelector((state: RootState) => state.blocked.value);
-  const [friendRequestsList, setFriendsList] = useState<UserDataType[]>([]);
+  const axiosPrivateHook: AxiosInstance = UseAxiosPrivate();
+  const [friendRequestsList, setFriendRequestsList] = useState<
+    FriendRequestsType[]
+  >([]);
   useEffect(() => {
-    setFriendsList(friendsData);
-  }, [friendsData]);
+    let sentFriendRequests: FriendRequestsType[] | null = null;
+    let receivedFriendRequests: FriendRequestsType[] | null = null;
+
+    const fetchFriendRequests = async () => {
+      await fetchReceivedFriendRequests(axiosPrivateHook).then((data) => {
+        receivedFriendRequests = data;
+      });
+      await fetchSentFriendRequests(axiosPrivateHook).then((data) => {
+        sentFriendRequests = data;
+      });
+    };
+    fetchFriendRequests().then(() => {
+      if (sentFriendRequests !== null && receivedFriendRequests !== null) {
+        setFriendRequestsList([
+          ...sentFriendRequests!,
+          ...receivedFriendRequests!,
+        ]);
+        sentFriendRequests = null;
+        receivedFriendRequests = null;
+      }
+    });
+  }, []);
+
   if (!friendRequestsList || !friendRequestsList.length) {
     return (
       <div className={`${friendRequests}`}>
         <p className="no-friend-requests">
-          You have no friend requests sent or recieved yet !!!!
+          You have no friend requests sent or received yet !!!!
           <br />
           go to{" "}
           <Link to="/game" className="">
@@ -100,18 +130,18 @@ const FriendRequests = () => {
       <div className="">
         {friendRequestsList &&
           friendRequestsList.length &&
-          friendRequestsList.map((friend, index) => (
-            <div className="friends-card" key={index}>
+          friendRequestsList.map((request, index) => (
+            <div className="friendrequests-card" key={index}>
               <Link
-                to={`/profile/` + friend.username}
-                className="user-image-name-level"
+                to={`/profile/` + request.username}
+                className="user-image-name-fullname"
               >
                 <div className="user-image">
                   <div className="">
                     <img
                       src={
-                        friend.avatar
-                          ? process.env.BACKEND_API_URL + "" + friend.avatar
+                        request.avatar
+                          ? process.env.BACKEND_API_URL + "" + request.avatar
                           : profileIcon
                       }
                       alt=""
@@ -119,31 +149,52 @@ const FriendRequests = () => {
                     />
                   </div>
                 </div>
-                <div className="user-name-level">
-                  <div className="user-name">
-                    {friend?.first_name?.length
-                      ? friend.first_name
+                <div className="user-name-fullname">
+                  <div className="user-fullname">
+                    {request?.first_name?.length
+                      ? request.first_name
                       : "?????????"}{" "}
-                    {friend?.last_name?.length ? friend.last_name : "?????????"}
+                    {request?.last_name?.length
+                      ? request.last_name
+                      : "?????????"}
                   </div>
-                  <div className="user-level">
-                    lvl. {friend.level ? friend.level : 0}
-                  </div>
+                  <div className="user-name">{request.username}</div>
                 </div>
               </Link>
-              <div className="invite-remove-button">
-                <div className="invite-button" onClick={() => {}}>
-                  accept
-                </div>
-                <div
-                  className="remove-button"
-                  title="unfriend"
-                  onClick={() =>
-                    unfriendUser(AxiosPrivateHook, friend.username!)
-                  }
-                >
-                  reject
-                </div>
+              <div className="accept-reject-cancel-button">
+                {request.type === "received" ? (
+                  <>
+                    <div
+                      className="accept-button"
+                      title="accept friend request"
+                      onClick={() => {acceptFriendRequest(axiosPrivateHook, request.username+"")}}
+                    >
+                      accept
+                    </div>
+                    <div
+                      className="reject-button"
+                      title="reject friend request"
+                      onClick={() => {rejectFriendRequest(axiosPrivateHook, request.username+"")}}
+                    >
+                      reject
+                    </div>
+                  </>
+                ) : (
+                  <div
+                    className="cancel-button"
+                    title="cancel friend request"
+                    onClick={() => {rejectFriendRequest(axiosPrivateHook, request.username+"")}}
+                  >
+                    cancel
+                  </div>
+                )}
+              </div>
+              <div
+                className={`friend-request-type-${
+                  request.type === "received" ? "received" : "sent"
+                }`}
+              >
+                {request.type === "received" ? "received" : "sent     "}
               </div>
             </div>
           ))}
