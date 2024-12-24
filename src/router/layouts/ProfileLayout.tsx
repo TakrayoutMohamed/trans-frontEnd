@@ -111,15 +111,7 @@ const ProfileLayout = () => {
           </div>
           <div className="user-image-link-content">
             <div className="user-image">
-              <svg className="">
-                <image
-                  width="100%"
-                  height="100%"
-                  href="/assets/images/profileBackgroundCurve.svg"
-                  className="mt-autos"
-                />
-              </svg>
-              <div className="">
+              <div className="bg-dangesr">
                 <img
                   src={
                     data.avatar
