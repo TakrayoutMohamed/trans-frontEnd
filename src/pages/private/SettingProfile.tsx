@@ -24,10 +24,9 @@ const updateUserSchema = z.object({
   avatar: z
     .any()
     .optional()
-    // .refine((file) => console.log(file[0]))
     .refine(
       (file) => {
-        return !file[0] || file[0]?.size <= 2000000;
+        return !file || !file[0] || file[0]?.size <= 2000000;
       },
       { message: `Max image size is 2MB.` }
     )
@@ -61,7 +60,7 @@ const SettingProfile = () => {
       reset({
         first_name: userData.first_name,
         last_name: userData.last_name,
-        avatar: userData.avatar,
+        avatar: undefined,
       });
     }
   }, [userData]);
@@ -69,20 +68,24 @@ const SettingProfile = () => {
     data: UpdateUserSchemaType
   ) => {
     try {
-      // console.log(data.avatar);
-      // console.log(data.avatar[0]);
-      if (!data.avatar[0]) delete data.avatar;
+      console.log(data);
+      if (!data.avatar[0] || !data.avatar) delete data.avatar;
       else {
         data = { ...data, avatar: data.avatar[0] };
       }
       console.log(data);
-      const res = await axiosPrivateHook.put("user_info", data);
+
+      const res = await axiosPrivateHook.put("update_user", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       console.log(res);
       setUserData({
         ...userData,
         first_name: data.first_name,
         last_name: data.last_name,
-        avatar: data.avatar ? data.avatar[0].name : userData.avatar,
+        avatar: data.avatar ? data.avatar[0] : userData.avatar,
       });
     } catch (err) {
       console.log("error in update the user data at setting profile");
