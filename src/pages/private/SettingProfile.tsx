@@ -9,6 +9,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
 import { ReactNode, useEffect } from "react";
 import { setUserData } from "../modules/setAuthenticationData";
+import { toast } from "react-toastify";
 
 const updateUserSchema = z.object({
   first_name: z
@@ -85,9 +86,17 @@ const SettingProfile = () => {
         ...userData,
         first_name: data.first_name,
         last_name: data.last_name,
-        avatar: data.avatar ? data.avatar[0] : userData.avatar,
+        avatar: data.avatar ? res.data.message : userData.avatar,
+      });
+      toast.success("profile data Updated successfully", {
+        autoClose: 1000,
+        toastId: userData?.username! + userData?.created_at,
       });
     } catch (err) {
+      toast.error("Error in update profile data", {
+        autoClose: 2000,
+        toastId: userData?.username! + userData?.created_at,
+      });
       console.log("error in update the user data at setting profile");
       console.log(err);
     }

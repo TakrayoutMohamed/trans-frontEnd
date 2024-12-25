@@ -65,7 +65,8 @@
       margin-right: 1em;
 
       img {
-        min-width: 2em;
+        width: 2.5em;
+        min-width: 2.5em;
         max-width: 2.5em;
       }
     }
@@ -100,7 +101,7 @@
     justify-content: center;
     /**the box of accept-button and reject-button*/
     > div[class~="accept-button"],
-    div[class~="reject-button"] ,
+    div[class~="reject-button"],
     div[class~="cancel-button"] {
       flex-grow: 1;
       display: flex;
@@ -122,10 +123,9 @@
       background: rgb(198, 0, 132, 0.8);
     }
     div[class|="cancel-button"] {
-        background: rgb(198, 0, 132, 0.8);
+      background: rgb(198, 0, 132, 0.8);
     }
   }
-
 
   div[class|="friend-request-type"] {
     border-top-right-radius: inherit;
