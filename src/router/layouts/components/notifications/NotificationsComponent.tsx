@@ -44,8 +44,8 @@ export const ProgressBar = ({
 
 interface NotificationsComponentProps extends Partial<ToastContentProps> {
   message: string;
-  reject: () => void;
-  accept: () => void;
+  reject?: () => void;
+  accept?: () => void;
   onClose?: ((reason?: string | boolean | undefined) => void) | undefined;
 }
 
