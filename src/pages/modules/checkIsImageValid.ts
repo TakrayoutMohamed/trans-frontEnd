@@ -8,16 +8,14 @@ export function checkIsImageValid() {
   let errorsSpan = document.getElementById("image-errors") as HTMLSpanElement;
   let file = formInputImage.files;
   try {
-    if (file) {
+    if (file && file[0]) {
       errorsSpan.innerText = "";
       let newImage = new Image();
       newImage.src = URL.createObjectURL(file[0]);
       newImage.onload = function () {
-        let size = file[0].size / 1000000; //converting from bytes to MB
-        if (size > 10) errorsSpan.innerText = "image has more than 10MB";
-        // if (newImage.width > 400 || newImage.height > 800)
-        //   errorsSpan.innerText =
-        //     "image dimentions not accepted, please retry with an other one ";
+        let size = file[0].size / 200000; //converting from bytes to MB
+        if (size > 2 || file[0].size <= 0)
+          errorsSpan.innerText = "image has more than 3MB";
         if (errorsSpan.innerText !== "") {
           formInputImage.value = "";
           previewImage.src = "";
@@ -33,6 +31,9 @@ export function checkIsImageValid() {
           previewImage.src = newImage.src;
         }
       };
+    } else {
+      !previewImage.classList.contains("d-none") &&
+        previewImage.classList.add("d-none");
     }
   } catch (err) {
     console.log("error in checkIsImageValid");

@@ -15,12 +15,12 @@ const updateUserSchema = z.object({
   first_name: z
     .string()
     .max(50, { message: "max length of first name is 50 chars" })
-    .min(3, { message: "min length of first name is 3 chars" })
+    // .min(3, { message: "min length of first name is 3 chars" })
     .optional(),
   last_name: z
     .string()
     .max(50, { message: "max length of last name is 50 chars" })
-    .min(3, { message: "min length of last name is 3 chars" })
+    // .min(3, { message: "min length of last name is 3 chars" })
     .optional(),
   avatar: z
     .any()
@@ -65,28 +65,32 @@ const SettingProfile = () => {
       });
     }
   }, [userData]);
-  const onSubmit: SubmitHandler<UpdateUserSchemaType> = async (
+  const updateProfileData: SubmitHandler<UpdateUserSchemaType> = async (
     data: UpdateUserSchemaType
   ) => {
     try {
-      console.log(data);
+      if (data.first_name === userData.first_name) delete data.first_name;
+      if (data.last_name === userData.last_name) delete data.last_name;
       if (!data.avatar[0] || !data.avatar) delete data.avatar;
       else {
         data = { ...data, avatar: data.avatar[0] };
       }
       console.log(data);
-
+      if (Object.keys(data).length === 0) return;
       const res = await axiosPrivateHook.put("update_user", data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log(res);
+      if (data.avatar) {
+        data = {
+          ...data,
+          avatar: data.avatar ? res.data.message : userData.avatar,
+        };
+      }
       setUserData({
         ...userData,
-        first_name: data.first_name,
-        last_name: data.last_name,
-        avatar: data.avatar ? res.data.message : userData.avatar,
+        ...data,
       });
       toast.success("profile data Updated successfully", {
         autoClose: 1000,
@@ -104,7 +108,10 @@ const SettingProfile = () => {
 
   return (
     <div className={settingProfile}>
-      <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
+      <form
+        onSubmit={handleSubmit(updateProfileData)}
+        encType="multipart/form-data"
+      >
         <div className="first-last-name">
           <div className="first-name">
             <label htmlFor="firstName">First name</label>
