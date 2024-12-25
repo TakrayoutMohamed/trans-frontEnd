@@ -39,6 +39,7 @@ const Friends = () => {
       </div>
     );
   }
+  console.log("friends ")
   return (
     <div className={`${friends}`}>
       <div className="">

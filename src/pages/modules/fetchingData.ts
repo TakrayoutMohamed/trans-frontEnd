@@ -139,22 +139,25 @@ export const rejectFriendRequest = async (
 export const acceptFriendRequest = async (
   axiosPrivateHook: AxiosInstance,
   username: string,
-  setFriendRequestsList?: React.Dispatch<React.SetStateAction<any[]>>
+  setFriendRequestsList?: React.Dispatch<React.SetStateAction<any[]>>,
+  friendRequestsList?: any[]
 ) => {
   axiosPrivateHook
     .put("friend_req/", { username: username })
     .then((res) => {
+      let temp_data;
       console.log(res);
       setFriendRequestsList &&
         setFriendRequestsList((prev) => {
-          return prev.filter((friendReq) => {
-            if (friendReq.username === username) {
-              delete friendReq.type;
-              setFriendsData([...store.getState().friends.value, friendReq]);
-              return false;
-            } else return true;
-          });
+          return prev.filter((friendReq) => friendReq.username !== username);
         });
+        if (friendRequestsList)
+        {
+          temp_data = friendRequestsList.find((friendReq) => friendReq.username === username);
+          console.log(temp_data);
+          temp_data && setFriendsData([...store.getState().friends.value, temp_data])
+        }
+        console.log(temp_data);
     })
     .catch((err) => console.log(err))
     .finally(() => {

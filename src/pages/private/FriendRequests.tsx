@@ -103,7 +103,8 @@ const FriendRequests = () => {
                         acceptFriendRequest(
                           axiosPrivateHook,
                           request.username + "",
-                          setFriendRequestsList
+                          setFriendRequestsList,
+                          friendRequestsList
                         );
                       }}
                     >
