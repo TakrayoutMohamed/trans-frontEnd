@@ -171,7 +171,6 @@
   .friends {
     justify-content: center;
     padding-inline: 0.5em;
-    background-color: red;
   }
   .friends > div {
     width: 100%;
