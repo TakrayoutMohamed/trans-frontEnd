@@ -30,19 +30,19 @@ const watchSocket = (client: w3cwebsocket, axiosPrivateHook: AxiosInstance) => {
         <NotificationsComponent
           message={json_data.message}
           reject={() =>
-            rejectFriendRequest(axiosPrivateHook, json_data.sender).then(() =>
+            rejectFriendRequest(axiosPrivateHook, json_data.sender.username).then(() =>
               toast.dismiss(json_data.username)
             )
           }
           accept={() =>
-            acceptFriendRequest(axiosPrivateHook, json_data.sender).then(() =>
+            acceptFriendRequest(axiosPrivateHook, json_data.sender.username).then(() =>
               toast.dismiss(json_data.username)
             )
           }
         />,
         {
           autoClose: 8000,
-          toastId: json_data.sender,
+          toastId: json_data.sender.username,
         }
       );
     }
