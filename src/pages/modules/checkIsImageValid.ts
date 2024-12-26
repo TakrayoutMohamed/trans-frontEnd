@@ -13,9 +13,9 @@ export function checkIsImageValid() {
       let newImage = new Image();
       newImage.src = URL.createObjectURL(file[0]);
       newImage.onload = function () {
-        let size = file[0].size / 200000; //converting from bytes to MB
+        let size = file[0].size / 2000000; //converting from bytes to MB
         if (size > 2 || file[0].size <= 0)
-          errorsSpan.innerText = "image has more than 3MB";
+          errorsSpan.innerText = "image has more than 2MB";
         if (errorsSpan.innerText !== "") {
           formInputImage.value = "";
           previewImage.src = "";
