@@ -13,6 +13,11 @@ import {
   isValidAccessToken,
   rejectFriendRequest,
 } from "@/src/pages/modules/fetchingData";
+import {
+  setAllUsersData,
+  setFriendsData,
+} from "@/src/pages/modules/setAuthenticationData";
+import { AllUsersDataType } from "@/src/states/authentication/allUsersSlice";
 
 function openSocket(accessToken: string | undefined): w3cwebsocket {
   console.log("oppening socket");
@@ -38,12 +43,14 @@ const launchToast = (
     />,
     {
       autoClose: 8000,
-      toastId: data.sender.username,
+      toastId: data.sender.username + data.type,
     }
   );
 };
 
 const trigerRightEvent = (json_data: JsonValue) => {
+  console.log("the location of the user in the app");
+  console.log(location.pathname);
   switch (json_data.type) {
     case "friend_request": {
       launchToast(
@@ -54,24 +61,73 @@ const trigerRightEvent = (json_data: JsonValue) => {
             json_data.sender.username,
             undefined,
             [json_data.sender]
-          ).then(() => toast.dismiss(json_data.username)),
+          ).then(() =>
+            toast.dismiss(json_data.sender.username + json_data.type)
+          ),
         () =>
           rejectFriendRequest(axiosPrivateHook, json_data.sender.username).then(
-            () => toast.dismiss(json_data.sender.username)
+            () => toast.dismiss(json_data.sender.username + json_data.type)
           )
       );
       break;
     }
     case "accept_request": {
-      console.log("here is the block of accepted request ");
+      //accepted friend req
+      console.log("here is the block of accept_request ");
+      console.log(json_data);
+      setFriendsData([...store.getState().friends.value, json_data.sender]);
+      setAllUsersData(
+        store.getState().allUsers.value.map((user: AllUsersDataType) => {
+          if (user.username === json_data.sender.username) {
+            user = {...user, is_friend: true}
+          }
+          return user;
+        })
+      );
+      break;
+    }
+    case "reject_request": {
+      //reject friend req
+      console.log("here is the block of reject_request ");
       console.log(json_data);
       break;
     }
-
+    case "block_request": {
+      //block user
+      console.log("here is the block of block_request ");
+      console.log(json_data);
+      break;
+    }
+    case "unblock_request": {
+      //unblock user
+      console.log("here is the block of unblock_request ");
+      console.log(json_data);
+      break;
+    }
+    case "game_invite": {
+      // geme invitation
+      console.log("here is the block of game_invite ");
+      console.log(json_data);
+      break;
+    }
+    case "accept_invite": {
+      //accept geme invite
+      console.log("here is the block of accept_invite ");
+      console.log(json_data);
+      break;
+    }
     default: {
       console.log("default switch case");
       console.log(json_data);
       break;
+    }
+  }
+  if (
+    ["friend_request", "accept_request", "reject_request"].includes(
+      json_data.type
+    )
+  ) {
+    if (location.pathname === "profile/requests") {
     }
   }
 };
