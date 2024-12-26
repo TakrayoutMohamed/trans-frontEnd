@@ -60,6 +60,11 @@ const SearchFriendsInGame = () => {
     if (!allUsersData || !allUsersData.length) {
       getAllUsersData(axiosPrivateHook);
     }
+    setUsers(
+      allUsersData.filter(
+        (user) => user.username !== store.getState().user.value.username
+      )
+    );
   }, [allUsersData]);
 
   return (
