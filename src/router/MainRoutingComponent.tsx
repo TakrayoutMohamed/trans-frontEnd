@@ -38,6 +38,7 @@ import ChatArea from "@privatePages/ChatArea";
 import PrivateRoutes from "@router/PrivateRoutes";
 import AuthorizationRoutes from "@router/AuthorizationRoutes";
 import FriendRequests from "../pages/private/FriendRequests";
+import PingPongLayout from "./layouts/PingPongLayout";
 
 const routingTree: RouteObject[] = createRoutesFromElements(
   <Route element={<RootLayout />}>
@@ -80,6 +81,7 @@ const routingTree: RouteObject[] = createRoutesFromElements(
           <Route path="profile" element={<SettingProfile />} />
           <Route path="password" element={<SettingPassword />} />
         </Route>
+        <Route path="ping-pong" element={<PingPongLayout/>}/>
       </Route>
     </Route>
     <Route path="*" element={<NotFoundLayout />}></Route>
