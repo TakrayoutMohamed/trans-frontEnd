@@ -5,6 +5,7 @@ export interface AllUsersDataType {
   first_name: string;
   last_name: string;
   username: string;
+  friend_req: string | undefined;
   is_online: boolean;
   is_blocked: boolean;
   is_friend: boolean;

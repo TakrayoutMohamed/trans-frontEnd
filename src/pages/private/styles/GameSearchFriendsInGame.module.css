@@ -4,7 +4,7 @@
   position: relative;
 }
 
-.searchFriendsInGame div[class*="input-field"] {
+.searchFriendsInGame div[class~="input-field"] {
   display: flex;
   flex: row nowrap;
   align-items: center;
@@ -19,7 +19,7 @@
   label {
     margin-left: 0.2em;
 
-    *[class*="search-add-on"] {
+    *[class~="search-add-on"] {
       width: 2em;
     }
   }
@@ -44,7 +44,7 @@
   }
 }
 
-.searchFriendsInGame div[class*="searched-friends-list"] {
+.searchFriendsInGame div[class~="searched-users-list"] {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -59,7 +59,7 @@
   justify-content: space-between;
   overflow-y: auto;
 
-  div[class*="searched-friends-cards"] {
+  div[class~="searched-users-cards"] {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -71,7 +71,7 @@
     background: rgba(92, 49, 134, 1);
     border: 1px rgba(128, 128, 128, 0.5) solid;
 
-    a[class*="user-image-first-last-name"] {
+    a[class~="user-image-first-last-name"] {
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -96,7 +96,7 @@
         flex-direction: column;
         min-height: fit-content;
 
-        div[class*="user-name"] {
+        div[class~="user-name"] {
           color: rgb(255, 255, 255, 0.5);
           font-size: clamp(0.3em, 0.3em + 1vw, 1em);
           font-family: "Hiragino Maru Gothic ProN";
@@ -106,33 +106,31 @@
       }
     }
 
-    div[class*="block-addFriend-buttons"] {
+    div[class~="block-addFriend-buttons"] {
       display: flex;
       flex-direction: row;
       align-items: center;
 
-      div[class*="block-button"] {
-        color: white;
+      div[class~="block-button"] {
+        display: flex;
+        align-items: center;
         padding-inline: 0.6em;
         padding-block: 0.3em;
-        border-radius: 1em;
-        background: rgba(69, 12, 124, 1);
+        border-radius: 30px;
         cursor: pointer;
-        font-size: clamp(0.3em, 0.3em + 1vw, 1em);
-        line-height: 1em;
+        background-color: rgba(69, 12, 124, 1);
       }
-      div[class*="remove-block"] {
-        color: white;
+      div[class~="remove-block"] {
+        display: flex;
+        align-items: center;
         padding-inline: 0.6em;
         padding-block: 0.3em;
-        border-radius: 1em;
-        background: rgb(1, 255, 170);
+        border-radius: 30px;
         cursor: pointer;
-        font-size: clamp(0.3em, 0.3em + 1vw, 1em);
-        line-height: 1em;
+        background-color: rgb(1, 255, 170);
       }
 
-      div[class*="add-button"] {
+      div[class~="add-button"] {
         display: flex;
         align-items: center;
         padding-inline: 0.6em;
@@ -142,7 +140,22 @@
         background: rgb(0, 202, 54);
       }
 
-      div[class*="unfriend-button"] {
+      div[class~="accept-request"]{
+        background-color: sandybrown;
+      }
+      div[class~="cancel-request"]{
+        background-color: gray;
+      }
+      div[class~="reject-request"]{
+        background-color: brown;
+      }
+      div[class~="send-request"]{
+        /* background-color: gray; */
+      }
+
+
+
+      div[class~="unfriend-button"] {
         display: flex;
         align-items: center;
         padding-inline: 0.6em;

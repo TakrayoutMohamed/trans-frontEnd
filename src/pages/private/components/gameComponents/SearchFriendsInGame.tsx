@@ -11,24 +11,29 @@ import { AllUsersDataType } from "@/src/states/authentication/allUsersSlice";
 import { MdPersonRemoveAlt1 } from "react-icons/md";
 import { CgUnblock } from "react-icons/cg";
 import {
+  acceptFriendRequest,
   blockUser,
   getAllUsersData,
+  rejectFriendRequest,
   removeFriend,
   sendFriendRequest,
   unblockUser,
 } from "@/src/pages/modules/fetchingData";
+import { AxiosInstance } from "axios";
+import { FaUserCheck, FaUserClock } from "react-icons/fa";
+import { FiUserX } from "react-icons/fi";
 
 let isInputFocused: boolean = false;
 let isDevFocused: boolean = false;
 const hideSearchList = () => {
-  let selectSearchList = document.querySelector(".searched-friends-list");
+  let selectSearchList = document.querySelector(".searched-users-list");
   if (isInputFocused === false && isDevFocused === false) {
     if (!selectSearchList?.classList.contains("d-none"))
       selectSearchList?.classList.add("d-none");
   }
 };
 const showSearchList = () => {
-  let selectSearchList = document.querySelector(".searched-friends-list");
+  let selectSearchList = document.querySelector(".searched-users-list");
   if (selectSearchList?.classList.contains("d-none"))
     selectSearchList?.classList.remove("d-none");
 };
@@ -52,6 +57,97 @@ function searchForUser(
   else if (users.length) setUsers([]);
 }
 
+interface BlockingFriendingButtonsProps {
+  axiosPrivateHook: AxiosInstance;
+  setUsers?: React.Dispatch<React.SetStateAction<any>>;
+  user: AllUsersDataType;
+}
+
+const BlockingFriendingButtons = ({
+  axiosPrivateHook,
+  user,
+}: BlockingFriendingButtonsProps) => {
+  return (
+    <>
+      <div className="block-addFriend-buttons">
+        {user.is_friend ? (
+          <div
+            className="unfriend-button"
+            title={`remove friend ${user.username}`}
+            onClick={() => removeFriend(axiosPrivateHook, user.username)}
+          >
+            <MdPersonRemoveAlt1 />
+          </div>
+        ) : (
+          <>
+            {user.friend_req ? (
+              user.friend_req === "sent" ? ( //sent request
+                <div
+                  className="add-button cancel-request"
+                  title="cancel request"
+                  onClick={() =>
+                    rejectFriendRequest(axiosPrivateHook, user.username)
+                  }
+                >
+                  <FaUserClock />
+                </div>
+              ) : (
+                //received request
+                <>
+                  <div
+                    className="add-button accept-request"
+                    title="accept request"
+                    onClick={() =>
+                      acceptFriendRequest(axiosPrivateHook, user.username)
+                    }
+                  >
+                    <FaUserCheck />
+                  </div>
+                  <div
+                    className="add-button reject-request"
+                    title="reject request"
+                    onClick={() =>
+                      rejectFriendRequest(axiosPrivateHook, user.username)
+                    }
+                  >
+                    <FiUserX />
+                  </div>
+                </>
+              )
+            ) : (
+              <div
+                className="add-button send-request"
+                onClick={() =>
+                  sendFriendRequest(axiosPrivateHook, user.username)
+                }
+              >
+                <RiUserAddFill />
+              </div>
+            )}
+          </>
+        )}
+        {user.is_blocked ? (
+          <div
+            className="remove-block"
+            title={`unblock ${user.username}`}
+            onClick={() => unblockUser(axiosPrivateHook, user.username)}
+          >
+            <CgUnblock />
+          </div>
+        ) : (
+          <div
+            className="block-button"
+            title={`block ${user.username}`}
+            onClick={() => blockUser(axiosPrivateHook, user.username)}
+          >
+            <BiBlock />
+          </div>
+        )}
+      </div>
+    </>
+  );
+};
+
 const SearchFriendsInGame = () => {
   const [users, setUsers] = useState<AllUsersDataType[]>([]);
   const allUsersData = useSelector((state: RootState) => state.allUsers.value);
@@ -60,11 +156,7 @@ const SearchFriendsInGame = () => {
     if (!allUsersData || !allUsersData.length) {
       getAllUsersData(axiosPrivateHook);
     }
-    setUsers(
-      allUsersData.filter(
-        (user) => user.username !== store.getState().user.value.username
-      )
-    );
+    setUsers(allUsersData);
   }, [allUsersData]);
 
   return (
@@ -93,7 +185,7 @@ const SearchFriendsInGame = () => {
         />
       </div>
       <div
-        className="searched-friends-list"
+        className="searched-users-list d-none"
         tabIndex={0}
         onMouseEnter={() => (isDevFocused = true)}
         onMouseLeave={() => (isDevFocused = false)}
@@ -105,7 +197,7 @@ const SearchFriendsInGame = () => {
       >
         {users && users.length ? (
           users.map((user) => (
-            <div className="searched-friends-cards" key={user.username}>
+            <div className="searched-users-cards" key={user.username}>
               <Link
                 to={`/profile/` + user.username}
                 className="user-image-first-last-name"
@@ -126,50 +218,10 @@ const SearchFriendsInGame = () => {
                   <div className="user-name">{user.username}</div>
                 </div>
               </Link>
-              <div className="block-addFriend-buttons">
-                {user.is_friend ? (
-                  <div
-                    className="unfriend-button"
-                    onClick={() =>
-                      removeFriend(axiosPrivateHook, user.username, setUsers)
-                    }
-                  >
-                    <MdPersonRemoveAlt1 />
-                  </div>
-                ) : (
-                  <div
-                    className="add-button"
-                    onClick={() =>
-                      sendFriendRequest(axiosPrivateHook, user.username)
-                    }
-                  >
-                    <RiUserAddFill />
-                  </div>
-                )}
-                {user.is_friend ? (
-                  user.is_blocked ? (
-                    <div
-                      className="remove-block"
-                      onClick={() =>
-                        unblockUser(axiosPrivateHook, user.username, setUsers)
-                      }
-                    >
-                      <CgUnblock />
-                    </div>
-                  ) : (
-                    <div
-                      className="block-button"
-                      onClick={() =>
-                        blockUser(axiosPrivateHook, user.username, setUsers)
-                      }
-                    >
-                      <BiBlock />
-                    </div>
-                  )
-                ) : (
-                  ""
-                )}
-              </div>
+              <BlockingFriendingButtons
+                axiosPrivateHook={axiosPrivateHook}
+                user={user}
+              />
             </div>
           ))
         ) : (

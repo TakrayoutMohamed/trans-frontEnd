@@ -8,8 +8,7 @@ import { useEffect, useState } from "react";
 import {
   FriendRequestsType,
   acceptFriendRequest,
-  getReceivedFriendRequests,
-  getSentFriendRequests,
+  getAllFriendRequests,
   rejectFriendRequest,
 } from "../modules/fetchingData";
 
@@ -19,26 +18,9 @@ const FriendRequests = () => {
     FriendRequestsType[]
   >([]);
   useEffect(() => {
-    let sentFriendRequests: FriendRequestsType[] | null = null;
-    let receivedFriendRequests: FriendRequestsType[] | null = null;
-
-    const fetchFriendRequests = async () => {
-      await getReceivedFriendRequests(axiosPrivateHook).then((data) => {
-        receivedFriendRequests = data;
-      });
-      await getSentFriendRequests(axiosPrivateHook).then((data) => {
-        sentFriendRequests = data;
-      });
-    };
-    fetchFriendRequests().then(() => {
-      if (sentFriendRequests !== null && receivedFriendRequests !== null) {
-        setFriendRequestsList([
-          ...sentFriendRequests!,
-          ...receivedFriendRequests!,
-        ]);
-        sentFriendRequests = null;
-        receivedFriendRequests = null;
-      }
+    getAllFriendRequests(axiosPrivateHook).then((data) => {
+      if (data)
+        setFriendRequestsList(data);
     });
   }, []);
 

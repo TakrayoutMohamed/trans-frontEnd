@@ -48,7 +48,13 @@ export function setUserData(userData: UserDataType) {
   console.log(userData);
 }
 export function setAllUsersData(allUsersData: AllUsersDataType[]) {
-  dispatch(setAllUsers(allUsersData));
+  dispatch(
+    setAllUsers(
+      allUsersData.filter(
+        (user) => user.username !== store.getState().user.value.username
+      )
+    )
+  );
   console.log("all users data in set users data");
   console.log(allUsersData);
 }

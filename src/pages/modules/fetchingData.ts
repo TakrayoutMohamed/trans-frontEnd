@@ -19,6 +19,13 @@ export const sendFriendRequest = (
     .then((res) => {
       console.log("friend request sent to " + username);
       console.log(res);
+      setAllUsersData(
+        store.getState().allUsers.value.map((user) => {
+          return user.username === username
+            ? { ...user, is_friend: false, friend_req: "sent" }
+            : user;
+        })
+      );
     })
     .catch((err) => {
       console.log(err);
@@ -28,7 +35,6 @@ export const sendFriendRequest = (
 export const removeFriend = (
   axiosPrivateHook: AxiosInstance,
   username: string,
-  setUsers?: React.Dispatch<React.SetStateAction<AllUsersDataType[]>>
 ) => {
   axiosPrivateHook
     .delete("friends", { data: { username: username } })
@@ -40,14 +46,13 @@ export const removeFriend = (
           .getState()
           .friends.value.filter((friend) => friend.username !== username)
       );
-      setUsers &&
-        setUsers((prev) =>
-          prev.map((user) => {
-            return user.username === username
-              ? { ...user, is_friend: false }
-              : user;
-          })
-        );
+      setAllUsersData(
+        store.getState().allUsers.value.map((user) => {
+          return user.username === username
+            ? { ...user, is_friend: false, friend_req: undefined }
+            : user;
+        })
+      );
     })
     .catch((err) => {
       console.log(username);
@@ -79,7 +84,6 @@ export async function getReceivedFriendRequests(
           type: "received",
         })
       );
-      console.log(receivedFriendRequests);
     }
   } catch (err) {
     console.log("error in fetchReceivedFriendRequests received");
@@ -116,6 +120,22 @@ export async function getSentFriendRequests(axiosPrivateHook: AxiosInstance) {
   return sentFriendRequests;
 }
 
+export const getAllFriendRequests = async (
+  axiosPrivateHook: AxiosInstance
+): Promise<FriendRequestsType[]> => {
+  let sentFriendRequests: FriendRequestsType[] | null = null;
+  let receivedFriendRequests: FriendRequestsType[] | null = null;
+  await getReceivedFriendRequests(axiosPrivateHook).then((data) => {
+    receivedFriendRequests = data;
+  });
+  await getSentFriendRequests(axiosPrivateHook).then((data) => {
+    sentFriendRequests = data;
+  });
+  if (sentFriendRequests !== null && receivedFriendRequests !== null)
+    return [...sentFriendRequests, ...receivedFriendRequests];
+  else return [];
+};
+
 export const rejectFriendRequest = async (
   axiosPrivateHook: AxiosInstance,
   username: string,
@@ -129,6 +149,13 @@ export const rejectFriendRequest = async (
         setFriendRequestsList((prev) => {
           return prev.filter((friendReq) => friendReq.username !== username);
         });
+      setAllUsersData(
+        store.getState().allUsers.value.map((user) => {
+          return user.username === username
+            ? { ...user, friend_req: undefined }
+            : user;
+        })
+      );
     })
     .catch((err) => console.log(err))
     .finally(() => {
@@ -151,13 +178,22 @@ export const acceptFriendRequest = async (
         setFriendRequestsList((prev) => {
           return prev.filter((friendReq) => friendReq.username !== username);
         });
-        if (friendRequestsList)
-        {
-          temp_data = friendRequestsList.find((friendReq) => friendReq.username === username);
-          console.log(temp_data);
-          temp_data && setFriendsData([...store.getState().friends.value, temp_data])
-        }
+      if (friendRequestsList) {
+        temp_data = friendRequestsList.find(
+          (friendReq) => friendReq.username === username
+        );
         console.log(temp_data);
+        temp_data &&
+          setFriendsData([...store.getState().friends.value, temp_data]);
+      }
+      setAllUsersData(
+        store.getState().allUsers.value.map((user) => {
+          return user.username === username
+            ? { ...user, is_friend: true, friend_req: undefined }
+            : user;
+        })
+      );
+      console.log(temp_data);
     })
     .catch((err) => console.log(err))
     .finally(() => {
@@ -182,14 +218,29 @@ export const isValidAccessToken = () => {
 export const getAllUsersData = async (axiosPrivateHook: AxiosInstance) => {
   axiosPrivateHook
     .post("search_user")
-    .then((response) => {
-      console.log("response in Search Friends in Game");
-      console.log(response);
-      setAllUsersData(response.data.user);
-      console.log(response.data.user);
+    .then(async (response) => {
+      let tmpAllUsers: AllUsersDataType[] | undefined = undefined;
+      let tmpAllFriendReq: FriendRequestsType[] | undefined = undefined;
+
+      tmpAllUsers = response.data.user;
+      try {
+        tmpAllFriendReq = await getAllFriendRequests(axiosPrivateHook);
+        tmpAllUsers = tmpAllUsers?.map((user) => {
+          let user_friend_req = tmpAllFriendReq?.find(
+            (friend_request) => friend_request.username === user.username
+          );
+          user = {
+            ...user,
+            friend_req: user_friend_req?.type,
+          };
+          return user;
+        });
+        tmpAllUsers && setAllUsersData(tmpAllUsers);
+      } catch (err) {
+        console.log(err);
+      }
     })
     .catch((err) => {
-      console.log("error in Search Friends in Game");
       console.log(err);
       setAllUsersData([]);
     });
@@ -197,13 +248,11 @@ export const getAllUsersData = async (axiosPrivateHook: AxiosInstance) => {
 
 export const blockUser = (
   axiosPrivateHook: AxiosInstance,
-  username: string,
-  setUsers?: React.Dispatch<React.SetStateAction<any[]>>
+  username: string
 ) => {
   axiosPrivateHook
     .post("block_user", { username: username })
     .then((res) => {
-      console.log("you block user " + username + " ");
       console.log(res);
       setBlockedData([
         ...store.getState().blocked.value,
@@ -216,25 +265,15 @@ export const blockUser = (
             : user;
         })
       );
-      setUsers &&
-        setUsers((prev) =>
-          prev.map((user) => {
-            return user.username === username
-              ? { ...user, is_blocked: true }
-              : user;
-          })
-        );
     })
     .catch((err) => {
-      console.log("error in blocking a user ");
       console.log(err);
     });
 };
 
 export const unblockUser = (
   axiosPrivateHook: AxiosInstance,
-  username: string,
-  setUsers?: React.Dispatch<React.SetStateAction<any[]>>
+  username: string
 ) => {
   axiosPrivateHook
     .delete("block_user", { data: { username: username } })
@@ -253,14 +292,6 @@ export const unblockUser = (
             : user;
         })
       );
-      setUsers &&
-        setUsers((prev) =>
-          prev.map((user) => {
-            return user.username === username
-              ? { ...user, is_blocked: false }
-              : user;
-          })
-        );
     })
     .catch((err) => {
       console.log("error in removing block to a user ");
