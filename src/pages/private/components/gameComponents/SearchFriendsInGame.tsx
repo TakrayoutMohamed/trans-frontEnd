@@ -151,12 +151,13 @@ const BlockingFriendingButtons = ({
 const SearchFriendsInGame = () => {
   const [users, setUsers] = useState<AllUsersDataType[]>([]);
   const allUsersData = useSelector((state: RootState) => state.allUsers.value);
+  const userData = useSelector((state: RootState) => state.user.value);
   const axiosPrivateHook = UseAxiosPrivate();
   useEffect(() => {
     if (!allUsersData || !allUsersData.length) {
       getAllUsersData(axiosPrivateHook);
     }
-    setUsers(allUsersData);
+    setUsers(allUsersData.filter((user) => user.username !== userData.username));
   }, [allUsersData]);
 
   return (
@@ -171,6 +172,7 @@ const SearchFriendsInGame = () => {
           id="searchUsers"
           className="searchUsers"
           placeholder="Search for users....."
+          autoComplete="off"
           onChange={(event) => {
             searchForUser(event, users, setUsers);
           }}

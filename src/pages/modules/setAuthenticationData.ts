@@ -40,9 +40,9 @@ export default function setAuthenticatedData(
 }
 
 export function setUnAuthenticatedData() {
-  Cookies.get("accessToken") !== undefined && Cookies.remove("accessToken");
-  dispatch(setAccessToken(undefined));
-  dispatch(setUnauthenticated());
+  Cookies.remove("accessToken");
+  if (state.accessToken.value) dispatch(setAccessToken(undefined));
+  if (state.authenticator.value !== false) dispatch(setUnauthenticated());
 }
 
 export function setUserData(userData: UserDataType) {
@@ -58,6 +58,7 @@ export function setAllUsersData(allUsersData: AllUsersDataType[]) {
   );
   console.log("all users data in set users data");
   console.log(allUsersData);
+  console.log(state.allUsers.value);
 }
 
 export function setFriendsData(friendsData: UserDataType[]) {

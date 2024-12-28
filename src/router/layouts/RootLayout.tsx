@@ -53,21 +53,42 @@ const trigerRightEvent = (json_data: JsonValue) => {
   console.log(location.pathname);
   switch (json_data.type) {
     case "friend_request": {
+      setAllUsersData(
+        store.getState().allUsers.value.map((user: AllUsersDataType) => {
+          if (user.username === json_data.sender.username) {
+            user = { ...user, is_friend: false, friend_req: "received" };
+          }
+          return user;
+        })
+      );
       launchToast(
         json_data,
-        () =>
-          acceptFriendRequest(
-            axiosPrivateHook,
-            json_data.sender.username,
-            undefined,
-            [json_data.sender]
-          ).then(() =>
-            toast.dismiss(json_data.sender.username + json_data.type)
-          ),
-        () =>
-          rejectFriendRequest(axiosPrivateHook, json_data.sender.username).then(
-            () => toast.dismiss(json_data.sender.username + json_data.type)
-          )
+        async () => {
+          try {
+            await acceptFriendRequest(
+              axiosPrivateHook,
+              json_data.sender.username,
+              undefined,
+              [json_data.sender]
+            );
+          } catch (err) {
+            console.log(err);
+          } finally {
+            toast.dismiss(json_data.sender.username + json_data.type);
+          }
+        },
+        async () => {
+          try {
+            await rejectFriendRequest(
+              axiosPrivateHook,
+              json_data.sender.username
+            );
+          } catch (err) {
+            console.log(err);
+          } finally {
+            toast.dismiss(json_data.sender.username + json_data.type);
+          }
+        }
       );
       break;
     }
@@ -79,7 +100,7 @@ const trigerRightEvent = (json_data: JsonValue) => {
       setAllUsersData(
         store.getState().allUsers.value.map((user: AllUsersDataType) => {
           if (user.username === json_data.sender.username) {
-            user = {...user, is_friend: true, friend_req: undefined}
+            user = { ...user, is_friend: true, friend_req: undefined };
           }
           return user;
         })
@@ -93,7 +114,7 @@ const trigerRightEvent = (json_data: JsonValue) => {
       setAllUsersData(
         store.getState().allUsers.value.map((user: AllUsersDataType) => {
           if (user.username === json_data.sender.username) {
-            user = {...user, is_friend: false, friend_req: undefined}
+            user = { ...user, is_friend: false, friend_req: undefined };
           }
           return user;
         })
