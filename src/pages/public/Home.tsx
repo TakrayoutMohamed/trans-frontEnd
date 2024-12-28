@@ -4,6 +4,7 @@ import { ImFilm } from "react-icons/im";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "@/src/states/store";
+import logOut from "../modules/logOut";
 
 const Home = () => {
   const isAuthenticated = useSelector(
@@ -49,7 +50,7 @@ const Home = () => {
               </Link>
             </span>
             {isAuthenticated ? (
-              <Link to="#logout" className="sign-in-link">
+              <Link to="#logout" className="sign-in-link" onClick={logOut}>
                 LOG OUT
               </Link>
             ) : (
