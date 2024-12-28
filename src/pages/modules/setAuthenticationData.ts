@@ -42,7 +42,7 @@ export default function setAuthenticatedData(
 export function setUnAuthenticatedData() {
   Cookies.remove("accessToken");
   if (state.accessToken.value) dispatch(setAccessToken(undefined));
-  if (state.authenticator.value !== false) dispatch(setUnauthenticated());
+  dispatch(setUnauthenticated());
 }
 
 export function setUserData(userData: UserDataType) {

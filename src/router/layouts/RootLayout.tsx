@@ -4,7 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
 import { ICloseEvent, IMessageEvent, w3cwebsocket } from "websocket";
-import { store } from "@/src/states/store";
+import { RootState, store } from "@/src/states/store";
 import { rootLayout } from "../styles";
 import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
 import { AxiosInstance } from "axios";
@@ -18,6 +18,7 @@ import {
   setFriendsData,
 } from "@/src/pages/modules/setAuthenticationData";
 import { AllUsersDataType } from "@/src/states/authentication/allUsersSlice";
+import { useSelector } from "react-redux";
 
 function openSocket(accessToken: string | undefined): w3cwebsocket {
   console.log("oppening socket");
@@ -181,32 +182,37 @@ let client: w3cwebsocket | null = null;
 
 const RootLayout = () => {
   axiosPrivateHook = UseAxiosPrivate();
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.authenticator.value
+  );
   useEffect(() => {
-    const handleSockets = async () => {
-      console.log("json_data");
-      if (isValidAccessToken()) {
-        console.log("json_data2");
-        if (!client || client.readyState === w3cwebsocket.CLOSED)
-          client = openSocket(store.getState().accessToken.value + "");
-        watchSocket(client);
-        if (client.readyState === w3cwebsocket.CLOSING) {
-          console.log("socket closing");
+    if (isAuthenticated){
+      const handleSockets = async () => {
+        console.log("json_data");
+        if (isValidAccessToken()) {
+          console.log("json_data2");
+          if (!client || client.readyState === w3cwebsocket.CLOSED)
+            client = openSocket(store.getState().accessToken.value + "");
+          watchSocket(client);
+          if (client.readyState === w3cwebsocket.CLOSING) {
+            console.log("socket closing");
+          }
+          if (client.readyState === w3cwebsocket.CLOSED) {
+            console.log("socket closed");
+          }
         }
-        if (client.readyState === w3cwebsocket.CLOSED) {
-          console.log("socket closed");
+      };
+      handleSockets();
+      return () => {
+        console.log("cleaning funtion in APPPPPPPPPPPPPPPPPPPPPP");
+        if (client && client?.readyState === w3cwebsocket.OPEN) {
+          console.log("befor cleaning the funciton APPPPPPPPPPPPPPPPPPPPPP");
+          client.close(3001, "cleaning in useEffect");
+          client = null;
         }
-      }
-    };
-    handleSockets();
-    return () => {
-      console.log("cleaning funtion in APPPPPPPPPPPPPPPPPPPPPP");
-      if (client && client?.readyState === w3cwebsocket.OPEN) {
-        console.log("befor cleaning the funciton APPPPPPPPPPPPPPPPPPPPPP");
-        client.close(3001, "cleaning in useEffect");
-        client = null;
-      }
-    };
-  }, []);
+      };
+    }
+  }, [isAuthenticated]);
   return (
     <>
       <div className={rootLayout}>
