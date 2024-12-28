@@ -11,9 +11,12 @@ import {
   getAllFriendRequests,
   rejectFriendRequest,
 } from "../modules/fetchingData";
+import { useSelector } from "react-redux";
+import { RootState } from "@/src/states/store";
 
 const FriendRequests = () => {
   const axiosPrivateHook: AxiosInstance = UseAxiosPrivate();
+  const allUsersData = useSelector((state: RootState) => state.allUsers.value)
   const [friendRequestsList, setFriendRequestsList] = useState<
     FriendRequestsType[]
   >([]);
@@ -22,7 +25,7 @@ const FriendRequests = () => {
       if (data)
         setFriendRequestsList(data);
     });
-  }, []);
+  }, [allUsersData]);
 
   if (!friendRequestsList || !friendRequestsList.length) {
     return (
