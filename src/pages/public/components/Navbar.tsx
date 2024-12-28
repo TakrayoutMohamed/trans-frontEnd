@@ -3,7 +3,7 @@ import { brandIcon, profileIcon } from "@/media-exporting.ts";
 import { useSelector } from "react-redux";
 import { RootState } from "@/src/states/store";
 import Dropdown, { Links } from "@pages/components/Dropdown";
-import logOut from "@/src/router/modules/logOut";
+import logOut from "../../modules/logOut";
 
 const dropdownLinks: Links[] = [
   {

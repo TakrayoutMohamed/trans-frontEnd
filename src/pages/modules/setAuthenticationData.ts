@@ -18,9 +18,11 @@ import {
 } from "@/src/states/authentication/blockedSlice";
 
 const setCookies = (cookiesAccessToken: string): void => {
-  Cookies.set("accessToken", cookiesAccessToken);
+  if (cookiesAccessToken !== Cookies.get("accessToken"))
+    Cookies.set("accessToken", cookiesAccessToken);
 };
 const dispatch = store.dispatch;
+const state = store.getState();
 
 export default function setAuthenticatedData(
   RespondedAccessToken: string | undefined
@@ -29,8 +31,9 @@ export default function setAuthenticatedData(
     setUnAuthenticatedData();
   } else {
     setCookies(RespondedAccessToken);
-    dispatch(setAccessToken(RespondedAccessToken));
-    dispatch(setAuthenticated());
+    if (RespondedAccessToken !== state.accessToken.value)
+      dispatch(setAccessToken(RespondedAccessToken));
+    if (state.authenticator.value !== true) dispatch(setAuthenticated());
     return true;
   }
   return false;
@@ -50,9 +53,7 @@ export function setUserData(userData: UserDataType) {
 export function setAllUsersData(allUsersData: AllUsersDataType[]) {
   dispatch(
     setAllUsers(
-      allUsersData.filter(
-        (user) => user.username !== store.getState().user.value.username
-      )
+      allUsersData.filter((user) => user.username !== state.user.value.username)
     )
   );
   console.log("all users data in set users data");

@@ -79,7 +79,7 @@ const trigerRightEvent = (json_data: JsonValue) => {
       setAllUsersData(
         store.getState().allUsers.value.map((user: AllUsersDataType) => {
           if (user.username === json_data.sender.username) {
-            user = {...user, is_friend: true}
+            user = {...user, is_friend: true, friend_req: undefined}
           }
           return user;
         })
@@ -90,6 +90,14 @@ const trigerRightEvent = (json_data: JsonValue) => {
       //reject friend req
       console.log("here is the block of reject_request ");
       console.log(json_data);
+      setAllUsersData(
+        store.getState().allUsers.value.map((user: AllUsersDataType) => {
+          if (user.username === json_data.sender.username) {
+            user = {...user, is_friend: false, friend_req: undefined}
+          }
+          return user;
+        })
+      );
       break;
     }
     case "block_request": {
