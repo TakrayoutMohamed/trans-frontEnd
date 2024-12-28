@@ -95,6 +95,7 @@ const SettingProfile = () => {
       toast.success("profile data Updated successfully", {
         autoClose: 1000,
         toastId: userData?.username! + userData?.created_at,
+        containerId:"validation"
       });
     } catch (err) {
       toast.error("Error in update profile data", {

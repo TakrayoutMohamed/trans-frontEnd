@@ -45,14 +45,29 @@ const launchToast = (
     {
       autoClose: 8000,
       toastId: data.sender.username + data.type,
+      containerId: "requests",
     }
   );
 };
 
 const trigerRightEvent = (json_data: JsonValue) => {
   console.log("the location of the user in the app");
-  console.log(location.pathname);
+  // console.log(json_data)
   switch (json_data.type) {
+    case "unfriend": {
+      console.log("here is the block of unfriend ");
+      console.log(json_data);
+      setFriendsData(store.getState().friends.value.filter((user) => user.username !== json_data.sender.username));
+      setAllUsersData(
+        store.getState().allUsers.value.map((user: AllUsersDataType) => {
+          if (user.username === json_data.sender.username) {
+            user = { ...user, is_friend: false, friend_req: undefined };
+          }
+          return user;
+        })
+      );
+      break;
+    }
     case "friend_request": {
       setAllUsersData(
         store.getState().allUsers.value.map((user: AllUsersDataType) => {
@@ -152,21 +167,13 @@ const trigerRightEvent = (json_data: JsonValue) => {
       break;
     }
   }
-  if (
-    ["friend_request", "accept_request", "reject_request"].includes(
-      json_data.type
-    )
-  ) {
-    if (location.pathname === "profile/requests") {
-    }
-  }
 };
 
 const watchSocket = (client: w3cwebsocket) => {
   client.onmessage = (dataEvent: IMessageEvent): JsonValue => {
     let json_data: JsonValue = null;
     json_data = JSON.parse(dataEvent.data as string);
-    console.log(json_data);
+    // console.log(json_data);
     trigerRightEvent(json_data);
   };
   client.onclose = (closeEvent: ICloseEvent) => {
@@ -185,8 +192,11 @@ const RootLayout = () => {
   const isAuthenticated = useSelector(
     (state: RootState) => state.authenticator.value
   );
+  const accessToken = useSelector(
+    (state: RootState) => state.accessToken.value
+  );
   useEffect(() => {
-    if (isAuthenticated){
+    if (isAuthenticated) {
       const handleSockets = async () => {
         console.log("json_data");
         if (isValidAccessToken()) {
@@ -207,12 +217,14 @@ const RootLayout = () => {
         console.log("cleaning funtion in APPPPPPPPPPPPPPPPPPPPPP");
         if (client && client?.readyState === w3cwebsocket.OPEN) {
           console.log("befor cleaning the funciton APPPPPPPPPPPPPPPPPPPPPP");
+          console.log(client);
           client.close(3001, "cleaning in useEffect");
+          
           client = null;
         }
       };
     }
-  }, [isAuthenticated]);
+  }, [accessToken]);
   return (
     <>
       <div className={rootLayout}>
@@ -226,8 +238,16 @@ const RootLayout = () => {
           pauseOnHover={true}
           autoClose={2000}
           limit={5}
+          containerId={"requests"}
         />
-        {/* <ToastContainer enableMultiContainer containerId={"requests"} position={"bottom-right"}/> */}
+        <ToastContainer
+          pauseOnFocusLoss={false}
+          pauseOnHover={false}
+          draggable={true}
+          containerId={"validation"}
+          autoClose={2000}
+          position={"top-center"}
+        />
         <Outlet />
       </div>
     </>
