@@ -79,8 +79,8 @@ export async function getReceivedFriendRequests(
     });
     console.log("response in getReceivedFriendRequests received data");
     console.log(res);
-    if (res.data.friend_requests && res.data.friend_requests.length) {
-      receivedFriendRequests = res.data.friend_requests.map(
+    if (res.data.results.friend_requests && res.data.results.friend_requests.length) {
+      receivedFriendRequests = res.data.results.friend_requests.map(
         (friendReq: FetchedData) => ({
           ...friendReq.from_user,
           type: "received",
@@ -104,8 +104,8 @@ export async function getSentFriendRequests(axiosPrivateHook: AxiosInstance) {
     });
     console.log("response in fetchSentFriendRequests sent data");
     console.log(res);
-    if (res.data.friend_requests && res.data.friend_requests.length) {
-      sentFriendRequests = res.data.friend_requests.map(
+    if (res.data.results.friend_requests && res.data.results.friend_requests.length) {
+      sentFriendRequests = res.data.results.friend_requests.map(
         (friendReq: FetchedData) => ({
           ...friendReq.to_user,
           type: "sent",
