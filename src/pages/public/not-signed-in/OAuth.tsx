@@ -1,5 +1,5 @@
 import axios from "@/src/services/api/axios";
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import setAuthenticatedData from "../../modules/setAuthenticationData";
 import { toast } from "react-toastify";
 
@@ -11,26 +11,33 @@ const handle42OauthCallback = async () => {
     try {
       const res = await axios.get("socialauth", { params: { code } });
       console.log(res);
-      if  (!res.data.access)
-          throw new Error("No access credentials provided");
-      setAuthenticatedData(res.data.access)
+      if (!res.data.access) throw new Error("No access credentials provided");
+      setAuthenticatedData(res.data.access);
     } catch (error) {
       console.error(error);
-      toast.error("Error while trying to get the right access, ", {
-        autoClose:  7000, containerId:"validation"
-      })
+      toast.error("Error while trying to get the right access", {
+        autoClose: 7000,
+        containerId: "validation",
+      });
     }
   } else {
     console.error("No code parameter in URL");
-    toast.error("No code provided by 42 API please  check if you have the right permissions", {
-      autoClose:  7000, containerId:"validation"
-    })
+    toast.error(
+      "No code provided by 42 API please  check if you have the right permissions",
+      {
+        autoClose: 7000,
+        containerId: "validation",
+      }
+    );
   }
 };
-
+var first = true;
 const OAuth = () => {
-  useEffect(() => {
-    handle42OauthCallback();
+  useLayoutEffect(() => {
+    if (first) {
+      first = false;
+      handle42OauthCallback();
+    }
   }, []);
 
   return <div>Handling 42 OAuth...</div>;
