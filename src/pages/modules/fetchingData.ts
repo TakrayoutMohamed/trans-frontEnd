@@ -9,6 +9,8 @@ import axios from "@/src/services/api/axios";
 import refreshToken from "@/src/services/hooks/refreshToken";
 import { AllUsersDataType } from "@/src/states/authentication/allUsersSlice";
 import { UserDataType } from "@/src/states/authentication/userSlice";
+import { w3cwebsocket } from "websocket";
+import { closeSocket } from "./closeSocket";
 
 export const sendFriendRequest = (
   axiosPrivateHook: AxiosInstance,
@@ -34,7 +36,7 @@ export const sendFriendRequest = (
 
 export const removeFriend = (
   axiosPrivateHook: AxiosInstance,
-  username: string,
+  username: string
 ) => {
   axiosPrivateHook
     .delete("friends", { data: { username: username } })
@@ -201,17 +203,19 @@ export const acceptFriendRequest = async (
     });
 };
 
-export const isValidAccessToken = () => {
-  axios
-    .post("Verify_token", {
+export const isValidAccessToken = async (
+  clientSocket?: w3cwebsocket | null
+) => {
+  try {
+    await axios.post("Verify_token", {
       token: store.getState().accessToken.value,
-    })
-    .then(() => true)
-    .catch(() => {
-      const refresh = refreshToken();
-      let tmpAccessTokenFrom = refresh();
-      if (!tmpAccessTokenFrom) return false;
     });
+  } catch (error) {
+    if (clientSocket) closeSocket(clientSocket);
+    const refresh = refreshToken();
+    let tmpAccessTokenFrom = refresh();
+    if (!tmpAccessTokenFrom) return false;
+  }
   return true;
 };
 

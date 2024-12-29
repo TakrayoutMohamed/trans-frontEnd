@@ -19,13 +19,8 @@ import {
 } from "@/src/pages/modules/setAuthenticationData";
 import { AllUsersDataType } from "@/src/states/authentication/allUsersSlice";
 import { useSelector } from "react-redux";
-
-function openSocket(accessToken: string | undefined): w3cwebsocket {
-  console.log("oppening socket");
-  return new w3cwebsocket(
-    `${process.env.BACKEND_API_SOCKETS}/ws/notification/?token=${accessToken}`
-  );
-}
+import { openSocket } from "@/src/pages/modules/openSocket";
+import { closeSocket } from "@/src/pages/modules/closeSocket";
 
 let axiosPrivateHook: AxiosInstance;
 
@@ -57,7 +52,13 @@ const trigerRightEvent = (json_data: JsonValue) => {
     case "unfriend": {
       console.log("here is the block of unfriend ");
       console.log(json_data);
-      setFriendsData(store.getState().friends.value.filter((user) => user.username !== json_data.sender.username));
+      setFriendsData(
+        store
+          .getState()
+          .friends.value.filter(
+            (user) => user.username !== json_data.sender.username
+          )
+      );
       setAllUsersData(
         store.getState().allUsers.value.map((user: AllUsersDataType) => {
           if (user.username === json_data.sender.username) {
@@ -170,6 +171,8 @@ const trigerRightEvent = (json_data: JsonValue) => {
 };
 
 const watchSocket = (client: w3cwebsocket) => {
+  console.log("in watchSocket");
+
   client.onmessage = (dataEvent: IMessageEvent): JsonValue => {
     let json_data: JsonValue = null;
     json_data = JSON.parse(dataEvent.data as string);
@@ -199,29 +202,26 @@ const RootLayout = () => {
     if (isAuthenticated) {
       const handleSockets = async () => {
         console.log("json_data");
-        if (isValidAccessToken()) {
+        if (await isValidAccessToken(client)) {
           console.log("json_data2");
           if (!client || client.readyState === w3cwebsocket.CLOSED)
-            client = openSocket(store.getState().accessToken.value + "");
-          watchSocket(client);
-          if (client.readyState === w3cwebsocket.CLOSING) {
-            console.log("socket closing");
-          }
-          if (client.readyState === w3cwebsocket.CLOSED) {
-            console.log("socket closed");
+            client = openSocket(accessToken + "");
+          if (client) {
+            console.log("befor watching socket");
+            watchSocket(client);
+            if (client.readyState === w3cwebsocket.CLOSING) {
+              console.log("socket closing");
+            }
+            if (client.readyState === w3cwebsocket.CLOSED) {
+              console.log("socket closed");
+            }
           }
         }
       };
       handleSockets();
       return () => {
         console.log("cleaning funtion in APPPPPPPPPPPPPPPPPPPPPP");
-        if (client && client?.readyState === w3cwebsocket.OPEN) {
-          console.log("befor cleaning the funciton APPPPPPPPPPPPPPPPPPPPPP");
-          console.log(client);
-          client.close(3001, "cleaning in useEffect");
-          
-          client = null;
-        }
+        closeSocket(client) && (client = null);
       };
     }
   }, [accessToken]);
