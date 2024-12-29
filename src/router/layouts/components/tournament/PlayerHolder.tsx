@@ -1,9 +1,10 @@
-import {useState} from 'react'
+import {useState, useRef} from 'react'
 import Svg from './Svg'
 import { playerPfp } from '@/media-exporting'
 import { invitePlayer } from '@/media-exporting'
 import FriendsList from './FriendsList'
 import { UserDataType } from '@/src/states/authentication/userSlice'
+import { log } from 'console'
 
 
 interface PlayerHolderProps{
@@ -17,9 +18,16 @@ interface PlayerHolderProps{
 
 const PlayerHolder = ({id, winner, joinable, FriendsData = undefined, focusedId, setFocusedId = (id:number) => (id)}: PlayerHolderProps) => {
 	const [inviteMode, setInviteMode] = useState(false)
-	console.log(winner)
+	const inviteButtonRef = useRef(null)
+	//console.log(winner)
 
 	const handlePlayerInvite : any = () => {
+		console.log(id)
+		if (focusedId === 69){
+			setFocusedId(0)
+			setInviteMode(false)
+			return;
+		}
 		setFocusedId(id)
 		if (!inviteMode) // if no friendlist is showing, always show a new one upon userclick
 			setInviteMode(true)
@@ -28,12 +36,9 @@ const PlayerHolder = ({id, winner, joinable, FriendsData = undefined, focusedId,
 	}
 
 
-	let text
+	let text = "Player"
 	if (id)
 		text = `Player ${id}`
-	else
-		text = "ma3rft hh"
-		{/* TODO : ask abelfany achno ndir fblast ma3rf hh */}
 
 	return (
 		<div className="PlayerHolder">
@@ -43,8 +48,8 @@ const PlayerHolder = ({id, winner, joinable, FriendsData = undefined, focusedId,
 				{text}
 			</div>
 			<div className="InviteButton">
-				{joinable && <Svg src={invitePlayer} width={25} handlePlayerInvite={handlePlayerInvite}/> }
-				{joinable && inviteMode && id == focusedId && <FriendsList FriendsData={FriendsData} setFocusedId={setFocusedId}/>}
+				{joinable && <Svg Ref={inviteButtonRef} src={invitePlayer} width={25} handlePlayerInvite={handlePlayerInvite}/> }
+				{joinable && inviteMode && id == focusedId && <FriendsList FriendsData={FriendsData} setFocusedId={setFocusedId} focusedId={focusedId} id={id} inviteButtonRef={inviteButtonRef}/>}
 			</div>
 		</div>
 	)

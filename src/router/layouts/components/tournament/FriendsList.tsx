@@ -1,4 +1,4 @@
-import {useState, useRef} from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { tournamentRobot } from '@/media-exporting'
 import { inviteFriend } from '@/media-exporting'
 import Svg from './Svg'
@@ -42,19 +42,38 @@ const FriendsList = (props) => {
 		setJoined(true)
 	}
 
-	const closeFriendsList = (e) => {
-		if(!friendsListRef.current?.contains(e.target))
-			props.setFocusedId(0)
-	}
 
-	 document.addEventListener('mousedown', closeFriendsList)
+	useEffect(() => {
+		const closeFriendsList = (e) => {
+			//if (props.id != 1)
+			//	return;
+			//console.log("myId = ", props.id)
+			//console.log("focused id = ", props.focusedId)
+			
+			if(!friendsListRef.current?.contains(e.target) && !props.inviteButtonRef.current?.contains(e.target))
+				props.setFocusedId(0)
+		}
+		
+		document.addEventListener('mousedown', closeFriendsList)
+		return () => {
+			console.log("deleted event listener!")
+			document.removeEventListener("mousedown", closeFriendsList);
+		}
+		//return () => window.removeEventListener("mousedown", closeFriendsList);
+
+	},[])
+
+
 
 	let color = "#B87EA5";
 	if (joined)
 		color = "#656565"
 	return (
 		<div className="FriendsList" ref={friendsListRef}>
+			{/*
 			<button style={{background: `${color}`}} className="JoinButton" onClick={handleJoin}>JOIN</button>
+			*/}
+			<button style={{background: `${color}`}} className="JoinButton">JOIN</button>
 			{props.FriendsData && props.FriendsData.map((friend : UserDataType , index:number) => (
 				<Friend index={index} name={friend.username+""} online={friend.is_online ? true : false} key={friend.username}/>
 			))}
