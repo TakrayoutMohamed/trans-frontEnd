@@ -170,10 +170,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position:relative;
     width: 25px;
     height: 17px;
     border-radius: 9px;
     background: #c90085;
+  }
+  div[class="InviteButton"]{
+    position: relative;
   }
   div[class="FriendsList"] {
     display: flex;
@@ -191,6 +195,7 @@
     overflow: scroll;
     overflow-x: hidden;
     z-index: 1;
+    left: -120px;
   }
   *[class="FriendsList"]::-webkit-scrollbar {
     background-color: #d9bfff;
