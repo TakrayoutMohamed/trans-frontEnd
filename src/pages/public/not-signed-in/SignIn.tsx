@@ -13,13 +13,12 @@ import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { BiSolidLeftArrow } from "react-icons/bi";
 import { FcGoogle } from "react-icons/fc";
 import { Si42, SiGithub } from "react-icons/si";
-import { NavigateFunction, redirect, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import ModalOtp from "@publicPages/not-signed-in/ModalOtp";
 import setAuthenticationData from "@pages/modules/setAuthenticationData";
 import ModalComponent from "../../../router/layouts/components/ModalComponent";
 import Modal from "react-modal";
-// import OAuth from "./OAuth";
 
 const signInSchema = z.object({
   email: z
@@ -34,17 +33,12 @@ const signInSchema = z.object({
 
 type SignInSchemaType = z.infer<typeof signInSchema>;
 
-const authenticateWithThirdParty = async (navigate : NavigateFunction , thirdParty: string) => {
+const authenticateWithThirdParty = async (thirdParty: string) => {
   try {
     const test = await axios.post("oauth", { platform: thirdParty });
     console.log("testing authentication using a third party ");
     console.log(test);
     window.location.href = test.data.url;
-    // window.open(test.data.url, "_blank")
-    // navigate("/oauth");
-    // window.open(`/oauth?${test.data.url}`, "_blank")
-    console.log("heeeeeerreeeeee")
-    // window.url
   } catch (err) {
     console.log(
       "error from authentication using using a third party  " + thirdParty
@@ -178,21 +172,21 @@ const SignIn = () => {
               <div
                 className="text-decoration-none rounded-5 p-1 pe-2 pb-1 text-center"
                 style={{ background: "#8D6B92" }}
-                onClick={() => authenticateWithThirdParty(navigate, "42")}
+                onClick={() => authenticateWithThirdParty("42")}
               >
                 <Si42 size={40} color="#000000" />
               </div>
               <div
                 className="text-decoration-none rounded-5 p-1 text-center"
                 style={{ background: "#8D6B92" }}
-                onClick={() => authenticateWithThirdParty(navigate, "github")}
+                onClick={() => authenticateWithThirdParty("github")}
               >
                 <SiGithub size={40} color="#000000" />
               </div>
               <div
                 className="text-decoration-none rounded-5 p-1 text-center"
                 style={{ background: "#8D6B92" }}
-                onClick={() => authenticateWithThirdParty(navigate, "gmail")}
+                onClick={() => authenticateWithThirdParty("gmail")}
               >
                 <FcGoogle size={40} color="#000000" />
               </div>
