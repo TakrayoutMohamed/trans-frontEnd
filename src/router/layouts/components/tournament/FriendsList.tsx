@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { tournamentRobot } from '@/media-exporting'
 import { inviteFriend } from '@/media-exporting'
+import { inviteFriendFaded } from '@/media-exporting'
 import Svg from './Svg'
 import { UserDataType } from '@/src/states/authentication/userSlice'
 
@@ -15,6 +16,12 @@ const Friend = ({index, name, online=false}: FriendProps) => {
 	if (online)
 		color = "#02ff39"
 
+	const [invited, setInvited] = useState(false)
+
+	const handleFriendInvite : any = () => {
+		setInvited(true)
+	}
+
 	return (
 		<div className="Friend">
 			<div className="FriendInfo">
@@ -25,7 +32,8 @@ const Friend = ({index, name, online=false}: FriendProps) => {
 				<div key={index}>{name}</div>
 			</div>
 			<div className="InviteFriend">
-				<img className="InviteFriendButton" src={inviteFriend} width={15}/>
+				{!invited && <img className="InviteFriendButton" src={inviteFriend} onClick={handleFriendInvite} width={15}/> }
+				{invited && <img className="InviteFriendButton" src={inviteFriendFaded} width={15}/> }
 			</div>
 
 		</div>
