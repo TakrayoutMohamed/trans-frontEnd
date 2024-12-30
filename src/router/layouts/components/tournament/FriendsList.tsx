@@ -25,7 +25,7 @@ const Friend = ({index, name, online=false}: FriendProps) => {
 				<div key={index}>{name}</div>
 			</div>
 			<div className="InviteFriend">
-				<Svg src={inviteFriend} width={15}/>
+				<img className="InviteFriendButton" src={inviteFriend} width={15}/>
 			</div>
 
 		</div>

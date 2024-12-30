@@ -4,8 +4,6 @@ import { playerPfp } from '@/media-exporting'
 import { invitePlayer } from '@/media-exporting'
 import FriendsList from './FriendsList'
 import { UserDataType } from '@/src/states/authentication/userSlice'
-import { log } from 'console'
-
 
 interface PlayerHolderProps{
 	id: number;
@@ -13,7 +11,7 @@ interface PlayerHolderProps{
 	joinable: boolean;
 	FriendsData?: UserDataType[];
 	focusedId?: number;
-	setFocusedId?: any; // TODO : ask alvares what to do here!!! 
+	setFocusedId?: any; // TODO : ask alvares what to do here!!!
 }
 
 const PlayerHolder = ({id, winner, joinable, FriendsData = undefined, focusedId, setFocusedId = (id:number) => (id)}: PlayerHolderProps) => {
