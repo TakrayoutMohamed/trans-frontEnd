@@ -8,7 +8,16 @@ import { FiUserX } from "react-icons/fi";
 import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
 import { AxiosInstance } from "axios";
 import { UserDataType } from "@/src/states/authentication/userSlice";
-import NotificationsComponent from "@/src/router/layouts/components/notifications/NotificationsComponent";
+import {
+  acceptFriendRequest,
+  rejectFriendRequest,
+} from "@/src/pages/modules/fetchingData";
+
+type NotificationsDataType = {
+  message: string;
+  sender_notif: UserDataType;
+  type: string;
+};
 
 const showHideNotificationsList = (
   notificationListRef: React.MutableRefObject<any>,
@@ -25,15 +34,35 @@ const showHideNotificationsList = (
   isVisible((prev) => !prev);
 };
 
-const NotificationsFriendRequestCard = (data: any) => {
+type NotificationsCardsProps = {
+  message: string;
+  sender_notif?: UserDataType;
+};
+
+const NotificationsFriendRequestCard = ({
+  message,
+  sender_notif,
+}: NotificationsCardsProps) => {
+  const axiosPrivateHook = UseAxiosPrivate();
+
   return (
     <div className="message-accept-reject-buttons">
-      <div className="message">here is the message here is the message here is the message</div>
+      <div className="message">{message}</div>
       <div className="accept-reject-buttons">
-        <button className="accept-button">
+        <button
+          className="accept-button"
+          onClick={() => {
+            acceptFriendRequest(axiosPrivateHook, sender_notif?.username!);
+          }}
+        >
           <FaUserCheck />
         </button>
-        <button className="reject-button">
+        <button
+          className="reject-button"
+          onClick={() => {
+            rejectFriendRequest(axiosPrivateHook, sender_notif?.username!);
+          }}
+        >
           <FiUserX />
         </button>
       </div>
@@ -41,43 +70,35 @@ const NotificationsFriendRequestCard = (data: any) => {
   );
 };
 
-const NotificationsInviteCard = (data: any) => {
+const NotificationsInviteCard = ({ message }: NotificationsCardsProps) => {
   return (
     <Fragment>
-      <div className="message">
-        here is the message of a user inviting you to a game
-      </div>
+      <div className="message">{message}</div>
     </Fragment>
   );
 };
 
-type NotificationsDataType = {
-  message: string;
-  receiver_notif: UserDataType;
-  type: string;
-}
-
 const NotificationsInGame = () => {
   const notificationListRef = useRef(null);
   const [isVisible, setIsVisible] = useState<boolean>(false);
-  const [notificationsList, setNotificationsList] = useState<NotificationsDataType[]>([]);
+  const [notificationsList, setNotificationsList] = useState<
+    NotificationsDataType[]
+  >([]);
   const axiosPrivateHook = UseAxiosPrivate();
   useEffect(() => {
     const getNotifications = async (axiosPrivateHook: AxiosInstance) => {
       try {
-        const res = await axiosPrivateHook.get("notification/notif")
+        const res = await axiosPrivateHook.get("notification/notif");
         console.log(res);
-        setNotificationsList(res.data)
+        setNotificationsList(res.data.results.notifications);
       } catch (err) {
         console.log("error in Notifications In game");
         console.log(err);
       }
-    }
-    if (isVisible)
-      getNotifications(axiosPrivateHook);
-  },[isVisible])
-  console.log(notificationsList);
-  
+    };
+    if (isVisible) getNotifications(axiosPrivateHook);
+  }, [isVisible]);
+
   return (
     <div className={notificationsInGame}>
       <div
@@ -90,18 +111,31 @@ const NotificationsInGame = () => {
         <span className="number-of-notifications">{8}</span>
       </div>
       <div className="notifications-list d-none" ref={notificationListRef}>
-        <div className="notifications-card">
-          <Link to="#" className="image">
-            <img src={profileIcon} alt="user image" />
-          </Link>
-          <NotificationsFriendRequestCard data={""} />
-        </div>
-        <div className="notifications-card">
-          <Link to="#" className="image">
-            <img src={profileIcon} alt="user image" />
-          </Link>
-          <NotificationsInviteCard data={""} />
-        </div>
+        {notificationsList &&
+          notificationsList.length &&
+          notificationsList.map((notification) => {
+            return (
+              <div
+                className="notifications-card"
+                key={notification.sender_notif.username}
+              >
+                <Link to="#" className="image">
+                  <img src={profileIcon} alt="user image" />
+                </Link>
+                {notification.type === "friend_request" ? (
+                  <NotificationsFriendRequestCard
+                    message={notification.message}
+                    sender_notif={notification.sender_notif}
+                  />
+                ) : (
+                  <NotificationsInviteCard
+                    message={notification.message}
+                    sender_notif={notification.sender_notif}
+                  />
+                )}
+              </div>
+            );
+          })}
       </div>
     </div>
   );

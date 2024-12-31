@@ -226,7 +226,7 @@ export const getAllUsersData = async (axiosPrivateHook: AxiosInstance) => {
       let tmpAllUsers: AllUsersDataType[] | undefined = undefined;
       let tmpAllFriendReq: FriendRequestsType[] | undefined = undefined;
 
-      tmpAllUsers = response.data.user;
+      tmpAllUsers = response.data.results.users;
       try {
         tmpAllFriendReq = await getAllFriendRequests(axiosPrivateHook);
         tmpAllUsers = tmpAllUsers?.map((user) => {
