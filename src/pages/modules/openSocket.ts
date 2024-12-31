@@ -6,7 +6,7 @@ export function openSocket(
 ): w3cwebsocket | null {
   console.log("oppening socket");
   let clientSocket = new w3cwebsocket(
-    `${process.env.BACKEND_API_SOCKETS}/${socketConnectionEndPoint}/?token=${accessToken}`
+    `${process.env.BACKEND_API_SOCKETS}/ws/${socketConnectionEndPoint}/?token=${accessToken}`
   );
   console.log(clientSocket);
   if (

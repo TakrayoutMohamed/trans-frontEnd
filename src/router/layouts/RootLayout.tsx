@@ -8,7 +8,7 @@ import { w3cwebsocket } from "websocket";
 let notificationSocket: w3cwebsocket | null = null;
 
 const RootLayout = () => {
-  useHandleSockets({urlOfSocket : "ws/notification", client : notificationSocket});
+  useHandleSockets({urlOfSocket : "notification", client : notificationSocket});
   return (
     <>
       <div className={rootLayout}>
