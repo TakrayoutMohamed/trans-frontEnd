@@ -108,7 +108,9 @@ const NotificationsInGame = () => {
         }
       >
         <IoNotificationsSharp color="white" size={23} />
-        <span className="number-of-notifications">{8}</span>
+        <span className="number-of-notifications">
+          {notificationsList.length ? notificationsList.length : ""}
+        </span>
       </div>
       <div className="notifications-list d-none" ref={notificationListRef}>
         {notificationsList &&
