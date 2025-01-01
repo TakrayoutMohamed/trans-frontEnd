@@ -5,9 +5,15 @@ import { useState } from "react";
 import ConversationsList from "@/src/pages/private/components/chatComponents/ConversationsList";
 import "@router/styles/chatGlobalOverridingStyles.css";
 import Profile from "./components/chat/Profile";
+import useHandleSockets from "@/src/services/hooks/useHandleSockets";
+import { w3cwebsocket } from "websocket";
+
+let chatSocket : w3cwebsocket | null = null;
 
 const ChatLayout = () => {
   const [isProfileVisible, setProfileVisible] = useState<boolean>(false);
+  useHandleSockets({urlOfSocket: "chat", client: chatSocket});
+
   console.log("chat layout reloaded");
   return (
     <Fragment>

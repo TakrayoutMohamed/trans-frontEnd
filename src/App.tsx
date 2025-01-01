@@ -30,7 +30,7 @@ const getFriendsData = async (axiosPrivateHook: AxiosInstance) => {
   axiosPrivateHook
     .get("friends")
     .then((res) => {
-      setFriendsData(res.data.friends);
+      setFriendsData(res.data.results.friends);
     })
     .catch((err) => {
       console.log("error in getFriendsInfo");
