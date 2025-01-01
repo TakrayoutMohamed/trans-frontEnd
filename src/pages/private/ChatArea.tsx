@@ -7,11 +7,9 @@ import ConversationContent from "./components/chatComponents/ConversationContent
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-// import { w3cwebsocket } from "websocket";
-// import { useSelector } from "react-redux";
-// import { RootState } from "@/src/states/store";
+import { useContext } from "react";
+import { ChatDataContext } from "@/src/customDataTypes/ChatDataContext";
 
-// const ApiToBackendSockets = "ws://" + process.env.BACKEND_API_URL + "/ws/";
 
 const MessageSchema = z.object({
   textMessage: z
@@ -23,30 +21,34 @@ const MessageSchema = z.object({
 type MessageSchemaType = z.infer<typeof MessageSchema>;
 
 const FormComponent = () => {
-  // const AccessToken = useSelector((state: RootState) => state.accessToken.value);
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<MessageSchemaType>({ resolver: zodResolver(MessageSchema) });
-  // const client = new w3cwebsocket(ApiToBackendSockets + AccessToken);
+  const chatContext = useContext(ChatDataContext);
+  if (!chatContext)
+    throw new Error("it should be wraped inside a chatContext");
+  const {userData ,chatSocket} = chatContext;
   const onSubmit: SubmitHandler<MessageSchemaType> = async (
     data: MessageSchemaType
   ) => {
     try {
       console.log(data);
-      // client.onopen = () => {
-      //   console.log("hello client connected")
-      //   console.log(data.textMessage)
-      // }
-      // socket.emit("message")
-
-      // console.log(message);
+      if (data.textMessage.length > 0)
+      {
+        let dataToSend = {"receiver" : userData?.username, "message" : data.textMessage}
+        chatSocket?.send(JSON.stringify(dataToSend));
+        reset({textMessage: ""})
+      }
     } catch (err) {
       console.log(err);
       console.log(errors);
     }
   };
+  console.log(userData);
+  
 
   return (
     <>
@@ -60,7 +62,6 @@ const FormComponent = () => {
           {...register("textMessage", { required: true })}
           className=""
           autoComplete="on"
-          // onChange={(event) => setMessage(event.target.value)}
         />
         <button className="" type="submit">
           <IoArrowForwardCircleOutline size={30} />
