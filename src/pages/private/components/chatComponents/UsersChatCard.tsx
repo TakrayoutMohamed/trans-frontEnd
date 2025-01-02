@@ -8,8 +8,8 @@ type UsersChatCardProps = {
 };
 
 const UsersChatCard = ({ conversations }: UsersChatCardProps) => {
-  console.log("users chat card re-rendered");
-  console.log(conversations);
+  // console.log("users chat card re-rendered");
+  // console.log(conversations);
 
   const r = (Math.random() + 1).toString(36).substring(7);
   return (

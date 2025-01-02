@@ -19,11 +19,11 @@ const Profile = ({ isProfileVisible }: ProfileProps) => {
   const axiosPrivateHook = UseAxiosPrivate();
   const chatContext = useContext(ChatDataContext);
 
-  console.log("pathname = " + location.pathname);
+  // console.log("pathname = " + location.pathname);
   if (!chatContext)
     throw new Error("it should be wraped inside a chatContext");
   const {userData} = chatContext;
-  console.log(userData);
+  // console.log(userData);
 
   if (
     !isProfileVisible ||
