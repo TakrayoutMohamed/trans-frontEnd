@@ -22,7 +22,7 @@ import {
 import { AxiosInstance } from "axios";
 import { FaUserCheck, FaUserClock } from "react-icons/fa";
 import { FiUserX } from "react-icons/fi";
-import { IoNotificationsSharp } from "react-icons/io5";
+import NotificationsInGame from "./NotificationsInGame";
 
 let isInputFocused: boolean = false;
 let isDevFocused: boolean = false;
@@ -149,10 +149,6 @@ const BlockingFriendingButtons = ({
   );
 };
 
-const showNotifications = () => {
-  console.log("show notifications");
-};
-
 const SearchFriendsInGame = () => {
   const [users, setUsers] = useState<AllUsersDataType[]>([]);
   const allUsersData = useSelector((state: RootState) => state.allUsers.value);
@@ -237,19 +233,7 @@ const SearchFriendsInGame = () => {
           <></>
         )}
       </div>
-      <div className="notifications-ring-number-list">
-        <div className="notifications-ring-number" onClick={showNotifications}>
-          <IoNotificationsSharp color="white" size={23} />
-          <span className="number">{8}</span>
-        </div>
-        <div className="notifications-list">
-          <div className="list">heloooooooooooooooooow</div>
-          <div className="list">helooooooooooooooooooww</div>
-          <div className="list">heloooooooooooooooooot</div>
-          <div className="list">heloooooooooooooooooowqqq</div>
-          <div className="list">heloooooooooooooooooohhh</div>
-        </div>
-      </div>
+      <NotificationsInGame />
     </div>
   );
 };

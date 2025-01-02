@@ -166,41 +166,6 @@
   }
 }
 
-.searchFriendsInGame div[class~="notifications-ring-number-list"] {
-  display: flex;
-  align-items: center;
-  margin-right: 5%;
-  height: fit-content;
-  position: relative;
-  div[class~="notifications-ring-number"] {
-    position: relative;
-    cursor: pointer;
-    svg {
-      border: goldenrod 1px solid;
-      border-radius: 3px;
-      padding: 0px;
-    }
-    span[class~="number"] {
-      position: absolute;
-      right: -2px;
-      top: -5px;
-      height: fit-content !important;
-      padding: 1px !important;
-      line-height: 1em;
-      border-radius: 100%;
-      font-size: 0.7em;
-      color: black;
-      background-color: red;
-    }
-  }
-  div[class~="notifications-list"] {
-    position: absolute;
-    top: 1.5em;
-    right: 50%;
-    background-color: red;
-  }
-}
-
 .searchFriendsInGame {
   *::-webkit-scrollbar {
     width: 0.4em;

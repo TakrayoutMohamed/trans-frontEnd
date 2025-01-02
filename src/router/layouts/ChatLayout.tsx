@@ -1,16 +1,48 @@
-import { Outlet } from "react-router-dom";
-import { Fragment } from "react/jsx-runtime";
+import { Outlet, useParams } from "react-router-dom";
 import { chatLayout } from "../styles";
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import ConversationsList from "@/src/pages/private/components/chatComponents/ConversationsList";
 import "@router/styles/chatGlobalOverridingStyles.css";
 import Profile from "./components/chat/Profile";
+import { w3cwebsocket } from "websocket";
+import { UserDataType } from "@/src/states/authentication/userSlice";
+import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
+import { ChatDataContext } from "@/src/customDataTypes/ChatDataContext";
+import { openSocket } from "@/src/pages/modules/openSocket";
+import { store } from "@/src/states/store";
+import { closeSocket } from "@/src/pages/modules/closeSocket";
+
+let chatSocket_: w3cwebsocket | null = null;
 
 const ChatLayout = () => {
   const [isProfileVisible, setProfileVisible] = useState<boolean>(false);
+  const axiosPrivateHook = UseAxiosPrivate();
+  const [userData, setUserData] = useState<UserDataType | undefined>(undefined);
+  const { userName } = useParams();
+  useLayoutEffect(() => {
+    if (!(userData?.username === userName) && userName) {
+      axiosPrivateHook
+        .post("search_username", {
+          username: userName,
+        })
+        .then((res) => {
+          setUserData(res.data.user);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+    chatSocket_ = openSocket("chat", store.getState().accessToken.value);
+    return () => {
+      closeSocket(chatSocket_);
+    };
+  }, [userName]);
   console.log("chat layout reloaded");
+
   return (
-    <Fragment>
+    <ChatDataContext.Provider
+      value={{ userData, setUserData, chatSocket: chatSocket_ }}
+    >
       <div className={`${chatLayout}`}>
         <div className="bg-dangerr d-none d-sm-block p-5"></div>
         <main className="bg-infos" id="main">
@@ -22,12 +54,15 @@ const ChatLayout = () => {
             {/* the component of the chat content */}
             <Outlet context={setProfileVisible} />
           </section>
-          <section className={`${!isProfileVisible && "d-none"} `} id="section2">
+          <section
+            className={`${!isProfileVisible && "d-none"} `}
+            id="section2"
+          >
             <Profile isProfileVisible={isProfileVisible} />
           </section>
         </main>
       </div>
-    </Fragment>
+    </ChatDataContext.Provider>
   );
 };
 
