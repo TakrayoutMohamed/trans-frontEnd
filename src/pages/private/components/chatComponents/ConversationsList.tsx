@@ -1,55 +1,64 @@
-import { ChangeEvent, memo, useEffect, useState } from "react";
+import { ChangeEvent, memo, useContext, useEffect, useState } from "react";
 import { BiSearch } from "react-icons/bi";
 import UsersChatCard from "./UsersChatCard";
 import { chatConversationsList } from "../../styles";
 import TabListHeaders from "./TabListHeaders";
+import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
+import { AxiosInstance } from "axios";
+import { UserDataType } from "@/src/states/authentication/userSlice";
+import { ChatDataContext } from "@/src/customDataTypes/ChatDataContext";
 
-export interface ConversationList {
-  userName: string;
-  isActive: boolean;
-  isWriting: boolean;
-  unreadMsg: number;
+export type ConversationList = UserDataType & Partial<{ unreadMsg: number }>;
+
+function searchFilter(
+  event: ChangeEvent<HTMLInputElement>,
+  conversationsListData: ConversationList[],
+  setConversationsList: React.Dispatch<React.SetStateAction<ConversationList[]>>
+) {
+  event.preventDefault();
+  const filteredSearchData = conversationsListData.filter((conversation) => {
+    return conversation.username
+      ?.toLowerCase()
+      .includes(event.target.value.toLowerCase());
+  });
+  console.log(event.target.value);
+  console.log(filteredSearchData.length);
+  filteredSearchData.length < 1
+    ? (event.target.style.color = "red")
+    : (event.target.style.color = "white");
+  filteredSearchData.length > 0 && setConversationsList(filteredSearchData);
 }
 
-const ConversationListData: ConversationList[] = [
-  { userName: "name", isActive: true, isWriting: true, unreadMsg: 3 },
-  { userName: "name1", isActive: false, isWriting: false, unreadMsg: 2 },
-  { userName: "name2", isActive: true, isWriting: true, unreadMsg: 0 },
-  { userName: "name3", isActive: false, isWriting: false, unreadMsg: 0 },
-  { userName: "name4", isActive: false, isWriting: false, unreadMsg: 1 },
-  { userName: "name5", isActive: false, isWriting: false, unreadMsg: 0 },
-  { userName: "name6", isActive: true, isWriting: true, unreadMsg: 3 },
-  { userName: "name7", isActive: true, isWriting: true, unreadMsg: 20 },
-];
-
 const ConversationsList = () => {
+  const axiosPrivateHook = UseAxiosPrivate();
   const [conversationsList, setConversationsList] = useState<
     ConversationList[]
   >([]);
   useEffect(() => {
-    setConversationsList(ConversationListData);
-  }, [ConversationListData]);
+    const fetchConversationsList = async (axiosPrivateHook: AxiosInstance) => {
+      try {
+        const res = await axiosPrivateHook.get("chat/conversations");
+        console.log(res.data.results);
+        conversationsListData = res.data.results;
+        setConversationsList(res.data.results);
+      } catch (err) {
+        console.log("err in conversations list");
+        console.log(err);
+      }
+    };
+    fetchConversationsList(axiosPrivateHook);
+  }, []);
+  const chatContext = useContext(ChatDataContext);
+  // console.log(chatContext);
+  if (!chatContext)
+    throw new Error("this component should be wrapped inside a chatContext")
+  let conversationsListData: ConversationList[] = [];
   const unreadConversations = conversationsList.filter(
-    (conversation) => conversation.unreadMsg > 0
+    ({ unreadMsg }) => unreadMsg && unreadMsg > 0
   );
-  function searchFilter(event: ChangeEvent<HTMLInputElement>) {
-    event.preventDefault();
-    setTimeout(() => {
-      const filteredSearchData = ConversationListData.filter((conversation) => {
-        return conversation.userName
-          .toLowerCase()
-          .includes(event.target.value.toLowerCase());
-      });
-      console.log(event.target.value);
-      console.log(filteredSearchData.length);
-      filteredSearchData.length < 1
-        ? (event.target.style.color = "red")
-        : (event.target.style.color = "white");
-      filteredSearchData.length > 0 &&
-        setConversationsList(filteredSearchData);
-    }, 500);
-  }
+
   console.log("conversations list re-rendered");
+  console.log(conversationsList);
   return (
     <>
       <div className={`${chatConversationsList}`}>
@@ -62,7 +71,9 @@ const ConversationsList = () => {
             name="search"
             className="form-controlss"
             placeholder="Search......."
-            onChange={(event) => searchFilter(event)}
+            onChange={(event) =>
+              searchFilter(event, conversationsListData, setConversationsList)
+            }
             aria-describedby="basic-addon1"
           />
         </div>
