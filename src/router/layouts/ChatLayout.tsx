@@ -1,6 +1,6 @@
 import { Outlet, useParams } from "react-router-dom";
 import { chatLayout } from "../styles";
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import ConversationsList from "@/src/pages/private/components/chatComponents/ConversationsList";
 import "@router/styles/chatGlobalOverridingStyles.css";
 import Profile from "./components/chat/Profile";
@@ -20,6 +20,13 @@ const ChatLayout = () => {
   const [userData, setUserData] = useState<UserDataType | undefined>(undefined);
   const { userName } = useParams();
   useLayoutEffect(() => {
+    
+    chatSocket_ = openSocket("chat", store.getState().accessToken.value);
+    return () => {
+      closeSocket(chatSocket_);
+    };
+  }, []);
+  useEffect(() => {
     if (!(userData?.username === userName) && userName) {
       axiosPrivateHook
         .post("search_username", {
@@ -32,21 +39,15 @@ const ChatLayout = () => {
           console.log(error);
         });
     }
-    chatSocket_ = openSocket("chat", store.getState().accessToken.value);
-    return () => {
-      closeSocket(chatSocket_);
-    };
-  }, [userName]);
-  console.log("chat layout reloaded");
+  },[userName])
 
   return (
     <ChatDataContext.Provider
       value={{ userData, setUserData, chatSocket: chatSocket_ }}
     >
       <div className={`${chatLayout}`}>
-        <div className="bg-dangerr d-none d-sm-block p-5"></div>
         <main className="bg-infos" id="main">
-          <section className="section1 d-n" id="section1">
+          <section className="section1" id="section1">
             {/* the component of the chat previous conversations */}
             <ConversationsList />
           </section>

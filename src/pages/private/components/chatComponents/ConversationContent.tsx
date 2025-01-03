@@ -1,86 +1,113 @@
 import { profileIcon } from "@/media-exporting";
 import { useParams } from "react-router-dom";
 import { chatConversationContent } from "../../styles";
-import { useContext, useEffect, useState } from "react";
-import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
-import { UserDataType } from "@/src/states/authentication/userSlice";
-import { AxiosInstance } from "axios";
+import { useContext, useEffect, useRef } from "react";
 import { ChatDataContext } from "@/src/customDataTypes/ChatDataContext";
 import { IMessageEvent, w3cwebsocket } from "websocket";
 import { SocketJsonValueType } from "@/src/pages/modules/watchSocket";
 
-interface MesasgesDataType {
-  sender: UserDataType;
-  message: string;
-  updated_at: Date;
+import { toast } from "react-toastify";
+
+import { MessagesDataType } from "../../ChatArea";
+
+import { UseInfiniteScroll } from "@/src/services/hooks/UseInfiniteScroll";
+
+interface ConversationContentProps {
+  messages: MessagesDataType[];
+  setMessages: React.Dispatch<React.SetStateAction<MessagesDataType[]>>;
 }
 
-const ConversationContent = () => {
-  const { userName } = useParams();
-  const axiosPrivateHook = UseAxiosPrivate();
-  const [messages, setMessages] = useState<MesasgesDataType[]>([])
-  useEffect(() => {
-    const getPreviousMsgs = async (axiosPrivateHook: AxiosInstance) => {
-      try {
-        const res = await axiosPrivateHook.get("/chat/messages/",{params:{username: userName}})
-        setMessages(res.data.results);
-      } catch (err) {
-        console.log("err in Conversation Content");
-        
-        console.log(err);
-      }
-    }
-    getPreviousMsgs(axiosPrivateHook);
-  },[userName]);
-  const chatContext = useContext(ChatDataContext);
-  if (!chatContext)
-    throw new Error("this component need to be wrapped by chat context");
-  const {chatSocket} = chatContext;
+const listenForChatSocket = (
+  chatSocket: w3cwebsocket | null,
+  setMessages: React.Dispatch<React.SetStateAction<MessagesDataType[]>>
+) => {
   if (chatSocket && chatSocket.readyState === w3cwebsocket.OPEN) {
     chatSocket.onmessage = (dataEvent: IMessageEvent) => {
       let json_data: SocketJsonValueType = null;
       json_data = JSON.parse(dataEvent.data as string);
       console.log(json_data);
-      setMessages([json_data.message, ...messages])
+      if (json_data?.type !== "error")
+        setMessages((prev: MessagesDataType[]) => {
+          return [...prev, json_data.message];
+        });
+      else toast.warn(json_data.message, { containerId: "validation" });
     };
   }
-  console.log("conversation Content re-rendered");
+};
+
+const ConversationContent = ({
+  setMessages,
+  messages,
+}: ConversationContentProps) => {
+  const { userName } = useParams();
+  const refChatConversationContent = useRef<HTMLDivElement>(null);
+  const messageEndRef = useRef<HTMLDivElement>(null);
+  const { isLoading, hasMore, handleScroll } =
+    UseInfiniteScroll<MessagesDataType>({
+      url: `/chat/messages/?username=${userName}`,
+      setData: setMessages,
+      data: messages,
+      username: userName,
+      refElement: refChatConversationContent,
+      offset: 200,
+    });
+
+  const chatContext = useContext(ChatDataContext);
+  // this should be removed at production phase from all component it exist in
+  if (!chatContext)
+    throw new Error("this component need to be wrapped by chat context");
+  const { chatSocket } = chatContext;
+  listenForChatSocket(chatSocket, setMessages);
   let previousMsgOwner = " ";
+  // console.log(refChatConversationContent);
+  // console.log(refChatConversationContent.current?.scrollTop);
+  useEffect(() => {
+    messageEndRef.current?.scrollIntoView({behavior:"smooth"});
+  }, [])
   return (
     <>
-      {messages.map((convers, index) => (
-        <div
-          key={index}
-          className={
-            chatConversationContent +
-            " " +
-            `${(previousMsgOwner !== convers.sender?.username).toString()}`
-          }
-        >
-          {convers.sender?.username === userName && (
-            <div className="MessagesOfOther">
-              {previousMsgOwner !== userName ? (
-                <img
-                  src={convers.sender?.avatar
-                    ? process.env.BACKEND_API_URL + convers.sender?.avatar
-                    : profileIcon}
-                  alt={`img of ${userName}`}
-                  className=""
-                />
-              ) : (
-                <div className=""></div>
-              )}
-              <p className="">{convers.message}</p>
-            </div>
-          )}
-          {convers.sender?.username !== userName && (
-            <div className="MessagesOfOwner">
-              <p className="">{convers.message}</p>
-            </div>
-          )}
-          {(previousMsgOwner = convers.sender?.username) && <></>}
-        </div>
-      ))}
+      <div
+        className={chatConversationContent}
+        ref={refChatConversationContent}
+        onScroll={handleScroll}
+      >
+        {isLoading && <p className="loading-messages"> Loading more messages...</p>}
+        {!hasMore && <p className="no-more-messages"> no more messages...</p>}
+        {messages.map((convers, index) => (
+          <div
+            className={`${(
+              previousMsgOwner !== convers.sender.username
+            ).toString()}`}
+            key={index}
+          >
+            {convers.sender.username === userName && (
+              <div className="MessagesOfOther">
+                {previousMsgOwner !== userName ? (
+                  <img
+                    src={
+                      convers.sender.avatar
+                        ? process.env.BACKEND_API_URL + convers.sender.avatar
+                        : profileIcon
+                    }
+                    alt={`img of ${userName}`}
+                    className=""
+                  />
+                ) : (
+                  <div className=""></div>
+                )}
+                <p className="">{convers.message}</p>
+              </div>
+            )}
+            {convers.sender.username !== userName && (
+              <div className="MessagesOfOwner">
+                <p className="">{convers.message}</p>
+              </div>
+            )}
+            {(previousMsgOwner = convers.sender.username) && <></>}
+          </div>
+        ))}
+        <div ref={messageEndRef}/>
+      </div>
     </>
   );
 };

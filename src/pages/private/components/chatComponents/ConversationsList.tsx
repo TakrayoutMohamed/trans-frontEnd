@@ -21,8 +21,8 @@ function searchFilter(
       ?.toLowerCase()
       .includes(event.target.value.toLowerCase());
   });
-  console.log(event.target.value);
-  console.log(filteredSearchData.length);
+  // console.log(event.target.value);
+  // console.log(filteredSearchData.length);
   filteredSearchData.length < 1
     ? (event.target.style.color = "red")
     : (event.target.style.color = "white");
@@ -38,7 +38,7 @@ const ConversationsList = () => {
     const fetchConversationsList = async (axiosPrivateHook: AxiosInstance) => {
       try {
         const res = await axiosPrivateHook.get("chat/conversations");
-        console.log(res.data.results);
+        // console.log(res.data.results);
         conversationsListData = res.data.results;
         setConversationsList(res.data.results);
       } catch (err) {
@@ -57,8 +57,8 @@ const ConversationsList = () => {
     ({ unreadMsg }) => unreadMsg && unreadMsg > 0
   );
 
-  console.log("conversations list re-rendered");
-  console.log(conversationsList);
+  // console.log("conversations list re-rendered");
+  // console.log(conversationsList);
   return (
     <>
       <div className={`${chatConversationsList}`}>
