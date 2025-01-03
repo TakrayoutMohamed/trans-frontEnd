@@ -99,7 +99,7 @@ const ChatArea = () => {
   const [messages, setMessages] = useState<MessagesDataType[]>([]);
   useLayoutEffect(() => {
     setMessages([]);
-  },[userName])
+  },[])
   return (
     <>
       <div className={`${chat}`}>

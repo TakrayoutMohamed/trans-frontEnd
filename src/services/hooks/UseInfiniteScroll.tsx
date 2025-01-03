@@ -5,10 +5,10 @@ interface UseInfiniteScrollProps<T> {
   url: string;
   setData: React.Dispatch<React.SetStateAction<T[]>>;
   data: T[];
-  refElement: React.RefObject<HTMLDivElement>;
+  refElement: HTMLDivElement | null;
+  messageEndRef?: HTMLDivElement | null;
   offset: number;
   username?: string;
-  parentHeight?: number;
 }
 
 const UseInfiniteScroll = <T,>({
@@ -51,14 +51,19 @@ const UseInfiniteScroll = <T,>({
   );
   // Automatically fetch more data if the content is too small
   const checkIfScrollable = useCallback(() => {
-    const container = refElement.current;
+    const container = refElement
     if (container && container.scrollHeight <= container.clientHeight) {
       fetchData();
     }
-  }, [refElement.current?.clientHeight, fetchData]);
+  }, [refElement?.clientHeight, fetchData]);
   useLayoutEffect(() => {
     checkIfScrollable();
   }, [data, checkIfScrollable]);
+  useLayoutEffect(() => {
+    setData([]);
+    setPage(1);
+    setHasMore(true);
+  },[url])
   return { handleScroll, isLoading, hasMore };
 };
 

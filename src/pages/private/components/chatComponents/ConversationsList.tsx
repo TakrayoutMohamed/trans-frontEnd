@@ -7,8 +7,9 @@ import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
 import { AxiosInstance } from "axios";
 import { UserDataType } from "@/src/states/authentication/userSlice";
 import { ChatDataContext } from "@/src/customDataTypes/ChatDataContext";
+import { store } from "@/src/states/store";
 
-export type ConversationList = UserDataType & Partial<{ unreadMsg: number }>;
+export type ConversationList = UserDataType;
 
 function searchFilter(
   event: ChangeEvent<HTMLInputElement>,
@@ -53,9 +54,7 @@ const ConversationsList = () => {
   if (!chatContext)
     throw new Error("this component should be wrapped inside a chatContext")
   let conversationsListData: ConversationList[] = [];
-  const unreadConversations = conversationsList.filter(
-    ({ unreadMsg }) => unreadMsg && unreadMsg > 0
-  );
+  const unreadConversations = store.getState().friends.value;
 
   // console.log("conversations list re-rendered");
   // console.log(conversationsList);
@@ -97,7 +96,7 @@ const ConversationsList = () => {
             {unreadConversations.length ? (
               <UsersChatCard conversations={unreadConversations} />
             ) : (
-              <div>you have seen all your chats!</div>
+              <div>you have no Friends!</div>
             )}
           </div>
         </div>

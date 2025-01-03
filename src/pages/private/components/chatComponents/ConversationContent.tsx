@@ -48,7 +48,8 @@ const ConversationContent = ({
       setData: setMessages,
       data: messages,
       username: userName,
-      refElement: refChatConversationContent,
+      refElement: refChatConversationContent.current,
+      messageEndRef: messageEndRef.current,
       offset: 200,
     });
 
@@ -106,7 +107,7 @@ const ConversationContent = ({
             {(previousMsgOwner = convers.sender.username) && <></>}
           </div>
         ))}
-        <div ref={messageEndRef}/>
+        <div ref={messageEndRef}>end</div>
       </div>
     </>
   );

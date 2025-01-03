@@ -11,7 +11,7 @@ const UsersChatCard = ({ conversations }: UsersChatCardProps) => {
   // console.log("users chat card re-rendered");
   // console.log(conversations);
 
-  const r = (Math.random() + 1).toString(36).substring(7);
+  const r = (Math.random() + 1).toString(36).substring(20);
   return (
     <>
       {conversations.map(
@@ -21,7 +21,6 @@ const UsersChatCard = ({ conversations }: UsersChatCardProps) => {
           last_name,
           is_online = false,
           avatar = undefined,
-          unreadMsg = 0,
         }) => (
           <Link
             to={username + ""}
@@ -79,7 +78,7 @@ const UsersChatCard = ({ conversations }: UsersChatCardProps) => {
               </p>
               <small className={``}>{username}</small>
             </div>
-            <div
+            {/* <div
               className={`${(!unreadMsg || unreadMsg < 1) && "invisible"}`}
               id="unreadMsgs"
             >
@@ -95,7 +94,7 @@ const UsersChatCard = ({ conversations }: UsersChatCardProps) => {
                   {unreadMsg}
                 </text>
               </svg>
-            </div>
+            </div> */}
           </Link>
         )
       )}
