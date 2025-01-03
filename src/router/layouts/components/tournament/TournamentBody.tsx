@@ -50,6 +50,7 @@ const TournamentBody = () => {
   );
 
   useEffect(() => {
+	 
 	let tournamentSocket: w3cwebsocket;
 	console.log("CONNECTING TO WEBSOCKER")
 	if (AccessToken) {
@@ -69,7 +70,7 @@ const TournamentBody = () => {
 		console.log("first player name = ", data.player1_username)
 		console.log("TournamentPlayers : ", TournamentPlayers)
 	}
-  }, [])
+  }, [TournamentPlayers])
 
 
 

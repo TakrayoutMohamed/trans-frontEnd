@@ -1,5 +1,5 @@
 import PlayerHolder from './PlayerHolder'
-
+import { memo } from "react"
 const TournamentBodyLeftSide = (props) => {
 	return (
 		<div className="TournamentBodyLeftSide">
@@ -9,4 +9,4 @@ const TournamentBodyLeftSide = (props) => {
 	)
 }
 
-export default TournamentBodyLeftSide;
+export default memo(TournamentBodyLeftSide);

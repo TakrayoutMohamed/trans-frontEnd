@@ -38,8 +38,9 @@ const PlayerHolder = ({id, winner, joinable, FriendsData = undefined, focusedId,
 	if (joinable)
 		console.log(`Player with id ${id} is ${Player}`)
 	let text = "Player"
-	if (Player)
+	if (Player) {
 		text = Player
+		}
 	else if (id)
 		text = `Player ${id}`
 
@@ -51,7 +52,7 @@ const PlayerHolder = ({id, winner, joinable, FriendsData = undefined, focusedId,
 				{text}
 			</div>
 			<div className="InviteButton">
-				{joinable && <Svg Ref={inviteButtonRef} src={invitePlayer} width={25} handlePlayerInvite={handlePlayerInvite}/> }
+				{!Player && joinable && <Svg Ref={inviteButtonRef} src={invitePlayer} width={25} handlePlayerInvite={handlePlayerInvite}/> }
 				{joinable && inviteMode && id == focusedId && <FriendsList FriendsData={FriendsData} setFocusedId={setFocusedId} focusedId={focusedId} id={id} inviteButtonRef={inviteButtonRef}/>}
 			</div>
 		</div>
