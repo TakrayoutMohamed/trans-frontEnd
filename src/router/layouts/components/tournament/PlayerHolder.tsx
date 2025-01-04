@@ -1,7 +1,6 @@
 import {useState, useRef} from 'react'
 import Svg from './Svg'
-import { playerPfp } from '@/media-exporting'
-import { invitePlayer } from '@/media-exporting'
+import { playerPfp, invitePlayer, CancelPlayer } from '@/media-exporting'
 import FriendsList from './FriendsList'
 import { UserDataType } from '@/src/states/authentication/userSlice'
 
@@ -53,6 +52,7 @@ const PlayerHolder = ({id, winner, joinable, FriendsData = undefined, focusedId,
 			</div>
 			<div className="InviteButton">
 				{!Player && joinable && <Svg Ref={inviteButtonRef} src={invitePlayer} width={25} handlePlayerInvite={handlePlayerInvite}/> }
+				{Player && <Svg src={CancelPlayer} width={25} handlePlayerInvite={() => {console.log("player cancel still not yet implemented")}}/> }
 				{joinable && inviteMode && id == focusedId && <FriendsList FriendsData={FriendsData} setFocusedId={setFocusedId} focusedId={focusedId} id={id} inviteButtonRef={inviteButtonRef}/>}
 			</div>
 		</div>

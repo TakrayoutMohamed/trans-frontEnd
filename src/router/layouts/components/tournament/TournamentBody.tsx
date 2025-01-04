@@ -62,7 +62,7 @@ const TournamentBody = () => {
 	console.log("TournamentPlayers : ", TournamentPlayers)
 
 	tournamentSocket.onmessage = function(e){
-		let data = JSON.parse(e.data)
+		let data = JSON.parse(e.data as string)
 		let tmpTournamentPlayers = TournamentPlayers
 		tmpTournamentPlayers[0] = data.player1_username
 		setTournamentPlayer(tmpTournamentPlayers)
