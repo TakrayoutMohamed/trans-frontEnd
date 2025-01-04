@@ -1,16 +1,19 @@
 import { profileIcon } from "@/media-exporting";
 import { useParams } from "react-router-dom";
 import { chatConversationContent } from "../../styles";
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useLayoutEffect, useRef } from "react";
 import { ChatDataContext } from "@/src/customDataTypes/ChatDataContext";
 import { IMessageEvent, w3cwebsocket } from "websocket";
 import { SocketJsonValueType } from "@/src/pages/modules/watchSocket";
 
 import { toast } from "react-toastify";
 
-import { MessagesDataType } from "../../ChatArea";
 
-import { UseInfiniteScroll } from "@/src/services/hooks/UseInfiniteScroll";
+import UseInfiniteScroll from "@/src/services/hooks/UseInfiniteScroll";
+import { MessagesDataType } from "@/src/customDataTypes/MessagesDataType";
+import { useSelector } from "react-redux";
+import { RootState, store } from "@/src/states/store";
+import { setMessages } from "@/src/states/authentication/messagesSlice";
 
 interface ConversationContentProps {
   messages: MessagesDataType[];
@@ -18,53 +21,51 @@ interface ConversationContentProps {
 }
 
 const listenForChatSocket = (
-  chatSocket: w3cwebsocket | null,
-  setMessages: React.Dispatch<React.SetStateAction<MessagesDataType[]>>
+  chatSocket: w3cwebsocket | null
 ) => {
   if (chatSocket && chatSocket.readyState === w3cwebsocket.OPEN) {
     chatSocket.onmessage = (dataEvent: IMessageEvent) => {
       let json_data: SocketJsonValueType = null;
       json_data = JSON.parse(dataEvent.data as string);
       console.log(json_data);
-      if (json_data?.type !== "error")
-        setMessages((prev: MessagesDataType[]) => {
-          return [...prev, json_data.message];
-        });
-      else toast.warn(json_data.message, { containerId: "validation" });
+      // if (json_data?.type !== "error")
+        // setMessages((prev: MessagesDataType[]) => {
+        //   return [...prev, json_data.message];
+        // });
+      // else toast.warn(json_data.message, { containerId: "validation" });
     };
   }
 };
-
-const ConversationContent = ({
-  setMessages,
-  messages,
-}: ConversationContentProps) => {
+let url : string = "/chat/messages/";
+const ConversationContent = () => {
   const { userName } = useParams();
   const refChatConversationContent = useRef<HTMLDivElement>(null);
   const messageEndRef = useRef<HTMLDivElement>(null);
+  const messages = useSelector((state: RootState) => state.messages.value)
+  useLayoutEffect(() => {
+    // url = `/chat/messages/?username=${userName}`
+    store.dispatch(setMessages([]))
+  },[userName])
   const { isLoading, hasMore, handleScroll } =
     UseInfiniteScroll<MessagesDataType>({
-      url: `/chat/messages/?username=${userName}`,
-      setData: setMessages,
-      data: messages,
-      username: userName,
+      url: url,
       refElement: refChatConversationContent.current,
       messageEndRef: messageEndRef.current,
       offset: 200,
     });
 
+    // useEffect(() => {
+    //   messageEndRef.current?.scrollIntoView({behavior:"smooth"});
+    // }, [messageEndRef])
   const chatContext = useContext(ChatDataContext);
   // this should be removed at production phase from all component it exist in
   if (!chatContext)
     throw new Error("this component need to be wrapped by chat context");
   const { chatSocket } = chatContext;
-  listenForChatSocket(chatSocket, setMessages);
+  listenForChatSocket(chatSocket);
   let previousMsgOwner = " ";
   // console.log(refChatConversationContent);
   // console.log(refChatConversationContent.current?.scrollTop);
-  useEffect(() => {
-    messageEndRef.current?.scrollIntoView({behavior:"smooth"});
-  }, [])
   return (
     <>
       <div
