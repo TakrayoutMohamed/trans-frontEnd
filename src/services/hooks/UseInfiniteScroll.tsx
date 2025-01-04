@@ -47,7 +47,9 @@ const UseInfiniteScroll = <T,>({
     setPage(1);
     setHasMore(true);
     setIsLoading(false);
-    fetchData(1);
+    fetchData(1).then(async () => {
+      messageEndRef?.scrollIntoView({behavior:"instant"});
+    });
 
     console.log("reset data hook after change the url (userName)");
     console.log("messages length : " + messages.length);
@@ -79,9 +81,6 @@ const UseInfiniteScroll = <T,>({
       console.error(err);
     } finally {
       setIsLoading(false);
-      if (page === 1) {
-        messageEndRef?.scrollIntoView({behavior:"instant"});
-      }
     }
   }
   return { handleScroll, isLoading, hasMore };
