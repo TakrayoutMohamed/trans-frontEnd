@@ -29,15 +29,22 @@ const UseInfiniteScroll = <T,>({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const { userName } = useParams();
+  const [scrollBalance, setScrollBalance] = useState<number>(0);
   const messages = useSelector((state: RootState) => state.messages.value);
   const axiosPrivateHook = UseAxiosPrivate();
   const abortControlerRef = useRef<AbortController | null>(null);
-
   const handleScroll = useCallback(
     (e: React.UIEvent<HTMLDivElement>) => {
       let container = e.currentTarget;
       if (container && container.scrollTop <= offset) {
-        fetchData(page);
+        let previousScrollHeight = 0;
+        if (refElement) {
+          previousScrollHeight = refElement.scrollHeight;
+          setScrollBalance(refElement.scrollHeight - container.scrollTop)
+          console.log("first ");
+          console.log("scrollHeight : " + refElement.scrollHeight + " scrollTop : " +refElement.scrollTop);
+        }
+        fetchData(page)
       }
     },
     [offset, fetchData]
@@ -48,7 +55,7 @@ const UseInfiniteScroll = <T,>({
     setHasMore(true);
     setIsLoading(false);
     fetchData(1).then(async () => {
-      messageEndRef?.scrollIntoView({behavior:"instant"});
+      messageEndRef?.scrollIntoView({ behavior: "instant" });
     });
 
     console.log("reset data hook after change the url (userName)");
@@ -59,6 +66,26 @@ const UseInfiniteScroll = <T,>({
       "is loading :" + isLoading + " hasMore: " + hasMore + " page : " + page
     );
   }, [userName, messageEndRef]);
+  useEffect(() => {
+    scrollBalance && setScrollBalance((prev) => {
+      let addedHeight = 0;
+      console.log("previous scrollHeight is : " + prev)
+      console.log("new scrollHeight is : " + refElement?.scrollHeight)
+      if (refElement)
+        addedHeight = refElement.scrollHeight - prev;
+      console.log("height added "+ addedHeight);
+      
+
+      if (prev === 0)
+        return 0;
+      if (refElement)
+      {
+        // refElement.scrollTo({top: 0, "behavior": "instant"});
+        refElement.scrollTop = addedHeight
+      }
+      return (0);
+    })
+  },[messages])
   async function fetchData(page: number) {
     if (isLoading || (!hasMore && page !== 1)) return;
     setIsLoading(true);
