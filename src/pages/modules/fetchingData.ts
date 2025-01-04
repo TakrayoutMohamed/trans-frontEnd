@@ -2,7 +2,6 @@ import { store } from "@/src/states/store";
 import { AxiosInstance } from "axios";
 import {
   setAllUsersData,
-  setBlockedData,
   setFriendsData,
 } from "./setAuthenticationData";
 import axios from "@/src/services/api/axios";
@@ -258,10 +257,6 @@ export const blockUser = (
     .post("block_user", { username: username })
     .then((res) => {
       console.log(res);
-      setBlockedData([
-        ...store.getState().blocked.value,
-        { username: username },
-      ]);
       setAllUsersData(
         store.getState().allUsers.value.map((user) => {
           return user.username === username
@@ -284,11 +279,6 @@ export const unblockUser = (
     .then((res) => {
       console.log("removed block to user " + username + " ");
       console.log(res);
-      setBlockedData(
-        store
-          .getState()
-          .blocked.value.filter((blocked) => blocked.username !== username)
-      );
       setAllUsersData(
         store.getState().allUsers.value.map((user) => {
           return user.username === username
