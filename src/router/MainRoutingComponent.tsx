@@ -39,6 +39,7 @@ import PrivateRoutes from "@router/PrivateRoutes";
 import AuthorizationRoutes from "@router/AuthorizationRoutes";
 import FriendRequests from "../pages/private/FriendRequests";
 import PingPongLayout from "./layouts/PingPongLayout";
+import Game2 from "./layouts/Game2";
 
 const routingTree: RouteObject[] = createRoutesFromElements(
   <Route element={<RootLayout />}>
@@ -82,6 +83,7 @@ const routingTree: RouteObject[] = createRoutesFromElements(
           <Route path="password" element={<SettingPassword />} />
         </Route>
         <Route path="ping-pong" element={<PingPongLayout/>}/>
+        <Route path="game2" element={<Game2 />} />
       </Route>
     </Route>
     <Route path="*" element={<NotFoundLayout />}></Route>
