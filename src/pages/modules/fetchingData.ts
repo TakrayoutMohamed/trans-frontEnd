@@ -173,17 +173,16 @@ export const acceptFriendRequest = async (
   axiosPrivateHook
     .put("friend_req/", { username: username })
     .then((res) => {
-      let temp_data;
       console.log(res);
       setFriendRequestsList &&
-        setFriendRequestsList((prev) => {
-          return prev.filter((friendReq) => friendReq.username !== username);
-        });
+      setFriendRequestsList((prev) => {
+        return prev.filter((friendReq) => friendReq.username !== username);
+      });
       if (friendRequestsList) {
+        let temp_data;
         temp_data = friendRequestsList.find(
           (friendReq) => friendReq.username === username
         );
-        console.log(temp_data);
         temp_data &&
           setFriendsData([...store.getState().friends.value, temp_data]);
       }
@@ -194,7 +193,6 @@ export const acceptFriendRequest = async (
             : user;
         })
       );
-      console.log(temp_data);
     })
     .catch((err) => console.log(err))
     .finally(() => {

@@ -109,12 +109,11 @@ const NotificationsInGame = () => {
       >
         <IoNotificationsSharp color="white" size={23} />
         <span className="number-of-notifications">
-          {notificationsList.length ? notificationsList.length : ""}
+          {(notificationsList && notificationsList.length) ? notificationsList.length : ""}
         </span>
       </div>
       <div className="notifications-list d-none" ref={notificationListRef}>
-        {notificationsList &&
-          notificationsList.length &&
+        {notificationsList && notificationsList.length ? (
           notificationsList.map((notification) => {
             return (
               <div
@@ -122,7 +121,15 @@ const NotificationsInGame = () => {
                 key={notification.sender_notif.username}
               >
                 <Link to="#" className="image">
-                  <img src={profileIcon} alt="user image" />
+                  <img
+                    src={
+                      notification.sender_notif.avatar
+                        ? process.env.BACKEND_API_URL +
+                          notification.sender_notif.avatar
+                        : profileIcon
+                    }
+                    alt="user image"
+                  />
                 </Link>
                 {notification.type === "friend_request" ? (
                   <NotificationsFriendRequestCard
@@ -137,7 +144,12 @@ const NotificationsInGame = () => {
                 )}
               </div>
             );
-          })}
+          })
+        ) : (
+          <div className="notifications-card text-danger">
+            no notifications to show
+          </div>
+        )}
       </div>
     </div>
   );
