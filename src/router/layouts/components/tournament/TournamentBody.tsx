@@ -49,6 +49,8 @@ const TournamentBody = () => {
     (state: RootState) => state.accessToken.value
   );
 
+
+let tournamentSocket: w3cwebsocket;
   useEffect(() => {
 
 	let tournamentSocket: w3cwebsocket;
@@ -57,6 +59,7 @@ const TournamentBody = () => {
 		tournamentSocket = new w3cwebsocket(
 			`${process.env.BACKEND_API_SOCKETS}/ws/tournament/?token=${AccessToken}`
 		);
+
 		console.log("token=", AccessToken)
 //	}
 	console.log("TournamentPlayers : ", TournamentPlayers)
@@ -72,6 +75,13 @@ const TournamentBody = () => {
 		}
 	};
 
+	tournamentSocket.onopen = function (event) {
+	 console.log('connection is open!')
+		tournamentSocket.send(JSON.stringify({
+			'type' : 'player_leave',
+			'player' : "alemsafi@gmail.com"
+		}))
+	}
 	tournamentSocket.onmessage = function(e){
 		let data = JSON.parse(e.data as string)
 		let tmpTournamentPlayers = TournamentPlayers
@@ -86,15 +96,13 @@ const TournamentBody = () => {
   }, [TournamentPlayers])
 
 
-
-
 	const [focusedId, setFocusedId] = useState(0)
 
   return (
     <div className="TournamentBody">
-      <TournamentBodyLeftSide FriendsData={friendsDataGlobal} focusedId={focusedId} setFocusedId={setFocusedId} TournamentPlayers={TournamentPlayers}/>
+      <TournamentBodyLeftSide FriendsData={friendsDataGlobal} focusedId={focusedId} setFocusedId={setFocusedId} TournamentPlayers={TournamentPlayers} socket={tournamentSocket}/>
       <TournamentBodyMiddleSide />
-      <TournamentBodyRightSide FriendsData={friendsDataGlobal} focusedId={focusedId} setFocusedId={setFocusedId} TournamentPlayers={TournamentPlayers}/>
+      <TournamentBodyRightSide FriendsData={friendsDataGlobal} focusedId={focusedId} setFocusedId={setFocusedId} TournamentPlayers={TournamentPlayers} socket={tournamentSocket}/>
     </div>
   );
 };
