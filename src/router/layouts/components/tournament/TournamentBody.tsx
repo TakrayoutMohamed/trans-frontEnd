@@ -4,13 +4,14 @@ import TournamentBodyLeftSide from "./TournamentBodyLeftSide";
 import TournamentBodyMiddleSide from "./TournamentBodyMiddleSide";
 import TournamentBodyRightSide from "./TournamentBodyRightSide";
 import { RootState } from "@/src/states/store";
-import { useEffect, useState, useCallback, useLayoutEffect } from "react";
+import { useEffect, useState, } from "react";
 import { UserDataType } from "@/src/states/authentication/userSlice";
 
 interface FriendsDataType extends UserDataType {
   joined: boolean;
 }
 
+let tournamentSocket: w3cwebsocket;
 const TournamentBody = () => {
   const friendsDataGlobal = useSelector(
     (state: RootState) => state.friends.value
@@ -44,44 +45,33 @@ const TournamentBody = () => {
     });
   }, [friendsDataGlobal]);
 
-  console.log("conecting to backend socket!");
   const AccessToken = useSelector(
     (state: RootState) => state.accessToken.value
   );
-
-
-let tournamentSocket: w3cwebsocket;
+  
+  
   useEffect(() => {
 
-	let tournamentSocket: w3cwebsocket;
-	console.log("CONNECTING TO WEBSOCKER")
-//	if (AccessToken) {
-		tournamentSocket = new w3cwebsocket(
-			`${process.env.BACKEND_API_SOCKETS}/ws/tournament/?token=${AccessToken}`
-		);
+    console.log("CONNECTING TO WEBSOCKET")
+    //	if (AccessToken) {
+      tournamentSocket = new w3cwebsocket(
+        `${process.env.BACKEND_API_SOCKETS}/ws/tournament/?token=${AccessToken}`
+      );
+      //	}
+      console.log("TournamentPlayers : ", TournamentPlayers)
+      tournamentSocket.onopen = function () {
+        if (tournamentSocket.readyState === WebSocket.OPEN){
+          console.log("------- sent data to the websocket!!!")
+          tournamentSocket.send(
+            JSON.stringify({
+              'type' : 'hello',
+              'payload': "it's working"
+            })
+          )
+        }
+      };
+      console.log("conecting to backend socket!");
 
-		console.log("token=", AccessToken)
-//	}
-	console.log("TournamentPlayers : ", TournamentPlayers)
-	tournamentSocket.onopen = function () {
-		if (tournamentSocket.readyState === WebSocket.OPEN){
-			console.log("------- sent data to the websocket!!!")
-			  tournamentSocket.send(
-				JSON.stringify({
-					'type' : 'hello',
-					'payload': "it's working"
-				})
-			  )
-		}
-	};
-
-	tournamentSocket.onopen = function (event) {
-	 console.log('connection is open!')
-		tournamentSocket.send(JSON.stringify({
-			'type' : 'player_leave',
-			'player' : "alemsafi@gmail.com"
-		}))
-	}
 	tournamentSocket.onmessage = function(e){
 		let data = JSON.parse(e.data as string)
 		let tmpTournamentPlayers = TournamentPlayers
@@ -93,7 +83,7 @@ let tournamentSocket: w3cwebsocket;
 		setTournamentPlayer(tmpTournamentPlayers)
 		console.log("TournamentPlayers : ", TournamentPlayers)
 	}
-  }, [TournamentPlayers])
+  }, [TournamentPlayers, AccessToken])
 
 
 	const [focusedId, setFocusedId] = useState(0)
