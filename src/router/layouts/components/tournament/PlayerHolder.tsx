@@ -1,4 +1,4 @@
-import {useState, useRef} from 'react'
+import {useState, useRef, useEffect} from 'react'
 import { w3cwebsocket } from "websocket";
 import Svg from './Svg'
 import { playerPfp, invitePlayer, CancelPlayer } from '@/media-exporting'
@@ -15,10 +15,14 @@ interface PlayerHolderProps{
 	Player: string;
 	socket: w3cwebsocket;
 }
-
+let text = "Player"
 const PlayerHolder = ({id, winner, joinable, FriendsData = undefined, focusedId, setFocusedId = (id:number) => (id), Player, socket}: PlayerHolderProps) => {
 	const [inviteMode, setInviteMode] = useState(false)
 	const inviteButtonRef = useRef(null)
+	useEffect(() => {
+		if (joinable)
+			text = Player
+	},[Player, joinable])
 	console.log(winner)
 
 	const handlePlayerInvite : any = () => {
@@ -35,10 +39,24 @@ const PlayerHolder = ({id, winner, joinable, FriendsData = undefined, focusedId,
 			setInviteMode(false)
 	}
 
+	const handlePlayerKick : any = () => {
+		if (socket && socket.readyState === WebSocket.OPEN){
+			console.log("socket open, writing to it ...")
+			console.log(`kicking id ${id} from tournament!!`)
+					socket.send(
+					JSON.stringify({
+						'type' : 'friend_kick',
+						'id': id,
+					})
+					)
+		}
+		else {
+			console.log("can't write to socket !!")
+		}
+	}
 
-	let text = "Player"
-	if (joinable)
-		text = Player
+
+
 
 	return (
 		<div className="PlayerHolder">
@@ -48,7 +66,7 @@ const PlayerHolder = ({id, winner, joinable, FriendsData = undefined, focusedId,
 				{text}
 			</div>
 			<div className="InviteButton">
-				{Player && !Player.startsWith('Player') && <Svg src={CancelPlayer} width={25} handlePlayerInvite={() => {console.log("player cancel still not yet implemented")}}/> }
+				{Player && !Player.startsWith('Player') && <Svg src={CancelPlayer} width={25} handlePlayerInvite={handlePlayerKick}/> }
 				{Player && Player.startsWith('Player') && joinable && <Svg Ref={inviteButtonRef} src={invitePlayer} width={25} handlePlayerInvite={handlePlayerInvite}/> }
 				{joinable && inviteMode && id == focusedId && <FriendsList FriendsData={FriendsData} setFocusedId={setFocusedId} focusedId={focusedId} PlayerHolderid={id} inviteButtonRef={inviteButtonRef} socket={socket}/>}
 			</div>

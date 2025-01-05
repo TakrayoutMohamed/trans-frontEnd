@@ -81,7 +81,7 @@ const TournamentBody = () => {
 		tmpTournamentPlayers[2] = data.player3_username
 		tmpTournamentPlayers[3] = data.player4_username
 		setTournamentPlayer(tmpTournamentPlayers)
-		console.log("TournamentPlayers : ", TournamentPlayers)
+		console.log("TournamentPlayers here: ", TournamentPlayers)
 	}
   }, [TournamentPlayers, AccessToken])
 

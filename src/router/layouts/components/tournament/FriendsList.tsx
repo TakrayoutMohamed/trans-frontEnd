@@ -38,7 +38,6 @@ const Friend = ({index, name, online=false, PlayerHolderid, socket}: FriendProps
 					JSON.stringify({
 						'type' : 'friend_envite',
 						'id': PlayerHolderid,
-						"username" : name
 					})
 				  )
 		}
