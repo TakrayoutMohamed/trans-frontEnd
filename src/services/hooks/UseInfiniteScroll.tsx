@@ -1,65 +1,97 @@
-import { useCallback, useEffect, useLayoutEffect, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import UseAxiosPrivate from "./UseAxiosPrivate";
+import { useSelector } from "react-redux";
+import { RootState } from "@/src/states/store";
+import { setMessagesData } from "@/src/pages/modules/setAuthenticationData";
+import { useParams } from "react-router-dom";
 
 interface UseInfiniteScrollProps<T> {
   url: string;
-  setData: React.Dispatch<React.SetStateAction<T[]>>;
-  data: T[];
-  refElement: React.RefObject<HTMLDivElement>;
+  refElement: HTMLDivElement | null;
+  messageEndRef?: HTMLDivElement | null;
   offset: number;
   username?: string;
-  parentHeight?: number;
 }
 
 const UseInfiniteScroll = <T,>({
   url,
-  setData,
-  data,
   refElement,
+  messageEndRef,
   offset,
 }: UseInfiniteScrollProps<T>) => {
   const [page, setPage] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState<boolean>(true);
+  const { userName } = useParams();
+  const [scrollBalance, setScrollBalance] = useState<number>(0);
+  const messages = useSelector((state: RootState) => state.messages.value);
   const axiosPrivateHook = UseAxiosPrivate();
-
-  const fetchData = async () => {
-    if (isLoading || !hasMore) return;
+  const abortControlerRef = useRef<AbortController | null>(null);
+  const handleScroll = useCallback(
+    (e: React.UIEvent<HTMLDivElement>) => {
+      let container = e.currentTarget;
+      if (container && container.scrollTop <= offset) {
+        if (refElement) {
+          setScrollBalance(refElement.scrollHeight - container.scrollTop)
+        }
+        fetchData(page)
+      }
+    },
+    [offset, fetchData]
+  );
+  useEffect(() => {
+    abortControlerRef.current?.abort();
+    setPage(1);
+    setHasMore(true);
+    setIsLoading(false);
+    fetchData(1).then(() => {
+      messageEndRef?.scrollIntoView({ behavior: "instant" });
+    });
+  }, [userName, messageEndRef]);
+  useEffect(() => {
+    scrollBalance && setScrollBalance((prev) => {
+      let addedHeight = 0;
+      if (refElement)
+        addedHeight = refElement.scrollHeight - prev;
+      if (prev === 0)
+        return 0;
+      if (refElement)
+      {
+        refElement.scrollTop = addedHeight
+      }
+      return (0);
+    })
+  },[messages])
+  async function fetchData(page: number) {
+    if (isLoading || (!hasMore && page !== 1)) return;
     setIsLoading(true);
     try {
-      const res = await axiosPrivateHook.get(url, { params: { page: page } });
-      const newData: T[] = res.data.results;
-      setData([...newData, ...data]);
-      setHasMore(newData.length >= 10);
-      setPage((prevPage) => prevPage + 1);
+      abortControlerRef.current?.abort();
+      const res = await axiosPrivateHook.get(url, {
+        params: { page: page, username: userName },
+        signal: abortControlerRef.current?.signal,
+      });
+      setMessagesData(
+        page === 1
+          ? res.data.results.reverse()
+          : [...res.data.results.reverse(), ...messages]
+      );
+      setHasMore(res.data.next !== null);
+      setPage(page + 1);
     } catch (err) {
-      setHasMore(false);
       console.error("Error fetching data:");
       console.error(err);
     } finally {
       setIsLoading(false);
     }
-  };
-  const handleScroll = useCallback(
-    (e: React.UIEvent<HTMLDivElement>) => {
-      let container = e.currentTarget;
-      if (container && container.scrollTop <= offset) {
-        fetchData();
-      }
-    },
-    [offset, fetchData]
-  );
-  // Automatically fetch more data if the content is too small
-  const checkIfScrollable = useCallback(() => {
-    const container = refElement.current;
-    if (container && container.scrollHeight <= container.clientHeight) {
-      fetchData();
-    }
-  }, [refElement.current?.clientHeight, fetchData]);
-  useLayoutEffect(() => {
-    checkIfScrollable();
-  }, [data, checkIfScrollable]);
+  }
   return { handleScroll, isLoading, hasMore };
 };
 
-export { UseInfiniteScroll };
+export default UseInfiniteScroll;

@@ -7,11 +7,12 @@ import ConversationContent from "./components/chatComponents/ConversationContent
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useContext, useEffect, useLayoutEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { ChatDataContext } from "@/src/customDataTypes/ChatDataContext";
-import { UserDataType } from "@/src/states/authentication/userSlice";
 import { w3cwebsocket } from "websocket";
-import { store } from "@/src/states/store";
+import { RootState, store } from "@/src/states/store";
+import { setMessagesData } from "../modules/setAuthenticationData";
+import { useSelector } from "react-redux";
 
 const MessageSchema = z.object({
   textMessage: z
@@ -22,17 +23,14 @@ const MessageSchema = z.object({
 
 type MessageSchemaType = z.infer<typeof MessageSchema>;
 
-interface FormComponentProps {
-  setMessages: React.Dispatch<React.SetStateAction<MessagesDataType[]>>;
-}
-
-const FormComponent = ({ setMessages }: FormComponentProps) => {
+const FormComponent = () => {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm<MessageSchemaType>({ resolver: zodResolver(MessageSchema) });
+  const messages = useSelector((state: RootState) => state.messages.value);
   const chatContext = useContext(ChatDataContext);
   if (!chatContext) throw new Error("it should be wraped inside a chatContext");
   const { userData, chatSocket } = chatContext;
@@ -47,16 +45,14 @@ const FormComponent = ({ setMessages }: FormComponentProps) => {
         };
         if (chatSocket?.readyState === w3cwebsocket.OPEN) {
           chatSocket?.send(JSON.stringify(dataToSend));
-          setMessages((prev) => {
-            return [
-              ...prev,
-              {
-                message: data.textMessage,
-                sender: store.getState().user.value,
-                updated_at: new Date().toISOString(),
-              },
-            ];
-          });
+          setMessagesData([
+            ...messages,
+            {
+              message: data.textMessage,
+              sender: store.getState().user.value,
+              updated_at: new Date().toISOString(),
+            },
+          ]);
           reset({ textMessage: "" });
         }
       }
@@ -86,20 +82,14 @@ const FormComponent = ({ setMessages }: FormComponentProps) => {
     </>
   );
 };
-export interface MessagesDataType {
-  sender: UserDataType;
-  message: string;
-  updated_at: string;
-}
 
 const ChatArea = () => {
   const { userName } = useParams();
   const setProfileVisible =
     useOutletContext<React.Dispatch<React.SetStateAction<boolean>>>();
-  const [messages, setMessages] = useState<MessagesDataType[]>([]);
-  useLayoutEffect(() => {
-    setMessages([]);
-  },[userName])
+  useEffect(() => {
+    setMessagesData([]);
+  }, [userName]);
   return (
     <>
       <div className={`${chat}`}>
@@ -154,12 +144,9 @@ const ChatArea = () => {
         </div>
         <div className="chatContent">
           <div className="messagesArea">
-            <ConversationContent
-              messages={messages}
-              setMessages={setMessages}
-            />
+            <ConversationContent />
           </div>
-          <FormComponent setMessages={setMessages} />
+          <FormComponent />
         </div>
       </div>
     </>

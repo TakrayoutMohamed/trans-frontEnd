@@ -3,15 +3,13 @@ import { RootState } from "./states/store";
 import { useEffect } from "react";
 import UseAxiosPrivate from "./services/hooks/UseAxiosPrivate";
 import {
-  setBlockedData,
+  // setBlockedData,
   setFriendsData,
   setUserData,
 } from "./pages/modules/setAuthenticationData";
 import { AxiosInstance } from "axios";
 import Cookies from "js-cookie";
 import { useSelector } from "react-redux";
-import { UserDataType } from "./states/authentication/userSlice";
-import { BlockerUsersType } from "./states/authentication/blockedSlice";
 import refreshToken from "./services/hooks/refreshToken";
 
 const getUsersInfo = async (axiosPrivateHook: AxiosInstance) => {
@@ -38,21 +36,21 @@ const getFriendsData = async (axiosPrivateHook: AxiosInstance) => {
     });
 };
 
-const getBlockedData = async (axiosPrivateHook: AxiosInstance) => {
-  axiosPrivateHook
-    .get("block_user")
-    .then((res) => {
-      setBlockedData(
-        res.data.blocked.map((user: UserDataType): BlockerUsersType => {
-          return { username: user.username! };
-        })
-      );
-    })
-    .catch((err) => {
-      console.log("error in getBlockedInfo");
-      console.log(err);
-    });
-};
+// const getBlockedData = async (axiosPrivateHook: AxiosInstance) => {
+//   axiosPrivateHook
+//     .get("block_user")
+//     .then((res) => {
+//       setBlockedData(
+//         res.data.blocked.map((user: UserDataType): BlockerUsersType => {
+//           return { username: user.username! };
+//         })
+//       );
+//     })
+//     .catch((err) => {
+//       console.log("error in getBlockedInfo");
+//       console.log(err);
+//     });
+// };
 
 function App() {
   const axiosPrivateHook = UseAxiosPrivate();
@@ -68,7 +66,7 @@ function App() {
     } else {
       getUsersInfo(axiosPrivateHook);
       getFriendsData(axiosPrivateHook);
-      getBlockedData(axiosPrivateHook);
+      // getBlockedData(axiosPrivateHook);
     }
   }, [isAuthenticated]);
   return (

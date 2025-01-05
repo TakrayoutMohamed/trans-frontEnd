@@ -1,30 +1,31 @@
 import { profileIcon } from "@/media-exporting";
-import { ConversationList } from "./ConversationsList";
+
 import { chatUsersChatCard } from "../../styles";
 import { Link } from "react-router-dom";
+import { FriendsDataType } from "@/src/customDataTypes/FriendsDataType";
 
 type UsersChatCardProps = {
-  conversations: ConversationList[];
+  friends: FriendsDataType[];
   type?: string;
 };
 
-const UsersChatCard = ({ conversations, type }: UsersChatCardProps) => {
+const FriendsChatCard = ({ friends, type }: UsersChatCardProps) => {
 
   const r = (Math.random() + 1).toString(36).substring(20);
-  conversations = [
-    ...conversations,
-    ...conversations,
-    ...conversations,
-    ...conversations,
-    ...conversations,
-    ...conversations,
-    ...conversations,
-    ...conversations,
-    ...conversations
+  friends = [
+    ...friends,
+    ...friends,
+    ...friends,
+    ...friends,
+    ...friends,
+    ...friends,
+    ...friends,
+    ...friends,
+    ...friends
   ]
   return (
     <>
-      {conversations.map(
+      {friends.map(
         (conversationUser, index) => (
           <Link
             to={conversationUser.username + ""}
@@ -88,4 +89,4 @@ const UsersChatCard = ({ conversations, type }: UsersChatCardProps) => {
     </>
   );
 };
-export default UsersChatCard;
+export default FriendsChatCard;

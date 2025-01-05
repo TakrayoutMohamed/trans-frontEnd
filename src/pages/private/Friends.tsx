@@ -7,10 +7,10 @@ import { RootState } from "@/src/states/store";
 import { AxiosInstance } from "axios";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { UserDataType } from "@/src/states/authentication/userSlice";
 import { MdOutlineBlock, MdPersonRemoveAlt1 } from "react-icons/md";
 import { CgUnblock } from "react-icons/cg";
 import { blockUser, removeFriend, unblockUser } from "../modules/fetchingData";
+import { UserDataType } from "@/src/customDataTypes/UserDataType";
 
 const inviteToGame = (AxiosPrivateHook: AxiosInstance, username: string) => {
   console.log("handle invite to game ");
@@ -19,7 +19,6 @@ const inviteToGame = (AxiosPrivateHook: AxiosInstance, username: string) => {
 const Friends = () => {
   const AxiosPrivateHook = UseAxiosPrivate();
   const friendsData = useSelector((state: RootState) => state.friends.value);
-  const blockedList = useSelector((state: RootState) => state.blocked.value);
   const [friendsList, setFriendsList] = useState<UserDataType[]>([]);
   useEffect(() => {
     setFriendsList(friendsData);
@@ -103,9 +102,7 @@ const Friends = () => {
                 <BsThreeDots size={30} color="white" />
               </div>
               <div className="dropdown-menu">
-                {blockedList.find(
-                  (user) => user.username === friend.username
-                ) ? (
+                {friends.is_blocked ? (
                   <div
                     className="block"
                     onClick={() =>

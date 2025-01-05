@@ -5,9 +5,9 @@ import Stats from "./components/profile/Stats";
 import { profileIcon } from "@/media-exporting";
 import WaletState from "./components/profile/WaletStats";
 import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
-import { UserDataType } from "@/src/states/authentication/userSlice";
 import { RootState, store } from "@/src/states/store";
 import { useSelector } from "react-redux";
+import { UserDataType } from "@/src/customDataTypes/UserDataType";
 const matchesData = {
   data: [
     {
@@ -43,7 +43,7 @@ const ProfileLayout = () => {
   const [data, setData] = useState<UserDataType>(currentUserData);
   const axiosPrivateHook = UseAxiosPrivate();
   useEffect(() => {
-    if (userName && userName !== currentUserData) {
+    if (userName && userName !== currentUserData.username) {
       axiosPrivateHook
         .post("search_username", {
           username: userName,

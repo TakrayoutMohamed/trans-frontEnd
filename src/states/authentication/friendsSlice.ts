@@ -1,8 +1,10 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { UserDataType } from "./userSlice";
+import { FriendsDataType } from "@/src/customDataTypes/FriendsDataType";
+
+
 
 interface AuthenticatorState {
-  value: UserDataType[];
+  value: FriendsDataType[];
 }
 
 const initialState: AuthenticatorState = { value: [] };
@@ -11,7 +13,7 @@ const friendsSlice = createSlice({
   name: "friends",
   initialState,
   reducers: {
-    setFriends: (state, action: PayloadAction<UserDataType[]>) => {
+    setFriends: (state, action: PayloadAction<FriendsDataType[]>) => {
         state.value = action.payload;
     }
   },
