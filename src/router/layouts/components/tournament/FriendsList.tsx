@@ -2,7 +2,6 @@ import { useEffect, useState, useRef } from 'react'
 import { tournamentRobot } from '@/media-exporting'
 import { inviteFriend } from '@/media-exporting'
 import { inviteFriendFaded } from '@/media-exporting'
-import Svg from './Svg'
 import { UserDataType } from '@/src/states/authentication/userSlice'
 
 interface FriendProps{
@@ -53,21 +52,13 @@ const FriendsList = (props) => {
 
 	useEffect(() => {
 		const closeFriendsList = (e) => {
-			//if (props.id != 1)
-			//	return;
-			//console.log("myId = ", props.id)
-			//console.log("focused id = ", props.focusedId)
-			
 			if(!friendsListRef.current?.contains(e.target) && !props.inviteButtonRef.current?.contains(e.target))
 				props.setFocusedId(0)
 		}
-		
 		document.addEventListener('mousedown', closeFriendsList)
 		return () => {
-			console.log("deleted event listener!")
 			document.removeEventListener("mousedown", closeFriendsList);
 		}
-		//return () => window.removeEventListener("mousedown", closeFriendsList);
 
 	},[])
 
@@ -78,9 +69,6 @@ const FriendsList = (props) => {
 		color = "#656565"
 	return (
 		<div className="FriendsList" ref={friendsListRef}>
-			{/*
-			<button style={{background: `${color}`}} className="JoinButton" onClick={handleJoin}>JOIN</button>
-			*/}
 			<button style={{background: `${color}`}} className="JoinButton">JOIN</button>
 			{props.FriendsData && props.FriendsData.map((friend : UserDataType , index:number) => (
 				<Friend index={index} name={friend.username+""} online={friend.is_online ? true : false} key={friend.username}/>

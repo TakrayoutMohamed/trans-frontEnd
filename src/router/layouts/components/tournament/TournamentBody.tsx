@@ -50,24 +50,37 @@ const TournamentBody = () => {
   );
 
   useEffect(() => {
-	 
+
 	let tournamentSocket: w3cwebsocket;
 	console.log("CONNECTING TO WEBSOCKER")
-	if (AccessToken) {
+//	if (AccessToken) {
 		tournamentSocket = new w3cwebsocket(
 			`${process.env.BACKEND_API_SOCKETS}/ws/tournament/?token=${AccessToken}`
 		);
 		console.log("token=", AccessToken)
-	}
+//	}
 	console.log("TournamentPlayers : ", TournamentPlayers)
+	tournamentSocket.onopen = function () {
+		if (tournamentSocket.readyState === WebSocket.OPEN){
+			console.log("------- sent data to the websocket!!!")
+			  tournamentSocket.send(
+				JSON.stringify({
+					'type' : 'hello',
+					'payload': "it's working"
+				})
+			  )
+		}
+	};
 
 	tournamentSocket.onmessage = function(e){
-		let data = JSON.parse(e.data)
+		let data = JSON.parse(e.data as string)
 		let tmpTournamentPlayers = TournamentPlayers
+
 		tmpTournamentPlayers[0] = data.player1_username
+		tmpTournamentPlayers[1] = data.player2_username
+		tmpTournamentPlayers[2] = data.player3_username
+		tmpTournamentPlayers[3] = data.player4_username
 		setTournamentPlayer(tmpTournamentPlayers)
-		console.log("Data : ", data)
-		console.log("first player name = ", data.player1_username)
 		console.log("TournamentPlayers : ", TournamentPlayers)
 	}
   }, [TournamentPlayers])

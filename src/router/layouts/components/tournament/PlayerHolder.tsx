@@ -12,7 +12,7 @@ interface PlayerHolderProps{
 	FriendsData?: UserDataType[];
 	focusedId?: number;
 	setFocusedId?: any; // TODO : ask alvares what to do here!!!
-	Player?: string;
+	Player: string;
 }
 
 const PlayerHolder = ({id, winner, joinable, FriendsData = undefined, focusedId, setFocusedId = (id:number) => (id), Player}: PlayerHolderProps) => {
@@ -35,14 +35,9 @@ const PlayerHolder = ({id, winner, joinable, FriendsData = undefined, focusedId,
 	}
 
 
-	if (joinable)
-		console.log(`Player with id ${id} is ${Player}`)
 	let text = "Player"
-	if (Player) {
+	if (joinable)
 		text = Player
-		}
-	else if (id)
-		text = `Player ${id}`
 
 	return (
 		<div className="PlayerHolder">
@@ -52,7 +47,7 @@ const PlayerHolder = ({id, winner, joinable, FriendsData = undefined, focusedId,
 				{text}
 			</div>
 			<div className="InviteButton">
-				{!Player && joinable && <Svg Ref={inviteButtonRef} src={invitePlayer} width={25} handlePlayerInvite={handlePlayerInvite}/> }
+				{Player && Player.startsWith('Player') && joinable && <Svg Ref={inviteButtonRef} src={invitePlayer} width={25} handlePlayerInvite={handlePlayerInvite}/> }
 				{joinable && inviteMode && id == focusedId && <FriendsList FriendsData={FriendsData} setFocusedId={setFocusedId} focusedId={focusedId} id={id} inviteButtonRef={inviteButtonRef}/>}
 			</div>
 		</div>
