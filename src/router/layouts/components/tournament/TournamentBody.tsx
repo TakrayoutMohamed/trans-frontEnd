@@ -1,21 +1,24 @@
 import { useSelector } from "react-redux";
+import { w3cwebsocket } from "websocket";
 import TournamentBodyLeftSide from "./TournamentBodyLeftSide";
 import TournamentBodyMiddleSide from "./TournamentBodyMiddleSide";
 import TournamentBodyRightSide from "./TournamentBodyRightSide";
 import { RootState } from "@/src/states/store";
-import { useEffect, useState } from "react";
-import { UserDataType } from "@/src/states/authentication/userSlice";
+import { useEffect, useState, } from "react";
+import { UserDataType } from "@/src/customDataTypes/UserDataType";
 
 interface FriendsDataType extends UserDataType {
   joined: boolean;
 }
 
+let tournamentSocket: w3cwebsocket;
 const TournamentBody = () => {
   const friendsDataGlobal = useSelector(
     (state: RootState) => state.friends.value
   );
 
   const [friendsData, setFriendsData] = useState<FriendsDataType[]>([]);
+  const [TournamentPlayers, setTournamentPlayer] = useState(["", "", "", ""]);
   useEffect(() => {
     if (!friendsData || !friendsData.length)
       setFriendsData(
@@ -42,14 +45,54 @@ const TournamentBody = () => {
     });
   }, [friendsDataGlobal]);
 
+  const AccessToken = useSelector(
+    (state: RootState) => state.accessToken.value
+  );
+  
+  
+  useEffect(() => {
+
+    console.log("CONNECTING TO WEBSOCKET")
+    //	if (AccessToken) {
+      tournamentSocket = new w3cwebsocket(
+        `${process.env.BACKEND_API_SOCKETS}/ws/tournament/?token=${AccessToken}`
+      );
+      //	}
+      console.log("TournamentPlayers : ", TournamentPlayers)
+      tournamentSocket.onopen = function () {
+        if (tournamentSocket.readyState === WebSocket.OPEN){
+          console.log("------- sent hello event to socket")
+          tournamentSocket.send(
+            JSON.stringify({
+              'type' : 'hello',
+              'payload': "it's working"
+            })
+          )
+        }
+      };
+      console.log("conecting to backend socket!");
+
+	tournamentSocket.onmessage = function(e){
+		let data = JSON.parse(e.data as string)
+		let tmpTournamentPlayers = []
+
+		tmpTournamentPlayers[0] = data.player1_username
+		tmpTournamentPlayers[1] = data.player2_username
+		tmpTournamentPlayers[2] = data.player3_username
+		tmpTournamentPlayers[3] = data.player4_username
+		setTournamentPlayer(tmpTournamentPlayers)
+		console.log("TournamentPlayers here: ", TournamentPlayers)
+	}
+  }, [TournamentPlayers, AccessToken])
+
 
 	const [focusedId, setFocusedId] = useState(0)
 
   return (
     <div className="TournamentBody">
-      <TournamentBodyLeftSide FriendsData={friendsDataGlobal} focusedId={focusedId} setFocusedId={setFocusedId}/>
+      <TournamentBodyLeftSide FriendsData={friendsDataGlobal} focusedId={focusedId} setFocusedId={setFocusedId} TournamentPlayers={TournamentPlayers} socket={tournamentSocket}/>
       <TournamentBodyMiddleSide />
-      <TournamentBodyRightSide FriendsData={friendsDataGlobal} focusedId={focusedId} setFocusedId={setFocusedId}/>
+      <TournamentBodyRightSide FriendsData={friendsDataGlobal} focusedId={focusedId} setFocusedId={setFocusedId} TournamentPlayers={TournamentPlayers} socket={tournamentSocket}/>
     </div>
   );
 };

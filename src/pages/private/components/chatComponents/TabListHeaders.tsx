@@ -29,7 +29,7 @@ const TabListHeaders = () => {
                 aria-controls="unread-msgs-content"
                 aria-selected="false"
               >
-                unread
+                friends
               </Link>
             </li>
           </ul>

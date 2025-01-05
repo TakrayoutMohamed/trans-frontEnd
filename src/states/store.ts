@@ -3,8 +3,8 @@ import authenticatorSlice from "@src/states/authentication/authenticatorSlice";
 import accessTokenSlice from "./authentication/accessTokenSlice";
 import userSlice from "./authentication/userSlice";
 import friendsSlice from "./authentication/friendsSlice";
-import blockedSlice from "./authentication/blockedSlice";
 import allUsersSlice from "./authentication/allUsersSlice";
+import messagesSlice from "./authentication/messagesSlice";
 
 export const store = configureStore({
   reducer: {
@@ -13,7 +13,7 @@ export const store = configureStore({
     user: userSlice,
     allUsers: allUsersSlice,
     friends: friendsSlice,
-    blocked: blockedSlice,
+    messages: messagesSlice,
   },
 });
 

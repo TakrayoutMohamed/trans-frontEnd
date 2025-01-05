@@ -7,15 +7,18 @@ import ConversationContent from "./components/chatComponents/ConversationContent
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ChatDataContext } from "@/src/customDataTypes/ChatDataContext";
-
+import { w3cwebsocket } from "websocket";
+import { RootState, store } from "@/src/states/store";
+import { setMessagesData } from "../modules/setAuthenticationData";
+import { useSelector } from "react-redux";
 
 const MessageSchema = z.object({
   textMessage: z
-  .string()
-  .max(1023, { message: "the message should not be more than 1023 chars" })
-  .min(1, { message: "not allowed to send an empty string" }),
+    .string()
+    .max(1023, { message: "the message should not be more than 1023 chars" })
+    .min(1, { message: "not allowed to send an empty string" }),
 });
 
 type MessageSchemaType = z.infer<typeof MessageSchema>;
@@ -27,28 +30,37 @@ const FormComponent = () => {
     reset,
     formState: { errors },
   } = useForm<MessageSchemaType>({ resolver: zodResolver(MessageSchema) });
+  const messages = useSelector((state: RootState) => state.messages.value);
   const chatContext = useContext(ChatDataContext);
-  if (!chatContext)
-    throw new Error("it should be wraped inside a chatContext");
-  const {userData ,chatSocket} = chatContext;
+  if (!chatContext) throw new Error("it should be wraped inside a chatContext");
+  const { userData, chatSocket } = chatContext;
   const onSubmit: SubmitHandler<MessageSchemaType> = async (
     data: MessageSchemaType
   ) => {
     try {
-      console.log(data);
-      if (data.textMessage.length > 0)
-      {
-        let dataToSend = {"receiver" : userData?.username, "message" : data.textMessage}
-        chatSocket?.send(JSON.stringify(dataToSend));
-        reset({textMessage: ""})
+      if (data.textMessage.length > 0) {
+        let dataToSend = {
+          receiver: userData?.username,
+          message: data.textMessage,
+        };
+        if (chatSocket?.readyState === w3cwebsocket.OPEN) {
+          chatSocket?.send(JSON.stringify(dataToSend));
+          setMessagesData([
+            ...messages,
+            {
+              message: data.textMessage,
+              sender: store.getState().user.value,
+              updated_at: new Date().toISOString(),
+            },
+          ]);
+          reset({ textMessage: "" });
+        }
       }
     } catch (err) {
       console.log(err);
       console.log(errors);
     }
   };
-  console.log(userData);
-  
 
   return (
     <>
@@ -75,8 +87,9 @@ const ChatArea = () => {
   const { userName } = useParams();
   const setProfileVisible =
     useOutletContext<React.Dispatch<React.SetStateAction<boolean>>>();
-
-  console.log("chat area reloaded");
+  useEffect(() => {
+    setMessagesData([]);
+  }, [userName]);
   return (
     <>
       <div className={`${chat}`}>

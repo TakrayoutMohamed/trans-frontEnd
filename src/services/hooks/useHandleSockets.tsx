@@ -13,12 +13,12 @@ let axiosPrivateHook: AxiosInstance;
 
 
 
-interface useHandleSocketsProps{
+interface UseHandleSocketsProps{
     urlOfSocket: string;
     client: w3cwebsocket | null;
 }
 
-const useHandleSockets = ({urlOfSocket, client = null} : useHandleSocketsProps) => {
+const UseHandleSockets = ({urlOfSocket, client = null} : UseHandleSocketsProps) => {
   axiosPrivateHook = UseAxiosPrivate();
   const isAuthenticated = useSelector(
     (state: RootState) => state.authenticator.value
@@ -55,4 +55,4 @@ const useHandleSockets = ({urlOfSocket, client = null} : useHandleSocketsProps) 
   }, [accessToken]);
 };
 
-export default useHandleSockets;
+export default UseHandleSockets;

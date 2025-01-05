@@ -6,16 +6,16 @@ import {
 import { setAccessToken } from "@/src/states/authentication/accessTokenSlice";
 import { setUser } from "@/src/states/authentication/userSlice";
 import { store } from "@/src/states/store";
-import { UserDataType } from "@/src/states/authentication/userSlice";
 import { setFriends } from "@/src/states/authentication/friendsSlice";
 import {
   AllUsersDataType,
   setAllUsers,
 } from "@/src/states/authentication/allUsersSlice";
 import {
-  BlockerUsersType,
-  setBlocked,
-} from "@/src/states/authentication/blockedSlice";
+  setMessages,
+} from "@/src/states/authentication/messagesSlice";
+import { MessagesDataType } from "@/src/customDataTypes/MessagesDataType";
+import { UserDataType } from "@/src/customDataTypes/UserDataType";
 
 const setCookies = (cookiesAccessToken: string): void => {
   if (cookiesAccessToken !== Cookies.get("accessToken"))
@@ -67,8 +67,8 @@ export function setFriendsData(friendsData: UserDataType[]) {
   console.log(friendsData);
 }
 
-export function setBlockedData(blockedData: BlockerUsersType[]) {
-  dispatch(setBlocked(blockedData));
-  console.log("Blocked data in set Blocked data ");
-  console.log(blockedData);
+export function setMessagesData(messages: MessagesDataType[]) {
+  dispatch(setMessages(messages));
+  console.log("messages in set messages data");
+  console.log(messages);
 }

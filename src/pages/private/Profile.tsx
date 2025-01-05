@@ -1,6 +1,6 @@
 import { useOutletContext } from "react-router-dom";
 import { profile } from "./styles";
-import { UserDataType } from "@/src/states/authentication/userSlice";
+import { UserDataType } from "@/src/customDataTypes/UserDataType";
 
 const convertDateFormat = (isoDate: string | Date) => {
   const date = new Date(isoDate);

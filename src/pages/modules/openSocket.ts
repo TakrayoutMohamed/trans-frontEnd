@@ -8,7 +8,7 @@ export function openSocket(
   let clientSocket = new w3cwebsocket(
     `${process.env.BACKEND_API_SOCKETS}/ws/${socketConnectionEndPoint}/?token=${accessToken}`
   );
-  console.log(clientSocket);
+  // console.log(clientSocket);
   if (
     clientSocket.readyState !== w3cwebsocket.CLOSING &&
     clientSocket.readyState !== w3cwebsocket.CLOSED

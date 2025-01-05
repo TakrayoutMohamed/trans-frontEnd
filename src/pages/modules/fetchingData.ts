@@ -2,15 +2,14 @@ import { store } from "@/src/states/store";
 import { AxiosInstance } from "axios";
 import {
   setAllUsersData,
-  setBlockedData,
   setFriendsData,
 } from "./setAuthenticationData";
 import axios from "@/src/services/api/axios";
 import refreshToken from "@/src/services/hooks/refreshToken";
 import { AllUsersDataType } from "@/src/states/authentication/allUsersSlice";
-import { UserDataType } from "@/src/states/authentication/userSlice";
 import { w3cwebsocket } from "websocket";
 import { closeSocket } from "./closeSocket";
+import { FriendRequestsType } from "@/src/customDataTypes/FriendsRequestsType";
 
 export const sendFriendRequest = (
   axiosPrivateHook: AxiosInstance,
@@ -61,7 +60,6 @@ export const removeFriend = (
       console.log(err);
     });
 };
-export type FriendRequestsType = UserDataType & { type: string };
 
 interface FetchedData {
   created_at: string;
@@ -174,17 +172,16 @@ export const acceptFriendRequest = async (
   axiosPrivateHook
     .put("friend_req/", { username: username })
     .then((res) => {
-      let temp_data;
       console.log(res);
       setFriendRequestsList &&
-        setFriendRequestsList((prev) => {
-          return prev.filter((friendReq) => friendReq.username !== username);
-        });
+      setFriendRequestsList((prev) => {
+        return prev.filter((friendReq) => friendReq.username !== username);
+      });
       if (friendRequestsList) {
+        let temp_data;
         temp_data = friendRequestsList.find(
           (friendReq) => friendReq.username === username
         );
-        console.log(temp_data);
         temp_data &&
           setFriendsData([...store.getState().friends.value, temp_data]);
       }
@@ -195,7 +192,6 @@ export const acceptFriendRequest = async (
             : user;
         })
       );
-      console.log(temp_data);
     })
     .catch((err) => console.log(err))
     .finally(() => {
@@ -258,10 +254,6 @@ export const blockUser = (
     .post("block_user", { username: username })
     .then((res) => {
       console.log(res);
-      setBlockedData([
-        ...store.getState().blocked.value,
-        { username: username },
-      ]);
       setAllUsersData(
         store.getState().allUsers.value.map((user) => {
           return user.username === username
@@ -284,11 +276,6 @@ export const unblockUser = (
     .then((res) => {
       console.log("removed block to user " + username + " ");
       console.log(res);
-      setBlockedData(
-        store
-          .getState()
-          .blocked.value.filter((blocked) => blocked.username !== username)
-      );
       setAllUsersData(
         store.getState().allUsers.value.map((user) => {
           return user.username === username
