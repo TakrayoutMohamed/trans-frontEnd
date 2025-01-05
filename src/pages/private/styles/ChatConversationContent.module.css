@@ -11,15 +11,16 @@ div[class~="true"] {
     /* margin-top: 11em !important; */
 
 }
-.chatConversationContent ::-webkit-scrollbar {
-    width: 0em;
+.chatConversationContent::-webkit-scrollbar {
+    width: 0.2em;
 }
 
-.chatConversationContent ::-webkit-scrollbar-thumb {
-    outline: 0px solid slategrey;
+.chatConversationContent::-webkit-scrollbar-thumb {
+    border-radius: 1em;
+    outline: 1px solid slategrey;
 }
 
-.chatConversationContent ::-webkit-scrollbar-track {
+.chatConversationContent::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 0px rgba(0, 0, 0, 0.3);
 }
 

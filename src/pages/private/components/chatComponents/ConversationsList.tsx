@@ -81,7 +81,7 @@ const ConversationsList = () => {
             role="tabpanel"
             aria-labelledby="all-msgs"
           >
-            <UsersChatCard conversations={conversationsList} />
+            <UsersChatCard conversations={conversationsList} type="conversations"/>
           </div>
           <div
             className="tab-pane"
@@ -90,7 +90,7 @@ const ConversationsList = () => {
             aria-labelledby="unread-msgs"
           >
             {(friends && friends.length) ? (
-              <UsersChatCard conversations={friends} />
+              <UsersChatCard conversations={friends} type="friends"/>
             ) : (
               <div>you have no Friends!</div>
             )}

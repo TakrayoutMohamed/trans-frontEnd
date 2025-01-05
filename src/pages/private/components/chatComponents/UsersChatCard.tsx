@@ -5,25 +5,37 @@ import { Link } from "react-router-dom";
 
 type UsersChatCardProps = {
   conversations: ConversationList[];
+  type?: string;
 };
 
-const UsersChatCard = ({ conversations }: UsersChatCardProps) => {
+const UsersChatCard = ({ conversations, type }: UsersChatCardProps) => {
 
   const r = (Math.random() + 1).toString(36).substring(20);
+  conversations = [
+    ...conversations,
+    ...conversations,
+    ...conversations,
+    ...conversations,
+    ...conversations,
+    ...conversations,
+    ...conversations,
+    ...conversations,
+    ...conversations
+  ]
   return (
     <>
       {conversations.map(
-        (conversationUser) => (
+        (conversationUser, index) => (
           <Link
             to={conversationUser.username + ""}
             className={`${chatUsersChatCard}`}
-            key={conversationUser.username+r}
+            key={index}
           >
             <div className="" id="userImage">
               <div className="">
                 <svg className="">
                   <pattern
-                    id={`pattImage${r + conversationUser.created_at}`}
+                    id={`pattImage${r + conversationUser.created_at + type}`}
                     x="0"
                     y="0"
                     height="100%"
@@ -45,7 +57,7 @@ const UsersChatCard = ({ conversations }: UsersChatCardProps) => {
                     cx="1em"
                     cy="1em"
                     r="1em"
-                    fill={`url(#pattImage${r+ conversationUser.created_at})`}
+                    fill={`url(#pattImage${r+ conversationUser.created_at + type})`}
                     stroke="lightblue"
                     strokeWidth="1"
                   />
