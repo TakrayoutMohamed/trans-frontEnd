@@ -5,12 +5,12 @@ import ConversationsList from "@/src/pages/private/components/chatComponents/Con
 import "@router/styles/chatGlobalOverridingStyles.css";
 import Profile from "./components/chat/Profile";
 import { w3cwebsocket } from "websocket";
-import { UserDataType } from "@/src/states/authentication/userSlice";
 import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
 import { ChatDataContext } from "@/src/customDataTypes/ChatDataContext";
 import { openSocket } from "@/src/pages/modules/openSocket";
 import { store } from "@/src/states/store";
 import { closeSocket } from "@/src/pages/modules/closeSocket";
+import { UserDataType } from "@/src/customDataTypes/UserDataType";
 
 let chatSocket_: w3cwebsocket | null = null;
 

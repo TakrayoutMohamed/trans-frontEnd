@@ -5,10 +5,10 @@ import { chatConversationsList } from "../../styles";
 import TabListHeaders from "./TabListHeaders";
 import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
 import { AxiosInstance } from "axios";
-import { UserDataType } from "@/src/states/authentication/userSlice";
 import { ChatDataContext } from "@/src/customDataTypes/ChatDataContext";
 import { RootState } from "@/src/states/store";
 import { useSelector } from "react-redux";
+import { UserDataType } from "@/src/customDataTypes/UserDataType";
 
 export type ConversationList = UserDataType;
 

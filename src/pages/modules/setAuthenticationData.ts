@@ -6,7 +6,6 @@ import {
 import { setAccessToken } from "@/src/states/authentication/accessTokenSlice";
 import { setUser } from "@/src/states/authentication/userSlice";
 import { store } from "@/src/states/store";
-import { UserDataType } from "@/src/states/authentication/userSlice";
 import { setFriends } from "@/src/states/authentication/friendsSlice";
 import {
   AllUsersDataType,
@@ -16,6 +15,7 @@ import {
   setMessages,
 } from "@/src/states/authentication/messagesSlice";
 import { MessagesDataType } from "@/src/customDataTypes/MessagesDataType";
+import { UserDataType } from "@/src/customDataTypes/UserDataType";
 
 const setCookies = (cookiesAccessToken: string): void => {
   if (cookiesAccessToken !== Cookies.get("accessToken"))

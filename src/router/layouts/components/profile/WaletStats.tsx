@@ -1,6 +1,6 @@
 import { coinsBackground, profileIcon } from "@/media-exporting";
+import { UserDataType } from "@/src/customDataTypes/UserDataType";
 import { profileWaletStats } from "@/src/router/styles";
-import { UserDataType } from "@/src/states/authentication/userSlice";
 import { LiaCoinsSolid } from "react-icons/lia";
 import { RiCoinsLine } from "react-icons/ri";
 

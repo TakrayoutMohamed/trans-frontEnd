@@ -7,9 +7,9 @@ import {
 import axios from "@/src/services/api/axios";
 import refreshToken from "@/src/services/hooks/refreshToken";
 import { AllUsersDataType } from "@/src/states/authentication/allUsersSlice";
-import { UserDataType } from "@/src/states/authentication/userSlice";
 import { w3cwebsocket } from "websocket";
 import { closeSocket } from "./closeSocket";
+import { FriendRequestsType } from "@/src/customDataTypes/FriendsRequestsType";
 
 export const sendFriendRequest = (
   axiosPrivateHook: AxiosInstance,
@@ -60,7 +60,6 @@ export const removeFriend = (
       console.log(err);
     });
 };
-export type FriendRequestsType = UserDataType & { type: string };
 
 interface FetchedData {
   created_at: string;

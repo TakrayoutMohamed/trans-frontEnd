@@ -1,6 +1,6 @@
 import { w3cwebsocket } from "websocket";
-import { UserDataType } from "../states/authentication/userSlice";
 import { createContext } from "react";
+import { UserDataType } from "./UserDataType";
 
 type ChatDataContextType = {
     userData: UserDataType | undefined;

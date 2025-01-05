@@ -7,11 +7,11 @@ import { FaUserCheck } from "react-icons/fa";
 import { FiUserX } from "react-icons/fi";
 import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
 import { AxiosInstance } from "axios";
-import { UserDataType } from "@/src/states/authentication/userSlice";
 import {
   acceptFriendRequest,
   rejectFriendRequest,
 } from "@/src/pages/modules/fetchingData";
+import { UserDataType } from "@/src/customDataTypes/UserDataType";
 
 type NotificationsDataType = {
   message: string;

@@ -10,8 +10,6 @@ import {
 import { AxiosInstance } from "axios";
 import Cookies from "js-cookie";
 import { useSelector } from "react-redux";
-// import { UserDataType } from "./states/authentication/userSlice";
-// import { BlockerUsersType } from "./states/authentication/blockedSlice";
 import refreshToken from "./services/hooks/refreshToken";
 
 const getUsersInfo = async (axiosPrivateHook: AxiosInstance) => {
