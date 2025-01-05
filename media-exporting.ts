@@ -39,6 +39,8 @@ export const settingBackgroundImage =
 
 export  const inviteFriend= "/assets/tournament/InviteFriend.svg";
 export  const invitePlayer= "/assets/tournament/InvitePlayer.svg";
+export  const inviteFriendFaded= "/assets/tournament/InviteFriendFaded.png";
+export	const CancelPlayer= "/assets/tournament/Cancel.svg"
 export  const pingPongLogo= "/assets/tournament/PingPongLogo.svg";
 export  const playerPfp = "/assets/tournament/PlayerPfp.svg";
 export  const tournamentRobot = "/assets/tournament/robot.svg";
