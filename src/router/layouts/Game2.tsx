@@ -51,7 +51,7 @@ const Game: React.FC<GameProps> = ({gameId}) => {
             console.log("Player number:", data.number);
             playerNum.current = data.number;
             console.log("Player number:", playerNum.current);
-            setGameState(data.game_state as GameState);
+            // setGameState(data.game_state as GameState);
             break;
             case 'game_state':
               setGameState(data.game_state as GameState);
@@ -203,16 +203,20 @@ const Game: React.FC<GameProps> = ({gameId}) => {
     <div className="relative h-screen w-screen flex items-center justify-center">
       {!endGame && (
         <div className="relative flex flex-col items-center">
-          <canvas
-            ref={canvasRef}
-            width={dimensions.canvasWidth}
-            height={dimensions.canvasHeight}
-            style={{ border: "1px solid #fff" }}
-          />
-          {gameState && (
-            <div className="absolute top-4 text-white text-2xl font-bold">
-              Player 1: {gameState.score.player1} - Player 2: {gameState.score.player2}
-            </div>
+          {!gameState ? (
+            <div className="text-white text-2xl font-bold">Waiting for opponent...</div>
+          ) : (
+            <>
+              <div className="absolute top-4 text-white text-2xl font-bold">
+                {gameState.player1.username} : {gameState.score.player1} - {gameState.player2.username} : {gameState.score.player2}
+              </div>
+              <canvas
+                ref={canvasRef}
+                width={dimensions.canvasWidth}
+                height={dimensions.canvasHeight}
+                style={{ border: "1px solid #fff" }}
+              />
+            </>
           )}
         </div>
       )}
@@ -232,8 +236,7 @@ const Game: React.FC<GameProps> = ({gameId}) => {
         </div>
       )}
     </div>
-  );
-  
+  );  
   
 };
 

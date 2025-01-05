@@ -8,6 +8,7 @@ export type BallState = {
   };
 
 export type PlayerState = {
+    username: string;
     x: number;
     y: number;
     angle: number;
