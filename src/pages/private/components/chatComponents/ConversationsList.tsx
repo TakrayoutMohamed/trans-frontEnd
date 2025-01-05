@@ -9,6 +9,7 @@ import { ChatDataContext } from "@/src/customDataTypes/ChatDataContext";
 import { RootState } from "@/src/states/store";
 import { useSelector } from "react-redux";
 import { UserDataType } from "@/src/customDataTypes/UserDataType";
+import FriendsChatCard from "./FriendsChatCard";
 
 export type ConversationList = UserDataType;
 
@@ -30,6 +31,7 @@ function searchFilter(
     : (event.target.style.color = "white");
   filteredSearchData.length > 0 && setConversationsList(filteredSearchData);
 }
+let conversationsListData: ConversationList[] = [];
 
 const ConversationsList = () => {
   const axiosPrivateHook = UseAxiosPrivate();
@@ -53,7 +55,6 @@ const ConversationsList = () => {
   const chatContext = useContext(ChatDataContext);
   if (!chatContext)
     throw new Error("this component should be wrapped inside a chatContext")
-  let conversationsListData: ConversationList[] = [];
   return (
     <>
       <div className={`${chatConversationsList}`}>
@@ -90,7 +91,7 @@ const ConversationsList = () => {
             aria-labelledby="unread-msgs"
           >
             {(friends && friends.length) ? (
-              <UsersChatCard conversations={friends} type="friends"/>
+              <FriendsChatCard/>
             ) : (
               <div>you have no Friends!</div>
             )}

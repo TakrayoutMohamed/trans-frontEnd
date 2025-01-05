@@ -1,42 +1,37 @@
 import { profileIcon } from "@/media-exporting";
-
 import { chatUsersChatCard } from "../../styles";
 import { Link } from "react-router-dom";
-import { FriendsDataType } from "@/src/customDataTypes/FriendsDataType";
+import { RootState } from "@/src/states/store";
+import { useSelector } from "react-redux";
 
-type UsersChatCardProps = {
-  friends: FriendsDataType[];
-  type?: string;
-};
-
-const FriendsChatCard = ({ friends, type }: UsersChatCardProps) => {
-
+const FriendsChatCard = () => {
+  let friends = useSelector((state: RootState) => state.friends.value)
   const r = (Math.random() + 1).toString(36).substring(20);
-  friends = [
-    ...friends,
-    ...friends,
-    ...friends,
-    ...friends,
-    ...friends,
-    ...friends,
-    ...friends,
-    ...friends,
-    ...friends
-  ]
+  // friends = [
+  //   ...friends,
+  //   ...friends,
+  //   ...friends,
+  //   ...friends,
+  //   ...friends,
+  //   ...friends,
+  //   ...friends,
+  //   ...friends,
+  //   ...friends
+  // ]
   return (
     <>
       {friends.map(
-        (conversationUser, index) => (
+        (friend) => (
           <Link
-            to={conversationUser.username + ""}
+            to={friend.username + ""}
             className={`${chatUsersChatCard}`}
-            key={index}
+            key={friend.username + " friends"}
           >
             <div className="" id="userImage">
               <div className="">
                 <svg className="">
                   <pattern
-                    id={`pattImage${r + conversationUser.created_at + type}`}
+                    id={`pattImage${r + friend.username}friends`}
                     x="0"
                     y="0"
                     height="100%"
@@ -48,8 +43,8 @@ const FriendsChatCard = ({ friends, type }: UsersChatCardProps) => {
                       height="100%"
                       y="0.1em"
                       href={
-                        conversationUser.avatar
-                          ? process.env.BACKEND_API_URL + conversationUser.avatar
+                        friend.avatar
+                          ? process.env.BACKEND_API_URL + friend.avatar
                           : profileIcon
                       }
                     />
@@ -58,13 +53,13 @@ const FriendsChatCard = ({ friends, type }: UsersChatCardProps) => {
                     cx="1em"
                     cy="1em"
                     r="1em"
-                    fill={`url(#pattImage${r+ conversationUser.created_at + type})`}
+                    fill={`url(#pattImage${r+ friend.username}friends)`}
                     stroke="lightblue"
                     strokeWidth="1"
                   />
                 </svg>
                 <svg className="">
-                  {conversationUser.is_online && (
+                  {friend.is_online && (
                     <circle
                       className="position-absolutee"
                       cx="6px"
@@ -78,10 +73,10 @@ const FriendsChatCard = ({ friends, type }: UsersChatCardProps) => {
             </div>
             <div className="" id="userNameWriting">
               <p className="">
-                {conversationUser.first_name ? conversationUser.first_name : "????????"}{" "}
-                {conversationUser.last_name ? conversationUser.last_name : "???????"}
+                {friend.first_name ? friend.first_name : "????????"}{" "}
+                {friend.last_name ? friend.last_name : "???????"}
               </p>
-              <small className={``}>{conversationUser.username}</small>
+              <small className={``}>{friend.username}</small>
             </div>
           </Link>
         )
