@@ -7,8 +7,11 @@ import { RootState } from "@/src/states/store";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+interface GameProps {
+	gameId: number;
+}
 
-const Game: React.FC = () => {
+const Game: React.FC<GameProps> = ({gameId}) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const wsRef = useRef<w3cwebsocket | null>(null);
   const animationFrameId = useRef<number>();
@@ -31,7 +34,7 @@ const Game: React.FC = () => {
     if (!AccessToken) return; // Don't initialize if no AccessToken
 
     wsRef.current = new w3cwebsocket(
-      `${process.env.BACKEND_API_SOCKETS}/ws/league/?token=${AccessToken}`
+      `${process.env.BACKEND_API_SOCKETS}/ws/league/${gameId}?token=${AccessToken}`
     );
 
     wsRef.current.onopen = () => {
