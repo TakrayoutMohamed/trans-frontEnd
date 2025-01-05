@@ -1,11 +1,10 @@
 import { Outlet, useParams } from "react-router-dom";
 import { chatLayout } from "../styles";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import ConversationsList from "@/src/pages/private/components/chatComponents/ConversationsList";
 import "@router/styles/chatGlobalOverridingStyles.css";
 import Profile from "./components/chat/Profile";
 import { w3cwebsocket } from "websocket";
-import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
 import { ChatDataContext } from "@/src/customDataTypes/ChatDataContext";
 import { openSocket } from "@/src/pages/modules/openSocket";
 import { store } from "@/src/states/store";
@@ -16,30 +15,16 @@ let chatSocket_: w3cwebsocket | null = null;
 
 const ChatLayout = () => {
   const [isProfileVisible, setProfileVisible] = useState<boolean>(false);
-  const axiosPrivateHook = UseAxiosPrivate();
   const [userData, setUserData] = useState<UserDataType | undefined>(undefined);
-  const { userName } = useParams();
+  // const { userName } = useParams();
+
   useLayoutEffect(() => {
-    
-    chatSocket_ = openSocket("chat", store.getState().accessToken.value);
+    if (!chatSocket_ || chatSocket_.readyState !== w3cwebsocket.OPEN)
+      chatSocket_ = openSocket("chat", store.getState().accessToken.value);
     return () => {
       closeSocket(chatSocket_);
-    };
-  }, []);
-  useEffect(() => {
-    if (!(userData?.username === userName) && userName) {
-      axiosPrivateHook
-        .post("search_username", {
-          username: userName,
-        })
-        .then((res) => {
-          setUserData(res.data.user);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
     }
-  },[userName])
+  },[])
 
   return (
     <ChatDataContext.Provider

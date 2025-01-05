@@ -7,12 +7,14 @@ import ConversationContent from "./components/chatComponents/ConversationContent
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useLayoutEffect } from "react";
 import { ChatDataContext } from "@/src/customDataTypes/ChatDataContext";
 import { w3cwebsocket } from "websocket";
 import { RootState, store } from "@/src/states/store";
 import { setMessagesData } from "../modules/setAuthenticationData";
 import { useSelector } from "react-redux";
+import { CanceledError } from "@/src/services/api/axios";
+import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
 
 const MessageSchema = z.object({
   textMessage: z
@@ -85,10 +87,36 @@ const FormComponent = () => {
 
 const ChatArea = () => {
   const { userName } = useParams();
+  const axiosPrivateHook = UseAxiosPrivate();
+  const friends = useSelector((state: RootState) => state.friends.value)
   const setProfileVisible =
     useOutletContext<React.Dispatch<React.SetStateAction<boolean>>>();
-  useEffect(() => {
-    setMessagesData([]);
+    const chatContext = useContext(ChatDataContext);
+    useEffect(() => {
+    if (!chatContext)
+      throw new Error("Error : this component should be wraped inside chat context")
+    console.log("the use effect of chat layout trigered with user " + userName);
+    // setMessagesData([]);
+    // const controller = new AbortController();
+    if ((chatContext.userData?.username !== userName) && userName !== undefined) {
+      console.log("inside the condition of fetch user data ");
+      chatContext.setUserData(friends.find((user) => user.username === userName))
+      // axiosPrivateHook
+      //   .post("search_username", {
+      //     username: userName,
+      //   },{signal: controller.signal})
+      //   .then((res) => {
+      //     chatContext.setUserData(res.data.user);
+      //   })
+      //   .catch((error) => {
+      //     if (error instanceof CanceledError)
+      //     console.log(error);
+      //   });
+    }
+    return ()=> {
+      // controller.abort();
+      setMessagesData([]);
+    }
   }, [userName]);
   return (
     <>
