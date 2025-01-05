@@ -8,30 +8,22 @@ type UsersChatCardProps = {
 };
 
 const UsersChatCard = ({ conversations }: UsersChatCardProps) => {
-  // console.log("users chat card re-rendered");
-  // console.log(conversations);
 
   const r = (Math.random() + 1).toString(36).substring(20);
   return (
     <>
       {conversations.map(
-        ({
-          username = "UserName",
-          first_name,
-          last_name,
-          is_online = false,
-          avatar = undefined,
-        }) => (
+        (conversationUser) => (
           <Link
-            to={username + ""}
+            to={conversationUser.username + ""}
             className={`${chatUsersChatCard}`}
-            key={username}
+            key={conversationUser.username+r}
           >
             <div className="" id="userImage">
               <div className="">
                 <svg className="">
                   <pattern
-                    id={`pattImage${r}`}
+                    id={`pattImage${r + conversationUser.created_at}`}
                     x="0"
                     y="0"
                     height="100%"
@@ -43,8 +35,8 @@ const UsersChatCard = ({ conversations }: UsersChatCardProps) => {
                       height="100%"
                       y="0.1em"
                       href={
-                        avatar
-                          ? process.env.BACKEND_API_URL + avatar
+                        conversationUser.avatar
+                          ? process.env.BACKEND_API_URL + conversationUser.avatar
                           : profileIcon
                       }
                     />
@@ -53,13 +45,13 @@ const UsersChatCard = ({ conversations }: UsersChatCardProps) => {
                     cx="1em"
                     cy="1em"
                     r="1em"
-                    fill={`url(#pattImage${r})`}
+                    fill={`url(#pattImage${r+ conversationUser.created_at})`}
                     stroke="lightblue"
                     strokeWidth="1"
                   />
                 </svg>
                 <svg className="">
-                  {is_online && (
+                  {conversationUser.is_online && (
                     <circle
                       className="position-absolutee"
                       cx="6px"
@@ -73,28 +65,11 @@ const UsersChatCard = ({ conversations }: UsersChatCardProps) => {
             </div>
             <div className="" id="userNameWriting">
               <p className="">
-                {first_name ? first_name : "????????"}{" "}
-                {last_name ? last_name : "???????"}
+                {conversationUser.first_name ? conversationUser.first_name : "????????"}{" "}
+                {conversationUser.last_name ? conversationUser.last_name : "???????"}
               </p>
-              <small className={``}>{username}</small>
+              <small className={``}>{conversationUser.username}</small>
             </div>
-            {/* <div
-              className={`${(!unreadMsg || unreadMsg < 1) && "invisible"}`}
-              id="unreadMsgs"
-            >
-              <svg width="18px" height="18px">
-                <circle cx="50%" cy="50%" fill="#1f77b4" r="50%" />
-                <text
-                  x="50%"
-                  y="50%"
-                  fontSize="12"
-                  textAnchor="middle"
-                  alignmentBaseline="central"
-                >
-                  {unreadMsg}
-                </text>
-              </svg>
-            </div> */}
           </Link>
         )
       )}

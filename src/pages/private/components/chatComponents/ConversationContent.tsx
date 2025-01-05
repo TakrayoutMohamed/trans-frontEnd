@@ -1,7 +1,7 @@
 import { profileIcon } from "@/media-exporting";
 import { useParams } from "react-router-dom";
 import { chatConversationContent } from "../../styles";
-import { useContext, useEffect, useLayoutEffect, useRef } from "react";
+import { useContext, useLayoutEffect, useRef } from "react";
 import { ChatDataContext } from "@/src/customDataTypes/ChatDataContext";
 import { IMessageEvent, w3cwebsocket } from "websocket";
 import { SocketJsonValueType } from "@/src/pages/modules/watchSocket";
@@ -15,11 +15,6 @@ import { useSelector } from "react-redux";
 import { RootState, store } from "@/src/states/store";
 import { setMessages } from "@/src/states/authentication/messagesSlice";
 
-interface ConversationContentProps {
-  messages: MessagesDataType[];
-  setMessages: React.Dispatch<React.SetStateAction<MessagesDataType[]>>;
-}
-
 const listenForChatSocket = (
   chatSocket: w3cwebsocket | null
 ) => {
@@ -28,11 +23,9 @@ const listenForChatSocket = (
       let json_data: SocketJsonValueType = null;
       json_data = JSON.parse(dataEvent.data as string);
       console.log(json_data);
-      // if (json_data?.type !== "error")
-        // setMessages((prev: MessagesDataType[]) => {
-        //   return [...prev, json_data.message];
-        // });
-      // else toast.warn(json_data.message, { containerId: "validation" });
+      if (json_data?.type !== "error")
+        store.dispatch(setMessages([...store.getState().messages.value, json_data.message]))
+      else toast.warn(json_data.message, { containerId: "validation" });
     };
   }
 };
@@ -43,7 +36,6 @@ const ConversationContent = () => {
   const messageEndRef = useRef<HTMLDivElement>(null);
   const messages = useSelector((state: RootState) => state.messages.value)
   useLayoutEffect(() => {
-    // url = `/chat/messages/?username=${userName}`
     store.dispatch(setMessages([]))
   },[userName])
   const { isLoading, hasMore, handleScroll } =
@@ -53,10 +45,6 @@ const ConversationContent = () => {
       messageEndRef: messageEndRef.current,
       offset: 200,
     });
-
-    // useEffect(() => {
-    //   messageEndRef.current?.scrollIntoView({behavior:"smooth"});
-    // }, [messageEndRef])
   const chatContext = useContext(ChatDataContext);
   // this should be removed at production phase from all component it exist in
   if (!chatContext)
@@ -64,8 +52,6 @@ const ConversationContent = () => {
   const { chatSocket } = chatContext;
   listenForChatSocket(chatSocket);
   let previousMsgOwner = " ";
-  // console.log(refChatConversationContent);
-  // console.log(refChatConversationContent.current?.scrollTop);
   return (
     <>
       <div

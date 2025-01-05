@@ -37,12 +37,8 @@ const UseInfiniteScroll = <T,>({
     (e: React.UIEvent<HTMLDivElement>) => {
       let container = e.currentTarget;
       if (container && container.scrollTop <= offset) {
-        let previousScrollHeight = 0;
         if (refElement) {
-          previousScrollHeight = refElement.scrollHeight;
           setScrollBalance(refElement.scrollHeight - container.scrollTop)
-          console.log("first ");
-          console.log("scrollHeight : " + refElement.scrollHeight + " scrollTop : " +refElement.scrollTop);
         }
         fetchData(page)
       }
@@ -54,33 +50,19 @@ const UseInfiniteScroll = <T,>({
     setPage(1);
     setHasMore(true);
     setIsLoading(false);
-    fetchData(1).then(async () => {
+    fetchData(1).then(() => {
       messageEndRef?.scrollIntoView({ behavior: "instant" });
     });
-
-    console.log("reset data hook after change the url (userName)");
-    console.log("messages length : " + messages.length);
-    console.log("messages : ", messages);
-    console.log("url : ", url);
-    console.log(
-      "is loading :" + isLoading + " hasMore: " + hasMore + " page : " + page
-    );
   }, [userName, messageEndRef]);
   useEffect(() => {
     scrollBalance && setScrollBalance((prev) => {
       let addedHeight = 0;
-      console.log("previous scrollHeight is : " + prev)
-      console.log("new scrollHeight is : " + refElement?.scrollHeight)
       if (refElement)
         addedHeight = refElement.scrollHeight - prev;
-      console.log("height added "+ addedHeight);
-      
-
       if (prev === 0)
         return 0;
       if (refElement)
       {
-        // refElement.scrollTo({top: 0, "behavior": "instant"});
         refElement.scrollTop = addedHeight
       }
       return (0);
@@ -103,7 +85,6 @@ const UseInfiniteScroll = <T,>({
       setHasMore(res.data.next !== null);
       setPage(page + 1);
     } catch (err) {
-      // setHasMore(false);
       console.error("Error fetching data:");
       console.error(err);
     } finally {

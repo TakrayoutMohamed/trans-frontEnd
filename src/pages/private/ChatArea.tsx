@@ -7,7 +7,7 @@ import ConversationContent from "./components/chatComponents/ConversationContent
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useContext, useEffect, useLayoutEffect } from "react";
+import { useContext, useEffect } from "react";
 import { ChatDataContext } from "@/src/customDataTypes/ChatDataContext";
 import { w3cwebsocket } from "websocket";
 import { RootState, store } from "@/src/states/store";

@@ -7,7 +7,8 @@ import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
 import { AxiosInstance } from "axios";
 import { UserDataType } from "@/src/states/authentication/userSlice";
 import { ChatDataContext } from "@/src/customDataTypes/ChatDataContext";
-import { store } from "@/src/states/store";
+import { RootState } from "@/src/states/store";
+import { useSelector } from "react-redux";
 
 export type ConversationList = UserDataType;
 
@@ -32,6 +33,7 @@ function searchFilter(
 
 const ConversationsList = () => {
   const axiosPrivateHook = UseAxiosPrivate();
+  const friends = useSelector((state: RootState) => state.friends.value)
   const [conversationsList, setConversationsList] = useState<
     ConversationList[]
   >([]);
@@ -39,7 +41,6 @@ const ConversationsList = () => {
     const fetchConversationsList = async (axiosPrivateHook: AxiosInstance) => {
       try {
         const res = await axiosPrivateHook.get("chat/conversations");
-        // console.log(res.data.results);
         conversationsListData = res.data.results;
         setConversationsList(res.data.results);
       } catch (err) {
@@ -50,14 +51,9 @@ const ConversationsList = () => {
     fetchConversationsList(axiosPrivateHook);
   }, []);
   const chatContext = useContext(ChatDataContext);
-  // console.log(chatContext);
   if (!chatContext)
     throw new Error("this component should be wrapped inside a chatContext")
   let conversationsListData: ConversationList[] = [];
-  const unreadConversations = store.getState().friends.value;
-
-  // console.log("conversations list re-rendered");
-  // console.log(conversationsList);
   return (
     <>
       <div className={`${chatConversationsList}`}>
@@ -93,8 +89,8 @@ const ConversationsList = () => {
             role="tabpanel"
             aria-labelledby="unread-msgs"
           >
-            {unreadConversations.length ? (
-              <UsersChatCard conversations={unreadConversations} />
+            {(friends && friends.length) ? (
+              <UsersChatCard conversations={friends} />
             ) : (
               <div>you have no Friends!</div>
             )}
