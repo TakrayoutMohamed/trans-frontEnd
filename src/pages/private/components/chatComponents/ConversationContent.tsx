@@ -14,6 +14,7 @@ import { MessagesDataType } from "@/src/customDataTypes/MessagesDataType";
 import { useSelector } from "react-redux";
 import { RootState, store } from "@/src/states/store";
 import { setMessages } from "@/src/states/authentication/messagesSlice";
+import { setMessagesData } from "@/src/pages/modules/setAuthenticationData";
 
 const listenForChatSocket = (
   chatSocket: w3cwebsocket | null
@@ -42,8 +43,12 @@ const ConversationContent = () => {
     UseInfiniteScroll<MessagesDataType>({
       url: url,
       refElement: refChatConversationContent.current,
-      messageEndRef: messageEndRef.current,
+      startPositionRef: messageEndRef.current,
+      data: messages,
+      setData : setMessagesData,
       offset: 200,
+      username: userName,
+      scrollDirection: "top"
     });
   const chatContext = useContext(ChatDataContext);
   // this should be removed at production phase from all component it exist in
