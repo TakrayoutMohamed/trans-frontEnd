@@ -210,7 +210,11 @@ const SearchFriendsInGame = () => {
                 <div className="user-image">
                   <div className="">
                     <img
-                      src={user.avatar ? user.avatar : profileIcon}
+                      src={
+                        user.avatar
+                          ? process.env.BACKEND_API_URL + user.avatar
+                          : profileIcon
+                      }
                       alt=""
                       className="rounded-5 bg-info"
                     />
