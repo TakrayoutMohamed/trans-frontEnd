@@ -1,4 +1,4 @@
-import { UserDataType } from "../states/authentication/userSlice";
+import { UserDataType } from "./UserDataType";
 
 export interface MessagesDataType {
     sender: UserDataType;
