@@ -1,6 +1,7 @@
 import {
   useCallback,
   useEffect,
+  useLayoutEffect,
   useRef,
   useState,
 } from "react";
@@ -79,6 +80,9 @@ const UseInfiniteScroll = <T,>({
     fetchData(1).then(() => {
       startPositionRef?.scrollIntoView({ behavior: "instant" });
     });
+    return (() => {
+      abortControlerRef.current?.abort();
+    })
   }, [userName, startPositionRef]);
   useEffect(() => {
     scrollBalance &&
@@ -92,6 +96,23 @@ const UseInfiniteScroll = <T,>({
         return 0;
       });
   }, [data]);
+   // Check if the content is scrollable, and fetch more data if necessary
+   const checkIfScrollable = useCallback(() => {
+    const container = refElement;
+    console.log("checkisScrollable");
+    if (container && container.scrollHeight <= container.clientHeight && hasMore) {
+      fetchData(page).then(() => {
+        startPositionRef?.scrollIntoView({ behavior: "instant" });
+        setScrollBalance(0)
+      });;
+    }
+  }, [refElement,refElement?.offsetTop]);
+  useLayoutEffect (() => {
+    checkIfScrollable()
+    return (() => {
+      abortControlerRef.current?.abort();
+    })
+  },[checkIfScrollable])
 
   async function fetchData(page: number) {
     if (isLoading || (!hasMore && page !== 1)) return;

@@ -8,7 +8,6 @@ import { SocketJsonValueType } from "@/src/pages/modules/watchSocket";
 
 import { toast } from "react-toastify";
 
-
 import UseInfiniteScroll from "@/src/services/hooks/UseInfiniteScroll";
 import { MessagesDataType } from "@/src/customDataTypes/MessagesDataType";
 import { useSelector } from "react-redux";
@@ -16,39 +15,39 @@ import { RootState, store } from "@/src/states/store";
 import { setMessages } from "@/src/states/authentication/messagesSlice";
 import { setMessagesData } from "@/src/pages/modules/setAuthenticationData";
 
-const listenForChatSocket = (
-  chatSocket: w3cwebsocket | null
-) => {
+const listenForChatSocket = (chatSocket: w3cwebsocket | null) => {
   if (chatSocket && chatSocket.readyState === w3cwebsocket.OPEN) {
     chatSocket.onmessage = (dataEvent: IMessageEvent) => {
       let json_data: SocketJsonValueType = null;
       json_data = JSON.parse(dataEvent.data as string);
       console.log(json_data);
       if (json_data?.type !== "error")
-        store.dispatch(setMessages([...store.getState().messages.value, json_data.message]))
+        store.dispatch(
+          setMessages([...store.getState().messages.value, json_data.message])
+        );
       else toast.warn(json_data.message, { containerId: "validation" });
     };
   }
 };
-let url : string = "/chat/messages/";
+let url: string = "/chat/messages/";
 const ConversationContent = () => {
   const { userName } = useParams();
   const refChatConversationContent = useRef<HTMLDivElement>(null);
   const messageEndRef = useRef<HTMLDivElement>(null);
-  const messages = useSelector((state: RootState) => state.messages.value)
+  const messages = useSelector((state: RootState) => state.messages.value);
   useLayoutEffect(() => {
-    store.dispatch(setMessages([]))
-  },[userName])
+    store.dispatch(setMessages([]));
+  }, [userName]);
   const { isLoading, hasMore, handleScroll } =
     UseInfiniteScroll<MessagesDataType>({
       url: url,
       refElement: refChatConversationContent.current,
       startPositionRef: messageEndRef.current,
       data: messages,
-      setData : setMessagesData,
+      setData: setMessagesData,
       offset: 200,
       username: userName,
-      scrollDirection: "top"
+      scrollDirection: "top",
     });
   const chatContext = useContext(ChatDataContext);
   // this should be removed at production phase from all component it exist in
@@ -64,8 +63,16 @@ const ConversationContent = () => {
         ref={refChatConversationContent}
         onScroll={handleScroll}
       >
-        {isLoading && <p className="loading-messages"> Loading more messages...</p>}
-        {!hasMore && <p className="no-more-messages"> no more messages...</p>}
+        {isLoading && (
+          <div className="loading-messages">
+            <div className="spinner-border text-secondary" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        )}
+        {!hasMore && (
+          <div className="no-more-messages"> no more messages...</div>
+        )}
         {messages.map((convers, index) => (
           <div
             className={`${(
@@ -99,7 +106,7 @@ const ConversationContent = () => {
             {(previousMsgOwner = convers.sender.username) && <></>}
           </div>
         ))}
-        <div ref={messageEndRef}>end</div>
+        <div ref={messageEndRef} />
       </div>
     </>
   );

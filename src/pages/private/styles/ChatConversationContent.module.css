@@ -4,7 +4,7 @@ div[class~="true"] {
 
 .chatConversationContent {
     /* background-color: aliceblue; */
-    position: relative;
+    /* position: relative; */
     overflow-y: auto;
     /* height: 100%; */
     /* max-height: 100%; */
@@ -34,11 +34,24 @@ div[class~="MessagesOfOther"] {
 
 .chatConversationContent div[class~="loading-messages"] {
     position: absolute;
+    /* background-color: yellow; */
+    display: flex;
+    justify-content: center;
+    /* height: 2em; */
+    width: 100%;
+
 }
 .chatConversationContent div[class~="no-more-messages"] {
     position: absolute;
+    top: 0px;
+    /* left: 50%;
+    right: 50%; */
+    /* width: fit-content; */
+    width: fit-content;
+    margin-left: 30%;
+    /* margin-left: auto; */
     justify-content: center;
-    background-color: red;
+    /* background-color: red; */
 }
 .chatConversationContent div[class~="MessagesOfOther"] {
     display: flex;
