@@ -3,7 +3,7 @@ import { w3cwebsocket } from "websocket";
 import Svg from './Svg'
 import { playerPfp, invitePlayer, CancelPlayer } from '@/media-exporting'
 import FriendsList from './FriendsList'
-import { UserDataType } from '@/src/states/authentication/userSlice'
+import { UserDataType } from '@/src/customDataTypes/UserDataType';
 
 interface PlayerHolderProps{
 	id: number;
@@ -15,14 +15,15 @@ interface PlayerHolderProps{
 	Player: string;
 	socket: w3cwebsocket;
 }
-let text = "Player"
+// let text = "Player"
 const PlayerHolder = ({id, winner, joinable, FriendsData = undefined, focusedId, setFocusedId = (id:number) => (id), Player, socket}: PlayerHolderProps) => {
 	const [inviteMode, setInviteMode] = useState(false)
 	const inviteButtonRef = useRef(null)
-	useEffect(() => {
-		if (joinable)
-			text = Player
-	},[Player, joinable])
+	// useEffect(() => {
+	// 	console.log( "player : "+Player+ " joinable: "+ joinable)
+	// 	if (joinable)
+	// 		text = Player
+	// },[Player, joinable])
 	console.log(winner)
 
 	const handlePlayerInvite : any = () => {
@@ -63,7 +64,7 @@ const PlayerHolder = ({id, winner, joinable, FriendsData = undefined, focusedId,
 		{ /* TODO : add coloring to the Tournament winner */ }
 			<div className="PlayerData">
 				<Svg src={playerPfp} width={43}/>
-				{text}
+				{joinable ? Player : "Player"}
 			</div>
 			<div className="InviteButton">
 				{Player && !Player.startsWith('Player') && <Svg src={CancelPlayer} width={25} handlePlayerInvite={handlePlayerKick}/> }

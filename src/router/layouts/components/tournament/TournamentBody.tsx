@@ -5,7 +5,7 @@ import TournamentBodyMiddleSide from "./TournamentBodyMiddleSide";
 import TournamentBodyRightSide from "./TournamentBodyRightSide";
 import { RootState } from "@/src/states/store";
 import { useEffect, useState, } from "react";
-import { UserDataType } from "@/src/states/authentication/userSlice";
+import { UserDataType } from "@/src/customDataTypes/UserDataType";
 
 interface FriendsDataType extends UserDataType {
   joined: boolean;
@@ -61,7 +61,7 @@ const TournamentBody = () => {
       console.log("TournamentPlayers : ", TournamentPlayers)
       tournamentSocket.onopen = function () {
         if (tournamentSocket.readyState === WebSocket.OPEN){
-          console.log("------- sent data to the websocket!!!")
+          console.log("------- sent hello event to socket")
           tournamentSocket.send(
             JSON.stringify({
               'type' : 'hello',
@@ -74,7 +74,7 @@ const TournamentBody = () => {
 
 	tournamentSocket.onmessage = function(e){
 		let data = JSON.parse(e.data as string)
-		let tmpTournamentPlayers = TournamentPlayers
+		let tmpTournamentPlayers = []
 
 		tmpTournamentPlayers[0] = data.player1_username
 		tmpTournamentPlayers[1] = data.player2_username

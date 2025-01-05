@@ -3,7 +3,8 @@ import { w3cwebsocket } from "websocket";
 import { tournamentRobot } from '@/media-exporting'
 import { inviteFriend } from '@/media-exporting'
 import { inviteFriendFaded } from '@/media-exporting'
-import { UserDataType } from '@/src/states/authentication/userSlice'
+import { UserDataType } from '@/src/customDataTypes/UserDataType';
+
 
 interface FriendProps{
 	index: any,
@@ -66,12 +67,12 @@ const Friend = ({index, name, online=false, PlayerHolderid, socket}: FriendProps
 
 const FriendsList = ({FriendsData, setFocusedId, focusedId, PlayerHolderid, inviteButtonRef, socket}: FriendsListProps) => {
 	const [joined, setJoined] = useState(false)
-	const friendsListRef = useRef(null)
+	const friendsListRef = useRef<HTMLDivElement | null>(null)
 
 	console.log(FriendsData)
 
 	useEffect(() => {
-		const closeFriendsList = (e) => {
+		const closeFriendsList = (e: any) => {
 			if(!friendsListRef.current?.contains(e.target) && !inviteButtonRef.current?.contains(e.target))
 				setFocusedId(0)
 		}
