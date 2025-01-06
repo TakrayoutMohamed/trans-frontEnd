@@ -16,7 +16,6 @@ interface PlayerHolderProps{
 const PlayerHolder = ({id, winner, joinable, focusedId, setFocusedId = (id:number) => (id), TournamentPlayers, setTournamentPlayer}: PlayerHolderProps) => {
 	const [inviteMode, setInviteMode] = useState(false)
 	const inviteButtonRef = useRef(null)
-	console.log(winner)
 
 	const handlePlayerInvite : any = () => {
 		if (focusedId === 69){

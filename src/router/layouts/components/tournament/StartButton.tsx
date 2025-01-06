@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState , useRef } from "react";
 
 const StartButton = (props: any) => {
 
@@ -15,24 +15,29 @@ const StartButton = (props: any) => {
 	}
 		
 	const handleTournamentStateChange = (newState: number) => {
-		console.log("changing state to ", newState)
 		props.setStartButtonState(newState)
 	}
+	
 	const [moveForward, set_moveForward] = useState(0);
-	// useEffect(() => {
-		// let Setit: number | null = null ;
-		
-			const Time_number = setInterval(() => {
-				set_moveForward((moveForward) => (moveForward + 20));
+	let Time_number : any = useRef(null);
+
+	 useEffect(() => {
+		 if (props.StartButtonState != 2){
+			 set_moveForward(0)
+			 return
+			}
+			Time_number.current = setTimeout(() => {
+				if (moveForward >= 100) {
+					clearTimeout(Time_number.current);
+					Time_number.current = null;
+					return;
+				  }
+				  set_moveForward((moveForward) => moveForward + 25);
 			}, 1000)
 			return () => {
-				console.log(`moveForward = ${moveForward}`);
-				if (moveForward == 100){
-					console.log(`clearning interval`);
-					clearInterval(Time_number);
-				} 
-		};
-	// }, [moveForward, props.StartButtonState])
+				clearTimeout(Time_number.current);
+	};
+	 }, [moveForward, props.StartButtonState])
 	return (
 		<div className='StartTournament'>
 			{props.StartButtonState == 0 &&

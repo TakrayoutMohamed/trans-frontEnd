@@ -10,7 +10,6 @@ const TournamentBody = (props: any) => {
   const [focusedId, setFocusedId] = useState(0)
 
   useEffect(() => {
-    console.log('TournamentPlayers changed -> ' , TournamentPlayers);
     if (TournamentPlayers[0] != ''
      && TournamentPlayers[1] != '' 
      && TournamentPlayers[2] != '' 
