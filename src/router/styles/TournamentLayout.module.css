@@ -257,6 +257,7 @@
     position: absolute;
     bottom: 54px;
     right: 80px;
+    pointer-events: none;
   }
   *[class="StartTournament"] {
     width: 100%;

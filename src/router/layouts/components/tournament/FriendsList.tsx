@@ -38,6 +38,12 @@ const FriendsList = ({setFocusedId, TournamentPlayers, focusedId, PlayerHolderid
 			array[3] = TournamentPlayers[3];
 			array[4] = TournamentPlayers[4];
 			array[5] = TournamentPlayers[5];
+			if (textinput === array[0]
+				|| textinput === array[1]
+				|| textinput === array[2]
+				|| textinput === array[3]
+			)
+				return
 			array[id - 1] =  textinput ;
 			setTournamentPlayer(array);
 			console.log(TournamentPlayers);

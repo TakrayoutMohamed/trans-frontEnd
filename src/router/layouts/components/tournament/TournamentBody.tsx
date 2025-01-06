@@ -15,10 +15,10 @@ const TournamentBody = (props: any) => {
      && TournamentPlayers[1] != '' 
      && TournamentPlayers[2] != '' 
      && TournamentPlayers[3] != ''){
-      props.setStartTournment(true);
+      props.setStartButtonState(1);
       }
     else
-    props.setStartTournment(false);
+    props.setStartButtonState(0);
   }, [TournamentPlayers])
   
 
