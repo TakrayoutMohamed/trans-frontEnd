@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 
 const StartButton = (props: any) => {
 
@@ -17,7 +18,21 @@ const StartButton = (props: any) => {
 		console.log("changing state to ", newState)
 		props.setStartButtonState(newState)
 	}
-
+	const [moveForward, set_moveForward] = useState(0);
+	// useEffect(() => {
+		// let Setit: number | null = null ;
+		
+			const Time_number = setInterval(() => {
+				set_moveForward((moveForward) => (moveForward + 20));
+			}, 1000)
+			return () => {
+				console.log(`moveForward = ${moveForward}`);
+				if (moveForward == 100){
+					console.log(`clearning interval`);
+					clearInterval(Time_number);
+				} 
+		};
+	// }, [moveForward, props.StartButtonState])
 	return (
 		<div className='StartTournament'>
 			{props.StartButtonState == 0 &&
@@ -31,9 +46,14 @@ const StartButton = (props: any) => {
 			</button>
 			}
 			{props.StartButtonState == 2 && 
-			<button className="StartButton" style={{backgroundColor: background_color, pointerEvents: my_pointer_events}} onClick={() => {handleTournamentStateChange(1)}}>
-				<span className="StartButtonText" style={{color: "white", backgroundColor: background_color}}>CANCEL</span>
-			</button>
+			<>
+					<button className="StartButton" style={{backgroundColor: background_color, pointerEvents: my_pointer_events}} onClick={() => {handleTournamentStateChange(1)}}>
+						<span className="StartButtonText" style={{color: "white", backgroundColor: background_color}}>CANCEL</span>
+						<div  className="timer_all">
+							<div style={{width : moveForward + '%'}} className="timer_geton"></div>
+						</div>
+					</button>
+			</>
 			}
 		</div>
 	)

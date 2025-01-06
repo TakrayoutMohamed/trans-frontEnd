@@ -15,13 +15,35 @@
     width: 80%;
     outline: none;
     border-radius: 10px;
+    height: 80%;
+    margin-left: 5px;
+    border-width: 0px;
+  }
+  div [class="timer_geton"] {
+    background-color: red;
+    width: 10%;
+    border-radius: 10px;
     height: 100%;
+  }
+  div [class="timer_all"] {
+
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+    height: 10px;
+    background-color: white;
+    border-radius: 10px;
   }
   div [class="submit_but"] {
     width: 25px;
     height: 25px;
-    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 100%;
+  }
+  div [class="submit_but"]:hover {
+    cursor: pointer;
   }
   div [class="input_holder"] {
     position: absolute;
@@ -29,7 +51,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: wheat;
     top: 30px;
     border-radius: 10px;
     width: 180px;
@@ -257,6 +278,8 @@
     position: absolute;
     bottom: 54px;
     right: 80px;
+    padding: 0px;
+    margin: 0px;
     pointer-events: none;
   }
   *[class="StartTournament"] {

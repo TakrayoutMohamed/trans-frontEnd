@@ -42,3 +42,4 @@ export	const CancelPlayer= "/assets/tournament/Cancel.svg"
 export  const pingPongLogo= "/assets/tournament/PingPongLogo.svg";
 export  const playerPfp = "/assets/tournament/PlayerPfp.svg";
 export  const tournamentText = "/assets/tournament/Tournament.svg";
+export  const submitUsername =  "/assets/tournament/submit.png"

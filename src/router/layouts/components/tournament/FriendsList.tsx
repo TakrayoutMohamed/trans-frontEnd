@@ -1,4 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
+import Svg from './Svg';
+import { submitUsername } from '@/media-exporting'
 
 interface FriendsListProps{
 	setFocusedId: any,
@@ -25,9 +27,21 @@ const FriendsList = ({setFocusedId, TournamentPlayers, focusedId, PlayerHolderid
 
 	},[])
 	const [textinput, settextinput] = useState('');
-	const functionTextSet = (event : any) => {
+	const functionTextSet = (event : any, array : any) => {
+		if (event.target.value === array[0]
+			|| event.target.value === array[1]
+			|| event.target.value === array[2]
+			|| event.target.value === array[3]){
+				setcolor_back('red');
+			}
+			else {
+				setcolor_back('purple');
+			}
 		settextinput(event.target.value);
+
 	};
+
+	const [color_back, setcolor_back] = useState('purple');
 	const setobject_with_nickname_entered = (textinput : string, id : number) => {
 		if (textinput.length != 0){
 			console.log(textinput, '->', PlayerHolderid);
@@ -42,11 +56,15 @@ const FriendsList = ({setFocusedId, TournamentPlayers, focusedId, PlayerHolderid
 				|| textinput === array[1]
 				|| textinput === array[2]
 				|| textinput === array[3]
-			)
+			){
+				setcolor_back('red');
 				return
+			}
 			array[id - 1] =  textinput ;
 			setTournamentPlayer(array);
 			console.log(TournamentPlayers);
+			setcolor_back('purple');
+			setFocusedId(0)
 		}
 	};
 	let color = "#B87EA5";
@@ -54,11 +72,13 @@ const FriendsList = ({setFocusedId, TournamentPlayers, focusedId, PlayerHolderid
 		color = "#656565"
 	return (
 	<div ref={friendsListRef} className="name_seter">
-		<div className="input_holder">
-			<input onChange={functionTextSet} type='text' value={textinput} className='input_text'></input>
-			<div  onClick={()  => (setobject_with_nickname_entered(textinput, PlayerHolderid), setFocusedId(0))} className='submit_but'></div>
+		<div style={{backgroundColor : color_back}} className="input_holder">
+			<input onChange={(e) => (functionTextSet(e, TournamentPlayers))} type='text' value={textinput} className='input_text'></input>
+			<div  onClick={()  => (setobject_with_nickname_entered(textinput, PlayerHolderid))} className='submit_but'>
+				<Svg src={submitUsername} ></Svg>
+			</div>
 		</div>
-	</div>
+	 </div>
 	)
 }
 
