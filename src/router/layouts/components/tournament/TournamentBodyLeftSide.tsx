@@ -6,24 +6,28 @@ const TournamentBodyLeftSide = (props: any) => {
   return (
     <div className="TournamentBodyLeftSide">
       <PlayerHolder
+        setStartTournment={props.setStartTournment}
         id={1}
         winner={false}
         joinable={true}
         FriendsData={props.FriendsData}
         focusedId={props.focusedId}
         setFocusedId={props.setFocusedId}
-        Player={props.TournamentPlayers[0]}
+        setTournamentPlayer={props.setTournamentPlayer}
+        TournamentPlayers={props.TournamentPlayers}
         socket={props.socket}
       />
       <PlayerHolder
+      setStartTournment={props.setStartTournment}
         id={2}
         winner={false}
         joinable={true}
         FriendsData={props.FriendsData}
         focusedId={props.focusedId}
         setFocusedId={props.setFocusedId}
-        Player={props.TournamentPlayers[1]}
         socket={props.socket}
+        setTournamentPlayer={props.setTournamentPlayer}
+        TournamentPlayers={props.TournamentPlayers}
       />
     </div>
   );

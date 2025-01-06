@@ -12,19 +12,23 @@ interface PlayerHolderProps{
 	FriendsData?: UserDataType[];
 	focusedId?: number;
 	setFocusedId?: any; // TODO : ask alvares what to do here!!!
-	Player: string;
 	socket: w3cwebsocket;
+	TournamentPlayers: any;
+	setTournamentPlayer: any;
+	setStartTournment: any ;
 }
 // let text = "Player"
-const PlayerHolder = ({id, winner, joinable, FriendsData = undefined, focusedId, setFocusedId = (id:number) => (id), Player, socket}: PlayerHolderProps) => {
+const PlayerHolder = ({id, winner, joinable, FriendsData = undefined, focusedId, setFocusedId = (id:number) => (id), socket, TournamentPlayers, setTournamentPlayer}: PlayerHolderProps) => {
 	const [inviteMode, setInviteMode] = useState(false)
 	const inviteButtonRef = useRef(null)
+	// let Player = TournamentPlayers[id - 1]
 	// useEffect(() => {
 	// 	console.log( "player : "+Player+ " joinable: "+ joinable)
 	// 	if (joinable)
 	// 		text = Player
 	// },[Player, joinable])
 	console.log(winner)
+	console.log('id -> ', id);
 
 	const handlePlayerInvite : any = () => {
 		console.log(id)
@@ -40,24 +44,23 @@ const PlayerHolder = ({id, winner, joinable, FriendsData = undefined, focusedId,
 			setInviteMode(false)
 	}
 
-	const handlePlayerKick : any = () => {
-		if (socket && socket.readyState === WebSocket.OPEN){
-			console.log("socket open, writing to it ...")
-			console.log(`kicking id ${id} from tournament!!`)
-					socket.send(
-					JSON.stringify({
-						'type' : 'friend_kick',
-						'id': id,
-					})
-					)
-		}
-		else {
-			console.log("can't write to socket !!")
-		}
+	const handlePlayerKick : any = (id : number) => {
+		let array = [];
+		array[0] = TournamentPlayers[0];
+		array[1] = TournamentPlayers[1];
+		array[2] = TournamentPlayers[2];
+		array[3] = TournamentPlayers[3];
+		array[4] = TournamentPlayers[4];
+		array[5] = TournamentPlayers[5];
+		array[id - 1] = '';
+		setTournamentPlayer(array);
 	}
 
+	console.log('id -> ', id )
+	console.log("TournamentPlayers -> ", TournamentPlayers )
 
-
+	let Player = TournamentPlayers[id - 1] 
+	if (Player == '') Player = `Player ${id}`
 
 	return (
 		<div className="PlayerHolder">
@@ -67,9 +70,10 @@ const PlayerHolder = ({id, winner, joinable, FriendsData = undefined, focusedId,
 				{joinable ? Player : "Player"}
 			</div>
 			<div className="InviteButton">
-				{Player && !Player.startsWith('Player') && <Svg src={CancelPlayer} width={25} handlePlayerInvite={handlePlayerKick}/> }
-				{Player && Player.startsWith('Player') && joinable && <Svg Ref={inviteButtonRef} src={invitePlayer} width={25} handlePlayerInvite={handlePlayerInvite}/> }
-				{joinable && inviteMode && id == focusedId && <FriendsList FriendsData={FriendsData} setFocusedId={setFocusedId} focusedId={focusedId} PlayerHolderid={id} inviteButtonRef={inviteButtonRef} socket={socket}/>}
+				
+				{Player && id < 5 && TournamentPlayers[id - 1]  != '' && <Svg src={CancelPlayer} width={25}  handlePlayerInvite={() => (handlePlayerKick(id))}/> }
+				{Player && TournamentPlayers[id - 1]  == '' && joinable && <Svg Ref={inviteButtonRef} src={invitePlayer} width={25} handlePlayerInvite={handlePlayerInvite}/> }
+				{joinable && inviteMode && id == focusedId && <FriendsList TournamentPlayers={TournamentPlayers} FriendsData={FriendsData} setFocusedId={setFocusedId} focusedId={focusedId} PlayerHolderid={id} inviteButtonRef={inviteButtonRef} socket={socket} setTournamentPlayer={setTournamentPlayer}/>}
 			</div>
 		</div>
 	)

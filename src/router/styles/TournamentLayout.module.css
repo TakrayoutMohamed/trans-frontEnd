@@ -11,6 +11,38 @@
     text-align: center;
     padding-top: 57px;
   }
+  div [class="input_text"] {
+    width: 80%;
+    outline: none;
+    border-radius: 10px;
+    height: 100%;
+  }
+  div [class="submit_but"] {
+    width: 25px;
+    height: 25px;
+    background-color: black;
+    border-radius: 100%;
+  }
+  div [class="input_holder"] {
+    position: absolute;
+    gap: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: wheat;
+    top: 30px;
+    border-radius: 10px;
+    width: 180px;
+    height: 30px;
+  }
+  div [class="name_seter"] {
+    width: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 25px;
+    border-radius: 100%;
+  }
   div[class="TournamentBodyLeftSide"] {
     flex-grow: 0.8;
     display: flex;

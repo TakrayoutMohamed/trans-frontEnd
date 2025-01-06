@@ -21,6 +21,8 @@ interface FriendsListProps{
 	PlayerHolderid: number,
 	inviteButtonRef: any;
 	socket: w3cwebsocket;
+	setTournamentPlayer: any;
+	TournamentPlayers : any ;
 }
 
 const Friend = ({index, name, online=false, PlayerHolderid, socket}: FriendProps) => {
@@ -65,7 +67,7 @@ const Friend = ({index, name, online=false, PlayerHolderid, socket}: FriendProps
 	)
 }
 
-const FriendsList = ({FriendsData, setFocusedId, focusedId, PlayerHolderid, inviteButtonRef, socket}: FriendsListProps) => {
+const FriendsList = ({FriendsData, setFocusedId, TournamentPlayers, focusedId, PlayerHolderid, inviteButtonRef, socket, setTournamentPlayer}: FriendsListProps) => {
 	const [joined, setJoined] = useState(false)
 	const friendsListRef = useRef<HTMLDivElement | null>(null)
 
@@ -82,19 +84,35 @@ const FriendsList = ({FriendsData, setFocusedId, focusedId, PlayerHolderid, invi
 		}
 
 	},[])
-
-
+	const [textinput, settextinput] = useState('');
+	const functionTextSet = (event : any) => {
+		settextinput(event.target.value);
+	};
+	const setobject_with_nickname_entered = (textinput : string, id : number) => {
+		if (textinput.length != 0){
+			console.log(textinput, '->', PlayerHolderid);
+			let array = [];
+			array[0] = TournamentPlayers[0];
+			array[1] = TournamentPlayers[1];
+			array[2] = TournamentPlayers[2];
+			array[3] = TournamentPlayers[3];
+			array[4] = TournamentPlayers[4];
+			array[5] = TournamentPlayers[5];
+			array[id - 1] =  textinput ;
+			setTournamentPlayer(array);
+			console.log(TournamentPlayers);
+		}
+	};
 	let color = "#B87EA5";
 	if (joined)
 		color = "#656565"
 	return (
-		<div className="FriendsList" ref={friendsListRef}>
-			<button style={{background: `${color}`}} className="JoinButton">JOIN</button>
-			{FriendsData && FriendsData.map((friend : UserDataType , index:number) => (
-				<Friend index={index} name={friend.username+""} online={friend.is_online ? true : false} key={friend.username} PlayerHolderid={PlayerHolderid} socket={socket} />
-			))}
-
+	<div ref={friendsListRef} className="name_seter">
+		<div className="input_holder">
+			<input onChange={functionTextSet} type='text' value={textinput} className='input_text'></input>
+			<div  onClick={()  => (setobject_with_nickname_entered(textinput, PlayerHolderid), setFocusedId(0))} className='submit_but'></div>
 		</div>
+	</div>
 	)
 }
 

@@ -12,13 +12,24 @@ interface FriendsDataType extends UserDataType {
 }
 
 let tournamentSocket: w3cwebsocket;
-const TournamentBody = () => {
+const TournamentBody = (setStartTournment : any) => {
   const friendsDataGlobal = useSelector(
     (state: RootState) => state.friends.value
   );
 
   const [friendsData, setFriendsData] = useState<FriendsDataType[]>([]);
-  const [TournamentPlayers, setTournamentPlayer] = useState(["", "", "", ""]);
+  const [TournamentPlayers, setTournamentPlayer] = useState(["", "", "", "", "", ""]);
+
+  useEffect(() => {
+    console.log('effect change =?' , TournamentPlayers);
+    if (TournamentPlayers[0] != ''
+     && TournamentPlayers[1] != '' 
+     && TournamentPlayers[2] != '' 
+     && TournamentPlayers[3] != ''){
+      setStartTournment(true);
+      }
+  }, [TournamentPlayers])
+  
   useEffect(() => {
     if (!friendsData || !friendsData.length)
       setFriendsData(
@@ -50,49 +61,49 @@ const TournamentBody = () => {
   );
   
   
-  useEffect(() => {
+  // useEffect(() => {
 
-    console.log("CONNECTING TO WEBSOCKET")
-    //	if (AccessToken) {
-      tournamentSocket = new w3cwebsocket(
-        `${process.env.BACKEND_API_SOCKETS}/ws/tournament/?token=${AccessToken}`
-      );
-      //	}
-      console.log("TournamentPlayers : ", TournamentPlayers)
-      tournamentSocket.onopen = function () {
-        if (tournamentSocket.readyState === WebSocket.OPEN){
-          console.log("------- sent hello event to socket")
-          tournamentSocket.send(
-            JSON.stringify({
-              'type' : 'hello',
-              'payload': "it's working"
-            })
-          )
-        }
-      };
-      console.log("conecting to backend socket!");
+  //   console.log("CONNECTING TO WEBSOCKET")
+  //   //	if (AccessToken) {
+  //     tournamentSocket = new w3cwebsocket(
+  //       `${process.env.BACKEND_API_SOCKETS}/ws/tournament/?token=${AccessToken}`
+  //     );
+  //     //	}
+  //     console.log("TournamentPlayers : ", TournamentPlayers)
+      // tournamentSocket.onopen = function () {
+      //   if (tournamentSocket.readyState === WebSocket.OPEN){
+      //     console.log("------- sent hello event to socket")
+      //     tournamentSocket.send(
+      //       JSON.stringify({
+      //         'type' : 'hello',
+      //         'payload': "it's working"
+      //       })
+      //     )
+      //   }
+      // };
+      // console.log("conecting to backend socket!");
 
-	tournamentSocket.onmessage = function(e){
-		let data = JSON.parse(e.data as string)
-		let tmpTournamentPlayers = []
+	// tournamentSocket.onmessage = function(e){
+	// 	let data = JSON.parse(e.data as string)
+	// 	let tmpTournamentPlayers = []
 
-		tmpTournamentPlayers[0] = data.player1_username
-		tmpTournamentPlayers[1] = data.player2_username
-		tmpTournamentPlayers[2] = data.player3_username
-		tmpTournamentPlayers[3] = data.player4_username
-		setTournamentPlayer(tmpTournamentPlayers)
-		console.log("TournamentPlayers here: ", TournamentPlayers)
-	}
-  }, [TournamentPlayers, AccessToken])
+	// 	tmpTournamentPlayers[0] = data.player1_username
+	// 	tmpTournamentPlayers[1] = data.player2_username
+	// 	tmpTournamentPlayers[2] = data.player3_username
+	// 	tmpTournamentPlayers[3] = data.player4_username
+	// 	setTournamentPlayer(tmpTournamentPlayers)
+	// 	console.log("TournamentPlayers here: ", TournamentPlayers)
+	// }
+  // }, [TournamentPlayers, AccessToken])
 
 
 	const [focusedId, setFocusedId] = useState(0)
 
   return (
     <div className="TournamentBody">
-      <TournamentBodyLeftSide FriendsData={friendsDataGlobal} focusedId={focusedId} setFocusedId={setFocusedId} TournamentPlayers={TournamentPlayers} socket={tournamentSocket}/>
-      <TournamentBodyMiddleSide />
-      <TournamentBodyRightSide FriendsData={friendsDataGlobal} focusedId={focusedId} setFocusedId={setFocusedId} TournamentPlayers={TournamentPlayers} socket={tournamentSocket}/>
+      <TournamentBodyLeftSide  setStartTournment={setStartTournment} FriendsData={friendsDataGlobal} focusedId={focusedId} setFocusedId={setFocusedId} TournamentPlayers={TournamentPlayers} socket={tournamentSocket} setTournamentPlayer={setTournamentPlayer} />
+      <TournamentBodyMiddleSide setStartTournment={setStartTournment} FriendsData={friendsDataGlobal} focusedId={focusedId} setFocusedId={setFocusedId} TournamentPlayers={TournamentPlayers} socket={tournamentSocket} setTournamentPlayer={setTournamentPlayer} />
+      <TournamentBodyRightSide setStartTournment={setStartTournment} FriendsData={friendsDataGlobal} focusedId={focusedId} setFocusedId={setFocusedId} TournamentPlayers={TournamentPlayers} socket={tournamentSocket} setTournamentPlayer={setTournamentPlayer}/>
     </div>
   );
 };

@@ -1,17 +1,10 @@
-import {useState} from 'react'
 
-
-const StartButton = () => {
-	const [activated, setActivated] = useState(false)
-
-	const handleStartColorChange = () => {
-		setActivated(true)
-	}
+const StartButton = (activated : any) => {
 	return (
 		<div className='StartTournament'>
 			<button className="StartButton">
-				{!activated && <span className="StartButtonText" onClick={handleStartColorChange}>START</span> }
-				{activated && <span style={{color: "white", backgroundColor: "#b30683"}} className="StartButtonText" onClick={handleStartColorChange}>START</span> }
+				{!activated && <span className="StartButtonText">START</span> }
+				{activated && <span style={{color: "white", backgroundColor: "#b30683"}} className="StartButtonText" >START</span> }
 			</button>
 		</div>
 	)
