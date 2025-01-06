@@ -1,7 +1,7 @@
 import { profileIcon } from "@/media-exporting";
 import { useParams } from "react-router-dom";
 import { chatConversationContent } from "../../styles";
-import { useContext, useLayoutEffect, useRef } from "react";
+import { useContext, useRef } from "react";
 import { ChatDataContext } from "@/src/customDataTypes/ChatDataContext";
 import { IMessageEvent, w3cwebsocket } from "websocket";
 import { SocketJsonValueType } from "@/src/pages/modules/watchSocket";
@@ -35,9 +35,6 @@ const ConversationContent = () => {
   const refChatConversationContent = useRef<HTMLDivElement>(null);
   const messageEndRef = useRef<HTMLDivElement>(null);
   const messages = useSelector((state: RootState) => state.messages.value);
-  useLayoutEffect(() => {
-    store.dispatch(setMessages([]));
-  }, [userName]);
   const { isLoading, hasMore, handleScroll } =
     UseInfiniteScroll<MessagesDataType>({
       url: url,
@@ -49,6 +46,9 @@ const ConversationContent = () => {
       username: userName,
       scrollDirection: "top",
     });
+  // useLayoutEffect(() => {
+  //   // store.dispatch(setMessages([]));
+  // }, [userName]);
   const chatContext = useContext(ChatDataContext);
   // this should be removed at production phase from all component it exist in
   if (!chatContext)

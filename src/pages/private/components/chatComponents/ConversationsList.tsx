@@ -1,4 +1,4 @@
-import { ChangeEvent, memo, useContext, useEffect, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { BiSearch } from "react-icons/bi";
 import UsersChatCard from "./UsersChatCard";
 import { chatConversationsList } from "../../styles";
@@ -102,4 +102,4 @@ const ConversationsList = () => {
   );
 };
 
-export default memo(ConversationsList);
+export default ConversationsList;

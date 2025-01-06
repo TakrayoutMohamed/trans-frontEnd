@@ -1,13 +1,9 @@
 import {
   useCallback,
   useEffect,
-  useLayoutEffect,
-  useRef,
   useState,
 } from "react";
-import UseAxiosPrivate from "./UseAxiosPrivate";
-import { useParams } from "react-router-dom";
-import { CanceledError } from "../api/axios";
+import { CanceledError, axiosPrivate } from "../api/axios";
 
 type scrollDirectionTypes = "top" | "bottom";
 
@@ -35,10 +31,7 @@ const UseInfiniteScroll = <T,>({
   const [page, setPage] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState<boolean>(true);
-  const { userName } = useParams();
   const [scrollBalance, setScrollBalance] = useState<number>(0);
-  const axiosPrivateHook = UseAxiosPrivate();
-  const abortControlerRef = useRef<AbortController | null>(null);
   const handleScroll = useCallback(
     (e: React.UIEvent<HTMLDivElement>) => {
       let container = e.currentTarget;
@@ -81,15 +74,7 @@ const UseInfiniteScroll = <T,>({
     fetchData(1).then(() => {
       startPositionRef?.scrollIntoView({ behavior: "instant" });
     });
-    return () => {
-      if (abortControlerRef.current)
-      {
-        console.log("cleaner of the useEffect of the reset data");
-        abortControlerRef.current?.abort();
-        abortControlerRef.current = null;
-      }
-    }
-  }, [userName]);
+  }, [username]);
   useEffect(() => {
     scrollBalance &&
       setScrollBalance((prev) => {
@@ -101,21 +86,13 @@ const UseInfiniteScroll = <T,>({
         }
         return 0;
       });
-    return () => {
-      if (abortControlerRef.current)
-      {
-        console.log("cleaner of the useEffect of the scroll balance");
-        abortControlerRef.current?.abort();
-        abortControlerRef.current = null;
-      }
-    }
   }, [data]);
    // Check if the content is scrollable, and fetch more data if necessary
    const checkIfScrollable = useCallback(() => {
     const container = refElement;
     console.log("checkisScrollable");
     if (container && container.scrollHeight <= container.clientHeight && hasMore) {
-      fetchData(2).then(() => {
+      fetchData(page).then(() => {
         startPositionRef?.scrollIntoView({ behavior: "instant" });
         setScrollBalance(0)
       });
@@ -123,26 +100,14 @@ const UseInfiniteScroll = <T,>({
   }, [refElement,refElement?.offsetTop]);
   useEffect (() => {
     checkIfScrollable()
-    return () => {
-      if (abortControlerRef.current)
-      {
-        console.log("cleaner of the useEffect of the checkIfScrollable");
-        abortControlerRef.current?.abort();
-        abortControlerRef.current = null;
-      }
-    }
   },[checkIfScrollable])
 
   async function fetchData(page: number) {
     if (isLoading || (!hasMore && page !== 1)) return;
     setIsLoading(true);
     try {
-      // abortControlerRef.current = new AbortController();
-      // if (page === 1)
-      //   abortControlerRef.current?.abort();
-      const res = await axiosPrivateHook.get(url, {
+      const res = await axiosPrivate.get(url, {
         params: { page: page, username: username },
-        signal: abortControlerRef.current?.signal,
       });
       setData &&
         setData(
@@ -154,13 +119,13 @@ const UseInfiniteScroll = <T,>({
         );
       setHasMore(res.data.next !== null);
       setPage(page + 1);
+      setIsLoading(false);
     } catch (err) {
+      setIsLoading(false);
       if (err instanceof CanceledError) return;
       console.log("In Catch err is loading : "+ isLoading + " hasMore: "+ hasMore + " page : "+ page);
       console.error("Error fetching data:");
       console.error(err);
-    } finally {
-      setIsLoading(false);
     }
   }
   return { handleScroll, isLoading, hasMore };

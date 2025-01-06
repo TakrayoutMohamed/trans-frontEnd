@@ -87,36 +87,24 @@ const FormComponent = () => {
 
 const ChatArea = () => {
   const { userName } = useParams();
-  const axiosPrivateHook = UseAxiosPrivate();
-  const friends = useSelector((state: RootState) => state.friends.value)
+  const friends = useSelector((state: RootState) => state.friends.value);
   const setProfileVisible =
     useOutletContext<React.Dispatch<React.SetStateAction<boolean>>>();
-    const chatContext = useContext(ChatDataContext);
-    useEffect(() => {
+  const chatContext = useContext(ChatDataContext);
+  useEffect(() => {
     if (!chatContext)
-      throw new Error("Error : this component should be wraped inside chat context")
-    console.log("the use effect of chat layout trigered with user " + userName);
-    // setMessagesData([]);
-    // const controller = new AbortController();
-    if ((chatContext.userData?.username !== userName) && userName !== undefined) {
+      throw new Error(
+        "Error : this component should be wraped inside chat context"
+      );
+    if (chatContext.userData?.username !== userName && userName !== undefined) {
       console.log("inside the condition of fetch user data ");
-      chatContext.setUserData(friends.find((user) => user.username === userName))
-      // axiosPrivateHook
-      //   .post("search_username", {
-      //     username: userName,
-      //   },{signal: controller.signal})
-      //   .then((res) => {
-      //     chatContext.setUserData(res.data.user);
-      //   })
-      //   .catch((error) => {
-      //     if (error instanceof CanceledError)
-      //     console.log(error);
-      //   });
+      chatContext.setUserData(
+        friends.find((user) => user.username === userName)
+      );
     }
-    return ()=> {
-      // controller.abort();
+    return () => {
       setMessagesData([]);
-    }
+    };
   }, [userName]);
   return (
     <>

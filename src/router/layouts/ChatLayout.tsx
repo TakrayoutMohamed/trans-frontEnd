@@ -1,30 +1,31 @@
-import { Outlet, useParams } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { chatLayout } from "../styles";
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ConversationsList from "@/src/pages/private/components/chatComponents/ConversationsList";
 import "@router/styles/chatGlobalOverridingStyles.css";
 import Profile from "./components/chat/Profile";
 import { w3cwebsocket } from "websocket";
 import { ChatDataContext } from "@/src/customDataTypes/ChatDataContext";
 import { openSocket } from "@/src/pages/modules/openSocket";
-import { store } from "@/src/states/store";
+import { RootState } from "@/src/states/store";
 import { closeSocket } from "@/src/pages/modules/closeSocket";
 import { UserDataType } from "@/src/customDataTypes/UserDataType";
+import { useSelector } from "react-redux";
 
 let chatSocket_: w3cwebsocket | null = null;
 
 const ChatLayout = () => {
   const [isProfileVisible, setProfileVisible] = useState<boolean>(false);
   const [userData, setUserData] = useState<UserDataType | undefined>(undefined);
-  // const { userName } = useParams();
+  const accessToken = useSelector((state: RootState) => state.accessToken.value)
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!chatSocket_ || chatSocket_.readyState !== w3cwebsocket.OPEN)
-      chatSocket_ = openSocket("chat", store.getState().accessToken.value);
+      chatSocket_ = openSocket("chat", accessToken);
     return () => {
       closeSocket(chatSocket_);
     }
-  },[])
+  },[accessToken])
 
   return (
     <ChatDataContext.Provider
