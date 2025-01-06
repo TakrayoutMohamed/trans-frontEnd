@@ -4,7 +4,7 @@ import TournamentBodyRightSide from "./TournamentBodyRightSide";
 
 import { useEffect, useState, } from "react";
 
-const TournamentBody = (setStartTournment : any) => {
+const TournamentBody = (props: any) => {
 
   const [TournamentPlayers, setTournamentPlayer] = useState(["", "", "", "", "", ""]);
   const [focusedId, setFocusedId] = useState(0)
@@ -15,16 +15,18 @@ const TournamentBody = (setStartTournment : any) => {
      && TournamentPlayers[1] != '' 
      && TournamentPlayers[2] != '' 
      && TournamentPlayers[3] != ''){
-      setStartTournment(true);
+      props.setStartTournment(true);
       }
+    else
+    props.setStartTournment(false);
   }, [TournamentPlayers])
   
 
   return (
     <div className="TournamentBody">
-      <TournamentBodyLeftSide setStartTournment={setStartTournment} focusedId={focusedId} setFocusedId={setFocusedId} TournamentPlayers={TournamentPlayers} setTournamentPlayer={setTournamentPlayer} />
-      <TournamentBodyMiddleSide setStartTournment={setStartTournment} focusedId={focusedId} setFocusedId={setFocusedId} TournamentPlayers={TournamentPlayers} setTournamentPlayer={setTournamentPlayer} />
-      <TournamentBodyRightSide setStartTournment={setStartTournment} focusedId={focusedId} setFocusedId={setFocusedId} TournamentPlayers={TournamentPlayers} setTournamentPlayer={setTournamentPlayer}/>
+      <TournamentBodyLeftSide setStartTournment={props.setStartTournment} focusedId={focusedId} setFocusedId={setFocusedId} TournamentPlayers={TournamentPlayers} setTournamentPlayer={setTournamentPlayer} />
+      <TournamentBodyMiddleSide setStartTournment={props.setStartTournment} focusedId={focusedId} setFocusedId={setFocusedId} TournamentPlayers={TournamentPlayers} setTournamentPlayer={setTournamentPlayer} />
+      <TournamentBodyRightSide setStartTournment={props.setStartTournment} focusedId={focusedId} setFocusedId={setFocusedId} TournamentPlayers={TournamentPlayers} setTournamentPlayer={setTournamentPlayer}/>
     </div>
   );
 };
