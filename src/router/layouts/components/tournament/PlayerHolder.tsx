@@ -1,33 +1,23 @@
 import {useState, useRef, useEffect} from 'react'
-import { w3cwebsocket } from "websocket";
 import Svg from './Svg'
 import { playerPfp, invitePlayer, CancelPlayer } from '@/media-exporting'
 import FriendsList from './FriendsList'
-import { UserDataType } from '@/src/customDataTypes/UserDataType';
 
 interface PlayerHolderProps{
 	id: number;
 	winner: boolean;
 	joinable: boolean;
-	FriendsData?: UserDataType[];
 	focusedId?: number;
-	setFocusedId?: any; // TODO : ask alvares what to do here!!!
-	Player: string;
-	socket: w3cwebsocket;
+	setFocusedId?: any;
+	TournamentPlayers: any;
+	setTournamentPlayer: any;
+	setStartTournment: any ;
 }
-// let text = "Player"
-const PlayerHolder = ({id, winner, joinable, FriendsData = undefined, focusedId, setFocusedId = (id:number) => (id), Player, socket}: PlayerHolderProps) => {
+const PlayerHolder = ({id, winner, joinable, focusedId, setFocusedId = (id:number) => (id), TournamentPlayers, setTournamentPlayer}: PlayerHolderProps) => {
 	const [inviteMode, setInviteMode] = useState(false)
 	const inviteButtonRef = useRef(null)
-	// useEffect(() => {
-	// 	console.log( "player : "+Player+ " joinable: "+ joinable)
-	// 	if (joinable)
-	// 		text = Player
-	// },[Player, joinable])
-	console.log(winner)
 
 	const handlePlayerInvite : any = () => {
-		console.log(id)
 		if (focusedId === 69){
 			setFocusedId(0)
 			setInviteMode(false)
@@ -40,36 +30,38 @@ const PlayerHolder = ({id, winner, joinable, FriendsData = undefined, focusedId,
 			setInviteMode(false)
 	}
 
-	const handlePlayerKick : any = () => {
-		if (socket && socket.readyState === WebSocket.OPEN){
-			console.log("socket open, writing to it ...")
-			console.log(`kicking id ${id} from tournament!!`)
-					socket.send(
-					JSON.stringify({
-						'type' : 'friend_kick',
-						'id': id,
-					})
-					)
-		}
-		else {
-			console.log("can't write to socket !!")
-		}
+	const handlePlayerKick : any = (id : number) => {
+		let array = [];
+		array[0] = TournamentPlayers[0];
+		array[1] = TournamentPlayers[1];
+		array[2] = TournamentPlayers[2];
+		array[3] = TournamentPlayers[3];
+		array[4] = TournamentPlayers[4];
+		array[5] = TournamentPlayers[5];
+		array[id - 1] = '';
+		setTournamentPlayer(array);
 	}
 
-
-
+	let Player = TournamentPlayers[id - 1] 
+	if (joinable)
+	{
+		if (Player == '')
+			Player = `Player ${id}`
+	}	
+	else
+		Player = `Winner ${id - 4}`
 
 	return (
 		<div className="PlayerHolder">
 		{ /* TODO : add coloring to the Tournament winner */ }
 			<div className="PlayerData">
 				<Svg src={playerPfp} width={43}/>
-				{joinable ? Player : "Player"}
+				{Player}
 			</div>
 			<div className="InviteButton">
-				{Player && !Player.startsWith('Player') && <Svg src={CancelPlayer} width={25} handlePlayerInvite={handlePlayerKick}/> }
-				{Player && Player.startsWith('Player') && joinable && <Svg Ref={inviteButtonRef} src={invitePlayer} width={25} handlePlayerInvite={handlePlayerInvite}/> }
-				{joinable && inviteMode && id == focusedId && <FriendsList FriendsData={FriendsData} setFocusedId={setFocusedId} focusedId={focusedId} PlayerHolderid={id} inviteButtonRef={inviteButtonRef} socket={socket}/>}
+				{Player && id < 5 && TournamentPlayers[id - 1]  != '' && <Svg src={CancelPlayer} width={25}  handlePlayerInvite={() => (handlePlayerKick(id))}/> }
+				{Player && TournamentPlayers[id - 1]  == '' && joinable && <Svg Ref={inviteButtonRef} src={invitePlayer} width={25} handlePlayerInvite={handlePlayerInvite}/> }
+				{joinable && inviteMode && id == focusedId && <FriendsList TournamentPlayers={TournamentPlayers} setFocusedId={setFocusedId} focusedId={focusedId} PlayerHolderid={id} inviteButtonRef={inviteButtonRef} setTournamentPlayer={setTournamentPlayer}/>}
 			</div>
 		</div>
 	)

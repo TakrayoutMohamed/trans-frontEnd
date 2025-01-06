@@ -8,8 +8,8 @@ interface SvgProps{
 const Svg = ({src="" , width = 32, handlePlayerInvite = () => (null), Ref} : SvgProps ) => {
 	return (
 		<div className="svg">
-			{handlePlayerInvite && <img ref={Ref} src={src} alt="" width={width} onClick={(e) => handlePlayerInvite()}/>}
-			{!handlePlayerInvite && <img ref={Ref} src={src} alt="" width={width} />}
+			{handlePlayerInvite && <img ref={Ref} src={src} width={width} onClick={() => handlePlayerInvite()}/>}
+			{!handlePlayerInvite && <img ref={Ref} src={src} width={width} />}
 	
 		</div>
 	)
