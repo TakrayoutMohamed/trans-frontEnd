@@ -4,9 +4,10 @@ import { useContext } from "react";
 import { MdBlock } from "react-icons/md";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { blockUser } from "@/src/pages/modules/fetchingData";
+import { blockUser, unblockUser } from "@/src/pages/modules/fetchingData";
 import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
 import { ChatDataContext } from "@/src/customDataTypes/ChatDataContext";
+import { UserDataType } from "@/src/customDataTypes/UserDataType";
 
 interface ProfileProps {
   isProfileVisible: boolean;
@@ -20,9 +21,8 @@ const Profile = ({ isProfileVisible }: ProfileProps) => {
   const chatContext = useContext(ChatDataContext);
 
   // console.log("pathname = " + location.pathname);
-  if (!chatContext)
-    throw new Error("it should be wraped inside a chatContext");
-  const {userData} = chatContext;
+  if (!chatContext) throw new Error("it should be wraped inside a chatContext");
+  const { userData, setUserData } = chatContext;
   // console.log(userData);
 
   if (
@@ -70,12 +70,31 @@ const Profile = ({ isProfileVisible }: ProfileProps) => {
           <p className="">Invite Tournament</p>
         </button>
 
-        <button onClick={() => blockUser(axiosPrivateHook, userData?.username+"")}>
-          <div className="">
-            <MdBlock size={"28"} />
-          </div>
-          <p className="">Block {userData?.username}</p>
-        </button>
+        {userData?.is_blocked ? (
+          <button
+            onClick={() => {unblockUser(axiosPrivateHook, userData?.username + "")
+            setUserData({...userData, is_blocked: false} as UserDataType)
+            }}
+          >
+            <div className="">
+              <MdBlock size={"28"} />
+            </div>
+            <p className="">Unblock {userData?.username}</p>
+          </button>
+        ) : (
+          <button
+            onClick={() => {
+              blockUser(axiosPrivateHook, userData?.username + "")
+              setUserData({...userData, is_blocked: true} as UserDataType)
+            }
+          }
+          >
+            <div className="">
+              <MdBlock size={"28"} />
+            </div>
+            <p className="">block {userData?.username}</p>
+          </button>
+        )}
       </div>
     </>
   );

@@ -7,14 +7,14 @@ import ConversationContent from "./components/chatComponents/ConversationContent
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useContext, useEffect, useLayoutEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ChatDataContext } from "@/src/customDataTypes/ChatDataContext";
 import { w3cwebsocket } from "websocket";
 import { RootState, store } from "@/src/states/store";
 import { setMessagesData } from "../modules/setAuthenticationData";
 import { useSelector } from "react-redux";
-import { CanceledError } from "@/src/services/api/axios";
-import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
+import { axiosPrivate } from "@/src/services/api/axios";
+import { UserDataType } from "@/src/customDataTypes/UserDataType";
 
 const MessageSchema = z.object({
   textMessage: z
@@ -87,7 +87,7 @@ const FormComponent = () => {
 
 const ChatArea = () => {
   const { userName } = useParams();
-  const friends = useSelector((state: RootState) => state.friends.value);
+  const [user, setUser] = useState<UserDataType | undefined>(undefined);
   const setProfileVisible =
     useOutletContext<React.Dispatch<React.SetStateAction<boolean>>>();
   const chatContext = useContext(ChatDataContext);
@@ -97,15 +97,27 @@ const ChatArea = () => {
         "Error : this component should be wraped inside chat context"
       );
     if (chatContext.userData?.username !== userName && userName !== undefined) {
-      console.log("inside the condition of fetch user data ");
-      chatContext.setUserData(
-        friends.find((user) => user.username === userName)
-      );
+      axiosPrivate
+        .post("search_username", { username: userName })
+        .then((res) => {
+          console.log(res.data);
+          chatContext.setUserData(res.data.user);
+        })
+        .catch((err) => {
+          setUser(undefined);
+          chatContext.setUserData(undefined);
+          console.log("here is the error in ChatArea.tsx");
+          console.error(err);
+        });
+    } else {
+      if (user?.username !== userName) setUser(chatContext.userData);
     }
+  }, [userName, chatContext?.userData]);
+  useEffect(()=> {
     return () => {
       setMessagesData([]);
     };
-  }, [userName]);
+  }, [userName])
   return (
     <>
       <div className={`${chat}`}>
@@ -121,7 +133,15 @@ const ChatArea = () => {
                     height="100%"
                     width="100%"
                   >
-                    <image x="0" y="0" href={profileIcon} />
+                    <image
+                      x="0"
+                      y="0"
+                      href={
+                        user?.avatar
+                          ? process.env.BACKEND_API_URL + user.avatar
+                          : profileIcon
+                      }
+                    />
                   </pattern>
                   <circle
                     cx="1.5em"
@@ -135,8 +155,12 @@ const ChatArea = () => {
               </div>
             </div>
             <div className="" id="userNameStatus">
-              <p className="">{userName}</p>
-              <small className={``}>active</small>
+              <p className="">{user?.username}</p>
+              {user?.is_online ? (
+                <small className={``}>online</small>
+              ) : (
+                <small className={`text-danger`}>offline</small>
+              )}
             </div>
           </div>
           <div
