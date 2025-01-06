@@ -5,12 +5,12 @@ import TournamentBody from "./components/tournament/TournamentBody";
 import TournamentLogo from "./components/tournament/TournamentLogo";
 
 const TournamentLayout = () => {
-  const [startTournment, setStartTournment] = useState(false);
+  const [StartTournment, setStartTournment] = useState(false);
   return (
     <div className={`${tournamentLayout}`}>
       <TournamentLogo />
       <TournamentBody setStartTournment={setStartTournment}/>
-      <StartButton activated={startTournment}/>
+      <StartButton activated={StartTournment}/>
     </div>
   );
 };

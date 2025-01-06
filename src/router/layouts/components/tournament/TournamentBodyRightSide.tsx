@@ -7,10 +7,8 @@ const TournamentBodyRightSide = (props : any) => {
         id={3}
         winner={false}
         joinable={true}
-        FriendsData={props.FriendsData}
         focusedId={props.focusedId}
         setFocusedId={props.setFocusedId}
-        socket={props.socket}
         setTournamentPlayer={props.setTournamentPlayer}
         TournamentPlayers={props.TournamentPlayers}
         setStartTournment={props.setStartTournment}
@@ -20,12 +18,10 @@ const TournamentBodyRightSide = (props : any) => {
         id={4}
         winner={false}
         joinable={true}
-        FriendsData={props.FriendsData}
         focusedId={props.focusedId}
         setFocusedId={props.setFocusedId}
         setTournamentPlayer={props.setTournamentPlayer}
         TournamentPlayers={props.TournamentPlayers}
-        socket={props.socket}
       />
     </div>
   );
