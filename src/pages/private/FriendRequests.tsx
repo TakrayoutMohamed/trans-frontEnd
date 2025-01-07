@@ -1,21 +1,21 @@
 import { profileIcon } from "@/media-exporting";
 import { friendRequests } from "./styles";
 import { Link } from "react-router-dom";
-import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
+import  { useAxiosPrivate } from "@/src/services/hooks/useAxiosPrivate";
 import { AxiosInstance } from "axios";
 import { useEffect, useState } from "react";
 
 import {
-  FriendRequestsType,
   acceptFriendRequest,
   getAllFriendRequests,
   rejectFriendRequest,
 } from "../modules/fetchingData";
 import { useSelector } from "react-redux";
 import { RootState } from "@/src/states/store";
+import { FriendRequestsType } from "@/src/customDataTypes/FriendsRequestsType";
 
 const FriendRequests = () => {
-  const axiosPrivateHook: AxiosInstance = UseAxiosPrivate();
+  const axiosPrivateHook: AxiosInstance = useAxiosPrivate();
   const allUsersData = useSelector((state: RootState) => state.allUsers.value)
   const [friendRequestsList, setFriendRequestsList] = useState<
     FriendRequestsType[]

@@ -6,7 +6,7 @@ import { RootState } from "@/src/states/store";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
-import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
+import  { useAxiosPrivate } from "@/src/services/hooks/useAxiosPrivate";
 import { ReactNode, useEffect } from "react";
 import { setUserData } from "../modules/setAuthenticationData";
 import { toast } from "react-toastify";
@@ -55,7 +55,7 @@ const SettingProfile = () => {
   } = useForm<UpdateUserSchemaType>({
     resolver: zodResolver(updateUserSchema),
   });
-  const axiosPrivateHook = UseAxiosPrivate();
+  const axiosPrivateHook = useAxiosPrivate();
   useEffect(() => {
     if (userData) {
       reset({

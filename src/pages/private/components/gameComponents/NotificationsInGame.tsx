@@ -5,7 +5,7 @@ import { profileIcon } from "@/media-exporting";
 import { Link } from "react-router-dom";
 import { FaUserCheck } from "react-icons/fa";
 import { FiUserX } from "react-icons/fi";
-import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
+import  { useAxiosPrivate } from "@/src/services/hooks/useAxiosPrivate";
 import { AxiosInstance } from "axios";
 import {
   acceptFriendRequest,
@@ -43,7 +43,7 @@ const NotificationsFriendRequestCard = ({
   message,
   sender_notif,
 }: NotificationsCardsProps) => {
-  const axiosPrivateHook = UseAxiosPrivate();
+  const axiosPrivateHook = useAxiosPrivate();
 
   return (
     <div className="message-accept-reject-buttons">
@@ -84,7 +84,7 @@ const NotificationsInGame = () => {
   const [notificationsList, setNotificationsList] = useState<
     NotificationsDataType[]
   >([]);
-  const axiosPrivateHook = UseAxiosPrivate();
+  const axiosPrivateHook = useAxiosPrivate();
   useEffect(() => {
     const getNotifications = async (axiosPrivateHook: AxiosInstance) => {
       try {

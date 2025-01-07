@@ -1,6 +1,5 @@
 import { AxiosInstance } from "axios";
 import { w3cwebsocket } from "websocket";
-import UseAxiosPrivate from "./UseAxiosPrivate";
 import { useSelector } from "react-redux";
 import { RootState } from "@/src/states/store";
 import { useEffect } from "react";
@@ -8,18 +7,19 @@ import { isValidAccessToken } from "@/src/pages/modules/fetchingData";
 import { openSocket } from "@/src/pages/modules/openSocket";
 import { watchSocket } from "@/src/pages/modules/watchSocket";
 import { closeSocket } from "@/src/pages/modules/closeSocket";
+import { useAxiosPrivate } from "./useAxiosPrivate";
 
 let axiosPrivateHook: AxiosInstance;
 
 
 
-interface UseHandleSocketsProps{
+interface useHandleSocketsProps{
     urlOfSocket: string;
     client: w3cwebsocket | null;
 }
 
-const UseHandleSockets = ({urlOfSocket, client = null} : UseHandleSocketsProps) => {
-  axiosPrivateHook = UseAxiosPrivate();
+const useHandleSockets = ({urlOfSocket, client = null} : useHandleSocketsProps) => {
+  axiosPrivateHook = useAxiosPrivate();
   const isAuthenticated = useSelector(
     (state: RootState) => state.authenticator.value
   );
@@ -55,4 +55,4 @@ const UseHandleSockets = ({urlOfSocket, client = null} : UseHandleSocketsProps) 
   }, [accessToken]);
 };
 
-export default UseHandleSockets;
+export {useHandleSockets};

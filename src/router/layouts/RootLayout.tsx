@@ -2,13 +2,14 @@ import { Outlet } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { rootLayout } from "../styles";
-import UseHandleSockets from "@/src/services/hooks/UseHandleSockets";
+
 import { w3cwebsocket } from "websocket";
+import {useHandleSockets} from "@/src/services/hooks/useHandleSockets";
 
 let notificationSocket: w3cwebsocket | null = null;
 
 const RootLayout = () => {
-  UseHandleSockets({urlOfSocket : "notification", client : notificationSocket});
+  useHandleSockets({urlOfSocket : "notification", client : notificationSocket});
   return (
     <>
       <div className={rootLayout}>

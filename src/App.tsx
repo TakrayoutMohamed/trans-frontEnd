@@ -1,7 +1,7 @@
 import MainRoutingComponent from "@router/MainRoutingComponent.tsx";
 import { RootState } from "./states/store";
 import { useEffect } from "react";
-import UseAxiosPrivate from "./services/hooks/UseAxiosPrivate";
+import {useAxiosPrivate} from "./services/hooks/useAxiosPrivate";
 import {
   // setBlockedData,
   setFriendsData,
@@ -53,7 +53,7 @@ const getFriendsData = async (axiosPrivateHook: AxiosInstance) => {
 // };
 
 function App() {
-  const axiosPrivateHook = UseAxiosPrivate();
+  const axiosPrivateHook = useAxiosPrivate();
   const isAuthenticated = useSelector(
     (state: RootState) => state.authenticator.value
   );

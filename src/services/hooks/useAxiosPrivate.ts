@@ -23,7 +23,7 @@ const removePendingRequest = (config: InternalAxiosRequestConfig) => {
   pendingRequests.delete(requestKey);
 }
 
-const UseAxiosPrivate = () => {
+const useAxiosPrivate = () => {
   const accessToken = useSelector(
     (state: RootState) => state.accessToken.value
   );
@@ -71,4 +71,4 @@ const UseAxiosPrivate = () => {
   return axiosPrivate;
 };
 
-export default UseAxiosPrivate;
+export {useAxiosPrivate};

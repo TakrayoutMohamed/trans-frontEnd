@@ -3,7 +3,7 @@ import { BiSearch } from "react-icons/bi";
 import UsersChatCard from "./UsersChatCard";
 import { chatConversationsList } from "../../styles";
 import TabListHeaders from "./TabListHeaders";
-import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
+import  { useAxiosPrivate } from "@/src/services/hooks/useAxiosPrivate";
 import { AxiosInstance } from "axios";
 import { ChatDataContext } from "@/src/customDataTypes/ChatDataContext";
 import { RootState } from "@/src/states/store";
@@ -34,7 +34,7 @@ function searchFilter(
 let conversationsListData: ConversationList[] = [];
 
 const ConversationsList = () => {
-  const axiosPrivateHook = UseAxiosPrivate();
+  const axiosPrivateHook = useAxiosPrivate();
   const friends = useSelector((state: RootState) => state.friends.value)
   const [conversationsList, setConversationsList] = useState<
     ConversationList[]

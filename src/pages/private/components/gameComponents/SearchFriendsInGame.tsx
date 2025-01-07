@@ -4,7 +4,7 @@ import { ChangeEvent, memo, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { profileIcon } from "@/media-exporting";
 import { RiUserAddFill } from "react-icons/ri";
-import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
+import  { useAxiosPrivate } from "@/src/services/hooks/useAxiosPrivate";
 import { useSelector } from "react-redux";
 import { RootState, store } from "@/src/states/store";
 import { AllUsersDataType } from "@/src/states/authentication/allUsersSlice";
@@ -153,7 +153,7 @@ const SearchFriendsInGame = () => {
   const [users, setUsers] = useState<AllUsersDataType[]>([]);
   const allUsersData = useSelector((state: RootState) => state.allUsers.value);
   const userData = useSelector((state: RootState) => state.user.value);
-  const axiosPrivateHook = UseAxiosPrivate();
+  const axiosPrivateHook = useAxiosPrivate();
   useEffect(() => {
     if (!allUsersData || !allUsersData.length) {
       getAllUsersData(axiosPrivateHook);

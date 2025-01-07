@@ -2,7 +2,7 @@ import { profileIcon } from "@/media-exporting";
 import { friends } from "./styles";
 import { BsThreeDots } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
+import  { useAxiosPrivate } from "@/src/services/hooks/useAxiosPrivate";
 import { RootState } from "@/src/states/store";
 import { AxiosInstance } from "axios";
 import { useSelector } from "react-redux";
@@ -17,7 +17,7 @@ const inviteToGame = (AxiosPrivateHook: AxiosInstance, username: string) => {
 };
 
 const Friends = () => {
-  const AxiosPrivateHook = UseAxiosPrivate();
+  const AxiosPrivateHook = useAxiosPrivate();
   const friendsData = useSelector((state: RootState) => state.friends.value);
   const [friendsList, setFriendsList] = useState<UserDataType[]>([]);
   useEffect(() => {

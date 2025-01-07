@@ -7,7 +7,7 @@ import { CanceledError, axiosPrivate } from "../api/axios";
 
 type scrollDirectionTypes = "top" | "bottom";
 
-interface UseInfiniteScrollProps<T> {
+interface useInfiniteScrollProps<T> {
   url: string;
   data?: T[];
   setData?: (a: T[])=> void;
@@ -18,7 +18,7 @@ interface UseInfiniteScrollProps<T> {
   scrollDirection: scrollDirectionTypes
 }
 
-const UseInfiniteScroll = <T,>({
+const useInfiniteScroll = <T,>({
   url,
   refElement,
   data,
@@ -27,7 +27,7 @@ const UseInfiniteScroll = <T,>({
   scrollDirection = "bottom",
   username,
   offset,
-}: UseInfiniteScrollProps<T>) => {
+}: useInfiniteScrollProps<T>) => {
   const [page, setPage] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState<boolean>(true);
@@ -131,4 +131,4 @@ const UseInfiniteScroll = <T,>({
   return { handleScroll, isLoading, hasMore };
 };
 
-export default UseInfiniteScroll;
+export {useInfiniteScroll};

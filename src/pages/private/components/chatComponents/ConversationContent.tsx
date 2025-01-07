@@ -8,7 +8,7 @@ import { SocketJsonValueType } from "@/src/pages/modules/watchSocket";
 
 import { toast } from "react-toastify";
 
-import UseInfiniteScroll from "@/src/services/hooks/UseInfiniteScroll";
+import { useInfiniteScroll } from "@/src/services/hooks/useInfiniteScroll";
 import { MessagesDataType } from "@/src/customDataTypes/MessagesDataType";
 import { useSelector } from "react-redux";
 import { RootState, store } from "@/src/states/store";
@@ -36,7 +36,7 @@ const ConversationContent = () => {
   const messageEndRef = useRef<HTMLDivElement>(null);
   const messages = useSelector((state: RootState) => state.messages.value);
   const { isLoading, hasMore, handleScroll } =
-    UseInfiniteScroll<MessagesDataType>({
+    useInfiniteScroll<MessagesDataType>({
       url: url,
       refElement: refChatConversationContent.current,
       startPositionRef: messageEndRef.current,

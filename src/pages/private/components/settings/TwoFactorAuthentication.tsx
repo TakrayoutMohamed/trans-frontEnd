@@ -4,7 +4,7 @@ import { useState } from "react";
 import { twoFactorAuthentification } from "@privatePages/styles";
 import ModalComponent from "@/src/router/layouts/components/ModalComponent";
 import Modal from "react-modal";
-import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
+import  { useAxiosPrivate } from "@/src/services/hooks/useAxiosPrivate";
 
 import { setUserData } from "@/src/pages/modules/setAuthenticationData";
 import { sendRequest2Fa, sendRequest2FaDeactivate } from "@/src/pages/modules/send2FaRequest";
@@ -23,7 +23,7 @@ const customStyles: Modal.Styles | undefined = {
 };
 
 const TwoFactorAuthentication = () => {
-  const axiosPrivateHook = UseAxiosPrivate();
+  const axiosPrivateHook = useAxiosPrivate();
   const userData = useSelector((state: RootState) => state.user.value);
   const [srcQrconde, setSrcQrcode] = useState<React.SetStateAction<string>>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);

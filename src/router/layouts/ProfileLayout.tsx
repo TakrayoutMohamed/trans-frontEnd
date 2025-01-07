@@ -4,7 +4,7 @@ import { NavLink, Outlet, useParams } from "react-router-dom";
 import Stats from "./components/profile/Stats";
 import { profileIcon } from "@/media-exporting";
 import WaletState from "./components/profile/WaletStats";
-import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
+import  { useAxiosPrivate } from "@/src/services/hooks/useAxiosPrivate";
 import { RootState, store } from "@/src/states/store";
 import { useSelector } from "react-redux";
 import { UserDataType } from "@/src/customDataTypes/UserDataType";
@@ -41,7 +41,7 @@ const ProfileLayout = () => {
   const { userName } = useParams();
   const currentUserData = useSelector((state: RootState) => state.user.value);
   const [data, setData] = useState<UserDataType>(currentUserData);
-  const axiosPrivateHook = UseAxiosPrivate();
+  const axiosPrivateHook = useAxiosPrivate();
   useEffect(() => {
     if (userName && userName !== currentUserData.username) {
       axiosPrivateHook

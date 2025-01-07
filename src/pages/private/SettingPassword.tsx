@@ -12,7 +12,7 @@ import {
 } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
+import  { useAxiosPrivate } from "@/src/services/hooks/useAxiosPrivate";
 
 const updatePasswordSchema = z
   .object({
@@ -49,7 +49,7 @@ const updatePasswordSchema = z
 type UpdatePasswordSchemaType = z.infer<typeof updatePasswordSchema>;
 
 const SettingPassword = () => {
-  const axiosPrivateHook = UseAxiosPrivate();
+  const axiosPrivateHook = useAxiosPrivate();
   const {
     register,
     handleSubmit,

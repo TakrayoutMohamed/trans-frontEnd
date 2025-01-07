@@ -5,7 +5,7 @@ import { MdBlock } from "react-icons/md";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { blockUser, unblockUser } from "@/src/pages/modules/fetchingData";
-import UseAxiosPrivate from "@/src/services/hooks/UseAxiosPrivate";
+import {useAxiosPrivate} from "@/src/services/hooks/useAxiosPrivate";
 import { ChatDataContext } from "@/src/customDataTypes/ChatDataContext";
 import { UserDataType } from "@/src/customDataTypes/UserDataType";
 
@@ -17,7 +17,7 @@ const Profile = ({ isProfileVisible }: ProfileProps) => {
   const location = useLocation();
 
   const navigate = useNavigate();
-  const axiosPrivateHook = UseAxiosPrivate();
+  const axiosPrivateHook = useAxiosPrivate();
   const chatContext = useContext(ChatDataContext);
 
   // console.log("pathname = " + location.pathname);

@@ -2,7 +2,6 @@ import { SlEmotsmile } from "react-icons/sl";
 import { chat } from "./styles";
 import { IoArrowForwardCircleOutline } from "react-icons/io5";
 import { profileIcon, visibilityProfileIcon } from "@/media-exporting";
-import { MdMarkUnreadChatAlt } from "react-icons/md";
 import { GiConversation } from "react-icons/gi";
 const Chat = () => {
   const userName = "?????"
