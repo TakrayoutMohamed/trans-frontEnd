@@ -26,11 +26,11 @@ const signUpSchema = z.object({
     .string({ message: "username is required" })
     .min(3, { message: "username length must be more than 3 chars" })
     .max(50, { message: "username length is less than 50 chars" }),
-  firstName: z
+  first_name: z
     .string({ message: "username is required" })
     .min(3, { message: "username length must be more than 3 chars" })
     .max(50, { message: "username length is less than 50 chars" }),
-  lastName: z
+  last_name: z
     .string({ message: "username is required" })
     .min(3, { message: "username length must be more than 3 chars" })
     .max(50, { message: "username length is less than 50 chars" }),
@@ -57,14 +57,11 @@ const SignUp = () => {
     try {
       await axios.post(
         "signup",
-        JSON.stringify({
-          ...data,
-          "first-name": data.firstName,
-          "last-name": data.lastName,
-        })
+        JSON.stringify(data)
       );
       navigate("/sign-in", { replace: true });
     } catch (err) {
+      console.log(err);
       if (err instanceof AxiosError) {
         const error: AxiosError = err as AxiosError;
         if (!error.response) {
@@ -72,12 +69,11 @@ const SignUp = () => {
         } else if (error.response?.status === 401) {
           setErrorMsg("Unauthorized");
         } else {
-          setErrorMsg("Login Failed: " + err.cause);
+          setErrorMsg("Login Failed: " + err.response?.data.error);
         }
       } else {
         setErrorMsg(errorMsg);
       }
-      console.log(errorMsg);
     }
   };
   const onError: SubmitErrorHandler<SignUpSchemaType> = async (dataerror) => {
@@ -110,12 +106,12 @@ const SignUp = () => {
                   type="text"
                   className="form-control rounded-5 p-2"
                   placeholder="first name ...."
-                  {...register("firstName", { required: true })}
+                  {...register("first_name", { required: true })}
                   autoComplete={"off"}
                 />
-                {errors?.firstName && (
+                {errors?.first_name && (
                   <span className="text-danger">
-                    {errors.firstName.message}
+                    {errors.first_name.message}
                   </span>
                 )}
               </div>
@@ -124,11 +120,11 @@ const SignUp = () => {
                   type="text"
                   className="form-control rounded-5 p-2"
                   placeholder="last-name..."
-                  {...register("lastName", { required: true })}
+                  {...register("last_name", { required: true })}
                   autoComplete={"off"}
                 />
-                {errors?.lastName && (
-                  <span className="text-danger">{errors.lastName.message}</span>
+                {errors?.last_name && (
+                  <span className="text-danger">{errors.last_name.message}</span>
                 )}
               </div>
             </div>
@@ -202,6 +198,7 @@ const SignUp = () => {
                 SIGN UP
               </button>
             </div>
+            {errorMsg ?  <span className="text-danger"> {errorMsg} </span> : ""}
           </form>
         </div>
       </div>
