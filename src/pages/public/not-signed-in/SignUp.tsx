@@ -26,6 +26,14 @@ const signUpSchema = z.object({
     .string({ message: "username is required" })
     .min(3, { message: "username length must be more than 3 chars" })
     .max(50, { message: "username length is less than 50 chars" }),
+  firstName: z
+    .string({ message: "username is required" })
+    .min(3, { message: "username length must be more than 3 chars" })
+    .max(50, { message: "username length is less than 50 chars" }),
+  lastName: z
+    .string({ message: "username is required" })
+    .min(3, { message: "username length must be more than 3 chars" })
+    .max(50, { message: "username length is less than 50 chars" }),
   password: z
     .string({ message: "password is required" })
     .min(3, { message: "password must be more than 3 chars" })
@@ -47,7 +55,14 @@ const SignUp = () => {
     data: SignUpSchemaType
   ) => {
     try {
-      await axios.post("signup", JSON.stringify(data));
+      await axios.post(
+        "signup",
+        JSON.stringify({
+          ...data,
+          "first-name": data.firstName,
+          "last-name": data.lastName,
+        })
+      );
       navigate("/sign-in", { replace: true });
     } catch (err) {
       if (err instanceof AxiosError) {
@@ -57,7 +72,7 @@ const SignUp = () => {
         } else if (error.response?.status === 401) {
           setErrorMsg("Unauthorized");
         } else {
-          setErrorMsg("Login Failed");
+          setErrorMsg("Login Failed: " + err.cause);
         }
       } else {
         setErrorMsg(errorMsg);
@@ -89,11 +104,51 @@ const SignUp = () => {
             className="w-75 my-auto"
             onSubmit={handleSubmit(onSubmit, onError)}
           >
+            <div className="mb-4 d-flex flex-wrap">
+              <div className="col-6">
+                <input
+                  type="text"
+                  className="form-control rounded-5 p-2"
+                  placeholder="first name ...."
+                  {...register("firstName", { required: true })}
+                  autoComplete={"off"}
+                />
+                {errors?.firstName && (
+                  <span className="text-danger">
+                    {errors.firstName.message}
+                  </span>
+                )}
+              </div>
+              <div className="col-6">
+                <input
+                  type="text"
+                  className="form-control rounded-5 p-2"
+                  placeholder="last-name..."
+                  {...register("lastName", { required: true })}
+                  autoComplete={"off"}
+                />
+                {errors?.lastName && (
+                  <span className="text-danger">{errors.lastName.message}</span>
+                )}
+              </div>
+            </div>
             <div className="mb-4">
               <input
                 type="text"
                 className="form-control rounded-5 p-2"
-                placeholder="Name...."
+                placeholder="Email...."
+                {...register("email", { required: true })}
+                autoComplete={"off"}
+              />
+              {errors?.email && (
+                <span className="text-danger">{errors.email.message}</span>
+              )}
+            </div>
+            <div className="mb-4">
+              <input
+                type="text"
+                className="form-control rounded-5 p-2"
+                placeholder="username...."
                 {...register("username", { required: true })}
                 autoComplete={"off"}
               />
@@ -111,18 +166,6 @@ const SignUp = () => {
               />
               {errors?.password && (
                 <span className="text-danger">{errors.password.message}</span>
-              )}
-            </div>
-            <div className="mb-4">
-              <input
-                type="text"
-                className="form-control rounded-5 p-2"
-                placeholder="Email...."
-                {...register("email", { required: true })}
-                autoComplete={"off"}
-              />
-              {errors?.email && (
-                <span className="text-danger">{errors.email.message}</span>
               )}
             </div>
             <div className="d-flex justify-content-evenly mb-4 p-2">
