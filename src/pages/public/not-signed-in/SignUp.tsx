@@ -27,13 +27,13 @@ const signUpSchema = z.object({
     .min(3, { message: "username length must be more than 3 chars" })
     .max(50, { message: "username length is less than 50 chars" }),
   first_name: z
-    .string({ message: "username is required" })
-    .min(3, { message: "username length must be more than 3 chars" })
-    .max(50, { message: "username length is less than 50 chars" }),
+    .string({ message: "first name is required" })
+    .min(3, { message: "first name length must be more than 3 chars" })
+    .max(50, { message: "first name length is less than 50 chars" }),
   last_name: z
-    .string({ message: "username is required" })
-    .min(3, { message: "username length must be more than 3 chars" })
-    .max(50, { message: "username length is less than 50 chars" }),
+    .string({ message: "last name is required" })
+    .min(3, { message: "last name length must be more than 3 chars" })
+    .max(50, { message: "last name length is less than 50 chars" }),
   password: z
     .string({ message: "password is required" })
     .min(3, { message: "password must be more than 3 chars" })
@@ -55,10 +55,7 @@ const SignUp = () => {
     data: SignUpSchemaType
   ) => {
     try {
-      await axios.post(
-        "signup",
-        JSON.stringify(data)
-      );
+      await axios.post("signup", JSON.stringify(data));
       navigate("/sign-in", { replace: true });
     } catch (err) {
       console.log(err);
@@ -69,19 +66,19 @@ const SignUp = () => {
         } else if (error.response?.status === 401) {
           setErrorMsg("Unauthorized");
         } else {
-          setErrorMsg("Login Failed: " + err.response?.data.error);
+          setErrorMsg("Login Failed: " + err.response?.data);
         }
       } else {
         setErrorMsg(errorMsg);
       }
     }
   };
-  const onError: SubmitErrorHandler<SignUpSchemaType> = async (dataerror) => {
-    console.log("error function in sign in email : " + dataerror?.email);
-    console.log("error function in sign in passwd : " + dataerror?.password);
-    console.log("error function in sign in root : " + dataerror?.root);
-    console.log(dataerror);
-  };
+  // const onError: SubmitErrorHandler<SignUpSchemaType> = async (dataerror) => {
+  //   console.log("error function in sign in email : " + dataerror?.email);
+  //   console.log("error function in sign in passwd : " + dataerror?.password);
+  //   console.log("error function in sign in root : " + dataerror?.root);
+  //   console.log(dataerror);
+  // };
   const startAnimationSignUp = (): void => {
     const animation = document.querySelector(".animationSelectorSignUp");
     animation?.classList.remove(signUpRenderAnimation);
@@ -96,10 +93,7 @@ const SignUp = () => {
     >
       <div className="w-100 ">
         <div className="d-flex justify-content-center h-100">
-          <form
-            className="w-75 my-auto"
-            onSubmit={handleSubmit(onSubmit, onError)}
-          >
+          <form className="w-75 my-auto" onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-4 d-flex flex-wrap">
               <div className="col-6">
                 <input
@@ -109,11 +103,6 @@ const SignUp = () => {
                   {...register("first_name", { required: true })}
                   autoComplete={"off"}
                 />
-                {errors?.first_name && (
-                  <span className="text-danger">
-                    {errors.first_name.message}
-                  </span>
-                )}
               </div>
               <div className="col-6">
                 <input
@@ -123,10 +112,13 @@ const SignUp = () => {
                   {...register("last_name", { required: true })}
                   autoComplete={"off"}
                 />
-                {errors?.last_name && (
-                  <span className="text-danger">{errors.last_name.message}</span>
-                )}
               </div>
+              {errors?.last_name && (
+                <span className="text-danger">{errors.last_name.message}</span>
+              )}
+              {errors?.first_name && (
+                <span className="text-danger">{errors.first_name.message}</span>
+              )}
             </div>
             <div className="mb-4">
               <input
@@ -198,7 +190,7 @@ const SignUp = () => {
                 SIGN UP
               </button>
             </div>
-            {errorMsg ?  <span className="text-danger"> {errorMsg} </span> : ""}
+            {errorMsg ? <span className="text-danger"> {errorMsg} </span> : ""}
           </form>
         </div>
       </div>
