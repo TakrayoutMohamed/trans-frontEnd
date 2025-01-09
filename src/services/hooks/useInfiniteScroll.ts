@@ -3,7 +3,8 @@ import {
   useEffect,
   useState,
 } from "react";
-import { CanceledError, axiosPrivate } from "../api/axios";
+import { AxiosResponse } from "axios";
+import { useFetchData } from "./useFetchData";
 
 type scrollDirectionTypes = "top" | "bottom";
 
@@ -11,6 +12,7 @@ interface useInfiniteScrollProps<T> {
   url: string;
   data?: T[];
   setData?: (a: T[])=> void;
+  fetchingData: (url: string, page?: number, username?: string) => Promise<AxiosResponse<any, any>>;
   refElement: HTMLDivElement | null;
   startPositionRef?: HTMLDivElement | null;
   offset: number;
@@ -22,16 +24,44 @@ const useInfiniteScroll = <T,>({
   url,
   refElement,
   data,
+  fetchingData,
   setData,
   startPositionRef,
   scrollDirection = "bottom",
   username,
   offset,
 }: useInfiniteScrollProps<T>) => {
-  const [page, setPage] = useState<number>(1);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [hasMore, setHasMore] = useState<boolean>(true);
+  // const [page, setPage] = useState<number>(1);
+  // const [isLoading, setIsLoading] = useState<boolean>(false);
+  // const [hasMore, setHasMore] = useState<boolean>(true);
+  const {page, isLoading, hasMore, fetchData} = useFetchData<T>({gettingData : fetchingData, setData, data, username, url})
   const [scrollBalance, setScrollBalance] = useState<number>(0);
+
+  // const fetchData = useCallback(async (page: number) => {
+  //   if (isLoading || (!hasMore && page !== 1)) return;
+  //   setIsLoading(true);
+  //   try {
+  //     const res = await fetchingData(url, page, username);
+  //     setData &&
+  //       setData(
+  //         page === 1
+  //           ? res.data.results.reverse()
+  //           : data
+  //           ? [...res.data.results.reverse(), ...data]
+  //           : res.data.results.reverse()
+  //       );
+  //     setHasMore(res.data.next !== null);
+  //     setPage(page + 1);
+  //     setIsLoading(false);
+  //   } catch (err) {
+  //     setIsLoading(false);
+  //     if (err instanceof CanceledError) return;
+  //     console.log("In Catch err is loading : "+ isLoading + " hasMore: "+ hasMore + " page : "+ page);
+  //     console.error("Error fetching data:");
+  //     console.error(err);
+  //   }
+  // }, [page, isLoading, hasMore, username])
+
   const handleScroll = useCallback(
     (e: React.UIEvent<HTMLDivElement>) => {
       let container = e.currentTarget;
@@ -67,15 +97,6 @@ const useInfiniteScroll = <T,>({
     [offset, fetchData]
   );
   useEffect(() => {
-    console.log(" is loading : "+ isLoading + " hasMore: "+ hasMore + " page : "+ page);
-    setPage(1);
-    setHasMore(true);
-    setIsLoading(false);
-    fetchData(1).then(() => {
-      startPositionRef?.scrollIntoView({ behavior: "instant" });
-    });
-  }, [username]);
-  useEffect(() => {
     scrollBalance &&
       setScrollBalance((prev) => {
         let addedHeight = 0;
@@ -102,32 +123,6 @@ const useInfiniteScroll = <T,>({
     checkIfScrollable()
   },[checkIfScrollable])
 
-  async function fetchData(page: number) {
-    if (isLoading || (!hasMore && page !== 1)) return;
-    setIsLoading(true);
-    try {
-      const res = await axiosPrivate.get(url, {
-        params: { page: page, username: username },
-      });
-      setData &&
-        setData(
-          page === 1
-            ? res.data.results.reverse()
-            : data
-            ? [...res.data.results.reverse(), ...data]
-            : res.data.results.reverse()
-        );
-      setHasMore(res.data.next !== null);
-      setPage(page + 1);
-      setIsLoading(false);
-    } catch (err) {
-      setIsLoading(false);
-      if (err instanceof CanceledError) return;
-      console.log("In Catch err is loading : "+ isLoading + " hasMore: "+ hasMore + " page : "+ page);
-      console.error("Error fetching data:");
-      console.error(err);
-    }
-  }
   return { handleScroll, isLoading, hasMore };
 };
 

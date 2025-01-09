@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import { RootState, store } from "@/src/states/store";
 import { setMessages } from "@/src/states/authentication/messagesSlice";
 import { setMessagesData } from "@/src/pages/modules/setAuthenticationData";
+import { axiosPrivate } from "@/src/services/api/axios";
 
 const listenForChatSocket = (chatSocket: w3cwebsocket | null) => {
   if (chatSocket && chatSocket.readyState === w3cwebsocket.OPEN) {
@@ -29,6 +30,18 @@ const listenForChatSocket = (chatSocket: w3cwebsocket | null) => {
     };
   }
 };
+
+const fetchingMessagesData = (url: string, page?: number, username?: string) => {
+  let requestParams = {}
+  if (page)
+    requestParams = {...requestParams, page: page};
+  if (username)
+    requestParams = {...requestParams, username: username};
+  return axiosPrivate.get(url, {
+    params: requestParams
+  });
+}
+
 let url: string = "/chat/messages/";
 const ConversationContent = () => {
   const { userName } = useParams();
@@ -45,10 +58,8 @@ const ConversationContent = () => {
       offset: 200,
       username: userName,
       scrollDirection: "top",
+      fetchingData: fetchingMessagesData
     });
-  // useLayoutEffect(() => {
-  //   // store.dispatch(setMessages([]));
-  // }, [userName]);
   const chatContext = useContext(ChatDataContext);
   // this should be removed at production phase from all component it exist in
   if (!chatContext)
