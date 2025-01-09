@@ -4,12 +4,14 @@ import { useLayoutEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import { setUnAuthenticatedData } from "./pages/modules/setAuthenticationData";
+import { useAxiosPrivate } from "./services/hooks/useAxiosPrivate";
 
 interface PersistLoginProps {
   children: any;
 }
 
 const PersistLogin = ({ children }: PersistLoginProps) => {
+  useAxiosPrivate();
   const [isLoading, setIsLoading] = useState(true);
   const refresh = refreshToken();
   const accessToken = useSelector(
