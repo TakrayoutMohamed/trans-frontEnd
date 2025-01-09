@@ -1,10 +1,10 @@
 import { redirect } from "react-router-dom";
 import { setUnAuthenticatedData } from "@/src/pages/modules/setAuthenticationData";
-import axios from "@/src/services/api/axios";
+import { axiosPrivate } from "@/src/services/api/axios";
 import { store } from "@/src/states/store";
 const logOut = async () => {
   try {
-    const res = await axios.post(
+    const res = await axiosPrivate.post(
       "logout",
       {},
       {

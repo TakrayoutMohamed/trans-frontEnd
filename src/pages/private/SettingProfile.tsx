@@ -6,10 +6,10 @@ import { RootState } from "@/src/states/store";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
-import  { useAxiosPrivate } from "@/src/services/hooks/useAxiosPrivate";
 import { ReactNode, useEffect } from "react";
 import { setUserData } from "../modules/setAuthenticationData";
 import { toast } from "react-toastify";
+import { axiosPrivate } from "@/src/services/api/axios";
 
 const updateUserSchema = z.object({
   first_name: z
@@ -55,7 +55,6 @@ const SettingProfile = () => {
   } = useForm<UpdateUserSchemaType>({
     resolver: zodResolver(updateUserSchema),
   });
-  const axiosPrivateHook = useAxiosPrivate();
   useEffect(() => {
     if (userData) {
       reset({
@@ -77,7 +76,7 @@ const SettingProfile = () => {
       }
       console.log(data);
       if (Object.keys(data).length === 0) return;
-      const res = await axiosPrivateHook.put("update_user", data, {
+      const res = await axiosPrivate.put("update_user", data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

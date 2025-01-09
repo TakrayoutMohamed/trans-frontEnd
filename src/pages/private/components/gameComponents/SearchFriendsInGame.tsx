@@ -4,7 +4,6 @@ import { ChangeEvent, memo, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { profileIcon } from "@/media-exporting";
 import { RiUserAddFill } from "react-icons/ri";
-import  { useAxiosPrivate } from "@/src/services/hooks/useAxiosPrivate";
 import { useSelector } from "react-redux";
 import { RootState, store } from "@/src/states/store";
 import { AllUsersDataType } from "@/src/states/authentication/allUsersSlice";
@@ -19,7 +18,6 @@ import {
   sendFriendRequest,
   unblockUser,
 } from "@/src/pages/modules/fetchingData";
-import { AxiosInstance } from "axios";
 import { FaUserCheck, FaUserClock } from "react-icons/fa";
 import { FiUserX } from "react-icons/fi";
 import NotificationsInGame from "./NotificationsInGame";
@@ -59,15 +57,11 @@ function searchForUser(
 }
 
 interface BlockingFriendingButtonsProps {
-  axiosPrivateHook: AxiosInstance;
   setUsers?: React.Dispatch<React.SetStateAction<any>>;
   user: AllUsersDataType;
 }
 
-const BlockingFriendingButtons = ({
-  axiosPrivateHook,
-  user,
-}: BlockingFriendingButtonsProps) => {
+const BlockingFriendingButtons = ({ user }: BlockingFriendingButtonsProps) => {
   return (
     <>
       <div className="block-addFriend-buttons">
@@ -75,7 +69,7 @@ const BlockingFriendingButtons = ({
           <div
             className="unfriend-button"
             title={`remove friend ${user.username}`}
-            onClick={() => removeFriend(axiosPrivateHook, user.username)}
+            onClick={() => removeFriend(user.username)}
           >
             <MdPersonRemoveAlt1 />
           </div>
@@ -86,9 +80,7 @@ const BlockingFriendingButtons = ({
                 <div
                   className="add-button cancel-request"
                   title="cancel request"
-                  onClick={() =>
-                    rejectFriendRequest(axiosPrivateHook, user.username)
-                  }
+                  onClick={() => rejectFriendRequest(user.username)}
                 >
                   <FaUserClock />
                 </div>
@@ -98,18 +90,14 @@ const BlockingFriendingButtons = ({
                   <div
                     className="add-button accept-request"
                     title="accept request"
-                    onClick={() =>
-                      acceptFriendRequest(axiosPrivateHook, user.username)
-                    }
+                    onClick={() => acceptFriendRequest(user.username)}
                   >
                     <FaUserCheck />
                   </div>
                   <div
                     className="add-button reject-request"
                     title="reject request"
-                    onClick={() =>
-                      rejectFriendRequest(axiosPrivateHook, user.username)
-                    }
+                    onClick={() => rejectFriendRequest(user.username)}
                   >
                     <FiUserX />
                   </div>
@@ -118,9 +106,7 @@ const BlockingFriendingButtons = ({
             ) : (
               <div
                 className="add-button send-request"
-                onClick={() =>
-                  sendFriendRequest(axiosPrivateHook, user.username)
-                }
+                onClick={() => sendFriendRequest(user.username)}
               >
                 <RiUserAddFill />
               </div>
@@ -131,7 +117,7 @@ const BlockingFriendingButtons = ({
           <div
             className="remove-block"
             title={`unblock ${user.username}`}
-            onClick={() => unblockUser(axiosPrivateHook, user.username)}
+            onClick={() => unblockUser(user.username)}
           >
             <CgUnblock />
           </div>
@@ -139,7 +125,7 @@ const BlockingFriendingButtons = ({
           <div
             className="block-button"
             title={`block ${user.username}`}
-            onClick={() => blockUser(axiosPrivateHook, user.username)}
+            onClick={() => blockUser(user.username)}
           >
             <BiBlock />
           </div>
@@ -153,10 +139,9 @@ const SearchFriendsInGame = () => {
   const [users, setUsers] = useState<AllUsersDataType[]>([]);
   const allUsersData = useSelector((state: RootState) => state.allUsers.value);
   const userData = useSelector((state: RootState) => state.user.value);
-  const axiosPrivateHook = useAxiosPrivate();
   useEffect(() => {
     if (!allUsersData || !allUsersData.length) {
-      getAllUsersData(axiosPrivateHook);
+      getAllUsersData();
     }
     setUsers(
       allUsersData.filter((user) => user.username !== userData.username)
@@ -227,10 +212,7 @@ const SearchFriendsInGame = () => {
                   <div className="user-name">{user.username}</div>
                 </div>
               </Link>
-              <BlockingFriendingButtons
-                axiosPrivateHook={axiosPrivateHook}
-                user={user}
-              />
+              <BlockingFriendingButtons user={user} />
             </div>
           ))
         ) : (

@@ -3,13 +3,12 @@ import { BiSearch } from "react-icons/bi";
 import UsersChatCard from "./UsersChatCard";
 import { chatConversationsList } from "../../styles";
 import TabListHeaders from "./TabListHeaders";
-import  { useAxiosPrivate } from "@/src/services/hooks/useAxiosPrivate";
-import { AxiosInstance } from "axios";
 import { ChatDataContext } from "@/src/customDataTypes/ChatDataContext";
 import { RootState } from "@/src/states/store";
 import { useSelector } from "react-redux";
 import { UserDataType } from "@/src/customDataTypes/UserDataType";
 import FriendsChatCard from "./FriendsChatCard";
+import { axiosPrivate } from "@/src/services/api/axios";
 
 export type ConversationList = UserDataType;
 
@@ -34,15 +33,14 @@ function searchFilter(
 let conversationsListData: ConversationList[] = [];
 
 const ConversationsList = () => {
-  const axiosPrivateHook = useAxiosPrivate();
-  const friends = useSelector((state: RootState) => state.friends.value)
+  const friends = useSelector((state: RootState) => state.friends.value);
   const [conversationsList, setConversationsList] = useState<
     ConversationList[]
   >([]);
   useEffect(() => {
-    const fetchConversationsList = async (axiosPrivateHook: AxiosInstance) => {
+    const fetchConversationsList = async () => {
       try {
-        const res = await axiosPrivateHook.get("chat/conversations");
+        const res = await axiosPrivate.get("chat/conversations");
         conversationsListData = res.data.results;
         setConversationsList(res.data.results);
       } catch (err) {
@@ -50,11 +48,11 @@ const ConversationsList = () => {
         console.log(err);
       }
     };
-    fetchConversationsList(axiosPrivateHook);
+    fetchConversationsList();
   }, []);
   const chatContext = useContext(ChatDataContext);
   if (!chatContext)
-    throw new Error("this component should be wrapped inside a chatContext")
+    throw new Error("this component should be wrapped inside a chatContext");
   return (
     <>
       <div className={`${chatConversationsList}`}>
@@ -82,7 +80,10 @@ const ConversationsList = () => {
             role="tabpanel"
             aria-labelledby="all-msgs"
           >
-            <UsersChatCard conversations={conversationsList} type="conversations"/>
+            <UsersChatCard
+              conversations={conversationsList}
+              type="conversations"
+            />
           </div>
           <div
             className="tab-pane"
@@ -90,8 +91,8 @@ const ConversationsList = () => {
             role="tabpanel"
             aria-labelledby="unread-msgs"
           >
-            {(friends && friends.length) ? (
-              <FriendsChatCard/>
+            {friends && friends.length ? (
+              <FriendsChatCard />
             ) : (
               <div>you have no Friends!</div>
             )}

@@ -4,10 +4,10 @@ import { NavLink, Outlet, useParams } from "react-router-dom";
 import Stats from "./components/profile/Stats";
 import { profileIcon } from "@/media-exporting";
 import WaletState from "./components/profile/WaletStats";
-import  { useAxiosPrivate } from "@/src/services/hooks/useAxiosPrivate";
 import { RootState, store } from "@/src/states/store";
 import { useSelector } from "react-redux";
 import { UserDataType } from "@/src/customDataTypes/UserDataType";
+import { axiosPrivate } from "@/src/services/api/axios";
 const matchesData = {
   data: [
     {
@@ -41,10 +41,9 @@ const ProfileLayout = () => {
   const { userName } = useParams();
   const currentUserData = useSelector((state: RootState) => state.user.value);
   const [data, setData] = useState<UserDataType>(currentUserData);
-  const axiosPrivateHook = useAxiosPrivate();
   useEffect(() => {
     if (userName && userName !== currentUserData.username) {
-      axiosPrivateHook
+      axiosPrivate
         .post("search_username", {
           username: userName,
         })

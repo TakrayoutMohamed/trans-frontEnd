@@ -1,9 +1,9 @@
-import { AxiosInstance } from "axios";
+import { axiosPrivate } from "@/src/services/api/axios";
 import QRCode from "qrcode";
 
-const sendRequest2Fa = async (axiosHook: AxiosInstance): Promise<string> => {
+const sendRequest2Fa = async (): Promise<string> => {
   try {
-    const response = await axiosHook.post("enable2fa");
+    const response = await axiosPrivate.post("enable2fa");
     console.log("response from setting Profile 2fa");
     console.log(response);
     return await QRCode.toDataURL(response.data.otp);
@@ -13,11 +13,10 @@ const sendRequest2Fa = async (axiosHook: AxiosInstance): Promise<string> => {
   }
   return "";
 };
-const sendRequest2FaDeactivate = async (
-  axiosHook: AxiosInstance
-): Promise<void> => {
+
+const sendRequest2FaDeactivate = async (): Promise<void> => {
   try {
-    const response = await axiosHook.get("enable2fa");
+    const response = await axiosPrivate.get("enable2fa");
     console.log("response from setting Profile 2fa");
     console.log(response);
   } catch (err) {

@@ -5,13 +5,12 @@ import { profileIcon } from "@/media-exporting";
 import { Link } from "react-router-dom";
 import { FaUserCheck } from "react-icons/fa";
 import { FiUserX } from "react-icons/fi";
-import  { useAxiosPrivate } from "@/src/services/hooks/useAxiosPrivate";
-import { AxiosInstance } from "axios";
 import {
   acceptFriendRequest,
   rejectFriendRequest,
 } from "@/src/pages/modules/fetchingData";
 import { UserDataType } from "@/src/customDataTypes/UserDataType";
+import { axiosPrivate } from "@/src/services/api/axios";
 
 type NotificationsDataType = {
   message: string;
@@ -43,8 +42,6 @@ const NotificationsFriendRequestCard = ({
   message,
   sender_notif,
 }: NotificationsCardsProps) => {
-  const axiosPrivateHook = useAxiosPrivate();
-
   return (
     <div className="message-accept-reject-buttons">
       <div className="message">{message}</div>
@@ -52,7 +49,7 @@ const NotificationsFriendRequestCard = ({
         <button
           className="accept-button"
           onClick={() => {
-            acceptFriendRequest(axiosPrivateHook, sender_notif?.username!);
+            acceptFriendRequest(sender_notif?.username!);
           }}
         >
           <FaUserCheck />
@@ -60,7 +57,7 @@ const NotificationsFriendRequestCard = ({
         <button
           className="reject-button"
           onClick={() => {
-            rejectFriendRequest(axiosPrivateHook, sender_notif?.username!);
+            rejectFriendRequest(sender_notif?.username!);
           }}
         >
           <FiUserX />
@@ -84,11 +81,10 @@ const NotificationsInGame = () => {
   const [notificationsList, setNotificationsList] = useState<
     NotificationsDataType[]
   >([]);
-  const axiosPrivateHook = useAxiosPrivate();
   useEffect(() => {
-    const getNotifications = async (axiosPrivateHook: AxiosInstance) => {
+    const getNotifications = async () => {
       try {
-        const res = await axiosPrivateHook.get("notification/notif");
+        const res = await axiosPrivate.get("notification/notif");
         console.log(res);
         setNotificationsList(res.data.results.notifications);
       } catch (err) {
@@ -96,7 +92,7 @@ const NotificationsInGame = () => {
         console.log(err);
       }
     };
-    if (isVisible) getNotifications(axiosPrivateHook);
+    if (isVisible) getNotifications();
   }, [isVisible]);
 
   return (
@@ -109,7 +105,9 @@ const NotificationsInGame = () => {
       >
         <IoNotificationsSharp color="white" size={23} />
         <span className="number-of-notifications">
-          {(notificationsList && notificationsList.length) ? notificationsList.length : ""}
+          {notificationsList && notificationsList.length
+            ? notificationsList.length
+            : ""}
         </span>
       </div>
       <div className="notifications-list d-none" ref={notificationListRef}>

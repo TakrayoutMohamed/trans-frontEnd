@@ -1,8 +1,6 @@
 import { profileIcon } from "@/media-exporting";
 import { friendRequests } from "./styles";
 import { Link } from "react-router-dom";
-import  { useAxiosPrivate } from "@/src/services/hooks/useAxiosPrivate";
-import { AxiosInstance } from "axios";
 import { useEffect, useState } from "react";
 
 import {
@@ -15,13 +13,12 @@ import { RootState } from "@/src/states/store";
 import { FriendRequestsType } from "@/src/customDataTypes/FriendsRequestsType";
 
 const FriendRequests = () => {
-  const axiosPrivateHook: AxiosInstance = useAxiosPrivate();
   const allUsersData = useSelector((state: RootState) => state.allUsers.value)
   const [friendRequestsList, setFriendRequestsList] = useState<
     FriendRequestsType[]
   >([]);
   useEffect(() => {
-    getAllFriendRequests(axiosPrivateHook).then((data) => {
+    getAllFriendRequests().then((data) => {
       if (data)
         setFriendRequestsList(data);
     });
@@ -86,7 +83,6 @@ const FriendRequests = () => {
                       title="accept friend request"
                       onClick={() => {
                         acceptFriendRequest(
-                          axiosPrivateHook,
                           request.username + "",
                           setFriendRequestsList,
                           friendRequestsList
@@ -100,7 +96,6 @@ const FriendRequests = () => {
                       title="reject friend request"
                       onClick={() => {
                         rejectFriendRequest(
-                          axiosPrivateHook,
                           request.username + "",
                           setFriendRequestsList
                         );
@@ -115,7 +110,6 @@ const FriendRequests = () => {
                     title="cancel friend request"
                     onClick={() => {
                       rejectFriendRequest(
-                        axiosPrivateHook,
                         request.username + "",
                         setFriendRequestsList
                       );

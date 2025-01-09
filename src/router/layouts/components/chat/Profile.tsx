@@ -5,7 +5,6 @@ import { MdBlock } from "react-icons/md";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { blockUser, unblockUser } from "@/src/pages/modules/fetchingData";
-import {useAxiosPrivate} from "@/src/services/hooks/useAxiosPrivate";
 import { ChatDataContext } from "@/src/customDataTypes/ChatDataContext";
 import { UserDataType } from "@/src/customDataTypes/UserDataType";
 
@@ -17,7 +16,6 @@ const Profile = ({ isProfileVisible }: ProfileProps) => {
   const location = useLocation();
 
   const navigate = useNavigate();
-  const axiosPrivateHook = useAxiosPrivate();
   const chatContext = useContext(ChatDataContext);
 
   // console.log("pathname = " + location.pathname);
@@ -72,8 +70,9 @@ const Profile = ({ isProfileVisible }: ProfileProps) => {
 
         {userData?.is_blocked ? (
           <button
-            onClick={() => {unblockUser(axiosPrivateHook, userData?.username + "")
-            setUserData({...userData, is_blocked: false} as UserDataType)
+            onClick={() => {
+              unblockUser(userData?.username + "");
+              setUserData({ ...userData, is_blocked: false } as UserDataType);
             }}
           >
             <div className="">
@@ -84,10 +83,9 @@ const Profile = ({ isProfileVisible }: ProfileProps) => {
         ) : (
           <button
             onClick={() => {
-              blockUser(axiosPrivateHook, userData?.username + "")
-              setUserData({...userData, is_blocked: true} as UserDataType)
-            }
-          }
+              blockUser(userData?.username + "");
+              setUserData({ ...userData, is_blocked: true } as UserDataType);
+            }}
           >
             <div className="">
               <MdBlock size={"28"} />

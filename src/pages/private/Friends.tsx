@@ -2,9 +2,7 @@ import { profileIcon } from "@/media-exporting";
 import { friends } from "./styles";
 import { BsThreeDots } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import  { useAxiosPrivate } from "@/src/services/hooks/useAxiosPrivate";
 import { RootState } from "@/src/states/store";
-import { AxiosInstance } from "axios";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { MdOutlineBlock, MdPersonRemoveAlt1 } from "react-icons/md";
@@ -12,12 +10,11 @@ import { CgUnblock } from "react-icons/cg";
 import { blockUser, removeFriend, unblockUser } from "../modules/fetchingData";
 import { UserDataType } from "@/src/customDataTypes/UserDataType";
 
-const inviteToGame = (AxiosPrivateHook: AxiosInstance, username: string) => {
+const inviteToGame = (username: string) => {
   console.log("handle invite to game ");
 };
 
 const Friends = () => {
-  const AxiosPrivateHook = useAxiosPrivate();
   const friendsData = useSelector((state: RootState) => state.friends.value);
   const [friendsList, setFriendsList] = useState<UserDataType[]>([]);
   useEffect(() => {
@@ -79,7 +76,7 @@ const Friends = () => {
                 <div
                   className="invite-button"
                   onClick={() =>
-                    inviteToGame(AxiosPrivateHook, friend.username!)
+                    inviteToGame(friend.username!)
                   }
                 >
                   invite
@@ -88,7 +85,7 @@ const Friends = () => {
                   className="remove-button"
                   title="unfriend"
                   onClick={() =>
-                    removeFriend(AxiosPrivateHook, friend.username!)
+                    removeFriend(friend.username!)
                   }
                 >
                   <MdPersonRemoveAlt1 size={17} />
@@ -106,7 +103,7 @@ const Friends = () => {
                   <div
                     className="block"
                     onClick={() =>
-                      unblockUser(AxiosPrivateHook, friend.username!)
+                      unblockUser(friend.username!)
                     }
                   >
                     <span className="">
@@ -118,7 +115,7 @@ const Friends = () => {
                   <div
                     className="block"
                     onClick={() =>
-                      blockUser(AxiosPrivateHook, friend.username!)
+                      blockUser(friend.username!)
                     }
                   >
                     <span className="">

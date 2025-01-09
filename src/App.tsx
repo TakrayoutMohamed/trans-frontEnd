@@ -1,19 +1,17 @@
 import MainRoutingComponent from "@router/MainRoutingComponent.tsx";
 import { RootState } from "./states/store";
 import { useEffect } from "react";
-import {useAxiosPrivate} from "./services/hooks/useAxiosPrivate";
 import {
-  // setBlockedData,
   setFriendsData,
   setUserData,
 } from "./pages/modules/setAuthenticationData";
-import { AxiosInstance } from "axios";
 import Cookies from "js-cookie";
 import { useSelector } from "react-redux";
 import refreshToken from "./services/hooks/refreshToken";
+import { axiosPrivate } from "./services/api/axios";
 
-const getUsersInfo = async (axiosPrivateHook: AxiosInstance) => {
-  await axiosPrivateHook
+const getUsersInfo = async () => {
+  await axiosPrivate
     .get("user_info")
     .then((res) => {
       setUserData(res.data);
@@ -24,8 +22,8 @@ const getUsersInfo = async (axiosPrivateHook: AxiosInstance) => {
     });
 };
 
-const getFriendsData = async (axiosPrivateHook: AxiosInstance) => {
-  axiosPrivateHook
+const getFriendsData = async () => {
+  axiosPrivate
     .get("friends")
     .then((res) => {
       setFriendsData(res.data.results.friends);
@@ -36,24 +34,7 @@ const getFriendsData = async (axiosPrivateHook: AxiosInstance) => {
     });
 };
 
-// const getBlockedData = async (axiosPrivateHook: AxiosInstance) => {
-//   axiosPrivateHook
-//     .get("block_user")
-//     .then((res) => {
-//       setBlockedData(
-//         res.data.blocked.map((user: UserDataType): BlockerUsersType => {
-//           return { username: user.username! };
-//         })
-//       );
-//     })
-//     .catch((err) => {
-//       console.log("error in getBlockedInfo");
-//       console.log(err);
-//     });
-// };
-
 function App() {
-  const axiosPrivateHook = useAxiosPrivate();
   const isAuthenticated = useSelector(
     (state: RootState) => state.authenticator.value
   );
@@ -64,9 +45,8 @@ function App() {
         refresh();
       }
     } else {
-      getUsersInfo(axiosPrivateHook);
-      getFriendsData(axiosPrivateHook);
-      // getBlockedData(axiosPrivateHook);
+      getUsersInfo();
+      getFriendsData();
     }
   }, [isAuthenticated]);
   return (

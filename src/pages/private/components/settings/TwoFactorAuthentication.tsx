@@ -4,12 +4,11 @@ import { useState } from "react";
 import { twoFactorAuthentification } from "@privatePages/styles";
 import ModalComponent from "@/src/router/layouts/components/ModalComponent";
 import Modal from "react-modal";
-import  { useAxiosPrivate } from "@/src/services/hooks/useAxiosPrivate";
-
 import { setUserData } from "@/src/pages/modules/setAuthenticationData";
-import { sendRequest2Fa, sendRequest2FaDeactivate } from "@/src/pages/modules/send2FaRequest";
-
-
+import {
+  sendRequest2Fa,
+  sendRequest2FaDeactivate,
+} from "@/src/pages/modules/send2FaRequest";
 
 const customStyles: Modal.Styles | undefined = {
   content: {},
@@ -23,7 +22,6 @@ const customStyles: Modal.Styles | undefined = {
 };
 
 const TwoFactorAuthentication = () => {
-  const axiosPrivateHook = useAxiosPrivate();
   const userData = useSelector((state: RootState) => state.user.value);
   const [srcQrconde, setSrcQrcode] = useState<React.SetStateAction<string>>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -53,7 +51,7 @@ const TwoFactorAuthentication = () => {
             type="button"
             className="two-factor-deactivation"
             onClick={async () => {
-              await sendRequest2FaDeactivate(axiosPrivateHook);
+              await sendRequest2FaDeactivate();
               setSrcQrcode("");
               setUserData({ ...userData, is2fa: false });
             }}
@@ -65,7 +63,7 @@ const TwoFactorAuthentication = () => {
             type="button"
             className="two-factor-activation"
             onClick={async () => {
-              setSrcQrcode(await sendRequest2Fa(axiosPrivateHook));
+              setSrcQrcode(await sendRequest2Fa());
               setUserData({ ...userData, is2fa: true });
               setIsOpen(true);
             }}

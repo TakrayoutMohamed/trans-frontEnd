@@ -1,4 +1,3 @@
-import { AxiosInstance } from "axios";
 import { w3cwebsocket } from "websocket";
 import { useSelector } from "react-redux";
 import { RootState } from "@/src/states/store";
@@ -7,19 +6,16 @@ import { isValidAccessToken } from "@/src/pages/modules/fetchingData";
 import { openSocket } from "@/src/pages/modules/openSocket";
 import { watchSocket } from "@/src/pages/modules/watchSocket";
 import { closeSocket } from "@/src/pages/modules/closeSocket";
-import { useAxiosPrivate } from "./useAxiosPrivate";
 
-let axiosPrivateHook: AxiosInstance;
-
-
-
-interface useHandleSocketsProps{
-    urlOfSocket: string;
-    client: w3cwebsocket | null;
+interface useHandleSocketsProps {
+  urlOfSocket: string;
+  client: w3cwebsocket | null;
 }
 
-const useHandleSockets = ({urlOfSocket, client = null} : useHandleSocketsProps) => {
-  axiosPrivateHook = useAxiosPrivate();
+const useHandleSockets = ({
+  urlOfSocket,
+  client = null,
+}: useHandleSocketsProps) => {
   const isAuthenticated = useSelector(
     (state: RootState) => state.authenticator.value
   );
@@ -36,7 +32,7 @@ const useHandleSockets = ({urlOfSocket, client = null} : useHandleSocketsProps) 
             client = openSocket(urlOfSocket, accessToken + "");
           if (client) {
             console.log("befor watching socket");
-            watchSocket(axiosPrivateHook, client);
+            watchSocket(client);
             if (client.readyState === w3cwebsocket.CLOSING) {
               console.log("socket closing");
             }
@@ -55,4 +51,4 @@ const useHandleSockets = ({urlOfSocket, client = null} : useHandleSocketsProps) 
   }, [accessToken]);
 };
 
-export {useHandleSockets};
+export { useHandleSockets };

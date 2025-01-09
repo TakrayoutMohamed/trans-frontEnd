@@ -1,21 +1,14 @@
 import { store } from "@/src/states/store";
-import { AxiosInstance } from "axios";
-import {
-  setAllUsersData,
-  setFriendsData,
-} from "./setAuthenticationData";
-import axios from "@/src/services/api/axios";
+import { setAllUsersData, setFriendsData } from "./setAuthenticationData";
+import axios, { axiosPrivate } from "@/src/services/api/axios";
 import refreshToken from "@/src/services/hooks/refreshToken";
 import { AllUsersDataType } from "@/src/states/authentication/allUsersSlice";
 import { w3cwebsocket } from "websocket";
 import { closeSocket } from "./closeSocket";
 import { FriendRequestsType } from "@/src/customDataTypes/FriendsRequestsType";
 
-export const sendFriendRequest = (
-  axiosPrivateHook: AxiosInstance,
-  username: string
-) => {
-  axiosPrivateHook
+export const sendFriendRequest = (username: string) => {
+  axiosPrivate
     .post("friend_req/", { username: username })
     .then((res) => {
       console.log("friend request sent to " + username);
@@ -33,11 +26,8 @@ export const sendFriendRequest = (
     });
 };
 
-export const removeFriend = (
-  axiosPrivateHook: AxiosInstance,
-  username: string
-) => {
-  axiosPrivateHook
+export const removeFriend = (username: string) => {
+  axiosPrivate
     .delete("friends", { data: { username: username } })
     .then((res) => {
       console.log("remove Friend " + username + " ");
@@ -67,17 +57,18 @@ interface FetchedData {
   to_user: FriendRequestsType;
 }
 
-export async function getReceivedFriendRequests(
-  axiosPrivateHook: AxiosInstance
-) {
+export async function getReceivedFriendRequests() {
   let receivedFriendRequests: FriendRequestsType[] | null = null;
   try {
-    const res = await axiosPrivateHook.get("friend_req", {
+    const res = await axiosPrivate.get("friend_req", {
       params: { type: "received" },
     });
     console.log("response in getReceivedFriendRequests received data");
     console.log(res);
-    if (res.data.results.friend_requests && res.data.results.friend_requests.length) {
+    if (
+      res.data.results.friend_requests &&
+      res.data.results.friend_requests.length
+    ) {
       receivedFriendRequests = res.data.results.friend_requests.map(
         (friendReq: FetchedData) => ({
           ...friendReq.from_user,
@@ -94,15 +85,18 @@ export async function getReceivedFriendRequests(
   return receivedFriendRequests;
 }
 
-export async function getSentFriendRequests(axiosPrivateHook: AxiosInstance) {
+export async function getSentFriendRequests() {
   let sentFriendRequests: FriendRequestsType[] | null = null;
   try {
-    const res = await axiosPrivateHook.get("friend_req", {
+    const res = await axiosPrivate.get("friend_req", {
       params: { type: "sent" },
     });
     console.log("response in fetchSentFriendRequests sent data");
     console.log(res);
-    if (res.data.results.friend_requests && res.data.results.friend_requests.length) {
+    if (
+      res.data.results.friend_requests &&
+      res.data.results.friend_requests.length
+    ) {
       sentFriendRequests = res.data.results.friend_requests.map(
         (friendReq: FetchedData) => ({
           ...friendReq.to_user,
@@ -120,15 +114,13 @@ export async function getSentFriendRequests(axiosPrivateHook: AxiosInstance) {
   return sentFriendRequests;
 }
 
-export const getAllFriendRequests = async (
-  axiosPrivateHook: AxiosInstance
-): Promise<FriendRequestsType[]> => {
+export const getAllFriendRequests = async (): Promise<FriendRequestsType[]> => {
   let sentFriendRequests: FriendRequestsType[] | null = null;
   let receivedFriendRequests: FriendRequestsType[] | null = null;
-  await getReceivedFriendRequests(axiosPrivateHook).then((data) => {
+  await getReceivedFriendRequests().then((data) => {
     receivedFriendRequests = data;
   });
-  await getSentFriendRequests(axiosPrivateHook).then((data) => {
+  await getSentFriendRequests().then((data) => {
     sentFriendRequests = data;
   });
   if (sentFriendRequests !== null && receivedFriendRequests !== null)
@@ -137,11 +129,10 @@ export const getAllFriendRequests = async (
 };
 
 export const rejectFriendRequest = async (
-  axiosPrivateHook: AxiosInstance,
   username: string,
   setFriendRequestsList?: React.Dispatch<React.SetStateAction<any[]>>
 ) => {
-  axiosPrivateHook
+  axiosPrivate
     .delete("friend_req/", { data: { username: username } })
     .then((res) => {
       console.log(res);
@@ -164,19 +155,18 @@ export const rejectFriendRequest = async (
 };
 
 export const acceptFriendRequest = async (
-  axiosPrivateHook: AxiosInstance,
   username: string,
   setFriendRequestsList?: React.Dispatch<React.SetStateAction<any[]>>,
   friendRequestsList?: any[]
 ) => {
-  axiosPrivateHook
+  axiosPrivate
     .put("friend_req/", { username: username })
     .then((res) => {
       console.log(res);
       setFriendRequestsList &&
-      setFriendRequestsList((prev) => {
-        return prev.filter((friendReq) => friendReq.username !== username);
-      });
+        setFriendRequestsList((prev) => {
+          return prev.filter((friendReq) => friendReq.username !== username);
+        });
       if (friendRequestsList) {
         let temp_data;
         temp_data = friendRequestsList.find(
@@ -215,8 +205,8 @@ export const isValidAccessToken = async (
   return true;
 };
 
-export const getAllUsersData = async (axiosPrivateHook: AxiosInstance) => {
-  axiosPrivateHook
+export const getAllUsersData = async () => {
+  axiosPrivate
     .post("search_user")
     .then(async (response) => {
       let tmpAllUsers: AllUsersDataType[] | undefined = undefined;
@@ -224,7 +214,7 @@ export const getAllUsersData = async (axiosPrivateHook: AxiosInstance) => {
 
       tmpAllUsers = response.data.results.users;
       try {
-        tmpAllFriendReq = await getAllFriendRequests(axiosPrivateHook);
+        tmpAllFriendReq = await getAllFriendRequests();
         tmpAllUsers = tmpAllUsers?.map((user) => {
           let user_friend_req = tmpAllFriendReq?.find(
             (friend_request) => friend_request.username === user.username
@@ -246,11 +236,8 @@ export const getAllUsersData = async (axiosPrivateHook: AxiosInstance) => {
     });
 };
 
-export const blockUser = (
-  axiosPrivateHook: AxiosInstance,
-  username: string
-) => {
-  axiosPrivateHook
+export const blockUser = (username: string) => {
+  axiosPrivate
     .post("block_user", { username: username })
     .then((res) => {
       console.log(res);
@@ -267,11 +254,8 @@ export const blockUser = (
     });
 };
 
-export const unblockUser = (
-  axiosPrivateHook: AxiosInstance,
-  username: string
-) => {
-  axiosPrivateHook
+export const unblockUser = (username: string) => {
+  axiosPrivate
     .delete("block_user", { data: { username: username } })
     .then((res) => {
       console.log("removed block to user " + username + " ");
