@@ -96,7 +96,7 @@ const ConversationContent = () => {
                     className=""
                   />
                 ) : (
-                  <></>
+                  <div className=""></div>
                 )}
                 <p className="">{convers.message}</p>
               </div>
