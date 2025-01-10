@@ -6,7 +6,11 @@ import { useEffect } from "react";
 import { AxiosRequestConfig, InternalAxiosRequestConfig } from "axios";
 
 const pendingRequests = new Map();
-const getRequestKey = (config: AxiosRequestConfig): string => `${config.method}:${config.url}`
+const getRequestKey = (config: AxiosRequestConfig): string => {
+  if (config.params)
+    return `${config.method}:${config.url}:${JSON.stringify(config.params)}`
+  return `${config.method}:${config.url}`;
+}
 const addPendingRequest  = (config : InternalAxiosRequestConfig) => {
   const requestKey = getRequestKey(config);
   if (pendingRequests.has(requestKey)){
