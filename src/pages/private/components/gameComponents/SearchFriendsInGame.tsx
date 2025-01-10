@@ -169,6 +169,10 @@ const SearchFriendsInGame = () => {
   });
   useEffect(() => {
     setUsers(allUsersData);
+    return () => {
+      isInputFocused = false;
+      isDevFocused = false;
+    }
   }, [allUsersData]);
 
   return (
