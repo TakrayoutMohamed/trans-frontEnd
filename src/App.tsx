@@ -2,7 +2,7 @@ import MainRoutingComponent from "@router/MainRoutingComponent.tsx";
 import { RootState } from "./states/store";
 import { useEffect } from "react";
 import {
-  setFriendsData,
+  // setFriendsData,
   setUserData,
 } from "./pages/modules/setAuthenticationData";
 import Cookies from "js-cookie";
@@ -22,18 +22,6 @@ const getUsersInfo = async () => {
     });
 };
 
-const getFriendsData = async () => {
-  axiosPrivate
-    .get("friends")
-    .then((res) => {
-      setFriendsData(res.data.results);
-    })
-    .catch((err) => {
-      console.log("error in getFriendsInfo");
-      console.log(err);
-    });
-};
-
 function App() {
   const isAuthenticated = useSelector(
     (state: RootState) => state.authenticator.value
@@ -46,7 +34,6 @@ function App() {
       }
     } else {
       getUsersInfo();
-      getFriendsData();
     }
   }, [isAuthenticated]);
   return (

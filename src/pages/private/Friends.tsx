@@ -4,23 +4,50 @@ import { BsThreeDots } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { RootState } from "@/src/states/store";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useRef } from "react";
 import { MdOutlineBlock, MdPersonRemoveAlt1 } from "react-icons/md";
 import { CgUnblock } from "react-icons/cg";
 import { blockUser, removeFriend, unblockUser } from "../modules/fetchingData";
-import { UserDataType } from "@/src/customDataTypes/UserDataType";
+import LoadingOrNoMoreData from "../components/LoadingOrNoMoreData";
+import { setFriendsData } from "@/src/pages/modules/setAuthenticationData";
+import { FriendsDataType } from "@/src/customDataTypes/FriendsDataType";
+import { useInfiniteScroll } from "@/src/services/hooks/useInfiniteScroll";
+import { AxiosResponse } from "axios";
+import { axiosPrivate } from "@/src/services/api/axios";
 
 const inviteToGame = (username: string) => {
   console.log("handle invite to game ");
 };
 
+const fetchingFriendsData = (
+  url: string,
+  page?: number,
+  username?: string
+): Promise<AxiosResponse<any,any>> => {
+  let requestParams = {}
+  if (page)
+    requestParams = {...requestParams, page: page};
+  if (username)
+    requestParams = {...requestParams, username: username};
+  return axiosPrivate.get(url,{params: requestParams});
+};
+
 const Friends = () => {
   const friendsData = useSelector((state: RootState) => state.friends.value);
-  const [friendsList, setFriendsList] = useState<UserDataType[]>([]);
-  useEffect(() => {
-    setFriendsList(friendsData);
-  }, [friendsData]);
-  if (!friendsList || !friendsList.length) {
+  const refFriends = useRef<HTMLDivElement>(null);
+  const friendsStartRef = useRef<HTMLDivElement>(null);
+  const { isLoading, hasMore, handleScroll } = useInfiniteScroll<FriendsDataType>({
+    url: "friends",
+    refElement: refFriends.current,
+    startPositionRef: friendsStartRef.current,
+    data: friendsData,
+    setData: setFriendsData,
+    offset: 100,
+    scrollDirection: "bottom",
+    fetchingData: fetchingFriendsData,
+  });
+
+  if (!friendsData || !friendsData.length) {
     return (
       <div className={`${friends}`}>
         <p className="no-friends">
@@ -38,11 +65,12 @@ const Friends = () => {
   console.log("friends ")
   return (
     <div className={`${friends}`}>
-      <div className="">
-        {friendsList &&
-          friendsList.length &&
-          friendsList.map((friend, index) => (
-            <div className="friends-card" key={index}>
+      <div className="" ref={refFriends} onScroll={handleScroll}>
+        <div ref={friendsStartRef}/>
+        {friendsData &&
+          friendsData.length &&
+          friendsData.map((friend) => (
+            <div className="friends-card" key={friend.username}>
               <Link
                 to={`/profile/` + friend.username}
                 className="user-image-name-level"
@@ -144,6 +172,7 @@ const Friends = () => {
               </div>
             </div>
           ))}
+          <LoadingOrNoMoreData isLoading={isLoading} hasMore={hasMore} />
       </div>
     </div>
   );
