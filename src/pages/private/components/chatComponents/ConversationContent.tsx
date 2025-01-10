@@ -15,6 +15,7 @@ import { RootState, store } from "@/src/states/store";
 import { setMessages } from "@/src/states/authentication/messagesSlice";
 import { setMessagesData } from "@/src/pages/modules/setAuthenticationData";
 import { axiosPrivate } from "@/src/services/api/axios";
+import LoadingOrNoMoreData from "@/src/pages/components/LoadingOrNoMoreData";
 
 const listenForChatSocket = (chatSocket: w3cwebsocket | null) => {
   if (chatSocket && chatSocket.readyState === w3cwebsocket.OPEN) {
@@ -109,12 +110,7 @@ const ConversationContent = () => {
                 <p className="">{convers.message}</p>
               </div>
             )}
-            {convers.sender.username !== userName && (
-              <div className="MessagesOfOwner">
-                <p className="">{convers.message}</p>
-              </div>
-            )}
-            {(previousMsgOwner = convers.sender.username) && <></>}
+            <LoadingOrNoMoreData isLoading={isLoading} hasMore={hasMore} />
           </div>
         ))}
         <div ref={messageEndRef} />
