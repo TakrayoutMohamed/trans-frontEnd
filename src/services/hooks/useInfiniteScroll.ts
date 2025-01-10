@@ -92,15 +92,16 @@ const useInfiniteScroll = <T>({
     console.log("checkisScrollable");
     if (
       container &&
-      container.scrollHeight <= container.clientHeight &&
+      container.scrollHeight <= container.clientHeight + offset &&
       hasMore
     ) {
+      console.log("inside if condition befor fetching data");
       fetchData(page).then(() => {
         startPositionRef?.scrollIntoView({ behavior: "instant" });
         setScrollBalance(0);
       });
     }
-  }, [refElement, refElement?.offsetTop]);
+  }, [refElement, refElement?.offsetTop, page]);
   useEffect(() => {
     checkIfScrollable();
   }, [checkIfScrollable]);
