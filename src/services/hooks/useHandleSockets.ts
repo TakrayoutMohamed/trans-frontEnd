@@ -43,9 +43,10 @@ const useHandleSockets = ({
         }
       };
       handleSockets();
+    } else {
+      closeSocket(client) && (client = null);
     }
     return () => {
-      console.log("cleaning funtion in APPPPPPPPPPPPPPPPPPPPPP");
       closeSocket(client) && (client = null);
     };
   }, [accessToken]);
