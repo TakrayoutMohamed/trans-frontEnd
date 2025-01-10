@@ -13,21 +13,6 @@ import { UserDataType } from "@/src/customDataTypes/UserDataType";
 import { axiosPrivate } from "@/src/services/api/axios";
 import { NotificationsDataType } from "@/src/customDataTypes/NotificationsDataType";
 
-const showHideNotificationsList = (
-  notificationListRef: React.MutableRefObject<any>,
-  isVisible: React.Dispatch<React.SetStateAction<boolean>>
-) => {
-  let classNameString: string | undefined =
-    notificationListRef.current.className;
-  if (notificationListRef.current.className?.includes("d-none")) {
-    classNameString = classNameString?.replace(" d-none", "");
-  } else {
-    classNameString = classNameString?.concat(" d-none");
-  }
-  notificationListRef.current.className = classNameString;
-  isVisible((prev) => !prev);
-};
-
 type NotificationsCardsProps = {
   message: string;
   sender_notif?: UserDataType;
@@ -70,6 +55,36 @@ const NotificationsInviteCard = ({ message }: NotificationsCardsProps) => {
   );
 };
 
+let isbillRingFocused: boolean = false;
+let isNotificationsDevFocused: boolean = false;
+
+const hideNotificationsList = (
+  notificationListRef: React.MutableRefObject<any>,
+  setIsVisible: React.Dispatch<React.SetStateAction<boolean>>
+) => {
+  let classNameString: string | undefined =
+    notificationListRef.current.className;
+    if (isbillRingFocused === false && isNotificationsDevFocused === false){
+      if (!notificationListRef.current.className?.includes("d-none")) {
+        classNameString = classNameString?.concat(" d-none");
+        notificationListRef.current.className = classNameString;
+        setIsVisible(false);
+      }
+    }
+};
+const showNotificationsList = (
+  notificationListRef: React.MutableRefObject<any>,
+  setIsVisible: React.Dispatch<React.SetStateAction<boolean>>
+) => {
+  let classNameString: string | undefined =
+    notificationListRef.current.className;
+  if (notificationListRef.current.className?.includes("d-none")) {
+    classNameString = classNameString?.replace(" d-none", "");
+    notificationListRef.current.className = classNameString;
+    setIsVisible(true);
+  }
+};
+
 const NotificationsInGame = () => {
   const notificationListRef = useRef(null);
   const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -88,15 +103,25 @@ const NotificationsInGame = () => {
       }
     };
     if (isVisible) getNotifications();
+    return () => {
+      isbillRingFocused = false;
+      isNotificationsDevFocused = false;
+    }
   }, [isVisible]);
 
   return (
     <div className={notificationsInGame}>
       <div
+        tabIndex={0}
         className="notifications-ring-number"
-        onClick={() =>
-          showHideNotificationsList(notificationListRef, setIsVisible)
-        }
+        onFocus={() => {
+          isbillRingFocused = true;
+          showNotificationsList(notificationListRef, setIsVisible);
+        }}
+        onBlur={() => {
+          isbillRingFocused = false;
+          hideNotificationsList(notificationListRef, setIsVisible);
+        }}
       >
         <IoNotificationsSharp color="white" size={23} />
         <span className="number-of-notifications">
@@ -105,7 +130,18 @@ const NotificationsInGame = () => {
             : ""}
         </span>
       </div>
-      <div className="notifications-list d-none" ref={notificationListRef}>
+      <div
+        className="notifications-list d-none"
+        tabIndex={0}
+        onMouseEnter={() => (isNotificationsDevFocused = true)}
+        onMouseLeave={() => (isNotificationsDevFocused = false)}
+        onFocus={() => showNotificationsList(notificationListRef, setIsVisible)}
+        onBlur={() => {
+          isNotificationsDevFocused = false;
+          hideNotificationsList(notificationListRef, setIsVisible);
+        }}
+        ref={notificationListRef}
+      >
         {notificationsList && notificationsList.length ? (
           notificationsList.map((notification) => {
             return (
@@ -113,7 +149,7 @@ const NotificationsInGame = () => {
                 className="notifications-card"
                 key={notification.sender_notif.username}
               >
-                <Link to="#" className="image">
+                <Link to={`/profile/${notification.sender_notif.username}`} className="image">
                   <img
                     src={
                       notification.sender_notif.avatar
