@@ -26,7 +26,7 @@ const getFriendsData = async () => {
   axiosPrivate
     .get("friends")
     .then((res) => {
-      setFriendsData(res.data.results.friends);
+      setFriendsData(res.data.results);
     })
     .catch((err) => {
       console.log("error in getFriendsInfo");

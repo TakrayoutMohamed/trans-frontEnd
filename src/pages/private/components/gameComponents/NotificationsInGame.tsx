@@ -81,7 +81,7 @@ const NotificationsInGame = () => {
       try {
         const res = await axiosPrivate.get("notification/notif");
         console.log(res);
-        setNotificationsList(res.data.results.notifications);
+        setNotificationsList(res.data.results);
       } catch (err) {
         console.log("error in Notifications In game");
         console.log(err);

@@ -66,10 +66,10 @@ export async function getReceivedFriendRequests() {
     console.log("response in getReceivedFriendRequests received data");
     console.log(res);
     if (
-      res.data.results.friend_requests &&
-      res.data.results.friend_requests.length
+      res.data.results &&
+      res.data.results.length
     ) {
-      receivedFriendRequests = res.data.results.friend_requests.map(
+      receivedFriendRequests = res.data.results.map(
         (friendReq: FetchedData) => ({
           ...friendReq.from_user,
           type: "received",
@@ -94,10 +94,10 @@ export async function getSentFriendRequests() {
     console.log("response in fetchSentFriendRequests sent data");
     console.log(res);
     if (
-      res.data.results.friend_requests &&
-      res.data.results.friend_requests.length
+      res.data.results &&
+      res.data.results.length
     ) {
-      sentFriendRequests = res.data.results.friend_requests.map(
+      sentFriendRequests = res.data.results.map(
         (friendReq: FetchedData) => ({
           ...friendReq.to_user,
           type: "sent",
@@ -212,7 +212,7 @@ export const getAllUsersData = async () => {
       let tmpAllUsers: AllUsersDataType[] | undefined = undefined;
       let tmpAllFriendReq: FriendRequestsType[] | undefined = undefined;
 
-      tmpAllUsers = response.data.results.users;
+      tmpAllUsers = response.data.results;
       try {
         tmpAllFriendReq = await getAllFriendRequests();
         tmpAllUsers = tmpAllUsers?.map((user) => {
