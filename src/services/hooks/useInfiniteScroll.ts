@@ -58,7 +58,12 @@ const useInfiniteScroll = <T>({
         }
         case "bottom": {
           console.log("bottom scrolling");
-          if (container.scrollHeight - container.scrollTop - container.clientHeight < offset) {
+          if (
+            container.scrollHeight -
+              container.scrollTop -
+              container.clientHeight <
+            offset
+          ) {
             fetchData(page);
           }
           break;
@@ -90,8 +95,20 @@ const useInfiniteScroll = <T>({
   const checkIfScrollable = useCallback(() => {
     const container = refElement;
     console.log("checkisScrollable");
+    // console.log(
+    //   "scrollHeight : " +
+    //     container?.scrollHeight +
+    //     " clientHeight : " +
+    //     container?.clientHeight +
+    //     " offset " +
+    //     offset +
+    //     " hasMore : " +
+    //     hasMore
+    // );
+
     if (
       container &&
+      container.clientHeight &&
       container.scrollHeight <= container.clientHeight + offset &&
       hasMore
     ) {
