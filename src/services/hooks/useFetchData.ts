@@ -55,12 +55,12 @@ export const useFetchData = <T>({
           }
         } else {
           if (page === 1) {
-            tmp = res.data.results.users;
+            tmp = res.data.results;
           } else {
             if (data && data.length) {
-              tmp = [...data, ...res.data.results.users];
+              tmp = [...data, ...res.data.results];
             } else {
-              tmp = res.data.results.users;
+              tmp = res.data.results;
             }
           }
         }
