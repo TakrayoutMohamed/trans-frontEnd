@@ -11,17 +11,6 @@ type UsersChatCardProps = {
 const UsersChatCard = ({ conversations, type }: UsersChatCardProps) => {
 
   const r = (Math.random() + 1).toString(36).substring(20);
-  conversations = [
-    ...conversations,
-    ...conversations,
-    ...conversations,
-    ...conversations,
-    ...conversations,
-    ...conversations,
-    ...conversations,
-    ...conversations,
-    ...conversations
-  ]
   return (
     <>
       {conversations.map(

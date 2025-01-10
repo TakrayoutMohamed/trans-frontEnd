@@ -5,9 +5,7 @@ import { useContext, useRef } from "react";
 import { ChatDataContext } from "@/src/customDataTypes/ChatDataContext";
 import { IMessageEvent, w3cwebsocket } from "websocket";
 import { SocketJsonValueType } from "@/src/pages/modules/watchSocket";
-
 import { toast } from "react-toastify";
-
 import { useInfiniteScroll } from "@/src/services/hooks/useInfiniteScroll";
 import { MessagesDataType } from "@/src/customDataTypes/MessagesDataType";
 import { useSelector } from "react-redux";
@@ -32,16 +30,18 @@ const listenForChatSocket = (chatSocket: w3cwebsocket | null) => {
   }
 };
 
-const fetchingMessagesData = (url: string, page?: number, username?: string) => {
-  let requestParams = {}
-  if (page)
-    requestParams = {...requestParams, page: page};
-  if (username)
-    requestParams = {...requestParams, username: username};
+const fetchingMessagesData = (
+  url: string,
+  page?: number,
+  username?: string
+) => {
+  let requestParams = {};
+  if (page) requestParams = { ...requestParams, page: page };
+  if (username) requestParams = { ...requestParams, username: username };
   return axiosPrivate.get(url, {
-    params: requestParams
+    params: requestParams,
   });
-}
+};
 
 let url: string = "/chat/messages/";
 const ConversationContent = () => {
@@ -59,7 +59,7 @@ const ConversationContent = () => {
       offset: 200,
       username: userName,
       scrollDirection: "top",
-      fetchingData: fetchingMessagesData
+      fetchingData: fetchingMessagesData,
     });
   const chatContext = useContext(ChatDataContext);
   // this should be removed at production phase from all component it exist in
@@ -75,22 +75,13 @@ const ConversationContent = () => {
         ref={refChatConversationContent}
         onScroll={handleScroll}
       >
-        {isLoading && (
-          <div className="loading-messages">
-            <div className="spinner-border text-secondary" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
-          </div>
-        )}
-        {!hasMore && (
-          <div className="no-more-messages"> no more messages...</div>
-        )}
-        {messages.map((convers, index) => (
+        <LoadingOrNoMoreData isLoading={isLoading} hasMore={hasMore} />
+        {messages.map((convers) => (
           <div
             className={`${(
               previousMsgOwner !== convers.sender.username
             ).toString()}`}
-            key={index}
+            key={convers.sender.username + convers.updated_at}
           >
             {convers.sender.username === userName && (
               <div className="MessagesOfOther">
@@ -105,12 +96,17 @@ const ConversationContent = () => {
                     className=""
                   />
                 ) : (
-                  <div className=""></div>
+                  <></>
                 )}
                 <p className="">{convers.message}</p>
               </div>
             )}
-            <LoadingOrNoMoreData isLoading={isLoading} hasMore={hasMore} />
+            {convers.sender.username !== userName && (
+              <div className="MessagesOfOwner">
+                <p className="">{convers.message}</p>
+              </div>
+            )}
+            {(previousMsgOwner = convers.sender.username) && <></>}
           </div>
         ))}
         <div ref={messageEndRef} />
