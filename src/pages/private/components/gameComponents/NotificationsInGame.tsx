@@ -11,12 +11,7 @@ import {
 } from "@/src/pages/modules/fetchingData";
 import { UserDataType } from "@/src/customDataTypes/UserDataType";
 import { axiosPrivate } from "@/src/services/api/axios";
-
-type NotificationsDataType = {
-  message: string;
-  sender_notif: UserDataType;
-  type: string;
-};
+import { NotificationsDataType } from "@/src/customDataTypes/NotificationsDataType";
 
 const showHideNotificationsList = (
   notificationListRef: React.MutableRefObject<any>,
