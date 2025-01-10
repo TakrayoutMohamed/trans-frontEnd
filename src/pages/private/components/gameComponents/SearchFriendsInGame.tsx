@@ -1,6 +1,6 @@
 import { BiBlock, BiSearch } from "react-icons/bi";
 import { searchFriendsInGame } from "../../styles";
-import { ChangeEvent, memo, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { profileIcon } from "@/media-exporting";
 import { RiUserAddFill } from "react-icons/ri";
@@ -12,7 +12,6 @@ import { CgUnblock } from "react-icons/cg";
 import {
   acceptFriendRequest,
   blockUser,
-  getAllUsersData,
   rejectFriendRequest,
   removeFriend,
   sendFriendRequest,
@@ -21,6 +20,11 @@ import {
 import { FaUserCheck, FaUserClock } from "react-icons/fa";
 import { FiUserX } from "react-icons/fi";
 import NotificationsInGame from "./NotificationsInGame";
+import { useInfiniteScroll } from "@/src/services/hooks/useInfiniteScroll";
+import { setAllUsersData } from "@/src/pages/modules/setAuthenticationData";
+import { axiosPrivate } from "@/src/services/api/axios";
+import { AxiosResponse } from "axios";
+import LoadingOrNoMoreData from "@/src/pages/components/LoadingOrNoMoreData";
 
 let isInputFocused: boolean = false;
 let isDevFocused: boolean = false;
@@ -135,17 +139,36 @@ const BlockingFriendingButtons = ({ user }: BlockingFriendingButtonsProps) => {
   );
 };
 
+const fetchingAllUsersData = (
+  url: string,
+  page?: number,
+  username?: string
+): Promise<AxiosResponse<any,any>> => {
+  let requestParams = {}
+  if (page)
+    requestParams = {...requestParams, page: page};
+  if (username)
+    requestParams = {...requestParams, username: username};
+  return axiosPrivate.post(url,{},{params: requestParams});
+};
+
 const SearchFriendsInGame = () => {
   const [users, setUsers] = useState<AllUsersDataType[]>([]);
   const allUsersData = useSelector((state: RootState) => state.allUsers.value);
-  const userData = useSelector((state: RootState) => state.user.value);
+  const refSearchFriendsInGame = useRef<HTMLDivElement>(null);
+  const usersStartRef = useRef<HTMLDivElement>(null);
+  const { isLoading, hasMore, handleScroll } = useInfiniteScroll<AllUsersDataType>({
+    url: "search_user",
+    refElement: refSearchFriendsInGame.current,
+    startPositionRef: usersStartRef.current,
+    data: allUsersData,
+    setData: setAllUsersData,
+    offset: 50,
+    scrollDirection: "bottom",
+    fetchingData: fetchingAllUsersData,
+  });
   useEffect(() => {
-    if (!allUsersData || !allUsersData.length) {
-      getAllUsersData();
-    }
-    setUsers(
-      allUsersData.filter((user) => user.username !== userData.username)
-    );
+    setUsers(allUsersData);
   }, [allUsersData]);
 
   return (
@@ -184,10 +207,13 @@ const SearchFriendsInGame = () => {
           isDevFocused = false;
           hideSearchList();
         }}
+        onScroll={handleScroll}
+        ref={refSearchFriendsInGame}
       >
+        <div ref={usersStartRef} />
         {users && users.length ? (
-          users.map((user) => (
-            <div className="searched-users-cards" key={user.username}>
+          users.map((user, index) => (
+            <div className="searched-users-cards" key={index}>
               <Link
                 to={`/profile/` + user.username}
                 className="user-image-first-last-name"
@@ -218,10 +244,11 @@ const SearchFriendsInGame = () => {
         ) : (
           <></>
         )}
+        <LoadingOrNoMoreData isLoading={isLoading} hasMore={hasMore} />
       </div>
       <NotificationsInGame />
     </div>
   );
 };
 
-export default memo(SearchFriendsInGame);
+export default SearchFriendsInGame;
