@@ -2,6 +2,8 @@ import { w3cwebsocket } from "websocket";
 import { useEffect, useState } from "react";
 import { openSocket } from "@/src/pages/modules/openSocket";
 import { watchSocket } from "@/src/pages/modules/watchSocket";
+import { useSelector } from "react-redux";
+import { RootState } from "@/src/states/store";
 
 interface useHandleSocketsProps {
   urlOfSocket: string;
@@ -12,6 +14,7 @@ const useHandleSockets = ({
   urlOfSocket,
   accessToken,
 }: useHandleSocketsProps) => {
+  const isAuthenticated = useSelector((state: RootState) => state.authenticator.value)
   const [client, setClient] = useState<w3cwebsocket | null>(null);
   const handleSockets = async () => {
     console.log("json_data");
@@ -35,8 +38,9 @@ const useHandleSockets = ({
     }
   };
   useEffect(() => {
-    handleSockets();
-  }, [accessToken]);
+    if (isAuthenticated)
+      handleSockets();
+  }, [isAuthenticated, accessToken]);
   return { client, setClient };
 };
 

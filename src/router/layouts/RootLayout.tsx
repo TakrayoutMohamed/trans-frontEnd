@@ -3,20 +3,12 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { rootLayout } from "../styles";
 import {useHandleSockets} from "@/src/services/hooks/useHandleSockets";
-import { useLayoutEffect } from "react";
-import { closeSocket } from "@/src/pages/modules/closeSocket";
 import { useSelector } from "react-redux";
 import { RootState } from "@/src/states/store";
 
 const RootLayout = () => {
   const accessToken = useSelector((state: RootState) => state.accessToken.value)
-  const {client: notificationSocket, setClient } = useHandleSockets({urlOfSocket : "notification", accessToken: accessToken});
-  useLayoutEffect(() => {
-    return () => {
-      if (closeSocket(notificationSocket))
-        setClient(null);
-    };
-  }, [accessToken])
+  useHandleSockets({urlOfSocket : "notification", accessToken: accessToken});
   return (
     <>
       <div className={rootLayout}>
