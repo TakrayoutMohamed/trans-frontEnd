@@ -185,7 +185,10 @@ const ModalOtp = ({ email, setIsOpen }: ModalOtpProps) => {
               type="button"
               className="cancel"
               value="cancel"
-              onClick={() => setIsOpen(false)}
+              onClick={() => {
+                setIsOpen(false);
+                navigate("/sign-in", { replace: true });
+              }}
             />
           </div>
         </form>
