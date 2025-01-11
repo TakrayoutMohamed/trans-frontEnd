@@ -1,19 +1,13 @@
 import { w3cwebsocket } from "websocket";
 
 export function openSocket(
-  socketConnectionEndPoint : string,
+  socketConnectionEndPoint: string,
   accessToken: string | undefined
 ): w3cwebsocket | null {
-  console.log("oppening socket");
-  let clientSocket = new w3cwebsocket(
+  console.log("oppening socket accessToken : "+ accessToken);
+  if (accessToken)
+    return new w3cwebsocket(
     `${process.env.BACKEND_API_SOCKETS}/ws/${socketConnectionEndPoint}/?token=${accessToken}`
   );
-  // console.log(clientSocket);
-  if (
-    clientSocket.readyState !== w3cwebsocket.CLOSING &&
-    clientSocket.readyState !== w3cwebsocket.CLOSED
-  )
-    return clientSocket;
   return null;
 }
-

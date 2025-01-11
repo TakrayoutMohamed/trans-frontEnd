@@ -1,16 +1,21 @@
 import { store } from "@/src/states/store";
-import { setAllUsersData, setFriendsData } from "./setAuthenticationData";
+import {
+  setAllUsersData,
+  setFriendsData,
+  setNotificationsData,
+} from "./setAuthenticationData";
 import { SocketJsonValueType } from "./watchSocket";
 import { AllUsersDataType } from "@/src/states/authentication/allUsersSlice";
 import { acceptFriendRequest, rejectFriendRequest } from "./fetchingData";
 import { toast } from "react-toastify";
 import NotificationsComponent from "@/src/router/layouts/components/notifications/NotificationsComponent";
+import { NotificationsDataType } from "@/src/customDataTypes/NotificationsDataType";
 
-const launchToast = (
+function launchToast(
   data: SocketJsonValueType,
   accept?: () => void,
   reject?: () => void
-) => {
+) {
   toast(
     <NotificationsComponent
       message={data.message}
@@ -23,11 +28,11 @@ const launchToast = (
       containerId: "requests",
     }
   );
-};
+}
 
 export const trigerRightEvent = (json_data: SocketJsonValueType) => {
   console.log("the location of the user in the app");
-  // console.log(json_data)z
+  console.log(json_data);
   switch (json_data.type) {
     case "unfriend": {
       console.log("here is the block of unfriend ");
@@ -42,7 +47,7 @@ export const trigerRightEvent = (json_data: SocketJsonValueType) => {
       setAllUsersData(
         store.getState().allUsers.value.map((user: AllUsersDataType) => {
           if (user.username === json_data.sender.username) {
-            user = { ...user, is_friend: false, friend_req: false };
+            user = { ...user, is_friend: false, is_friend_req: false };
           }
           return user;
         })
@@ -50,19 +55,31 @@ export const trigerRightEvent = (json_data: SocketJsonValueType) => {
       break;
     }
     case "friend_request": {
+      console.log("friend_request in trigerRightEvent ");
       setAllUsersData(
         store.getState().allUsers.value.map((user: AllUsersDataType) => {
           if (user.username === json_data.sender.username) {
-            user = { ...user, is_friend: false, friend_req: "received" };
+            user = { ...user, is_friend: false, is_friend_req: "received" };
           }
           return user;
         })
       );
+      setNotificationsData([
+        ...store.getState().notifications.value,
+        {
+          message: `${json_data.sender.username} sent you a friend request`,
+          sender_notif: json_data.sender,
+          type: "friend_request",
+        },
+      ]);
       launchToast(
         json_data,
         async () => {
           try {
-            await acceptFriendRequest(json_data.sender.username,json_data.sender);
+            await acceptFriendRequest(
+              json_data.sender.username,
+              json_data.sender
+            );
           } catch (err) {
             console.log(err);
           } finally {
@@ -89,10 +106,18 @@ export const trigerRightEvent = (json_data: SocketJsonValueType) => {
       setAllUsersData(
         store.getState().allUsers.value.map((user: AllUsersDataType) => {
           if (user.username === json_data.sender.username) {
-            user = { ...user, is_friend: true, friend_req: false };
+            user = { ...user, is_friend: true, is_friend_req: false };
           }
           return user;
         })
+      );
+      setNotificationsData(
+        store
+          .getState()
+          .notifications.value.filter(
+            (notification: NotificationsDataType) =>
+              notification.sender_notif.username !== json_data.sender.username
+          )
       );
       break;
     }
@@ -103,10 +128,18 @@ export const trigerRightEvent = (json_data: SocketJsonValueType) => {
       setAllUsersData(
         store.getState().allUsers.value.map((user: AllUsersDataType) => {
           if (user.username === json_data.sender.username) {
-            user = { ...user, is_friend: false, friend_req: false };
+            user = { ...user, is_friend: false, is_friend_req: false };
           }
           return user;
         })
+      );
+      setNotificationsData(
+        store
+          .getState()
+          .notifications.value.filter(
+            (notification: NotificationsDataType) =>
+              notification.sender_notif.username !== json_data.sender.username
+          )
       );
       break;
     }

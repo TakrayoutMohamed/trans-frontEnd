@@ -15,6 +15,7 @@ export const watchSocket = (client: w3cwebsocket) => {
   client.onmessage = (dataEvent: IMessageEvent): SocketJsonValueType => {
     let json_data: SocketJsonValueType = null;
     json_data = JSON.parse(dataEvent.data as string);
+    console.log("watching sockets in onmessage of watchSocket");
     trigerRightEvent(json_data);
   };
   client.onclose = (closeEvent: ICloseEvent) => {

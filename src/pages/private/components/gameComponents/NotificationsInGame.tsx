@@ -101,6 +101,7 @@ const fetchingNotifications = (
 const NotificationsInGame = () => {
   const notificationListRef = useRef(null);
   const notificationsList = useSelector((state: RootState) => state.notifications.value);
+  const allUsersData = useSelector((state: RootState) => state.allUsers.value);
   const notificationsStartRef = useRef<HTMLDivElement>(null);
   const { isLoading, hasMore, handleScroll } = useInfiniteScroll<NotificationsDataType>({
     url: "notification/notif",
@@ -117,7 +118,7 @@ const NotificationsInGame = () => {
       isbillRingFocused = false;
       isNotificationsDevFocused = false;
     }
-  }, []);
+  }, [allUsersData]);
   console.log(notificationsList);
   
   return (

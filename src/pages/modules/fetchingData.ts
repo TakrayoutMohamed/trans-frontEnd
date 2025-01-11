@@ -3,14 +3,16 @@ import {
   setAllUsersData,
   setFriendRequestsData,
   setFriendsData,
+  setNotificationsData,
 } from "./setAuthenticationData";
-import axios, { axiosPrivate } from "@/src/services/api/axios";
-import refreshToken from "@/src/services/hooks/refreshToken";
-import { w3cwebsocket } from "websocket";
-import { closeSocket } from "./closeSocket";
+import { axiosPrivate } from "@/src/services/api/axios";
+// import refreshToken from "@/src/services/hooks/refreshToken";
+// import { w3cwebsocket } from "websocket";
+// import { closeSocket } from "./closeSocket";
 import { UserDataType } from "@/src/customDataTypes/UserDataType";
 import { AllUsersDataType } from "@/src/states/authentication/allUsersSlice";
 import { FriendRequestsType } from "@/src/customDataTypes/FriendRequestsType";
+import { NotificationsDataType } from "@/src/customDataTypes/NotificationsDataType";
 
 export const sendFriendRequest = (username: string) => {
   axiosPrivate
@@ -78,6 +80,14 @@ export const rejectFriendRequest = async (username: string) => {
             : user;
         })
       );
+      setNotificationsData(
+        store
+          .getState()
+          .notifications.value.filter(
+            (notif: NotificationsDataType) =>
+              notif.sender_notif.username !== username
+          )
+      );
     })
     .catch((err) => console.log(err))
     .finally(() => {
@@ -122,6 +132,14 @@ export const acceptFriendRequest = async (
             : user;
         })
       );
+      setNotificationsData(
+        store
+          .getState()
+          .notifications.value.filter(
+            (notif: NotificationsDataType) =>
+              notif.sender_notif.username !== username
+          )
+      );
     })
     .catch((err) => console.log(err))
     .finally(() => {
@@ -129,21 +147,21 @@ export const acceptFriendRequest = async (
     });
 };
 
-export const isValidAccessToken = async (
-  clientSocket?: w3cwebsocket | null
-) => {
-  try {
-    await axios.post("Verify_token", {
-      token: store.getState().accessToken.value,
-    });
-  } catch (error) {
-    if (clientSocket) closeSocket(clientSocket);
-    const refresh = refreshToken();
-    let tmpAccessTokenFrom = refresh();
-    if (!tmpAccessTokenFrom) return false;
-  }
-  return true;
-};
+// export const isValidAccessToken = async (
+//   clientSocket?: w3cwebsocket | null
+// ) => {
+//   try {
+//     await axios.post("Verify_token", {
+//       token: store.getState().accessToken.value,
+//     });
+//   } catch (error) {
+//     if (clientSocket) closeSocket(clientSocket);
+//     const refresh = refreshToken();
+//     let tmpAccessTokenFrom = refresh();
+//     if (!tmpAccessTokenFrom) return false;
+//   }
+//   return true;
+// };
 
 export const getAllUsersData = async () => {
   axiosPrivate
