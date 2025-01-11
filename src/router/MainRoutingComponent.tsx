@@ -33,12 +33,17 @@ import Friends from "@privatePages/Friends";
 import SettingProfile from "../pages/private/SettingProfile";
 import SettingPassword from "@/src/pages/private/SettingPassword";
 import ChatArea from "@privatePages/ChatArea";
+import PongMatch from "./layouts/PongMatchmaking";
+// import PingPongLayout from "./layouts/PingPongLayout";
+// import Pong from "./layouts/PingPongLocal";
 
 // routers protection
 import PrivateRoutes from "@router/PrivateRoutes";
 import AuthorizationRoutes from "@router/AuthorizationRoutes";
 import FriendRequests from "../pages/private/FriendRequests";
 import PingPongLayout from "./layouts/PingPongLayout";
+import Pong from "./layouts/PingPongLocal";
+import Match from "./layouts/matchmaking";
 import OAuth from "../pages/public/not-signed-in/OAuth";
 
 const routingTree: RouteObject[] = createRoutesFromElements(
@@ -77,13 +82,15 @@ const routingTree: RouteObject[] = createRoutesFromElements(
           <Route index element={<Chat />} />
           <Route path=":userName" element={<ChatArea />} />
         </Route>
-        <Route path="tournament" element={<TournamentLayout />}></Route>
         <Route path="setting" element={<SettingLayout />}>
           <Route index element={<Navigate to="profile" replace />} />
           <Route path="profile" element={<SettingProfile />} />
           <Route path="password" element={<SettingPassword />} />
         </Route>
-        <Route path="ping-pong" element={<PingPongLayout />} />
+        <Route path="tournament" element={<TournamentLayout />}></Route>
+        <Route path="ponglocal" element={<Pong />} /> 
+        <Route path="matchmaking" element={<Match />} /> 
+        <Route path="PongMatchmaking" element={<PongMatch />} /> 
       </Route>
     </Route>
     <Route path="*" element={<NotFoundLayout />}></Route>

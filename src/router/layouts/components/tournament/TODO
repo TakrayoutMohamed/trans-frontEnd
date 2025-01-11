@@ -1,7 +1,0 @@
-- fix bottom friendlists going out of the window
-- inviting animation (graying a friend upon inviting them)
-- add startButton timer
-
-- invited friends shouldn't be re-invited (backend related)
-- first 2 winners should be moved to the center PlayerHolders (backend related)
-- tournament winning player should be marked as the winner (backend related)
