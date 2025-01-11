@@ -16,6 +16,8 @@ import {
 } from "@/src/states/authentication/messagesSlice";
 import { MessagesDataType } from "@/src/customDataTypes/MessagesDataType";
 import { UserDataType } from "@/src/customDataTypes/UserDataType";
+import { setFriendRequests } from "@/src/states/authentication/friendRequestsSlice";
+import { FriendRequestsType } from "@/src/customDataTypes/FriendRequestsType";
 
 const setCookies = (cookiesAccessToken: string): void => {
   if (cookiesAccessToken !== Cookies.get("accessToken"))
@@ -65,6 +67,11 @@ export function setFriendsData(friendsData: UserDataType[]) {
   dispatch(setFriends(friendsData));
   console.log("Friends data in set friends data ");
   console.log(friendsData);
+}
+export function setFriendRequestsData(friendRequestsData: FriendRequestsType[]) {
+  dispatch(setFriendRequests(friendRequestsData));
+  console.log("Friends data in set friends data ");
+  console.log(friendRequestsData);
 }
 
 export function setMessagesData(messages: MessagesDataType[]) {

@@ -42,7 +42,7 @@ export const trigerRightEvent = (json_data: SocketJsonValueType) => {
       setAllUsersData(
         store.getState().allUsers.value.map((user: AllUsersDataType) => {
           if (user.username === json_data.sender.username) {
-            user = { ...user, is_friend: false, friend_req: undefined };
+            user = { ...user, is_friend: false, friend_req: false };
           }
           return user;
         })
@@ -62,9 +62,7 @@ export const trigerRightEvent = (json_data: SocketJsonValueType) => {
         json_data,
         async () => {
           try {
-            await acceptFriendRequest(json_data.sender.username, undefined, [
-              json_data.sender,
-            ]);
+            await acceptFriendRequest(json_data.sender.username,json_data.sender);
           } catch (err) {
             console.log(err);
           } finally {
@@ -91,7 +89,7 @@ export const trigerRightEvent = (json_data: SocketJsonValueType) => {
       setAllUsersData(
         store.getState().allUsers.value.map((user: AllUsersDataType) => {
           if (user.username === json_data.sender.username) {
-            user = { ...user, is_friend: true, friend_req: undefined };
+            user = { ...user, is_friend: true, friend_req: false };
           }
           return user;
         })
@@ -105,7 +103,7 @@ export const trigerRightEvent = (json_data: SocketJsonValueType) => {
       setAllUsersData(
         store.getState().allUsers.value.map((user: AllUsersDataType) => {
           if (user.username === json_data.sender.username) {
-            user = { ...user, is_friend: false, friend_req: undefined };
+            user = { ...user, is_friend: false, friend_req: false };
           }
           return user;
         })

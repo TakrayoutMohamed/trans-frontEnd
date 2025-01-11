@@ -7,6 +7,7 @@ import allUsersSlice from "./authentication/allUsersSlice";
 import messagesSlice from "./authentication/messagesSlice";
 import notificationsSlice from "./authentication/notificationsSlice";
 import conversationsSlice from "./authentication/conversationsSlice";
+import friendRequestsSlice from "./authentication/friendRequestsSlice";
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     user: userSlice,
     allUsers: allUsersSlice,
     friends: friendsSlice,
+    friendRequests: friendRequestsSlice,
     messages: messagesSlice,
     notifications: notificationsSlice,
     conversations: conversationsSlice,

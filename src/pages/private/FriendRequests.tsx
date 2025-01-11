@@ -1,28 +1,46 @@
 import { profileIcon } from "@/media-exporting";
 import { friendRequests } from "./styles";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-
+import { useRef } from "react";
 import {
   acceptFriendRequest,
-  getAllFriendRequests,
   rejectFriendRequest,
 } from "../modules/fetchingData";
-import { useSelector } from "react-redux";
+import { FriendRequestsType } from "@/src/customDataTypes/FriendRequestsType";
+import { useInfiniteScroll } from "@/src/services/hooks/useInfiniteScroll";
+import { axiosPrivate } from "@/src/services/api/axios";
+import { AxiosResponse } from "axios";
+import LoadingOrNoMoreData from "../components/LoadingOrNoMoreData";
 import { RootState } from "@/src/states/store";
-import { FriendRequestsType } from "@/src/customDataTypes/FriendsRequestsType";
+import { useSelector } from "react-redux";
+import { setFriendRequestsData } from "../modules/setAuthenticationData";
+
+const fetchingFriendRequestsData = (
+  url: string,
+  page?: number,
+  username?: string
+): Promise<AxiosResponse<any, any>> => {
+  let requestParams = {};
+  if (page) requestParams = { ...requestParams, page: page };
+  if (username) requestParams = { ...requestParams, username: username };
+  return axiosPrivate.get(url, { params: requestParams });
+};
 
 const FriendRequests = () => {
-  const allUsersData = useSelector((state: RootState) => state.allUsers.value)
-  const [friendRequestsList, setFriendRequestsList] = useState<
-    FriendRequestsType[]
-  >([]);
-  useEffect(() => {
-    getAllFriendRequests().then((data) => {
-      if (data)
-        setFriendRequestsList(data);
+  const friendRequestsList = useSelector((state: RootState) => state.friendRequests.value)
+  const refFriendRequests = useRef<HTMLDivElement>(null);
+  const friendRequestsStartRef = useRef<HTMLDivElement>(null);
+  const { isLoading, hasMore, handleScroll } =
+    useInfiniteScroll<FriendRequestsType>({
+      url: "friend_req/",
+      refElement: refFriendRequests.current,
+      startPositionRef: friendRequestsStartRef.current,
+      data: friendRequestsList,
+      setData: setFriendRequestsData,
+      offset: 100,
+      scrollDirection: "bottom",
+      fetchingData: fetchingFriendRequestsData,
     });
-  }, [allUsersData]);
 
   if (!friendRequestsList || !friendRequestsList.length) {
     return (
@@ -41,21 +59,22 @@ const FriendRequests = () => {
   }
   return (
     <div className={`${friendRequests}`}>
-      <div className="">
+      <div className="" onScroll={handleScroll} ref={refFriendRequests}>
+        <div ref={friendRequestsStartRef} />
         {friendRequestsList &&
           friendRequestsList.length &&
-          friendRequestsList.map((request, index) => (
+          friendRequestsList.map(({user, type}, index) => (
             <div className="friendrequests-card" key={index}>
               <Link
-                to={`/profile/` + request.username}
+                to={`/profile/` + user.username}
                 className="user-image-name-fullname"
               >
                 <div className="user-image">
                   <div className="">
                     <img
                       src={
-                        request.avatar
-                          ? process.env.BACKEND_API_URL + "" + request.avatar
+                        user.avatar
+                          ? process.env.BACKEND_API_URL + "" + user.avatar
                           : profileIcon
                       }
                       alt=""
@@ -65,28 +84,24 @@ const FriendRequests = () => {
                 </div>
                 <div className="user-name-fullname">
                   <div className="user-fullname">
-                    {request?.first_name?.length
-                      ? request.first_name
+                    {user?.first_name?.length
+                      ? user.first_name
                       : "?????????"}{" "}
-                    {request?.last_name?.length
-                      ? request.last_name
+                    {user?.last_name?.length
+                      ? user.last_name
                       : "?????????"}
                   </div>
-                  <div className="user-name">{request.username}</div>
+                  <div className="user-name">{user.username}</div>
                 </div>
               </Link>
               <div className="accept-reject-cancel-button">
-                {request.type === "received" ? (
+                {type === "received" ? (
                   <>
                     <div
                       className="accept-button"
                       title="accept friend request"
                       onClick={() => {
-                        acceptFriendRequest(
-                          request.username + "",
-                          setFriendRequestsList,
-                          friendRequestsList
-                        );
+                        acceptFriendRequest(user.username + "");
                       }}
                     >
                       accept
@@ -95,10 +110,7 @@ const FriendRequests = () => {
                       className="reject-button"
                       title="reject friend request"
                       onClick={() => {
-                        rejectFriendRequest(
-                          request.username + "",
-                          setFriendRequestsList
-                        );
+                        rejectFriendRequest(user.username + "");
                       }}
                     >
                       reject
@@ -109,10 +121,7 @@ const FriendRequests = () => {
                     className="cancel-button"
                     title="cancel friend request"
                     onClick={() => {
-                      rejectFriendRequest(
-                        request.username + "",
-                        setFriendRequestsList
-                      );
+                      rejectFriendRequest(user.username + "");
                     }}
                   >
                     cancel
@@ -121,13 +130,14 @@ const FriendRequests = () => {
               </div>
               <div
                 className={`friend-request-type-${
-                  request.type === "received" ? "received" : "sent"
+                  type === "received" ? "received" : "sent"
                 }`}
               >
-                {request.type === "received" ? "received" : "sent     "}
+                {type === "received" ? "received" : "sent     "}
               </div>
             </div>
           ))}
+        <LoadingOrNoMoreData isLoading={isLoading} hasMore={hasMore} />
       </div>
     </div>
   );

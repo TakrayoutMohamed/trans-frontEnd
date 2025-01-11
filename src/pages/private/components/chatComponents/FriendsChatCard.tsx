@@ -7,25 +7,14 @@ import { useSelector } from "react-redux";
 const FriendsChatCard = () => {
   let friends = useSelector((state: RootState) => state.friends.value)
   const r = (Math.random() + 1).toString(36).substring(20);
-  // friends = [
-  //   ...friends,
-  //   ...friends,
-  //   ...friends,
-  //   ...friends,
-  //   ...friends,
-  //   ...friends,
-  //   ...friends,
-  //   ...friends,
-  //   ...friends
-  // ]
   return (
     <>
       {friends.map(
-        (friend) => (
+        (friend , index) => (
           <Link
             to={friend.username + ""}
             className={`${chatUsersChatCard}`}
-            key={friend.username + " friends"}
+            key={ index + " friends"}
           >
             <div className="" id="userImage">
               <div className="">
