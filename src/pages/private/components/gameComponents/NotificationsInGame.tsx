@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import { IoNotificationsSharp } from "react-icons/io5";
 import { notificationsInGame } from "../../styles";
 import { profileIcon } from "@/media-exporting";
@@ -12,6 +12,12 @@ import {
 import { UserDataType } from "@/src/customDataTypes/UserDataType";
 import { axiosPrivate } from "@/src/services/api/axios";
 import { NotificationsDataType } from "@/src/customDataTypes/NotificationsDataType";
+import { useInfiniteScroll } from "@/src/services/hooks/useInfiniteScroll";
+import { AxiosResponse } from "axios";
+import { setNotificationsData } from "@/src/pages/modules/setAuthenticationData";
+import { useSelector } from "react-redux";
+import { RootState } from "@/src/states/store";
+import LoadingOrNoMoreData from "@/src/pages/components/LoadingOrNoMoreData";
 
 type NotificationsCardsProps = {
   message: string;
@@ -59,8 +65,7 @@ let isbillRingFocused: boolean = false;
 let isNotificationsDevFocused: boolean = false;
 
 const hideNotificationsList = (
-  notificationListRef: React.MutableRefObject<any>,
-  setIsVisible: React.Dispatch<React.SetStateAction<boolean>>
+  notificationListRef: React.MutableRefObject<any>
 ) => {
   let classNameString: string | undefined =
     notificationListRef.current.className;
@@ -68,46 +73,51 @@ const hideNotificationsList = (
       if (!notificationListRef.current.className?.includes("d-none")) {
         classNameString = classNameString?.concat(" d-none");
         notificationListRef.current.className = classNameString;
-        setIsVisible(false);
       }
     }
 };
 const showNotificationsList = (
-  notificationListRef: React.MutableRefObject<any>,
-  setIsVisible: React.Dispatch<React.SetStateAction<boolean>>
+  notificationListRef: React.MutableRefObject<any>
 ) => {
   let classNameString: string | undefined =
     notificationListRef.current.className;
   if (notificationListRef.current.className?.includes("d-none")) {
     classNameString = classNameString?.replace(" d-none", "");
     notificationListRef.current.className = classNameString;
-    setIsVisible(true);
   }
 };
-
+const fetchingNotifications = (
+  url: string,
+  page?: number,
+  username?: string
+): Promise<AxiosResponse<any,any>> => {
+  let requestParams = {}
+  if (page)
+    requestParams = {...requestParams, page: page};
+  if (username)
+    requestParams = {...requestParams, username: username};
+  return axiosPrivate.post(url,{},{params: requestParams});
+};
 const NotificationsInGame = () => {
   const notificationListRef = useRef(null);
-  const [isVisible, setIsVisible] = useState<boolean>(false);
-  const [notificationsList, setNotificationsList] = useState<
-    NotificationsDataType[]
-  >([]);
+  const notificationsList = useSelector((state: RootState) => state.notifications.value);
+  const notificationsStartRef = useRef<HTMLDivElement>(null);
+  const { isLoading, hasMore, handleScroll } = useInfiniteScroll<NotificationsDataType>({
+    url: "notification/notif",
+    refElement: notificationListRef.current,
+    startPositionRef: notificationsStartRef.current,
+    data: notificationsList,
+    setData: setNotificationsData,
+    offset: 50,
+    scrollDirection: "bottom",
+    fetchingData: fetchingNotifications,
+  });
   useEffect(() => {
-    const getNotifications = async () => {
-      try {
-        const res = await axiosPrivate.get("notification/notif");
-        console.log(res);
-        setNotificationsList(res.data.results);
-      } catch (err) {
-        console.log("error in Notifications In game");
-        console.log(err);
-      }
-    };
-    if (isVisible) getNotifications();
     return () => {
       isbillRingFocused = false;
       isNotificationsDevFocused = false;
     }
-  }, [isVisible]);
+  }, []);
 
   return (
     <div className={notificationsInGame}>
@@ -116,11 +126,11 @@ const NotificationsInGame = () => {
         className="notifications-ring-number"
         onFocus={() => {
           isbillRingFocused = true;
-          showNotificationsList(notificationListRef, setIsVisible);
+          showNotificationsList(notificationListRef);
         }}
         onBlur={() => {
           isbillRingFocused = false;
-          hideNotificationsList(notificationListRef, setIsVisible);
+          hideNotificationsList(notificationListRef);
         }}
       >
         <IoNotificationsSharp color="white" size={23} />
@@ -135,13 +145,15 @@ const NotificationsInGame = () => {
         tabIndex={0}
         onMouseEnter={() => (isNotificationsDevFocused = true)}
         onMouseLeave={() => (isNotificationsDevFocused = false)}
-        onFocus={() => showNotificationsList(notificationListRef, setIsVisible)}
+        onFocus={() => showNotificationsList(notificationListRef)}
         onBlur={() => {
           isNotificationsDevFocused = false;
-          hideNotificationsList(notificationListRef, setIsVisible);
+          hideNotificationsList(notificationListRef);
         }}
         ref={notificationListRef}
+        onScroll={handleScroll}
       >
+        <div ref={notificationsStartRef} />
         {notificationsList && notificationsList.length ? (
           notificationsList.map((notification) => {
             return (
@@ -179,6 +191,7 @@ const NotificationsInGame = () => {
             no notifications to show
           </div>
         )}
+        <LoadingOrNoMoreData isLoading={isLoading} hasMore={hasMore} />
       </div>
     </div>
   );

@@ -11,12 +11,12 @@ const conversationsSlice = createSlice({
     name: "conversations",
     initialState,
     reducers: {
-        setNotifications: (state, action: PayloadAction<UserDataType[]>) => {
+        setConversations: (state, action: PayloadAction<UserDataType[]>) => {
             state.value = action.payload;
         }
     }
 })
 
-export const {setNotifications} = conversationsSlice.actions;
+export const {setConversations} = conversationsSlice.actions;
 
 export default conversationsSlice.reducer;

@@ -18,6 +18,9 @@ import { MessagesDataType } from "@/src/customDataTypes/MessagesDataType";
 import { UserDataType } from "@/src/customDataTypes/UserDataType";
 import { setFriendRequests } from "@/src/states/authentication/friendRequestsSlice";
 import { FriendRequestsType } from "@/src/customDataTypes/FriendRequestsType";
+import { NotificationsDataType } from "@/src/customDataTypes/NotificationsDataType";
+import { setNotifications } from "@/src/states/authentication/notificationsSlice";
+import { setConversations } from "@/src/states/authentication/conversationsSlice";
 
 const setCookies = (cookiesAccessToken: string): void => {
   if (cookiesAccessToken !== Cookies.get("accessToken"))
@@ -70,8 +73,18 @@ export function setFriendsData(friendsData: UserDataType[]) {
 }
 export function setFriendRequestsData(friendRequestsData: FriendRequestsType[]) {
   dispatch(setFriendRequests(friendRequestsData));
-  console.log("Friends data in set friends data ");
+  console.log("FriendRequests data in set FriendRequests data ");
   console.log(friendRequestsData);
+}
+export function setNotificationsData(notificationsData: NotificationsDataType[]) {
+  dispatch(setNotifications(notificationsData));
+  console.log("Notifications data in set notifications data ");
+  console.log(notificationsData);
+}
+export function setConversationsData(conversationsData: UserDataType[]) {
+  dispatch(setConversations(conversationsData));
+  console.log("Conversations data in set Conversations data ");
+  console.log(conversationsData);
 }
 
 export function setMessagesData(messages: MessagesDataType[]) {
