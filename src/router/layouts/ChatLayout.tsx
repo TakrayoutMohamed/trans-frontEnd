@@ -18,10 +18,13 @@ const ChatLayout = () => {
   const [isProfileVisible, setProfileVisible] = useState<boolean>(false);
   const [userData, setUserData] = useState<UserDataType | undefined>(undefined);
   const accessToken = useSelector((state: RootState) => state.accessToken.value)
+  // const isAuthenticated = useSelector((state: RootState) => state.authenticator.value)
 
   useEffect(() => {
     if (!chatSocket_ || chatSocket_.readyState !== w3cwebsocket.OPEN)
       chatSocket_ = openSocket("chat", accessToken);
+    console.log(chatSocket_);
+    
     return () => {
       closeSocket(chatSocket_);
     }

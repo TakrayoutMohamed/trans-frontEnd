@@ -48,7 +48,7 @@ const ProfileLayout = () => {
           username: userName,
         })
         .then((res) => {
-          setData(res.data.user);
+          setData(res.data);
         })
         .catch((error) => {
           console.log(error);

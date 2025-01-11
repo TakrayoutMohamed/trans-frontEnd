@@ -101,7 +101,7 @@ const ChatArea = () => {
         .post("search_username", { username: userName })
         .then((res) => {
           console.log(res.data);
-          chatContext.setUserData(res.data.user);
+          chatContext.setUserData(res.data);
         })
         .catch((err) => {
           setUser(undefined);
