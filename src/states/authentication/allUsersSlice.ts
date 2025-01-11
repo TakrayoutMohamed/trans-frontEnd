@@ -5,7 +5,7 @@ export interface AllUsersDataType {
   first_name: string;
   last_name: string;
   username: string;
-  friend_req: "sent" | "received" | false;
+  is_friend_req: "sent" | "received" | false;
   is_online: boolean;
   is_blocked: boolean;
   is_friend: boolean;

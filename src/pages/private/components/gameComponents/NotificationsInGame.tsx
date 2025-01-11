@@ -96,7 +96,7 @@ const fetchingNotifications = (
     requestParams = {...requestParams, page: page};
   if (username)
     requestParams = {...requestParams, username: username};
-  return axiosPrivate.post(url,{},{params: requestParams});
+  return axiosPrivate.get(url,{params: requestParams});
 };
 const NotificationsInGame = () => {
   const notificationListRef = useRef(null);
@@ -118,7 +118,8 @@ const NotificationsInGame = () => {
       isNotificationsDevFocused = false;
     }
   }, []);
-
+  console.log(notificationsList);
+  
   return (
     <div className={notificationsInGame}>
       <div

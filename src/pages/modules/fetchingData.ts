@@ -9,6 +9,8 @@ import refreshToken from "@/src/services/hooks/refreshToken";
 import { w3cwebsocket } from "websocket";
 import { closeSocket } from "./closeSocket";
 import { UserDataType } from "@/src/customDataTypes/UserDataType";
+import { AllUsersDataType } from "@/src/states/authentication/allUsersSlice";
+import { FriendRequestsType } from "@/src/customDataTypes/FriendRequestsType";
 
 export const sendFriendRequest = (username: string) => {
   axiosPrivate
@@ -17,9 +19,9 @@ export const sendFriendRequest = (username: string) => {
       console.log("friend request sent to " + username);
       console.log(res);
       setAllUsersData(
-        store.getState().allUsers.value.map((user) => {
+        store.getState().allUsers.value.map((user: AllUsersDataType) => {
           return user.username === username
-            ? { ...user, is_friend: false, friend_req: "sent" }
+            ? { ...user, is_friend: false, is_friend_req: "sent" }
             : user;
         })
       );
@@ -38,12 +40,14 @@ export const removeFriend = (username: string) => {
       setFriendsData(
         store
           .getState()
-          .friends.value.filter((friend) => friend.username !== username)
+          .friends.value.filter(
+            (friend: UserDataType) => friend.username !== username
+          )
       );
       setAllUsersData(
-        store.getState().allUsers.value.map((user) => {
+        store.getState().allUsers.value.map((user: AllUsersDataType) => {
           return user.username === username
-            ? { ...user, is_friend: false, friend_req: false }
+            ? { ...user, is_friend: false, is_friend_req: false }
             : user;
         })
       );
@@ -54,71 +58,6 @@ export const removeFriend = (username: string) => {
     });
 };
 
-// interface FetchedData {
-//   created_at: string;
-//   from_user: FriendRequestsType;
-//   to_user: FriendRequestsType;
-// }
-
-// export async function getFriendRequests() {
-//   let receivedFriendRequests: FriendRequestsType[] | null = null;
-//   try {
-//     const res = await axiosPrivate.get("friend_req");
-//     console.log("response in getReceivedFriendRequests received data");
-//     console.log(res);
-//     setFrie
-//   } catch (err) {
-//     console.log("error in fetchReceivedFriendRequests received");
-//     console.log(err);
-//   } finally {
-//     if (!receivedFriendRequests) receivedFriendRequests = [];
-//   }
-//   return receivedFriendRequests;
-// }
-
-// export async function getSentFriendRequests() {
-//   let sentFriendRequests: FriendRequestsType[] | null = null;
-//   try {
-//     const res = await axiosPrivate.get("friend_req", {
-//       params: { type: "sent" },
-//     });
-//     console.log("response in fetchSentFriendRequests sent data");
-//     console.log(res);
-//     if (
-//       res.data.results &&
-//       res.data.results.length
-//     ) {
-//       sentFriendRequests = res.data.results.map(
-//         (friendReq: FetchedData) => ({
-//           ...friendReq.to_user,
-//           type: "sent",
-//         })
-//       );
-//       console.log(sentFriendRequests);
-//     }
-//   } catch (err) {
-//     console.log("error in fetchSentFriendRequests sent");
-//     console.log(err);
-//   } finally {
-//     if (!sentFriendRequests) sentFriendRequests = [];
-//   }
-//   return sentFriendRequests;
-// }
-
-// export const getAllFriendRequests = async (): Promise<FriendRequestsType[]> => {
-//   let sentFriendRequests: FriendRequestsType[] | null = null;
-//   let receivedFriendRequests: FriendRequestsType[] | null = null;
-//   await getReceivedFriendRequests().then((data) => {
-//     receivedFriendRequests = data;
-//   });
-//   await getSentFriendRequests().then((data) => {
-//     sentFriendRequests = data;
-//   });
-//   if (sentFriendRequests !== null && receivedFriendRequests !== null)
-//     return [...sentFriendRequests, ...receivedFriendRequests];
-//   else return [];
-// };
-
 export const rejectFriendRequest = async (username: string) => {
   axiosPrivate
     .delete("friend_req/", { data: { username: username } })
@@ -128,13 +67,14 @@ export const rejectFriendRequest = async (username: string) => {
         ...store
           .getState()
           .friendRequests.value.filter(
-            (friend_req) => friend_req.user.username !== username
+            (friend_req: FriendRequestsType) =>
+              friend_req.user.username !== username
           ),
       ]);
       setAllUsersData(
-        store.getState().allUsers.value.map((user) => {
+        store.getState().allUsers.value.map((user: AllUsersDataType) => {
           return user.username === username
-            ? { ...user, friend_req: false }
+            ? { ...user, is_friend_req: false }
             : user;
         })
       );
@@ -154,14 +94,15 @@ export const acceptFriendRequest = async (
     .then((res) => {
       console.log(res);
       if (userToBeFriend && store.getState().friends.value) {
-        setFriendsData([...store.getState().friends.value, userToBeFriend])
+        setFriendsData([...store.getState().friends.value, userToBeFriend]);
       }
       if (store.getState().friendRequests.value)
         setFriendRequestsData([
           ...store
             .getState()
             .friendRequests.value.filter(
-              (friend_req) => friend_req.user.username !== username
+              (friend_req: FriendRequestsType) =>
+                friend_req.user.username !== username
             ),
         ]);
       if (store.getState().friendRequests.value && !userToBeFriend) {
@@ -172,15 +113,12 @@ export const acceptFriendRequest = async (
             (friendReq) => friendReq.user.username === username
           );
         temp_data &&
-          setFriendsData([
-            ...store.getState().friends.value,
-            temp_data.user,
-          ]);
+          setFriendsData([...store.getState().friends.value, temp_data.user]);
       }
       setAllUsersData(
-        store.getState().allUsers.value.map((user) => {
+        store.getState().allUsers.value.map((user: AllUsersDataType) => {
           return user.username === username
-            ? { ...user, is_friend: true, friend_req: false }
+            ? { ...user, is_friend: true, is_friend_req: false }
             : user;
         })
       );
@@ -225,7 +163,7 @@ export const blockUser = (username: string) => {
     .then((res) => {
       console.log(res);
       setAllUsersData(
-        store.getState().allUsers.value.map((user) => {
+        store.getState().allUsers.value.map((user: AllUsersDataType) => {
           return user.username === username
             ? { ...user, is_blocked: true }
             : user;
@@ -244,7 +182,7 @@ export const unblockUser = (username: string) => {
       console.log("removed block to user " + username + " ");
       console.log(res);
       setAllUsersData(
-        store.getState().allUsers.value.map((user) => {
+        store.getState().allUsers.value.map((user: AllUsersDataType) => {
           return user.username === username
             ? { ...user, is_blocked: false }
             : user;

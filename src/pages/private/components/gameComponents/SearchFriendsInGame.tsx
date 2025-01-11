@@ -79,8 +79,8 @@ const BlockingFriendingButtons = ({ user }: BlockingFriendingButtonsProps) => {
           </div>
         ) : (
           <>
-            {user.friend_req ? (
-              user.friend_req === "sent" ? ( //sent request
+            {user.is_friend_req ? (
+              user.is_friend_req === "sent" ? ( //sent request
                 <div
                   className="add-button cancel-request"
                   title="cancel request"
