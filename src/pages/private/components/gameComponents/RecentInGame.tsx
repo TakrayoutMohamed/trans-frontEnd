@@ -1,61 +1,22 @@
-import { profileIcon } from "@/media-exporting";
+import {
+  PingPongLogoIcon,
+  profileIcon,
+  rocketLeageLogoIcon,
+} from "@/media-exporting";
 import { gameRecentInGame, gameRecentInGameImageAndName } from "../../styles";
-
-const data = [
-  {
-    player1: { name: "alvares", scored: 6 },
-    player2: { name: "negredo", scored: 7 },
-  },
-  {
-    player1: { name: "alvares1", scored: 6 },
-    player2: { name: "negredo1", scored: 3 },
-  },
-  {
-    player1: { name: "alvares4", scored: 6 },
-    player2: { name: "negredo4", scored: 3 },
-  },
-  {
-    player1: { name: "alvares5", scored: 6 },
-    player2: { name: "negredo5", scored: 3 },
-  },
-  {
-    player1: { name: "alvares2", scored: 12 },
-    player2: { name: "negredo2", scored: 10 },
-  },
-  {
-    player1: { name: "negredoooo3", scored: 9 },
-    player2: { name: "alvaresssss3", scored: 6 },
-  },
-  {
-    player1: { name: "alvares2", scored: 12 },
-    player2: { name: "negredo2", scored: 10 },
-  },
-  {
-    player1: { name: "negredoooo3", scored: 9 },
-    player2: { name: "alvaresssss3", scored: 6 },
-  },
-  {
-    player1: { name: "alvares2", scored: 12 },
-    player2: { name: "negredo2", scored: 10 },
-  },
-  {
-    player1: { name: "negredoooo3", scored: 9 },
-    player2: { name: "alvaresssss3", scored: 6 },
-  },
-  {
-    player1: { name: "alvares2", scored: 12 },
-    player2: { name: "negredo2", scored: 10 },
-  },
-  {
-    player1: { name: "negredoooo3", scored: 9 },
-    player2: { name: "alvaresssss3", scored: 6 },
-  },
-];
+import { useEffect, useState } from "react";
+import { axiosPrivate } from "@/src/services/api/axios";
+import { RootState } from "@/src/states/store";
+import { useSelector } from "react-redux";
 
 type PlayerInfoProps = {
   player: {
     name: string;
+    avatar: string;
     scored: number;
+    winner: string;
+    loser: string;
+    type: "pong" | "league";
   };
   isWinner: boolean;
 };
@@ -64,7 +25,15 @@ const NameAndImageIcon = ({ player, isWinner }: PlayerInfoProps) => {
   return isWinner ? (
     <div className="winner">
       <div className="user-image">
-        <img src={profileIcon} alt="playerIcon" className="" />
+        <img
+          src={
+            player.avatar
+              ? process.env.BACKEND_API_URL + "" + player.avatar
+              : profileIcon
+          }
+          alt="playerIcon"
+          className="bg-success"
+        />
       </div>
       <div className="user-name" title={player.name}>
         {player.name.length > 8 && player.name.substring(0, 6).concat("...")}
@@ -79,7 +48,11 @@ const NameAndImageIcon = ({ player, isWinner }: PlayerInfoProps) => {
       </div>
       <div className="user-image">
         <img
-          src={profileIcon}
+          src={
+            player.avatar
+              ? process.env.BACKEND_API_URL + "" + player.avatar
+              : profileIcon
+          }
           alt="playerIcon"
           className=""
         />
@@ -88,61 +61,63 @@ const NameAndImageIcon = ({ player, isWinner }: PlayerInfoProps) => {
   );
 };
 
-interface GamesType {
-  player1: {
-    name: string;
-    scored: number;
-  };
-  player2: {
-    name: string;
-    scored: number;
-  };
-}
-
 const RecentInGame = () => {
-  let matches: GamesType[] | undefined = data;
+  const [recentGames, setRecentGames] = useState<any[] | undefined>(undefined);
+  const userData = useSelector((state: RootState) => state.user.value);
+  useEffect(() => {
+    const fetchrecentGames = async () => {
+      try {
+        const res = await axiosPrivate.get("recent_games");
+        if (res.data) setRecentGames(res.data);
+      } catch (err) {
+        console.log(err);
+        setRecentGames(undefined);
+      }
+    };
+    if (!recentGames) fetchrecentGames();
+  }, [userData, recentGames]);
 
   return (
     <>
       <div className={gameRecentInGame}>
         <div className="title">Recent</div>
         <div className="recent-board">
-          {!matches ||
-            (!matches.length && (
+          {!recentGames ||
+            (!recentGames.length && (
               <div className="h4 text-warning"> No matches yet</div>
             ))}
-          {matches &&
-            matches?.map((match, index) =>
+          {recentGames &&
+            recentGames?.map((match, index) =>
               index < 10 ? (
-                <div
-                  key={index}
-                  className={gameRecentInGameImageAndName}
-                >
-                  {match.player1.scored >= match.player2.scored ? (
-                    <>
-                      <NameAndImageIcon
-                        player={match.player1}
-                        isWinner={true}
+                <div key={index} className={gameRecentInGameImageAndName}>
+                  <>
+                    <NameAndImageIcon
+                      player={
+                        match.player1.name === match.player1.winner
+                          ? match.player1
+                          : match.player2
+                      }
+                      isWinner={true}
+                    />
+                    <div className="vs-container">
+                      <img
+                        src={
+                          match.player1.type === "pong"
+                            ? PingPongLogoIcon
+                            : rocketLeageLogoIcon
+                        }
+                        alt=""
                       />
-                      <div className="vs-container">VS</div>
-                      <NameAndImageIcon
-                        player={match.player2}
-                        isWinner={false}
-                      />
-                    </>
-                  ) : (
-                    <>
-                      <NameAndImageIcon
-                        player={match.player2}
-                        isWinner={true}
-                      />
-                      <div className="vs-container">VS</div>
-                      <NameAndImageIcon
-                        player={match.player1}
-                        isWinner={false}
-                      />
-                    </>
-                  )}
+                    </div>
+                    <NameAndImageIcon
+                      player={
+                        match.player1.name === match.player1.loser
+                          ? match.player1
+                          : match.player2
+                      }
+                      isWinner={false}
+                    />
+                  </>
                 </div>
               ) : (
                 <span key={index}></span>

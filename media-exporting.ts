@@ -20,6 +20,8 @@ export const selverMedalLevel3Icon = "/assets/icons/selverMedalLevel3Icon.svg";
 export const blockIcon = "/assets/icons/blockIcon.svg";
 export const tournamentIcon = "/assets/icons/tournamentIcon.svg";
 export const visibilityProfileIcon = "/assets/icons/visibilityProfileIcon.svg";
+export const PingPongLogoIcon = "/assets/icons/PingPongLogoIcon.png";
+export const rocketLeageLogoIcon = "/assets/icons/rocketLeageLogoIcon.png";
 
 //images
 export const pingPongVector = "/assets/images/pingPongVector.svg";

@@ -6,23 +6,23 @@ import { UserDataType } from "@/src/customDataTypes/UserDataType";
 import { useSelector } from "react-redux";
 import { RootState } from "@/src/states/store";
 
-
-
 const LeaderBordInGame = () => {
-  const [leaderBoardData, setLeaderBoardData] = useState<UserDataType[] | null>(null);
-  const userData = useSelector((state: RootState) => state.user.value)
+  const [leaderBoardData, setLeaderBoardData] = useState<UserDataType[] | undefined>(undefined);
+  const userData = useSelector((state: RootState) => state.user.value);
   useEffect(() => {
-    async function fetchLeaderBoardData(){
-      axiosPrivate.get("leaderboard").then((res) => {
-        setLeaderBoardData(res.data)
-      })
-      .catch((err)=> {
+    const fetchLeaderBoardData = async () => {
+      try {
+        const res = await axiosPrivate.get("leaderboard");
+        if (res.data)
+          setLeaderBoardData(res.data);
+      } catch (err) {
         console.log(err);
-      })
+        setLeaderBoardData(undefined)
+      }
     }
-    fetchLeaderBoardData()
-  }, [userData])
-  
+    if (!leaderBoardData) fetchLeaderBoardData();
+  }, [userData, leaderBoardData]);
+
   return (
     <>
       <div className={gameLeaderBoardInGame}>
@@ -30,7 +30,7 @@ const LeaderBordInGame = () => {
           <thead className="">
             <tr className="">
               <th className="">RANK</th>
-              <th className="" style={{visibility:"hidden"}}>Image</th>
+              <th className="">Image</th>
               <th className="">NAME</th>
               <th className=" ">SCORE</th>
               <th className="">LEVEL</th>
@@ -45,17 +45,17 @@ const LeaderBordInGame = () => {
             ) : (
               leaderBoardData.map((player, index) =>
                 index < 6 ? (
-                  <tr
-                    key={index}
-                    className=""
-                  >
+                  <tr key={index} className="">
                     <th scope="col" className="">
                       {player.rank}
                     </th>
                     <td className="user-image-container">
                       <img
-                        src={player.avatar ? process.env.BACKEND_API_URL + "" + player.avatar
-                        : profileIcon }
+                        src={
+                          player.avatar
+                            ? process.env.BACKEND_API_URL + "" + player.avatar
+                            : profileIcon
+                        }
                         className="user-image"
                         alt="user image"
                       />
@@ -65,8 +65,11 @@ const LeaderBordInGame = () => {
                     <td className="level">{player.level}</td>
                     <td className="">
                       <img
-                        src={player.medal ? "/assets/icons/"+player.medal+".svg"
-                        : selverMedalLevel1Icon }
+                        src={
+                          player.medal
+                            ? "/assets/icons/" + player.medal + ".svg"
+                            : selverMedalLevel1Icon
+                        }
                         className="medal-image"
                         alt="medal image"
                       />
