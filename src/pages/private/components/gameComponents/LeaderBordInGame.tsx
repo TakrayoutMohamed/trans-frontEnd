@@ -3,17 +3,26 @@ import { gameLeaderBoardInGame } from "../../styles";
 import { useEffect, useState } from "react";
 import { axiosPrivate } from "@/src/services/api/axios";
 import { UserDataType } from "@/src/customDataTypes/UserDataType";
+import { useSelector } from "react-redux";
+import { RootState } from "@/src/states/store";
+
+
 
 const LeaderBordInGame = () => {
-  const [leaderBoardData, setLeaderBoardData] = useState<UserDataType[]>([]);
+  const [leaderBoardData, setLeaderBoardData] = useState<UserDataType[] | null>(null);
+  const userData = useSelector((state: RootState) => state.user.value)
   useEffect(() => {
-    axiosPrivate.get("leaderboard").then((res) => {
-      setLeaderBoardData(res.data)
-    })
-    .catch((err)=> {
-      console.log(err);
-    })
-  }, [])
+    async function fetchLeaderBoardData(){
+      axiosPrivate.get("leaderboard").then((res) => {
+        setLeaderBoardData(res.data)
+      })
+      .catch((err)=> {
+        console.log(err);
+      })
+    }
+    fetchLeaderBoardData()
+  }, [userData])
+  
   return (
     <>
       <div className={gameLeaderBoardInGame}>

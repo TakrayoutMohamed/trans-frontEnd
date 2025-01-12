@@ -35,6 +35,7 @@ function launchToast(
 export const trigerRightEvent = (json_data: SocketJsonValueType) => {
   console.log("the location of the user in the app");
   console.log(json_data);
+  if (!json_data) return;
   switch (json_data.type) {
     case "unfriend": {
       console.log("here is the block of unfriend ");
@@ -58,6 +59,8 @@ export const trigerRightEvent = (json_data: SocketJsonValueType) => {
     }
     case "friend_request": {
       console.log("friend_request in trigerRightEvent ");
+      if (!store.getState().allUsers.value.find((user) => user.username ===json_data.sender.username))
+        setAllUsersData([...store.getState().allUsers.value, json_data.sender]);
       setAllUsersData(
         store.getState().allUsers.value.map((user: AllUsersDataType) => {
           if (user.username === json_data.sender.username) {
@@ -105,6 +108,8 @@ export const trigerRightEvent = (json_data: SocketJsonValueType) => {
       console.log("here is the block of accept_request ");
       console.log(json_data);
       setFriendsData([...store.getState().friends.value, json_data.sender]);
+      if (!store.getState().allUsers.value.find((user) => user.username ===json_data.sender.username))
+        setAllUsersData([...store.getState().allUsers.value, json_data.sender]);
       setAllUsersData(
         store.getState().allUsers.value.map((user: AllUsersDataType) => {
           if (user.username === json_data.sender.username) {
