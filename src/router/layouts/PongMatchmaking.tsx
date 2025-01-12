@@ -2,71 +2,72 @@ import { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/src/states/store";
 import { w3cwebsocket } from "websocket";
-import PingPongLayout from "@src/router/layouts/PingPongLayout";
 import { useNavigate } from "react-router-dom";
 
 const PongMatch: React.FC = () => {
   const [inQueue, setInQueue] = useState<boolean>(false);
   const [gameId, setGameId] = useState<number>(0);
   const wsRef = useRef<w3cwebsocket | null>(null);
-  const AccessToken = useSelector((state: RootState) => state.accessToken.value);
+  const AccessToken = useSelector(
+    (state: RootState) => state.accessToken.value
+  );
   const navigate = useNavigate();
-
   const userData = useSelector((state: RootState) => state.user.value);
   const username = userData.username;
-  const level = userData.level ;
-
-
+  const level = userData.level;
+  useEffect(() => {
+    if (gameId) navigate(`/pong/${gameId}`);
+  }, [gameId]);
   useEffect(() => {
     return () => {
-        if (wsRef.current)
-          if (wsRef.current.readyState === WebSocket.OPEN) {
-            wsRef.current.close();
-          }
-      };
+      if (wsRef.current)
+        if (wsRef.current.readyState === WebSocket.OPEN) {
+          wsRef.current.close();
+        }
+    };
   }, []);
 
   const handleStartQueue = (): void => {
     setInQueue(true);
 
     if (!AccessToken) return; // Don't initialize if no AccessToken
-    
+
     wsRef.current = new w3cwebsocket(
-        `${process.env.BACKEND_API_SOCKETS}/ws/PongMatch/?token=${AccessToken}`
+      `${process.env.BACKEND_API_SOCKETS}/ws/PongMatch/?token=${AccessToken}`
     );
 
     wsRef.current.onopen = () => {
-        console.log("WebSocket matchmaking connection established");
-        wsRef.current?.send(JSON.stringify({
-            type: 'join_matchmaking',
-            player_username: username,
-            level: level,
-          }));
-      };
+      console.log("WebSocket matchmaking connection established");
+      wsRef.current?.send(
+        JSON.stringify({
+          type: "join_matchmaking",
+          player_username: username,
+          level: level,
+        })
+      );
+    };
 
     wsRef.current.onmessage = (event) => {
-        try {
+      try {
         const data = JSON.parse(event.data.toString());
         // console.log("Message received:", data);
-            
-        switch(data.type) {
-            case 'match_found':
+
+        switch (data.type) {
+          case "match_found":
             console.log("Match found:", data.match as number);
             setGameId(data.match);
             break;
-            default:
+          default:
             console.log("Unknown message type:", data.type);
-            }
-            
-        } catch (error) {
-            console.error("Error parsing message:", error);
         }
+      } catch (error) {
+        console.error("Error parsing message:", error);
+      }
     };
 
     wsRef.current.onclose = () => {
-        console.log("WebSocket matchmaking closed");
-        };
-      
+      console.log("WebSocket matchmaking closed");
+    };
   };
 
   const handleLeaveQueue = (): void => {
@@ -78,14 +79,10 @@ const PongMatch: React.FC = () => {
     }
   };
 
-    if (gameId)
-      navigate(`/pong/${gameId}`)
-  return gameId ? (
-    ""
-  ) : (
+  return (
     <div className="w-100 h-100 flex flex-col justify-center items-center ">
       <div className="flex flex-col gap-y-3.5  backdrop-blur-sm justify-center items-center bg-[#1a103f]/90 p-6 w-full max-w-md mx-auto rounded-lg border-2 border-[#ff3366] shadow-lg h-1/4 ">
-      <h2 className="text-2xl font-bold mb-3 text-[#ffffff]">
+        <h2 className="text-2xl font-bold mb-3 text-[#ffffff]">
           Matchmaking Queue
         </h2>
 
