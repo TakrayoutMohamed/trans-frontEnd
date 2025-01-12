@@ -7,16 +7,13 @@ import { User } from 'lucide-react';
 import { w3cwebsocket } from "websocket";
 import { useSelector } from "react-redux";
 import { RootState } from "@/src/states/store";
-import { FaLessThanEqual } from 'react-icons/fa';
+import { useParams } from 'react-router-dom';
 
-interface GameProps {
-	gameId: number;
-}
-
-export const PingPongLayout: React.FC<GameProps> = ({gameId}) => {
+export const PingPongLayout: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [gameState, setGameState] = useState<GameState>(INITIAL_GAME_STATE);
   const [EndGame, setEndGame] = useState(false);
+  const {gameId} = useParams();
   // const [ws, setWs] = useState<w3cwebsocket | null>(null);
   const [connected, setConnected] = useState(false)
   const wsRef = useRef<w3cwebsocket | null>(null);
@@ -148,6 +145,9 @@ export const PingPongLayout: React.FC<GameProps> = ({gameId}) => {
           };
     }, []);
 
+  useEffect(() => {
+    console.log(gameId)
+  }, [gameId])
   useGameLoop((deltaTime) => {
     if (isPaused.current) return;
 

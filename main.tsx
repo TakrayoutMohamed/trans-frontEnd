@@ -1,3 +1,4 @@
+import './src/index.css'
 import "bootstrap/dist/css/bootstrap.css";
 // import "bootstrap/dist/js/bootstrap.bundle.min.js";//it breaks the drop down proprites
 import "bootstrap/dist/js/bootstrap.js";
@@ -12,7 +13,6 @@ import { Provider } from "react-redux";
 import { store } from "@states/store";
 import { StrictMode } from "react";
 import PersistLogin from "./src/PersistLogin";
-import './src/index.css'
 
 const rootDOM = document.getElementById("root") as Element;
 
