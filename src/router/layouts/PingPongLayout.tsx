@@ -7,27 +7,24 @@ import { User } from 'lucide-react';
 import { w3cwebsocket } from "websocket";
 import { useSelector } from "react-redux";
 import { RootState } from "@/src/states/store";
-import { useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export const PingPongLayout: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [gameState, setGameState] = useState<GameState>(INITIAL_GAME_STATE);
   const [EndGame, setEndGame] = useState(false);
-  const {gameId} = useParams();
-  // const [ws, setWs] = useState<w3cwebsocket | null>(null);
+  const location = useLocation();
+  const navigate = useNavigate()
+  const gameId = location.state?.gameId;
   const [connected, setConnected] = useState(false)
   const wsRef = useRef<w3cwebsocket | null>(null);
 
   const AccessToken = useSelector((state: RootState) => state.accessToken.value);
   const intervalRef = useRef<any | NodeJS.Timeout | null>(null);
-  // const MOVEMENT_INTERVAL = 40; // Adjust this value to balance responsiveness and performance
-  // const activeKeys = useRef<Set<string>>(new Set());
   const winner = useRef<number>();
   const PlayerNumber = useRef<number>();
   const isPaused = useRef<boolean>(true);
-  // const intervalRef = useRef<NodeJS.Timer | null>(null);
-  // Reference for interval
-  // const userData = useSelector((state: RootState) => state.user.value);
+
   useEffect(() => {
     if (!AccessToken) return; // Don't initialize if no AccessToken
 
@@ -146,7 +143,8 @@ export const PingPongLayout: React.FC = () => {
     }, []);
 
   useEffect(() => {
-    console.log(gameId)
+    if (!gameId)
+      navigate('/', {replace: true});
   }, [gameId])
   useGameLoop((deltaTime) => {
     if (isPaused.current) return;

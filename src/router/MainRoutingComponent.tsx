@@ -71,7 +71,7 @@ const routingTree: RouteObject[] = createRoutesFromElements(
             <Route path="recent" element={<Recent />} />
             <Route path="friends" element={<Friends />} />
             <Route path="requests" element={<FriendRequests />} />
-            <Route path=":userName">
+            <Route path=":userName" errorElement={<NotFoundLayout/>}>
               <Route index element={<Navigate to="details" replace />} />
               <Route path="details" element={<Profile />} />
               <Route path="recent" element={<Recent />} />
@@ -80,7 +80,7 @@ const routingTree: RouteObject[] = createRoutesFromElements(
         </Route>
         <Route path="chat" element={<ChatLayout />}>
           <Route index element={<Chat />} />
-          <Route path=":userName" element={<ChatArea />} />
+          <Route path=":userName" errorElement={<NotFoundLayout/>} element={<ChatArea />} />
         </Route>
         <Route path="setting" element={<SettingLayout />}>
           <Route index element={<Navigate to="profile" replace />} />
@@ -89,7 +89,7 @@ const routingTree: RouteObject[] = createRoutesFromElements(
         </Route>
         <Route path="tournament" element={<TournamentLayout />}></Route>
         <Route path="ponglocal" element={<Pong />} /> 
-        <Route path="pong/:gameId" element={<PingPongLayout/>} />
+        <Route path="pong" element={<PingPongLayout/>} />
         <Route path="matchmaking" element={<Match />} /> 
         <Route path="PongMatchmaking" element={<PongMatch />} /> 
       </Route>

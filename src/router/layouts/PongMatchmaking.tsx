@@ -16,7 +16,7 @@ const PongMatch: React.FC = () => {
   const username = userData.username;
   const level = userData.level;
   useEffect(() => {
-    if (gameId) navigate(`/pong/${gameId}`);
+    if (gameId) navigate(`/pong`,{state: {gameId: gameId}, replace: true});
   }, [gameId]);
   useEffect(() => {
     return () => {
@@ -78,7 +78,6 @@ const PongMatch: React.FC = () => {
       wsRef.current = null;
     }
   };
-
   return (
     <div className="w-100 h-100 flex flex-col justify-center items-center ">
       <div className="flex flex-col gap-y-3.5  backdrop-blur-sm justify-center items-center bg-[#1a103f]/90 p-6 w-full max-w-md mx-auto rounded-lg border-2 border-[#ff3366] shadow-lg h-1/4 ">
