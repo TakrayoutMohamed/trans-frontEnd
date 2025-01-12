@@ -1,4 +1,7 @@
-import { goldenMedalIcon, profileIcon } from "@/media-exporting";
+import {
+  profileIcon,
+  selverMedalLevel1Icon,
+} from "@/media-exporting";
 import { RiMenuSearchLine } from "react-icons/ri";
 import { gameProfileInGame } from "../../styles";
 import { useSelector } from "react-redux";
@@ -32,14 +35,22 @@ const ProfileInGame = () => {
           </div>
           <div className="vertical-line"></div>
           <div className="medal-image">
-            <img src={goldenMedalIcon} alt="medal Icon" className="" />
+            <img
+              src={
+                userData.medal
+                  ? "/assets/icons/" + userData.medal + ".svg"
+                  : selverMedalLevel1Icon
+              }
+              alt="medal Icon"
+              className=""
+            />
           </div>
         </div>
         <hr className="horizontal-line" />
         <div className="last-game-status-last-score">
           <div className="last-game">
             <div className="title">last Game</div>
-            <div className="text-danger content">Lost</div>
+            <div className="text-danger content">!!!!!!</div>
           </div>
           <div className=" vertical-line"></div>
           <div className="status">
@@ -54,8 +65,8 @@ const ProfileInGame = () => {
           </div>
           <div className="vertical-line"></div>
           <div className="last-score">
-            <div className="title">Last Score</div>
-            <div className="text-success content">172.35xp</div>
+            <div className="title">Score</div>
+            <div className="text-success content">{userData.score}xp</div>
           </div>
         </div>
       </div>
