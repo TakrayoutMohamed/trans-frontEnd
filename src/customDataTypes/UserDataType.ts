@@ -15,4 +15,6 @@ export type UserDataType = {
     is_blocked: boolean;
     rank?: number;
     level?:number;
+    medal?:string;
+    score?:number;
   };

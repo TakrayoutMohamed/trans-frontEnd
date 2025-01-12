@@ -1,100 +1,19 @@
-import { goldenMedalIcon, profileIcon, selverMedalLevel1Icon } from "@/media-exporting";
+import { profileIcon, selverMedalLevel1Icon } from "@/media-exporting";
 import { gameLeaderBoardInGame } from "../../styles";
-
-const data = [
-  {
-    rank: 1,
-    image: profileIcon,
-    name: "alvares",
-    score: 120.23,
-    level: 12.2,
-    medal: selverMedalLevel1Icon,
-  },
-  {
-    rank: 2,
-    image: profileIcon,
-    name: "alvares",
-    score: 120.23,
-    level: 12.2,
-    medal: goldenMedalIcon,
-  },
-  {
-    rank: 3,
-    image: profileIcon,
-    name: "alvares",
-    score: 120.23,
-    level: 12.2,
-    medal: selverMedalLevel1Icon,
-  },
-  {
-    rank: 4,
-    image: profileIcon,
-    name: "alvares",
-    score: 120.23,
-    level: 12.2,
-    medal: selverMedalLevel1Icon,
-  },
-  {
-    rank: 5,
-    image: profileIcon,
-    name: "alvares",
-    score: 120.23,
-    level: 12.2,
-    medal: selverMedalLevel1Icon,
-  },
-  {
-    rank: 6,
-    image: profileIcon,
-    name: "alvares",
-    score: 120.23,
-    level: 12.2,
-    medal: selverMedalLevel1Icon,
-  },
-  {
-    rank: 7,
-    image: profileIcon,
-    name: "alvares",
-    score: 120.23,
-    level: 12.2,
-    medal: selverMedalLevel1Icon,
-  },
-  {
-    rank: 8,
-    image: profileIcon,
-    name: "alvares",
-    score: 120.23,
-    level: 12.2,
-    medal: selverMedalLevel1Icon,
-  },
-  {
-    rank: 9,
-    image: profileIcon,
-    name: "alvares",
-    score: 120.23,
-    level: 12.2,
-    medal: selverMedalLevel1Icon,
-  },
-  {
-    rank: 10,
-    image: profileIcon,
-    name: "alvares",
-    score: 120.23,
-    level: 12.2,
-    medal: selverMedalLevel1Icon,
-  },
-];
-
-interface PlayerData {
-  rank: number;
-  image: string;
-  name: string;
-  score: number;
-  level: number;
-  medal: string;
-}
+import { useEffect, useState } from "react";
+import { axiosPrivate } from "@/src/services/api/axios";
+import { UserDataType } from "@/src/customDataTypes/UserDataType";
 
 const LeaderBordInGame = () => {
-  const players: PlayerData[] = data;
+  const [leaderBoardData, setLeaderBoardData] = useState<UserDataType[]>([]);
+  useEffect(() => {
+    axiosPrivate.get("leaderboard").then((res) => {
+      setLeaderBoardData(res.data)
+    })
+    .catch((err)=> {
+      console.log(err);
+    })
+  }, [])
   return (
     <>
       <div className={gameLeaderBoardInGame}>
@@ -110,12 +29,12 @@ const LeaderBordInGame = () => {
             </tr>
           </thead>
           <tbody className="">
-            {!players || !players.length ? (
+            {!leaderBoardData || !leaderBoardData.length ? (
               <tr className="">
                 <td colSpan={6}> No data in Leader board!!</td>
               </tr>
             ) : (
-              players.map((player, index) =>
+              leaderBoardData.map((player, index) =>
                 index < 6 ? (
                   <tr
                     key={index}
@@ -124,19 +43,21 @@ const LeaderBordInGame = () => {
                     <th scope="col" className="">
                       {player.rank}
                     </th>
-                    <td className="">
+                    <td className="user-image-container">
                       <img
-                        src={player.image}
+                        src={player.avatar ? process.env.BACKEND_API_URL + "" + player.avatar
+                        : profileIcon }
                         className="user-image"
                         alt="user image"
                       />
                     </td>
-                    <td className="">{player.name}</td>
-                    <td className="">{player.score}xp</td>
-                    <td className="">{player.level}</td>
+                    <td className="username">{player.username}</td>
+                    <td className="score">{player.score}xp</td>
+                    <td className="level">{player.level}</td>
                     <td className="">
                       <img
-                        src={player.medal}
+                        src={player.medal ? "/assets/icons/"+player.medal+".svg"
+                        : selverMedalLevel1Icon }
                         className="medal-image"
                         alt="medal image"
                       />

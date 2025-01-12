@@ -47,10 +47,14 @@
                 padding: 0px;
                 >img[class*="user-image"]{
                     border-radius: 100%;
+                    width: 2em;
+                    height: 2em;
                     background-color: rgb(0, 103, 0);
                 }
                 >img[class*="medal-image"]{
                     border-radius: 100%;
+                    width: 2em;
+                    height: 2em;
                     background-color: rgb(0, 0, 0);
                 }
             }
