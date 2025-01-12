@@ -1,6 +1,7 @@
 import { store } from "@/src/states/store";
 import {
   setAllUsersData,
+  setConversationsData,
   setFriendsData,
   setNotificationsData,
 } from "./setAuthenticationData";
@@ -10,6 +11,7 @@ import { acceptFriendRequest, rejectFriendRequest } from "./fetchingData";
 import { toast } from "react-toastify";
 import NotificationsComponent from "@/src/router/layouts/components/notifications/NotificationsComponent";
 import { NotificationsDataType } from "@/src/customDataTypes/NotificationsDataType";
+import { ConversationListDataType } from "../private/components/chatComponents/ConversationsList";
 
 function launchToast(
   data: SocketJsonValueType,
@@ -147,6 +149,24 @@ export const trigerRightEvent = (json_data: SocketJsonValueType) => {
       //block user
       console.log("here is the block of block_request ");
       console.log(json_data);
+      break;
+    }
+    case "message": {
+      //block user
+      console.log("here is the block of block_request ");
+      console.log(json_data);
+      if (
+        !store
+          .getState()
+          .conversations.value.find(
+            (convers: ConversationListDataType) =>
+              convers.username !== json_data.sender.username
+          )
+      )
+        setConversationsData([
+          ...store.getState().conversations.value,
+          json_data.sender,
+        ]);
       break;
     }
     case "unblock_request": {
