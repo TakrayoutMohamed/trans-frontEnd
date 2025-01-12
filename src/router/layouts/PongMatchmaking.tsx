@@ -3,12 +3,14 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/src/states/store";
 import { w3cwebsocket } from "websocket";
 import PingPongLayout from "@src/router/layouts/PingPongLayout";
+import { useNavigate } from "react-router-dom";
 
 const PongMatch: React.FC = () => {
   const [inQueue, setInQueue] = useState<boolean>(false);
   const [gameId, setGameId] = useState<number>(0);
   const wsRef = useRef<w3cwebsocket | null>(null);
   const AccessToken = useSelector((state: RootState) => state.accessToken.value);
+  const navigate = useNavigate();
 
   const userData = useSelector((state: RootState) => state.user.value);
   const username = userData.username;
@@ -76,8 +78,10 @@ const PongMatch: React.FC = () => {
     }
   };
 
+    if (gameId)
+      navigate(`/pong/${gameId}`)
   return gameId ? (
-    <PingPongLayout gameId={gameId} />
+    ""
   ) : (
     <div className="w-100 h-100 flex flex-col justify-center items-center ">
       <div className="flex flex-col gap-y-3.5  backdrop-blur-sm justify-center items-center bg-[#1a103f]/90 p-6 w-full max-w-md mx-auto rounded-lg border-2 border-[#ff3366] shadow-lg h-1/4 ">
