@@ -90,7 +90,7 @@ const routingTree: RouteObject[] = createRoutesFromElements(
         <Route path="tournament" element={<TournamentLayout />}></Route>
         <Route path="ponglocal" element={<Pong />} /> 
         <Route path="pong" element={<PingPongLayout/>} />
-        <Route path="matchmaking" element={<Match />} /> 
+        <Route path="rocket-league" element={<Match />} /> 
         <Route path="PongMatchmaking" element={<PongMatch />} /> 
       </Route>
     </Route>

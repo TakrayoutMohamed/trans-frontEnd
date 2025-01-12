@@ -7,8 +7,10 @@ export type UserDataType = {
     created_at: string;
     last_login?: string;
     wins?: number;
+    league_wins?: number;
     losses?: number;
-    draws?: number;
+    league_losses?: number;
+    last_game?: string;
     matches_played?: number;
     is2fa: boolean;
     is_online: boolean;

@@ -31,6 +31,8 @@ const Recent = () => {
     };
     if (!userRecentGames) fetchUserRecentGames();
   }, [userData, allUsersData, userRecentGames]);
+  if (!userRecentGames || !userRecentGames.length)
+    return <div className="h4 text-warning"> No matches yet</div>;
   return (
     <div className={`${recent}`}>
       <div className="">
@@ -38,15 +40,15 @@ const Recent = () => {
           userRecentGames.length &&
           userRecentGames.map((match, index) => (
             <p className="" key={index}>
-                <img
-                  src={
-                    match.player1.type === "pong"
-                      ? PingPongLogoIcon
-                      : rocketLeageLogoIcon
-                  }
-                  alt=""
-                  className="d-inline"
-                />
+              <img
+                src={
+                  match.player1.type === "pong"
+                    ? PingPongLogoIcon
+                    : rocketLeageLogoIcon
+                }
+                alt=""
+                className="d-inline"
+              />
               <span
                 className={`${
                   match.player1.winner === match.player1.name ? "win" : "lose"

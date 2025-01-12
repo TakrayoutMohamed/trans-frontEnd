@@ -50,7 +50,7 @@ const ProfileInGame = () => {
         <div className="last-game-status-last-score">
           <div className="last-game">
             <div className="title">last Game</div>
-            <div className="text-danger content">!!!!!!</div>
+            <div className="text-danger content">{userData.last_game}</div>
           </div>
           <div className=" vertical-line"></div>
           <div className="status">

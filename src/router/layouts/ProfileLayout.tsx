@@ -37,20 +37,29 @@ const ProfileLayout = () => {
         <div className="aiStats">
           <Stats
             title={"Rocket League"}
-            data={{win:data.wins ? data.wins : 0 , lose: data.losses ? data.losses : 0 }}
+            data={{
+              win: data.league_wins ? data.league_wins : 0,
+              lose: data.league_losses ? data.league_losses : 0,
+            }}
           />
         </div>
         <div className="classicTournamentStats">
           <div className="classicStats">
             <Stats
               title={"Ping pong STATS"}
-              data={{win:data.wins ? data.wins : 0 , lose: data.losses ? data.losses : 0 }}
+              data={{
+                win: data.wins ? data.wins : 0,
+                lose: data.losses ? data.losses : 0,
+              }}
             />
           </div>
           <div className="tournamentStats">
             <Stats
               title={"TOURNAMENT STATS"}
-              data={{win:data.wins ? data.wins : 0 , lose: data.losses ? data.losses : 0 }}
+              data={{
+                win: data.wins ? data.wins : 0,
+                lose: data.losses ? data.losses : 0,
+              }}
             />
           </div>
         </div>
