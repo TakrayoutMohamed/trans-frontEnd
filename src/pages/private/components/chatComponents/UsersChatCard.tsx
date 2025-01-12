@@ -1,20 +1,57 @@
 import { profileIcon } from "@/media-exporting";
-import { ConversationList } from "./ConversationsList";
 import { chatUsersChatCard } from "../../styles";
 import { Link } from "react-router-dom";
+import { ConversationListDataType } from "./ConversationsList";
+import { RootState } from "@/src/states/store";
+import { useSelector } from "react-redux";
+import { useRef } from "react";
+import { useInfiniteScroll } from "@/src/services/hooks/useInfiniteScroll";
+import { setConversationsData } from "@/src/pages/modules/setAuthenticationData";
+import { AxiosResponse } from "axios";
+import { axiosPrivate } from "@/src/services/api/axios";
+import LoadingOrNoMoreData from "@/src/pages/components/LoadingOrNoMoreData";
 
-type UsersChatCardProps = {
-  conversations: ConversationList[];
-  type?: string;
+const fetchingConversationsListData = (
+  url: string,
+  page?: number,
+  username?: string
+): Promise<AxiosResponse<any, any>> => {
+  let requestParams = {};
+  if (page) requestParams = { ...requestParams, page: page };
+  if (username) requestParams = { ...requestParams, username: username };
+  return axiosPrivate.get(url, { params: requestParams });
 };
 
-const UsersChatCard = ({ conversations, type }: UsersChatCardProps) => {
-
+const UsersChatCard = () => {
+  const conversations = useSelector(
+    (state: RootState) => state.conversations.value
+  );
+  const refConversationList = useRef<HTMLDivElement>(null);
+  const conversationListStartRef = useRef<HTMLDivElement>(null);
+  const { isLoading, hasMore, handleScroll } =
+    useInfiniteScroll<ConversationListDataType>({
+      url: "chat/conversations",
+      refElement: refConversationList.current,
+      startPositionRef: conversationListStartRef.current,
+      data: conversations,
+      setData: setConversationsData,
+      offset: 200,
+      scrollDirection: "bottom",
+      fetchingData: fetchingConversationsListData,
+    });
   const r = (Math.random() + 1).toString(36).substring(20);
   return (
     <>
-      {conversations.map(
-        (conversationUser, index) => (
+      <div
+        className="tab-pane active"
+        id="all-msgs-content"
+        role="tabpanel"
+        aria-labelledby="all-msgs"
+        onScroll={handleScroll}
+        ref={refConversationList}
+      >
+        <div ref={conversationListStartRef} />
+        {conversations.map((conversationUser, index) => (
           <Link
             to={conversationUser.username + ""}
             className={`${chatUsersChatCard}`}
@@ -24,7 +61,11 @@ const UsersChatCard = ({ conversations, type }: UsersChatCardProps) => {
               <div className="">
                 <svg className="">
                   <pattern
-                    id={`pattImage${r + conversationUser.created_at + type}`}
+                    id={`pattImage${
+                      r +
+                      conversationUser.created_at +
+                      conversationUser.username
+                    }`}
                     x="0"
                     y="0"
                     height="100%"
@@ -37,7 +78,8 @@ const UsersChatCard = ({ conversations, type }: UsersChatCardProps) => {
                       y="0.1em"
                       href={
                         conversationUser.avatar
-                          ? process.env.BACKEND_API_URL + conversationUser.avatar
+                          ? process.env.BACKEND_API_URL +
+                            conversationUser.avatar
                           : profileIcon
                       }
                     />
@@ -46,7 +88,11 @@ const UsersChatCard = ({ conversations, type }: UsersChatCardProps) => {
                     cx="1em"
                     cy="1em"
                     r="1em"
-                    fill={`url(#pattImage${r+ conversationUser.created_at + type})`}
+                    fill={`url(#pattImage${
+                      r +
+                      conversationUser.created_at +
+                      conversationUser.username
+                    })`}
                     stroke="lightblue"
                     strokeWidth="1"
                   />
@@ -66,14 +112,19 @@ const UsersChatCard = ({ conversations, type }: UsersChatCardProps) => {
             </div>
             <div className="" id="userNameWriting">
               <p className="">
-                {conversationUser.first_name ? conversationUser.first_name : "????????"}{" "}
-                {conversationUser.last_name ? conversationUser.last_name : "???????"}
+                {conversationUser.first_name
+                  ? conversationUser.first_name
+                  : "????????"}{" "}
+                {conversationUser.last_name
+                  ? conversationUser.last_name
+                  : "???????"}
               </p>
               <small className={``}>{conversationUser.username}</small>
             </div>
           </Link>
-        )
-      )}
+        ))}
+        <LoadingOrNoMoreData isLoading={isLoading} hasMore={hasMore} />
+      </div>
     </>
   );
 };

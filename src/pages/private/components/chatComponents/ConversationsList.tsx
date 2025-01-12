@@ -10,12 +10,12 @@ import { UserDataType } from "@/src/customDataTypes/UserDataType";
 import FriendsChatCard from "./FriendsChatCard";
 import { axiosPrivate } from "@/src/services/api/axios";
 
-export type ConversationList = UserDataType;
+export type ConversationListDataType = UserDataType;
 
 function searchFilter(
   event: ChangeEvent<HTMLInputElement>,
-  conversationsListData: ConversationList[],
-  setConversationsList: React.Dispatch<React.SetStateAction<ConversationList[]>>
+  conversationsListData: ConversationListDataType[],
+  setConversationsList: React.Dispatch<React.SetStateAction<ConversationListDataType[]>>
 ) {
   event.preventDefault();
   const filteredSearchData = conversationsListData.filter((conversation) => {
@@ -30,26 +30,16 @@ function searchFilter(
     : (event.target.style.color = "white");
   filteredSearchData.length > 0 && setConversationsList(filteredSearchData);
 }
-let conversationsListData: ConversationList[] = [];
+let conversationsListData: ConversationListDataType[] = [];
 
 const ConversationsList = () => {
-  const friends = useSelector((state: RootState) => state.friends.value);
+  const conversations = useSelector((state: RootState) => state.conversations.value)
   const [conversationsList, setConversationsList] = useState<
-    ConversationList[]
-  >([]);
+    ConversationListDataType[]
+  >(conversations);
   useEffect(() => {
-    const fetchConversationsList = async () => {
-      try {
-        const res = await axiosPrivate.get("chat/conversations");
-        conversationsListData = res.data.results;
-        setConversationsList(res.data.results);
-      } catch (err) {
-        console.log("err in conversations list");
-        console.log(err);
-      }
-    };
-    fetchConversationsList();
-  }, []);
+    setConversationsList(conversations);
+  }, [conversations]);
   const chatContext = useContext(ChatDataContext);
   if (!chatContext)
     throw new Error("this component should be wrapped inside a chatContext");
@@ -74,29 +64,8 @@ const ConversationsList = () => {
         <div className="message">Message</div>
         <TabListHeaders />
         <div className="tab-content mt-3" id="tab-content">
-          <div
-            className="tab-pane active"
-            id="all-msgs-content"
-            role="tabpanel"
-            aria-labelledby="all-msgs"
-          >
-            <UsersChatCard
-              conversations={conversationsList}
-              type="conversations"
-            />
-          </div>
-          <div
-            className="tab-pane"
-            id="unread-msgs-content"
-            role="tabpanel"
-            aria-labelledby="unread-msgs"
-          >
-            {friends && friends.length ? (
-              <FriendsChatCard />
-            ) : (
-              <div>you have no Friends!</div>
-            )}
-          </div>
+            <UsersChatCard/>
+            <FriendsChatCard />
         </div>
       </div>
     </>

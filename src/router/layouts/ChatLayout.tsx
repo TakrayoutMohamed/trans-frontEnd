@@ -26,7 +26,8 @@ const ChatLayout = () => {
     console.log(chatSocket_);
     
     return () => {
-      closeSocket(chatSocket_);
+      if (chatSocket_?.readyState === w3cwebsocket.OPEN)
+        closeSocket(chatSocket_);
     }
   },[accessToken])
 
