@@ -3,7 +3,6 @@ import { profileStats } from "@/src/router/styles";
 
 
 type MatchData = {
-  matches: number;
   win: number;
   lose: number;
 };
@@ -21,7 +20,7 @@ const Stats = ({ title, data }: StatsProps) => {
         <div className="d-flex flex-row matches">
           <div className="">Matches</div>
           <div className="p-1 bg-secondary"></div>
-          <div className="">{data.matches}</div>
+          <div className="">{data.lose + data.win}</div>
         </div>
         <div className="d-flex flex-row wins">
           <div className="">Wins</div>

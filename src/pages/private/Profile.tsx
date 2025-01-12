@@ -25,8 +25,8 @@ const Profile = () => {
         Started On :
         {convertDateFormat(data?.created_at ? data.created_at : new Date())}
       </div>
-      <div className="">World Ranking : ???</div>
-      <div className="">Player Id : 000XXXX</div>
+      <div className="">World Ranking : {data?.rank}</div>
+      <div className="">Username : {data?.username}</div>
     </div>
   );
 };

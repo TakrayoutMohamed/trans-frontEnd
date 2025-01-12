@@ -8,34 +8,6 @@ import { RootState, store } from "@/src/states/store";
 import { useSelector } from "react-redux";
 import { UserDataType } from "@/src/customDataTypes/UserDataType";
 import { axiosPrivate } from "@/src/services/api/axios";
-const matchesData = {
-  data: [
-    {
-      //aiStates
-      matches: 27,
-      win: 24,
-      lose: 3,
-    },
-    {
-      //tournament states
-      matches: 20,
-      win: 17,
-      lose: 3,
-    },
-    {
-      //classic states
-      matches: 15,
-      win: 12,
-      lose: 3,
-    },
-  ],
-};
-
-enum statsType {
-  AISTATS,
-  TOURNAMENTSTATS,
-  CLASSICSTATS,
-}
 
 const ProfileLayout = () => {
   const { userName } = useParams();
@@ -64,21 +36,21 @@ const ProfileLayout = () => {
       <div className={`${profileLayout}`}>
         <div className="aiStats">
           <Stats
-            title={"AI STATS"}
-            data={matchesData.data[statsType.AISTATS]}
+            title={"Rocket League"}
+            data={{win:data.wins ? data.wins : 0 , lose: data.losses ? data.losses : 0 }}
           />
         </div>
         <div className="classicTournamentStats">
           <div className="classicStats">
             <Stats
-              title={"CLASSIC STATS"}
-              data={matchesData.data[statsType.CLASSICSTATS]}
+              title={"Ping pong STATS"}
+              data={{win:data.wins ? data.wins : 0 , lose: data.losses ? data.losses : 0 }}
             />
           </div>
           <div className="tournamentStats">
             <Stats
               title={"TOURNAMENT STATS"}
-              data={matchesData.data[statsType.TOURNAMENTSTATS]}
+              data={{win:data.wins ? data.wins : 0 , lose: data.losses ? data.losses : 0 }}
             />
           </div>
         </div>
