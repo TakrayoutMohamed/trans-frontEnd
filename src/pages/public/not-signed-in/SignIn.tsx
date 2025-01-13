@@ -9,7 +9,7 @@ import {
 } from "@publicPagesStyles/index.ts";
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
-import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { BiSolidLeftArrow } from "react-icons/bi";
 import { FcGoogle } from "react-icons/fc";
 import { Si42, SiGithub } from "react-icons/si";
@@ -36,14 +36,8 @@ type SignInSchemaType = z.infer<typeof signInSchema>;
 const authenticateWithThirdParty = async (thirdParty: string) => {
   try {
     const test = await axios.post("oauth", { platform: thirdParty });
-    console.log("testing authentication using a third party ");
-    console.log(test);
     window.location.href = test.data.url;
   } catch (err) {
-    console.log(
-      "error from authentication using using a third party  " + thirdParty
-    );
-    console.log(err);
   }
 };
 const customStyles: Modal.Styles | undefined = {
@@ -80,14 +74,11 @@ const SignIn = () => {
   const [emailForOtp, setEmailForOtp] = useState("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const lastLocation = location.state?.from?.pathname || "/game";
-  console.log("signIn rendered");
   const onSubmit: SubmitHandler<SignInSchemaType> = async (
     data: SignInSchemaType
   ) => {
     try {
       const res = await axios.post("login", data);
-      console.log("res");
-      console.log(res);
       if (res.data) {
         if (res.data["2fa"] === true) {
           setEmailForOtp(res?.data["email"]);
@@ -102,7 +93,6 @@ const SignIn = () => {
     } catch (err) {
       if (err instanceof AxiosError) {
         const error: AxiosError = err as AxiosError;
-        console.log(error);
         if (!error.response) {
           setErrorMsg("No Server Response");
         } else if (error.response?.status === 401) {
@@ -113,13 +103,7 @@ const SignIn = () => {
       } else {
         setErrorMsg(errorMsg);
       }
-      console.log(errorMsg);
     }
-  };
-  const onError: SubmitErrorHandler<SignInSchemaType> = async (dataerror) => {
-    console.log("error function in sign in email : " + dataerror?.email);
-    console.log("error function in sign in passwd : " + dataerror?.password);
-    console.log("error function in sign in root : " + dataerror?.root);
   };
   return (
     <div
@@ -142,7 +126,7 @@ const SignIn = () => {
         <div className="d-flex justify-content-center h-100">
           <form
             className="w-75 my-auto"
-            onSubmit={handleSubmit(onSubmit, onError)}
+            onSubmit={handleSubmit(onSubmit)}
           >
             <div className="mb-4">
               <input

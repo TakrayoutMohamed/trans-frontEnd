@@ -37,7 +37,6 @@ const PongMatch: React.FC = () => {
     );
 
     wsRef.current.onopen = () => {
-      console.log("WebSocket matchmaking connection established");
       wsRef.current?.send(
         JSON.stringify({
           type: "join_matchmaking",
@@ -50,15 +49,12 @@ const PongMatch: React.FC = () => {
     wsRef.current.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data.toString());
-        // console.log("Message received:", data);
 
         switch (data.type) {
           case "match_found":
-            console.log("Match found:", data.match as number);
             setGameId(data.match);
             break;
           default:
-            console.log("Unknown message type:", data.type);
         }
       } catch (error) {
         console.error("Error parsing message:", error);
@@ -66,7 +62,6 @@ const PongMatch: React.FC = () => {
     };
 
     wsRef.current.onclose = () => {
-      console.log("WebSocket matchmaking closed");
     };
   };
 

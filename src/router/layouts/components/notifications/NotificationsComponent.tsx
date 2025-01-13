@@ -38,7 +38,7 @@ const NotificationsComponent = ({
         axiosPrivate
           .put("accept_invite", { game_id: gameId })
           .then()
-          .catch((err) => console.log(err));
+          .catch((err) => {if (err.name === "CanceledError") return;});
       navigating(`/pong`, { state: { gameId: gameId } });
     };
   }

@@ -119,7 +119,6 @@ const NotificationsInGame = () => {
       isNotificationsDevFocused = false;
     }
   }, [allUsersData]);
-  console.log(notificationsList);
   
   return (
     <div className={notificationsInGame}>

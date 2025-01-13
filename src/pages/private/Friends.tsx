@@ -21,7 +21,6 @@ const inviteToGame = async (username: string) => {
       params: { username: username },
     });
   } catch (err) {
-    console.error(err);
   }
 };
 
@@ -67,7 +66,6 @@ const Friends = () => {
       </div>
     );
   }
-  console.log("friends ");
   return (
     <div className={`${friends}`}>
       <div className="" ref={refFriends} onScroll={handleScroll}>

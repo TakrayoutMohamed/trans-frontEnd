@@ -58,7 +58,6 @@ const SignUp = () => {
       await axios.post("signup", JSON.stringify(data));
       navigate("/sign-in", { replace: true });
     } catch (err) {
-      console.log(err);
       if (err instanceof AxiosError) {
         const error: AxiosError = err as AxiosError;
         if (!error.response) {
@@ -73,12 +72,6 @@ const SignUp = () => {
       }
     }
   };
-  // const onError: SubmitErrorHandler<SignUpSchemaType> = async (dataerror) => {
-  //   console.log("error function in sign in email : " + dataerror?.email);
-  //   console.log("error function in sign in passwd : " + dataerror?.password);
-  //   console.log("error function in sign in root : " + dataerror?.root);
-  //   console.log(dataerror);
-  // };
   const startAnimationSignUp = (): void => {
     const animation = document.querySelector(".animationSelectorSignUp");
     animation?.classList.remove(signUpRenderAnimation);

@@ -35,8 +35,5 @@ export function checkIsImageValid() {
       !previewImage.classList.contains("d-none") &&
         previewImage.classList.add("d-none");
     }
-  } catch (err) {
-    console.log("error in checkIsImageValid");
-    console.log(err);
-  }
+  } catch (err) {}
 }

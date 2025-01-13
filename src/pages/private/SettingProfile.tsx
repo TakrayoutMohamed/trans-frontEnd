@@ -74,7 +74,6 @@ const SettingProfile = () => {
       else {
         data = { ...data, avatar: data.avatar[0] };
       }
-      console.log(data);
       if (Object.keys(data).length === 0) return;
       const res = await axiosPrivate.put("update_user", data, {
         headers: {
@@ -101,8 +100,6 @@ const SettingProfile = () => {
         autoClose: 2000,
         toastId: userData?.username! + userData?.created_at,
       });
-      console.log("error in update the user data at setting profile");
-      console.log(err);
     }
   };
 

@@ -41,7 +41,6 @@ export const useFetchData = <T>({
       setIsLoading(true);
       try {
         const res = await gettingData(url, page, username);
-        console.log(res.data);
         let tmp: T[];
         if (scrollDirection === "top") {
           if (page === 1) {
@@ -71,16 +70,6 @@ export const useFetchData = <T>({
       } catch (err) {
         setIsLoading(false);
         if (err instanceof CanceledError) return;
-        console.log(
-          "In Catch err is loading : " +
-            isLoading +
-            " hasMore: " +
-            hasMore +
-            " page : " +
-            page
-        );
-        console.error("Error fetching data:");
-        console.error(err);
       }
     },
     [page, isLoading, hasMore, username]

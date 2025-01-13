@@ -25,7 +25,6 @@ const Recent = () => {
         const res = await axiosPrivate.get("user_recent_games");
         if (res.data) setUserRecentGames(res.data);
       } catch (err) {
-        console.log(err);
         setUserRecentGames(undefined);
       }
     };

@@ -57,17 +57,14 @@ const SettingPassword = () => {
   } = useForm<UpdatePasswordSchemaType>({
     resolver: zodResolver(updatePasswordSchema),
   });
-  console.log("component of settings password is re-rendered");
 
   const onSubmit: SubmitHandler<UpdatePasswordSchemaType> = async (
     data: UpdatePasswordSchemaType
   ) => {
     try {
-      const res = await axiosPrivate.post("pass", data);
+      await axiosPrivate.post("pass", data);
       reset({ old_password: "", password: "", password1: "" });
-      console.log(res);
     } catch (err) {
-      console.log(err);
     }
   };
   return (

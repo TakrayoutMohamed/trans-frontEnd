@@ -18,10 +18,8 @@ const Profile = ({ isProfileVisible }: ProfileProps) => {
   const navigate = useNavigate();
   const chatContext = useContext(ChatDataContext);
 
-  // console.log("pathname = " + location.pathname);
   if (!chatContext) throw new Error("it should be wraped inside a chatContext");
   const { userData, setUserData } = chatContext;
-  // console.log(userData);
 
   if (
     !isProfileVisible ||

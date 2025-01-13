@@ -93,8 +93,7 @@ export const updateGameState = (state: GameState, deltaTime: number): GameState 
     if (Math.abs(hitPosition) < (PADDLE_HEIGHT * 0.1)) {
       hitPosition = (Math.random() < 0.5 ? -1 : 1) * PADDLE_HEIGHT * 0.25;
     }
-    
-    // console.log("---------------------")
+
     const directionMultiplier = hitPosition / (PADDLE_HEIGHT / 2);
     newBallSpeedY = Math.abs(newBallSpeedX) * directionMultiplier;
     if(state.ball_speed < 800)

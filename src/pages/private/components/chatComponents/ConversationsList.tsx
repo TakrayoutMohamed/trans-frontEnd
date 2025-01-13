@@ -8,7 +8,6 @@ import { RootState } from "@/src/states/store";
 import { useSelector } from "react-redux";
 import { UserDataType } from "@/src/customDataTypes/UserDataType";
 import FriendsChatCard from "./FriendsChatCard";
-import { axiosPrivate } from "@/src/services/api/axios";
 
 export type ConversationListDataType = UserDataType;
 
@@ -23,8 +22,6 @@ function searchFilter(
       ?.toLowerCase()
       .includes(event.target.value.toLowerCase());
   });
-  // console.log(event.target.value);
-  // console.log(filteredSearchData.length);
   filteredSearchData.length < 1
     ? (event.target.style.color = "red")
     : (event.target.style.color = "white");

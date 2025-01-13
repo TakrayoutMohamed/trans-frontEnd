@@ -17,8 +17,7 @@ const getUsersInfo = async () => {
       setUserData(res.data);
     })
     .catch((err) => {
-      console.log("error in getUsersInfo");
-      console.log(err);
+      if (err.name === "CanceledError") return;
     });
 };
 

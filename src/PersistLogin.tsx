@@ -29,7 +29,6 @@ const PersistLogin = ({ children }: PersistLoginProps) => {
         if (Cookies.get("accessToken") !== undefined) await refresh();
         else throw new Error("No access token in Cookies");
       } catch (err) {
-        console.error(err);
         setUnAuthenticatedData();
       } finally {
         isMounted && setIsLoading(false);

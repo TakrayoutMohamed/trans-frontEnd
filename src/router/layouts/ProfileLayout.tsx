@@ -26,7 +26,7 @@ const ProfileLayout = () => {
           setData(res.data);
         })
         .catch((err) => {
-          console.log(err);
+          if (err.name === "CanceledError") return;
         });
     } else {
       setData(currentUserData);

@@ -30,14 +30,12 @@ export const PingPongLayout: React.FC = () => {
 
     if (connected == false)
       {
-        console.log("----------------------------------------")
         wsRef.current = new w3cwebsocket(
           `${process.env.BACKEND_API_SOCKETS}/ws/pong/${gameId}?token=${AccessToken}`
         );
 
         // WebSocket event handlers
         wsRef.current.onopen = () => {
-          console.log("WebSocket connection established", connected);
           setConnected(true);
         };
 
@@ -50,8 +48,6 @@ export const PingPongLayout: React.FC = () => {
                   break;
                   case 'player_number':
                     PlayerNumber.current = data.number;
-                    console.log(PlayerNumber.current);
-                    console.log(data.number);
                   break;
                   case 'ball_position':
                     setGameState(prev => ({ ...prev,
@@ -68,11 +64,9 @@ export const PingPongLayout: React.FC = () => {
                   case 'end_game':
                       setEndGame(true);
                       winner.current = data.winner;
-                      console.log("endGame==========================")
                       break;
 
                   default:
-                      console.log("Unknown message type:", data.type);
               }
 
           } catch (error) {
@@ -81,7 +75,6 @@ export const PingPongLayout: React.FC = () => {
       };
 
         wsRef.current.onclose = () => {
-          console.log("WebSocket connection closed");
           setConnected(false)
         };
       }

@@ -14,8 +14,6 @@ const refreshToken = () => {
       await axios.post("Verify_token",{token: accessToken});
       setAuthenticatedData(accessToken);
     } catch (err) {
-      console.log("error in refreshToken ");
-      console.log(err);
       accessToken = undefined;
       setUnAuthenticatedData();
     } finally {

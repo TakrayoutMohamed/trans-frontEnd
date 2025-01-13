@@ -30,7 +30,6 @@ const FormComponent = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
   } = useForm<MessageSchemaType>({ resolver: zodResolver(MessageSchema) });
   const messages = useSelector((state: RootState) => state.messages.value);
   const chatContext = useContext(ChatDataContext);
@@ -59,8 +58,6 @@ const FormComponent = () => {
         }
       }
     } catch (err) {
-      console.log(err);
-      console.log(errors);
     }
   };
 
@@ -103,14 +100,12 @@ const ChatArea = () => {
         .then((res) => {
           if (res.data?.error === "User matching query does not exist.")
             navigate("/noPageWithThisRout", {replace: true});
-          console.log(res.data);
           chatContext.setUserData(res.data);
         })
         .catch((err) => {
+          if (err.name === "CanceledError") return;
           setUser(undefined);
           chatContext.setUserData(undefined);
-          console.log("here is the error in ChatArea.tsx");
-          console.error(err);
         });
     } else {
       if (user?.username !== userName) setUser(chatContext.userData);

@@ -13,7 +13,6 @@ const convertDateFormat = (isoDate: string | Date) => {
 
 const Profile = () => {
   const data: UserDataType | undefined = useOutletContext();
-  console.log("profile");
   return (
     <div className={`${profile}`}>
       <div className="">

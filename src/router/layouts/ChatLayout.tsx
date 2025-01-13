@@ -18,13 +18,10 @@ const ChatLayout = () => {
   const [isProfileVisible, setProfileVisible] = useState<boolean>(false);
   const [userData, setUserData] = useState<UserDataType | undefined>(undefined);
   const accessToken = useSelector((state: RootState) => state.accessToken.value)
-  // const isAuthenticated = useSelector((state: RootState) => state.authenticator.value)
 
   useEffect(() => {
     if (!chatSocket_ || chatSocket_.readyState !== w3cwebsocket.OPEN)
       chatSocket_ = openSocket("chat", accessToken);
-    console.log(chatSocket_);
-    
     return () => {
       if (chatSocket_?.readyState === w3cwebsocket.OPEN)
         closeSocket(chatSocket_);
@@ -38,11 +35,9 @@ const ChatLayout = () => {
       <div className={`${chatLayout}`}>
         <main className="bg-infos" id="main">
           <section className="section1" id="section1">
-            {/* the component of the chat previous conversations */}
             <ConversationsList />
           </section>
           <section className="" id="sectionOfChat">
-            {/* the component of the chat content */}
             <Outlet context={setProfileVisible} />
           </section>
           <section

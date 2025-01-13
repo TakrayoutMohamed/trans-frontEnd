@@ -20,7 +20,6 @@ const listenForChatSocket = (chatSocket: w3cwebsocket | null) => {
     chatSocket.onmessage = (dataEvent: IMessageEvent) => {
       let json_data: SocketJsonValueType = null;
       json_data = JSON.parse(dataEvent.data as string);
-      console.log(json_data);
       if (json_data?.type !== "error")
         store.dispatch(
           setMessages([...store.getState().messages.value, json_data.message])

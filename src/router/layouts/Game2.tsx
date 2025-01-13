@@ -38,19 +38,15 @@ const Game: React.FC<GameProps> = ({gameId}) => {
     );
 
     wsRef.current.onopen = () => {
-      console.log("WebSocket connection established");
     };
 
     wsRef.current.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data.toString());
-        // console.log("Message received:", data);
           
         switch(data.type) {
           case 'player_number':
-            console.log("Player number:", data.number);
             playerNum.current = data.number;
-            console.log("Player number:", playerNum.current);
             // setGameState(data.game_state as GameState);
             break;
             case 'game_state':
@@ -60,7 +56,6 @@ const Game: React.FC<GameProps> = ({gameId}) => {
               }
           break;
           default:
-            console.log("Unknown message type:", data.type);
           }
           
       } catch (error) {
@@ -69,7 +64,6 @@ const Game: React.FC<GameProps> = ({gameId}) => {
     };
 
     wsRef.current.onclose = () => {
-      console.log("WebSocket connection closed");
     };
 
     let keys = {
@@ -80,7 +74,6 @@ const Game: React.FC<GameProps> = ({gameId}) => {
     };
     
     const handleKeyDown = (e: KeyboardEvent) => {
-      // console.log("Player number:", playerNum.current);
         switch (e.key) {
           case 'w':
             if (keys.move) return;

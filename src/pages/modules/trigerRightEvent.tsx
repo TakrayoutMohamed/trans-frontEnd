@@ -19,7 +19,6 @@ function launchToast(
   accept?: () => void,
   reject?: () => void,
 ) {
-  console.log(data);
   toast(
     <NotificationsComponent
       message={data.message}

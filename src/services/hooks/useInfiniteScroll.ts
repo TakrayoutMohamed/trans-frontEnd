@@ -47,7 +47,6 @@ const useInfiniteScroll = <T>({
       if (!container) return;
       switch (scrollDirection) {
         case "top": {
-          console.log("top scrolling");
           if (container.scrollTop <= offset) {
             if (refElement) {
               setScrollBalance(refElement.scrollHeight - container.scrollTop);
@@ -57,7 +56,6 @@ const useInfiniteScroll = <T>({
           break;
         }
         case "bottom": {
-          console.log("bottom scrolling");
           if (
             container.scrollHeight -
               container.scrollTop -
@@ -69,10 +67,6 @@ const useInfiniteScroll = <T>({
           break;
         }
         default: {
-          console.log(
-            "default case in custom infinite scroll",
-            scrollDirection
-          );
           break;
         }
       }
@@ -94,25 +88,12 @@ const useInfiniteScroll = <T>({
   // Check if the content is scrollable, and fetch more data if necessary
   const checkIfScrollable = useCallback(() => {
     const container = refElement;
-    console.log("checkisScrollable");
-    // console.log(
-    //   "scrollHeight : " +
-    //     container?.scrollHeight +
-    //     " clientHeight : " +
-    //     container?.clientHeight +
-    //     " offset " +
-    //     offset +
-    //     " hasMore : " +
-    //     hasMore
-    // );
-
     if (
       container &&
       container.clientHeight &&
       container.scrollHeight <= container.clientHeight + offset &&
       hasMore
     ) {
-      console.log("inside if condition befor fetching data");
       fetchData(page).then(() => {
         startPositionRef?.scrollIntoView({ behavior: "instant" });
         setScrollBalance(0);

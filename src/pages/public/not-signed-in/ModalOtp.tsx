@@ -65,8 +65,6 @@ const ModalOtp = ({ email, setIsOpen }: ModalOtpProps) => {
         email: email,
         otp: otpCode,
       });
-      console.log("res");
-      console.log(res);
       if (setAuthenticationData(res.data?.access) && res.status === 200) {
         setIsOpen(false);
         navigate(lastLocation, { replace: true });
@@ -74,7 +72,6 @@ const ModalOtp = ({ email, setIsOpen }: ModalOtpProps) => {
     } catch (err) {
       if (err instanceof AxiosError) {
         const error: AxiosError = err as AxiosError;
-        console.log(error);
         if (!error.response) {
           setErrorMsg("No Server Response");
         } else if (error.response?.status === 401) {
@@ -85,8 +82,6 @@ const ModalOtp = ({ email, setIsOpen }: ModalOtpProps) => {
       } else {
         setErrorMsg(errorMsg);
       }
-      console.log("error from the modal otp");
-      console.log(err);
     }
   };
   const onError: SubmitErrorHandler<SignInOtpSchemaType> = (errors) => {

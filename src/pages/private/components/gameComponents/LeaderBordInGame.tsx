@@ -16,7 +16,6 @@ const LeaderBordInGame = () => {
         if (res.data)
           setLeaderBoardData(res.data);
       } catch (err) {
-        console.log(err);
         setLeaderBoardData(undefined)
       }
     }

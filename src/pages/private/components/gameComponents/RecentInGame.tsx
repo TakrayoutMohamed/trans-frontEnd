@@ -70,7 +70,6 @@ const RecentInGame = () => {
         const res = await axiosPrivate.get("recent_games");
         if (res.data) setRecentGames(res.data);
       } catch (err) {
-        console.log(err);
         setRecentGames(undefined);
       }
     };

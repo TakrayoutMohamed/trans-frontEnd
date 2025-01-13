@@ -39,7 +39,6 @@ const OAuth = () => {
     if (code) {
       try {
         const res = await axios.get("socialauth", { params: { code } });
-        console.log(res);
         if (res.data) {
           if (res.data["2fa"] === true) {
             setEmailForOtp(res?.data["email"]);
@@ -51,7 +50,6 @@ const OAuth = () => {
         }
         setAuthenticatedData(res.data.access);
       } catch (error) {
-        console.error(error);
         toast.error("Error while trying to get the access credentials", {
           autoClose: 7000,
           containerId: "validation",
@@ -59,7 +57,6 @@ const OAuth = () => {
         navigate("/sign-in", { replace: true });
       }
     } else {
-      console.error("No code parameter in URL");
       toast.error(
         "No code provided by 42 API please  check if you have permissions",
         {
