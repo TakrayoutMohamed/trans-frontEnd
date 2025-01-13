@@ -19,6 +19,7 @@ import ModalOtp from "@publicPages/not-signed-in/ModalOtp";
 import setAuthenticationData from "@pages/modules/setAuthenticationData";
 import ModalComponent from "../../../router/layouts/components/ModalComponent";
 import Modal from "react-modal";
+import { authenticateWithThirdParty } from "../../modules/authenticateWithThirdParty";
 
 const signInSchema = z.object({
   email: z
@@ -33,13 +34,6 @@ const signInSchema = z.object({
 
 type SignInSchemaType = z.infer<typeof signInSchema>;
 
-const authenticateWithThirdParty = async (thirdParty: string) => {
-  try {
-    const test = await axios.post("oauth", { platform: thirdParty });
-    window.location.href = test.data.url;
-  } catch (err) {
-  }
-};
 const customStyles: Modal.Styles | undefined = {
   content: {
     padding: "0px",
@@ -155,22 +149,22 @@ const SignIn = () => {
             <div className="d-flex justify-content-evenly mb-4 p-2">
               <div
                 className="text-decoration-none rounded-5 p-1 pe-2 pb-1 text-center"
-                style={{ background: "#8D6B92" }}
+                style={{ cursor: "pointer",background: "#8D6B92" }}
                 onClick={() => authenticateWithThirdParty("42")}
               >
                 <Si42 size={40} color="#000000" />
               </div>
               <div
                 className="text-decoration-none rounded-5 p-1 text-center"
-                style={{ background: "#8D6B92" }}
+                style={{ cursor: "pointer",background: "#8D6B92" }}
                 onClick={() => authenticateWithThirdParty("github")}
               >
                 <SiGithub size={40} color="#000000" />
               </div>
               <div
                 className="text-decoration-none rounded-5 p-1 text-center"
-                style={{ background: "#8D6B92" }}
-                onClick={() => authenticateWithThirdParty("gmail")}
+                style={{ cursor: "no-drop",background: "#8D6B92" }}
+                onClick={() => {}}
               >
                 <FcGoogle size={40} color="#000000" />
               </div>
@@ -188,18 +182,6 @@ const SignIn = () => {
                 {errorMsg}
               </span>
             )}
-            {/* <div className="mb-4 ">
-              <input
-                type="text"
-                className="form-control rounded-5 p-2"
-                placeholder="otp code...."
-                {...register("otp", { required: false })}
-                autoComplete={"off"}
-              />
-              {errors?.otp && (
-                <span className="text-danger">{errors.otp.message}</span>
-              )}
-            </div> */}
           </form>
         </div>
       </div>

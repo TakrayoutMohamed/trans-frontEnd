@@ -10,12 +10,13 @@ import {
 } from "@publicPagesStyles/";
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
-import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { BiSolidRightArrow } from "react-icons/bi";
 import { FcGoogle } from "react-icons/fc";
 import { Si42, SiGithub } from "react-icons/si";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
+import { authenticateWithThirdParty } from "../../modules/authenticateWithThirdParty";
 
 const signUpSchema = z.object({
   email: z
@@ -150,30 +151,27 @@ const SignUp = () => {
               )}
             </div>
             <div className="d-flex justify-content-evenly mb-4 p-2">
-              <Link
-                to="#42"
+              <div
                 className="text-decoration-none rounded-5 p-1 pe-2 pb-1 text-center"
-                target="_blank"
-                style={{ background: "#8D6B92" }}
+                style={{ cursor: "pointer", background: "#8D6B92" }}
+                onClick={() => authenticateWithThirdParty("42")}
               >
                 <Si42 size={40} color="#000000" />
-              </Link>
-              <Link
-                to="#github"
+              </div>
+              <div
                 className="text-decoration-none rounded-5 p-1 text-center"
-                target="_blank"
-                style={{ background: "#8D6B92" }}
+                style={{ cursor: "pointer", background: "#8D6B92" }}
+                onClick={() => authenticateWithThirdParty("github")}
               >
                 <SiGithub size={40} color="#000000" />
-              </Link>
-              <Link
-                to="#google"
+              </div>
+              <div
                 className="text-decoration-none rounded-5 p-1 text-center"
-                target="_blank"
-                style={{ background: "#8D6B92" }}
+                style={{ cursor: "no-drop", background: "#8D6B92" }}
+                onClick={() => {}}
               >
                 <FcGoogle size={40} color="#000000" />
-              </Link>
+              </div>
             </div>
             <div className="text-center">
               <button
