@@ -1,9 +1,11 @@
 import history from "history/browser";
-import { memo } from "react";
 import { backwardAtHistory } from "../../styles";
 import { MdArrowBackIosNew } from "react-icons/md";
+import { useLocation } from "react-router-dom";
 
 const BackwardAtHistory = () => {
+  const location = useLocation();
+  if (location.pathname.split("/")[1] !== "profile") return "";
   return (
     <>
       <div className={backwardAtHistory} onClick={() => history.back()}>
@@ -14,4 +16,4 @@ const BackwardAtHistory = () => {
   );
 };
 
-export default memo(BackwardAtHistory);
+export default BackwardAtHistory;
