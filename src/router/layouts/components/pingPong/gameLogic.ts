@@ -7,6 +7,8 @@ export const updateGameState = (state: GameState, deltaTime: number): GameState 
   const newRightPaddleY = state.rightPaddleY;
   let newBallX = state.ballX;
   let newBallY = state.ballY;
+  let username1 = state.username1;
+  let username2 = state.username2;
   let newBallSpeedX = state.ballSpeedX;
   let newBallSpeedY = state.ballSpeedY;
   let leftScore = state.leftScore;
@@ -22,6 +24,8 @@ export const updateGameState = (state: GameState, deltaTime: number): GameState 
     ballSpeedY: newBallSpeedY,
     leftScore,
     rightScore,
+    username1,
+    username2,
     };
   };
 

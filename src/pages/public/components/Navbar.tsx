@@ -68,28 +68,6 @@ const Navbar = () => {
             alt="brand"
           />
         </div>
-        <div className="w-100 d-flex justify-content-xs-start justify-content-sm-evenly">
-          <div className="mt-3 p-1">
-            <NavLink className="nav-link" to="/">
-              Home
-            </NavLink>
-          </div>
-          <div className="mt-3 p-1">
-            <NavLink className="nav-link" to="/about-us">
-              ABOUT US
-            </NavLink>
-          </div>
-          <div className="mt-3 p-1">
-            <NavLink className="nav-link" to="/team">
-              TEAM
-            </NavLink>
-          </div>
-          <div className="mt-3 p-1">
-            <NavLink className="nav-link" to="/contact">
-              CONTACT
-            </NavLink>
-          </div>
-        </div>
         <div className={"mt-2 ms-auto"}>
           {!isAuthenticated && (
             <NavLink

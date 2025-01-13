@@ -1,6 +1,8 @@
 export interface GameState {
   leftPaddleY: number;
   rightPaddleY: number;
+  username1: string;
+  username2: string;
   leftPaddleDir: number;
   rightPaddleDir: number;
   ballX: number;
@@ -30,6 +32,8 @@ export const INITIAL_GAME_STATE: GameState = {
   ballSpeedY: 0,
   leftScore: 0,
   rightScore: 0,
+  username1: '',
+  username2: '',
   winner: null,
   isPaused: true,
   ball_speed: 400,

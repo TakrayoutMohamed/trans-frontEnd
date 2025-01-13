@@ -58,7 +58,9 @@ export const PingPongLayout: React.FC = () => {
                       leftScore: data.leftScore,
                       rightScore: data.rightScore,
                       leftPaddleY: data.leftPaddleY,
-                      rightPaddleY: data.rightPaddleY
+                      rightPaddleY: data.rightPaddleY,
+                      username1: data.name1,
+                      username2: data.name2
                     }));
                       break;
                   case 'end_game':
@@ -152,28 +154,34 @@ export const PingPongLayout: React.FC = () => {
     drawGame(ctx, gameState);
   });
 
-  const handleHome = () => {
+  const handleGameEnd = async () => {
+    await new Promise(resolve => setTimeout(resolve, 2000));
     if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
       wsRef.current.close();
     }
-    window.location.href = '/';
+    navigate('/game', { 
+      replace: true,
+      state: { fromGame: true }
+    });
   };
+  
+  useEffect(() => {
+    if (EndGame) {
+      handleGameEnd();
+    }
+  }, [EndGame]);
 
-  return (
+return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#1a103f] p-8">
       <div className="mb-8 flex items-center gap-32">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 bg-purple-200 rounded-full flex items-center justify-center">
-            <User className="w-8 h-8 text-purple-900" />
-          </div>
-          <div className="text-white text-6xl font-bold">{gameState.leftScore}</div>
+          <div className="text-white text-4xl font-bold">{gameState.leftScore}</div>
+          <div className="text-white text-4xl font-bold">{gameState.username1}</div>
         </div>
         <div className="text-white text-6xl font-bold">|</div>
         <div className="flex items-center gap-4">
-          <div className="text-white text-6xl font-bold">{gameState.rightScore}</div>
-          <div className="w-12 h-12 bg-purple-200 rounded-full flex items-center justify-center">
-            <User className="w-8 h-8 text-purple-900" />
-          </div>
+          <div className="text-white text-4xl font-bold">{gameState.rightScore}</div>
+          <div className="text-white text-4xl font-bold">{gameState.username2}</div>
         </div>
       </div>
       {!EndGame && (
@@ -190,28 +198,14 @@ export const PingPongLayout: React.FC = () => {
         </div>
       )}
       {EndGame && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
-          <div className="bg-white rounded-lg shadow-lg p-6 text-center">
-            <h2 className="text-2xl font-bold mb-4">
-              {winner.current ==  PlayerNumber.current ? "You win" : "You lose"}
-            </h2>
-            <button
-              onClick={handleHome}
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
-            >
-              Home
-            </button>
-          </div>
-        </div>
-      )}
-      {/* {EndGame && (
-        <div className="mt-4 text-white text-center">
-          <p className="text-xl mb-2">
-            {winner.current ==  PlayerNumber.current ? "You win" : "You lose"}
-          </p>
-        </div>
-      )} */}
-
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
+              <div className="bg-white rounded-lg shadow-lg p-6 text-center">
+                <h2 className="text-2xl font-bold mb-4">
+                  {winner.current === PlayerNumber.current ? "You win!" : "You lose!"}
+                </h2>
+              </div>
+            </div>
+        )}
     </div>
   );
 };
