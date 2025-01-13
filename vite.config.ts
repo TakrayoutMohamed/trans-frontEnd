@@ -4,21 +4,14 @@ import path from "path"
 import { config } from 'dotenv'
 import * as fs from 'fs'
 import tailwindcss from 'tailwindcss'
-import autoprefixer from 'autoprefixer' // You'll need to install this
+import autoprefixer from 'autoprefixer'
 
-/**run package config */
 config();
-
-// export default defineConfig({
-  //   }
-  // })
-  // https://vitejs.dev/config/
   export default defineConfig({
     plugins: [react()],
   build: {
-    chunkSizeWarningLimit: 1000, // in kB
+    chunkSizeWarningLimit: 1000,
   },
-  /*define process env*/
   envDir: ".",
   define: {
     'process.env': process.env
@@ -32,9 +25,6 @@ config();
     },
   },
   server: {
-    proxy: {
-      
-    },
     https: {
       key: fs.readFileSync('./certs/localhost-key.pem'),
       cert: fs.readFileSync('./certs/localhost.pem'),

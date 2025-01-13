@@ -14,15 +14,7 @@ import { FriendsDataType } from "@/src/customDataTypes/FriendsDataType";
 import { useInfiniteScroll } from "@/src/services/hooks/useInfiniteScroll";
 import { AxiosResponse } from "axios";
 import { axiosPrivate } from "@/src/services/api/axios";
-
-const inviteToGame = async (username: string) => {
-  try {
-    await axiosPrivate.get("matchmaking", {
-      params: { username: username },
-    });
-  } catch (err) {
-  }
-};
+import { inviteToGame } from "../modules/inviteTogame";
 
 const fetchingFriendsData = (
   url: string,
