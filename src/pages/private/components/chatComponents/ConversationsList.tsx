@@ -31,7 +31,7 @@ let conversationsListData: ConversationListDataType[] = [];
 
 const ConversationsList = () => {
   const conversations = useSelector((state: RootState) => state.conversations.value)
-  const [conversationsList, setConversationsList] = useState<
+  const [, setConversationsList] = useState<
     ConversationListDataType[]
   >(conversations);
   useEffect(() => {

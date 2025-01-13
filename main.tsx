@@ -11,7 +11,6 @@ import { createRoot } from "react-dom/client";
 import App from "@src/App.tsx";
 import { Provider } from "react-redux";
 import { store } from "@states/store";
-import { StrictMode } from "react";
 import PersistLogin from "./src/PersistLogin";
 
 const rootDOM = document.getElementById("root") as Element;
@@ -19,11 +18,9 @@ const rootDOM = document.getElementById("root") as Element;
 const root = createRoot(rootDOM);
 
 root.render(
-  // <StrictMode>
     <Provider store={store}>
       <PersistLogin>
         <App />
       </PersistLogin>
     </Provider>
-  // </StrictMode>
 );

@@ -3,7 +3,7 @@ import { useGameLoop } from './components/pingPong/useGameLoop';
 import { drawGame } from './components/pingPong/gameRenderer';
 import { updateGameState } from './components/pingPong/gameLogic';
 import { GameState, INITIAL_GAME_STATE, CANVAS_WIDTH, CANVAS_HEIGHT } from './components/pingPong/gameTypes';
-import { User } from 'lucide-react';
+
 import { w3cwebsocket } from "websocket";
 import { useSelector } from "react-redux";
 import { RootState } from "@/src/states/store";

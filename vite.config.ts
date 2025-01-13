@@ -9,9 +9,15 @@ import autoprefixer from 'autoprefixer' // You'll need to install this
 /**run package config */
 config();
 
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [react()],
+// export default defineConfig({
+  //   }
+  // })
+  // https://vitejs.dev/config/
+  export default defineConfig({
+    plugins: [react()],
+  build: {
+    chunkSizeWarningLimit: 1000, // in kB
+  },
   /*define process env*/
   envDir: ".",
   define: {

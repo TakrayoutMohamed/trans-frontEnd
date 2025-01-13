@@ -1,8 +1,6 @@
-import { GameState, CANVAS_WIDTH, CANVAS_HEIGHT } from './gameTypes';
+import { GameState } from './gameTypes';
 
-const BALL_SIZE = 10;
-
-export const updateGameState = (state: GameState, deltaTime: number): GameState => {
+export const updateGameState = (state: GameState, _deltaTime: number): GameState => {
   const newLeftPaddleY = state.leftPaddleY;
   const newRightPaddleY = state.rightPaddleY;
   let newBallX = state.ballX;
@@ -28,13 +26,3 @@ export const updateGameState = (state: GameState, deltaTime: number): GameState 
     username2,
     };
   };
-
-
-const resetBall = (isTotalEven: boolean): [number, number, number, number] => {
-  return [
-    CANVAS_WIDTH / 2 - BALL_SIZE / 2,
-    CANVAS_HEIGHT / 2 - BALL_SIZE / 2,
-    isTotalEven ? 0.6 : -0.6,
-    0.4,
-  ];
-};
