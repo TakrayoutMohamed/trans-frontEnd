@@ -16,7 +16,7 @@ const PongMatch: React.FC = () => {
   const username = userData.username;
   const level = userData.level;
   useEffect(() => {
-    if (gameId) navigate(`/pong`,{state: {gameId: gameId}, replace: true});
+    if (gameId) navigate(`/pong`,{state: {gameId: gameId}});
   }, [gameId]);
   useEffect(() => {
     return () => {

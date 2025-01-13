@@ -15,37 +15,42 @@ import { useInfiniteScroll } from "@/src/services/hooks/useInfiniteScroll";
 import { AxiosResponse } from "axios";
 import { axiosPrivate } from "@/src/services/api/axios";
 
-const inviteToGame = (username: string) => {
-  console.log("handle invite to game ");
+const inviteToGame = async (username: string) => {
+  try {
+    await axiosPrivate.get("matchmaking", {
+      params: { username: username },
+    });
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 const fetchingFriendsData = (
   url: string,
   page?: number,
   username?: string
-): Promise<AxiosResponse<any,any>> => {
-  let requestParams = {}
-  if (page)
-    requestParams = {...requestParams, page: page};
-  if (username)
-    requestParams = {...requestParams, username: username};
-  return axiosPrivate.get(url,{params: requestParams});
+): Promise<AxiosResponse<any, any>> => {
+  let requestParams = {};
+  if (page) requestParams = { ...requestParams, page: page };
+  if (username) requestParams = { ...requestParams, username: username };
+  return axiosPrivate.get(url, { params: requestParams });
 };
 
 const Friends = () => {
   const friendsData = useSelector((state: RootState) => state.friends.value);
   const refFriends = useRef<HTMLDivElement>(null);
   const friendsStartRef = useRef<HTMLDivElement>(null);
-  const { isLoading, hasMore, handleScroll } = useInfiniteScroll<FriendsDataType>({
-    url: "friends",
-    refElement: refFriends.current,
-    startPositionRef: friendsStartRef.current,
-    data: friendsData,
-    setData: setFriendsData,
-    offset: 100,
-    scrollDirection: "bottom",
-    fetchingData: fetchingFriendsData,
-  });
+  const { isLoading, hasMore, handleScroll } =
+    useInfiniteScroll<FriendsDataType>({
+      url: "friends",
+      refElement: refFriends.current,
+      startPositionRef: friendsStartRef.current,
+      data: friendsData,
+      setData: setFriendsData,
+      offset: 100,
+      scrollDirection: "bottom",
+      fetchingData: fetchingFriendsData,
+    });
 
   if (!friendsData || !friendsData.length) {
     return (
@@ -62,11 +67,11 @@ const Friends = () => {
       </div>
     );
   }
-  console.log("friends ")
+  console.log("friends ");
   return (
     <div className={`${friends}`}>
       <div className="" ref={refFriends} onScroll={handleScroll}>
-        <div ref={friendsStartRef}/>
+        <div ref={friendsStartRef} />
         {friendsData &&
           friendsData.length &&
           friendsData.map((friend) => (
@@ -103,18 +108,14 @@ const Friends = () => {
               <div className="invite-remove-button">
                 <div
                   className="invite-button"
-                  onClick={() =>
-                    inviteToGame(friend.username!)
-                  }
+                  onClick={() => inviteToGame(friend.username!)}
                 >
                   invite
                 </div>
                 <div
                   className="remove-button"
                   title="unfriend"
-                  onClick={() =>
-                    removeFriend(friend.username!)
-                  }
+                  onClick={() => removeFriend(friend.username!)}
                 >
                   <MdPersonRemoveAlt1 size={17} />
                 </div>
@@ -130,9 +131,7 @@ const Friends = () => {
                 {friends.is_blocked ? (
                   <div
                     className="block"
-                    onClick={() =>
-                      unblockUser(friend.username!)
-                    }
+                    onClick={() => unblockUser(friend.username!)}
                   >
                     <span className="">
                       <CgUnblock color="green" size={25} />
@@ -142,9 +141,7 @@ const Friends = () => {
                 ) : (
                   <div
                     className="block"
-                    onClick={() =>
-                      blockUser(friend.username!)
-                    }
+                    onClick={() => blockUser(friend.username!)}
                   >
                     <span className="">
                       <MdOutlineBlock color="red" size={25} />
@@ -172,7 +169,7 @@ const Friends = () => {
               </div>
             </div>
           ))}
-          <LoadingOrNoMoreData isLoading={isLoading} hasMore={hasMore} />
+        <LoadingOrNoMoreData isLoading={isLoading} hasMore={hasMore} />
       </div>
     </div>
   );

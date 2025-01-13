@@ -12,17 +12,22 @@ import { toast } from "react-toastify";
 import NotificationsComponent from "@/src/router/layouts/components/notifications/NotificationsComponent";
 import { NotificationsDataType } from "@/src/customDataTypes/NotificationsDataType";
 import { ConversationListDataType } from "../private/components/chatComponents/ConversationsList";
+import { CanceledError } from "axios";
 
 function launchToast(
   data: SocketJsonValueType,
   accept?: () => void,
-  reject?: () => void
+  reject?: () => void,
 ) {
+  console.log(data);
   toast(
     <NotificationsComponent
       message={data.message}
       reject={reject}
       accept={accept}
+      gameId={data.game_id}
+      notificationType={data.type}
+      toastName={data.sender.username + data.type}
     />,
     {
       autoClose: 8000,
@@ -33,13 +38,9 @@ function launchToast(
 }
 
 export const trigerRightEvent = (json_data: SocketJsonValueType) => {
-  console.log("the location of the user in the app");
-  console.log(json_data);
   if (!json_data) return;
   switch (json_data.type) {
     case "unfriend": {
-      console.log("here is the block of unfriend ");
-      console.log(json_data);
       setFriendsData(
         store
           .getState()
@@ -58,7 +59,6 @@ export const trigerRightEvent = (json_data: SocketJsonValueType) => {
       break;
     }
     case "friend_request": {
-      console.log("friend_request in trigerRightEvent ");
       if (!store.getState().allUsers.value.find((user) => user.username ===json_data.sender.username))
         setAllUsersData([...store.getState().allUsers.value, json_data.sender]);
       setAllUsersData(
@@ -86,7 +86,6 @@ export const trigerRightEvent = (json_data: SocketJsonValueType) => {
               json_data.sender
             );
           } catch (err) {
-            console.log(err);
           } finally {
             toast.dismiss(json_data.sender.username + json_data.type);
           }
@@ -95,7 +94,7 @@ export const trigerRightEvent = (json_data: SocketJsonValueType) => {
           try {
             await rejectFriendRequest(json_data.sender.username);
           } catch (err) {
-            console.log(err);
+            if (err instanceof CanceledError) return;
           } finally {
             toast.dismiss(json_data.sender.username + json_data.type);
           }
@@ -104,9 +103,6 @@ export const trigerRightEvent = (json_data: SocketJsonValueType) => {
       break;
     }
     case "accept_request": {
-      //accepted friend req
-      console.log("here is the block of accept_request ");
-      console.log(json_data);
       setFriendsData([...store.getState().friends.value, json_data.sender]);
       if (!store.getState().allUsers.value.find((user) => user.username ===json_data.sender.username))
         setAllUsersData([...store.getState().allUsers.value, json_data.sender]);
@@ -129,9 +125,6 @@ export const trigerRightEvent = (json_data: SocketJsonValueType) => {
       break;
     }
     case "reject_request": {
-      //reject friend req
-      console.log("here is the block of reject_request ");
-      console.log(json_data);
       setAllUsersData(
         store.getState().allUsers.value.map((user: AllUsersDataType) => {
           if (user.username === json_data.sender.username) {
@@ -151,15 +144,9 @@ export const trigerRightEvent = (json_data: SocketJsonValueType) => {
       break;
     }
     case "block_request": {
-      //block user
-      console.log("here is the block of block_request ");
-      console.log(json_data);
       break;
     }
     case "message": {
-      //block user
-      console.log("here is the block of block_request ");
-      console.log(json_data);
       if (
         !store
           .getState()
@@ -175,26 +162,17 @@ export const trigerRightEvent = (json_data: SocketJsonValueType) => {
       break;
     }
     case "unblock_request": {
-      //unblock user
-      console.log("here is the block of unblock_request ");
-      console.log(json_data);
       break;
     }
     case "game_invite": {
-      // geme invitation
-      console.log("here is the block of game_invite ");
-      console.log(json_data);
+      launchToast(json_data);
       break;
     }
     case "accept_invite": {
-      //accept geme invite
-      console.log("here is the block of accept_invite ");
-      console.log(json_data);
+      launchToast(json_data, () => {}, () => {});
       break;
     }
     default: {
-      console.log("default switch case");
-      console.log(json_data);
       break;
     }
   }

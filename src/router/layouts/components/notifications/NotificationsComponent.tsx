@@ -1,59 +1,52 @@
 import { notificationsComponent } from "@/src/router/styles";
-import { useEffect, useState } from "react";
+import { axiosPrivate } from "@/src/services/api/axios";
+import { useEffect } from "react";
 import { FaCheck } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
-import { ToastContentProps } from "react-toastify";
-
-interface ProgressBarProps {
-  toCloseAt?: number | false;
-  isPaused?: boolean;
-  startTime?: number;
-  onClose?: ((reason?: string | boolean | undefined) => void) | undefined;
-}
-
-export const ProgressBar = ({
-  toCloseAt,
-  isPaused,
-  startTime = 0,
-  onClose,
-}: ProgressBarProps) => {
-  const [progressBar, setProgressBar] = useState<number>(0);
-  useEffect(() => {
-    if (toCloseAt && !isPaused) {
-      const timeId = setTimeout(() => {
-        const elapsed = Date.now() - startTime;
-        const remaining = toCloseAt - elapsed - 10;
-        setProgressBar(Math.max(remaining, 0));
-        if (remaining <= 0 || onClose) {
-          setProgressBar(0);
-          clearTimeout(timeId);
-        }
-      }, 50);
-    }
-  });
-  return (
-    <>
-      {toCloseAt && progressBar > 0 ? (
-        <progress value={(progressBar * 100) / toCloseAt} max={100}></progress>
-      ) : (
-        ""
-      )}
-    </>
-  );
-};
+import { useNavigate } from "react-router-dom";
+import { ToastContentProps, toast } from "react-toastify";
 
 interface NotificationsComponentProps extends Partial<ToastContentProps> {
   message: string;
+  toastName: string;
+  notificationType?: string;
   reject?: () => void;
   accept?: () => void;
+  gameId?: number;
   onClose?: ((reason?: string | boolean | undefined) => void) | undefined;
 }
 
 const NotificationsComponent = ({
   message,
+  toastName,
+  notificationType,
   reject,
   accept,
+  gameId,
 }: NotificationsComponentProps) => {
+  const navigating = useNavigate();
+  useEffect(() => {
+    if (notificationType === "accept_invite") {
+      toast.dismiss(toastName);
+      navigating(`/pong`, { state: { gameId: gameId } });
+    }
+  }, []);
+  if (!accept) {
+    accept = () => {
+      toast.dismiss(toastName);
+      if (gameId)
+        axiosPrivate
+          .put("accept_invite", { game_id: gameId })
+          .then()
+          .catch((err) => console.log(err));
+      navigating(`/pong`, { state: { gameId: gameId } });
+    };
+  }
+  if (!reject) {
+    reject = () => {
+      toast.dismiss(toastName);
+    };
+  }
   return (
     <>
       <div className={notificationsComponent}>
