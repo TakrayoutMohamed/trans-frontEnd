@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import { profileLayout } from "../styles";
-import { NavLink, Outlet, useParams } from "react-router-dom";
+import { NavLink, Outlet, useNavigate, useParams } from "react-router-dom";
 import Stats from "./components/profile/Stats";
 import { profileIcon } from "@/media-exporting";
 import WaletState from "./components/profile/WaletStats";
@@ -13,6 +13,7 @@ const ProfileLayout = () => {
   const { userName } = useParams();
   const currentUserData = useSelector((state: RootState) => state.user.value);
   const [data, setData] = useState<UserDataType>(currentUserData);
+  const navigate = useNavigate();
   useEffect(() => {
     if (userName && userName !== currentUserData.username) {
       axiosPrivate
@@ -20,11 +21,12 @@ const ProfileLayout = () => {
           username: userName,
         })
         .then((res) => {
+          if (res.data?.error === "User matching query does not exist.")
+            navigate("/noPageWithThisRout", {replace: true});
           setData(res.data);
         })
-        .catch((error) => {
-          console.log(error);
-          setData(currentUserData);
+        .catch((err) => {
+          console.log(err);
         });
     } else {
       setData(currentUserData);

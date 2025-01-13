@@ -61,7 +61,7 @@ const routingTree: RouteObject[] = createRoutesFromElements(
         <Route path="sign-in" element={<SignIn />} />
       </Route>
     </Route>
-    <Route element={<PrivateRoutes />}>
+    <Route element={<PrivateRoutes />} errorElement={<NotFoundLayout/>}>
       <Route element={<DashboardLayout />}>
         <Route path="game" element={<Game />} />
         <Route path="profile">
@@ -71,7 +71,7 @@ const routingTree: RouteObject[] = createRoutesFromElements(
             <Route path="recent" element={<Recent />} />
             <Route path="friends" element={<Friends />} />
             <Route path="requests" element={<FriendRequests />} />
-            <Route path=":userName" errorElement={<NotFoundLayout/>}>
+            <Route path=":userName">
               <Route index element={<Navigate to="details" replace />} />
               <Route path="details" element={<Profile />} />
               <Route path="recent" element={<Recent />} />

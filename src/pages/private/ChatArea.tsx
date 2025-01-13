@@ -1,5 +1,5 @@
 import { profileIcon, visibilityProfileIcon } from "@/media-exporting";
-import { useOutletContext, useParams } from "react-router-dom";
+import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { chat } from "./styles";
 import { IoArrowForwardCircleOutline } from "react-icons/io5";
 import { SlEmotsmile } from "react-icons/sl";
@@ -91,6 +91,7 @@ const ChatArea = () => {
   const setProfileVisible =
     useOutletContext<React.Dispatch<React.SetStateAction<boolean>>>();
   const chatContext = useContext(ChatDataContext);
+  const navigate = useNavigate();
   useEffect(() => {
     if (!chatContext)
       throw new Error(
@@ -100,6 +101,8 @@ const ChatArea = () => {
       axiosPrivate
         .post("search_username", { username: userName })
         .then((res) => {
+          if (res.data?.error === "User matching query does not exist.")
+            navigate("/noPageWithThisRout", {replace: true});
           console.log(res.data);
           chatContext.setUserData(res.data);
         })
