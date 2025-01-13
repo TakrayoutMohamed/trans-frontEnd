@@ -22,9 +22,6 @@ import NotFoundLayout from "./layouts/NotFoundLayout";
 import Home from "@publicPages/Home";
 import SignUp from "@publicPages/not-signed-in/SignUp";
 import SignIn from "@publicPages/not-signed-in/SignIn";
-import AboutUs from "@publicPages/AboutUs";
-import Team from "@publicPages/Team";
-import Contact from "@publicPages/Contact";
 import Profile from "@privatePages/Profile";
 import Chat from "@privatePages/Chat";
 import Game from "@privatePages/Game";
@@ -47,51 +44,48 @@ import Match from "./layouts/matchmaking";
 import OAuth from "../pages/public/not-signed-in/OAuth";
 
 const routingTree: RouteObject[] = createRoutesFromElements(
-  <Route element={<RootLayout />}>
-    <Route path="/" element={<HomeLayout />}>
-      <Route index element={<Home />} />
-      <Route path="about-us" element={<AboutUs />} />
-      <Route path="team" element={<Team />} />
-      <Route path="contact" element={<Contact />} />
+  <Route element={<RootLayout />} errorElement={<NotFoundLayout/>}>
+    <Route path="/" element={<HomeLayout />} errorElement={<NotFoundLayout/>}>
+      <Route index element={<Home />} errorElement={<NotFoundLayout/>}/>
     </Route>
-    <Route element={<AuthorizationRoutes />}>
-      <Route element={<RegistrationLayout />}>
-        <Route path="oauth" element={<OAuth />} />
-        <Route path="sign-up" element={<SignUp />} />
-        <Route path="sign-in" element={<SignIn />} />
+    <Route element={<AuthorizationRoutes />} errorElement={<NotFoundLayout/>}>
+      <Route element={<RegistrationLayout />} errorElement={<NotFoundLayout/>}>
+        <Route path="oauth" element={<OAuth />} errorElement={<NotFoundLayout/>} />
+        <Route path="sign-up" element={<SignUp />} errorElement={<NotFoundLayout/>}/>
+        <Route path="sign-in" element={<SignIn />} errorElement={<NotFoundLayout/>}/>
       </Route>
     </Route>
     <Route element={<PrivateRoutes />} errorElement={<NotFoundLayout/>}>
-      <Route element={<DashboardLayout />}>
-        <Route path="game" element={<Game />} />
-        <Route path="profile">
-          <Route element={<ProfileLayout />}>
-            <Route index element={<Navigate to="details" replace />} />
-            <Route path="details" element={<Profile />} />
-            <Route path="recent" element={<Recent />} />
-            <Route path="friends" element={<Friends />} />
-            <Route path="requests" element={<FriendRequests />} />
+      <Route element={<DashboardLayout />} errorElement={<NotFoundLayout/>}>
+        <Route path="game" element={<Game />} errorElement={<NotFoundLayout/>}/>
+        <Route path="profile" errorElement={<NotFoundLayout/>}>
+          <Route element={<ProfileLayout />} errorElement={<NotFoundLayout/>}>
+            <Route index element={<Navigate to="details" replace />} errorElement={<NotFoundLayout/>}/>
+            <Route path="details" element={<Profile />} errorElement={<NotFoundLayout/>}/>
+            <Route path="recent" element={<Recent />} errorElement={<NotFoundLayout/>}/>
+            <Route path="friends" element={<Friends />} errorElement={<NotFoundLayout/>}/>
+            <Route path="requests" element={<FriendRequests />} errorElement={<NotFoundLayout/>}/>
             <Route path=":userName">
-              <Route index element={<Navigate to="details" replace />} />
-              <Route path="details" element={<Profile />} />
-              <Route path="recent" element={<Recent />} />
+              <Route index element={<Navigate to="details" replace />} errorElement={<NotFoundLayout/>}/>
+              <Route path="details" element={<Profile />} errorElement={<NotFoundLayout/>}/>
+              <Route path="recent" element={<Recent />} errorElement={<NotFoundLayout/>}/>
             </Route>
           </Route>
         </Route>
-        <Route path="chat" element={<ChatLayout />}>
+        <Route path="chat" element={<ChatLayout />} errorElement={<NotFoundLayout/>}>
           <Route index element={<Chat />} />
           <Route path=":userName" errorElement={<NotFoundLayout/>} element={<ChatArea />} />
         </Route>
-        <Route path="setting" element={<SettingLayout />}>
-          <Route index element={<Navigate to="profile" replace />} />
-          <Route path="profile" element={<SettingProfile />} />
-          <Route path="password" element={<SettingPassword />} />
+        <Route path="setting" element={<SettingLayout />} errorElement={<NotFoundLayout/>}>
+          <Route index element={<Navigate to="profile" replace />} errorElement={<NotFoundLayout/>}/>
+          <Route path="profile" element={<SettingProfile />} errorElement={<NotFoundLayout/>}/>
+          <Route path="password" element={<SettingPassword />} errorElement={<NotFoundLayout/>}/>
         </Route>
-        <Route path="tournament" element={<TournamentLayout />}></Route>
-        <Route path="ponglocal" element={<Pong />} /> 
-        <Route path="pong" element={<PingPongLayout/>} />
-        <Route path="rocket-league" element={<Match />} /> 
-        <Route path="PongMatchmaking" element={<PongMatch />} /> 
+        <Route path="tournament" element={<TournamentLayout />} errorElement={<NotFoundLayout/>}></Route>
+        <Route path="ponglocal" element={<Pong />} errorElement={<NotFoundLayout/>}/> 
+        <Route path="pong" element={<PingPongLayout/>} errorElement={<NotFoundLayout/>}/>
+        <Route path="rocket-league" element={<Match />} errorElement={<NotFoundLayout/>}/> 
+        <Route path="PongMatchmaking" element={<PongMatch />} errorElement={<NotFoundLayout/>}/> 
       </Route>
     </Route>
     <Route path="*" element={<NotFoundLayout />}></Route>
